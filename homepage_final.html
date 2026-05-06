@@ -1,0 +1,884 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Portfolio</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:none}
+#loader{position:fixed;inset:0;background:#03010a;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .6s ease}
+.loader-title{font:700 13px/1 'Courier New',monospace;letter-spacing:8px;text-transform:uppercase;color:rgba(160,130,255,.7)}
+.loader-ring{width:58px;height:58px;border-radius:50%;border:2px solid rgba(80,40,160,.3);border-top-color:rgba(160,120,255,.9);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-bar-wrap{width:200px;height:2px;background:rgba(80,40,160,.2);border-radius:2px;overflow:hidden}
+#loader-bar{height:100%;width:0;background:linear-gradient(to right,rgba(80,40,180,.8),rgba(180,120,255,.9));transition:width .1s ease}
+.loader-sub{font:400 10px monospace;letter-spacing:4px;color:rgba(120,100,200,.45)}
+#wrapper{position:relative;width:min(100vw,calc(100vh*1536/1024));height:min(100vh,calc(100vw*1024/1536));overflow:hidden}
+#fxCv{position:fixed;inset:0;width:100%;height:100%;z-index:600;display:none;pointer-events:none}
+#sec1,#sec2,#sec3{position:absolute;inset:0;transition:opacity .5s ease;opacity:0;pointer-events:none;z-index:1}
+#sec1{opacity:1;pointer-events:all;z-index:2}
+#sec2.active,#sec3.active{opacity:1;pointer-events:all;z-index:3}
+#scene{position:relative;width:100%;height:100%;overflow:hidden}
+*{cursor:none!important}
+.layer{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:block}
+#bg-bright{opacity:0;transition:opacity 1.2s ease}
+#lamp-light{mix-blend-mode:screen}
+#lamp-click-area{position:absolute;left:44%;top:0;width:12%;height:22%;z-index:50}
+#darkCv{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;transition:opacity .8s}
+#cursor-dot{position:fixed;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(200,180,255,.8);transition:opacity .15s}
+.sc-wrap{position:absolute;overflow:visible;transform-origin:center top;z-index:10;will-change:transform}
+.sc-wrap img{display:block}
+.screen-glitch{position:absolute;inset:0;pointer-events:none;z-index:2;transition:opacity .3s;background:rgba(0,0,0,.20);animation:glitch-idle 7s steps(1) infinite}
+.screen-glitch::before{content:'';position:absolute;left:0;right:0;height:2px;background:rgba(160,210,255,.35);top:40%;animation:hline 7s steps(1) infinite}
+.screen-glitch::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.10) 3px,rgba(0,0,0,.10) 4px)}
+@keyframes glitch-idle{0%,100%{opacity:1;transform:translate(0);clip-path:none}2%{opacity:.75;transform:translate(-3px,0);clip-path:inset(12% 0 58% 0)}3%{opacity:1;transform:translate(0);clip-path:none}11.4%{opacity:.6;transform:translate(2px,0);clip-path:inset(70% 0 5% 0)}11.8%{opacity:1;transform:translate(0);clip-path:none}46.3%{opacity:.4;transform:translate(-4px,0);clip-path:inset(36% 0 44% 0)}46.6%{opacity:1;transform:translate(0);clip-path:none}}
+@keyframes hline{0%,100%{top:40%;opacity:0}2%{opacity:.48}3%{opacity:0}11.4%{top:72%;opacity:.58}11.8%{opacity:0}46.3%{top:18%;opacity:.68}46.6%{opacity:0}}
+.screen-lit-border{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;box-shadow:inset 0 0 12px rgba(200,230,255,.4),0 0 14px rgba(200,230,255,.18);border:1px solid rgba(200,230,255,.2);border-radius:2px}
+.tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:rgba(6,6,18,.9);border:1px solid rgba(160,140,255,.4);color:rgba(200,185,255,.95);font:700 10px monospace;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border-radius:5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s,transform .2s;z-index:10}
+.sc-wrap:hover .tooltip{opacity:1;transform:translateX(-50%) translateY(0)}
+.tt-arrow{position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:rgba(160,140,255,.4)}
+/* Error windows */
+.err-win{position:absolute;width:clamp(220px,26vw,320px);background:rgba(6,3,18,.72);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(180,50,50,.45);border-radius:8px;box-shadow:0 0 0 1px rgba(255,60,60,.08),0 12px 40px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,120,120,.06);font-family:'Courier New',monospace;animation:err-pop .15s ease;z-index:250}
+@keyframes err-pop{from{transform:scale(.82) translateY(-10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.err-tb{display:flex;align-items:center;gap:8px;padding:8px 12px;background:linear-gradient(to right,rgba(130,18,18,.55),rgba(75,10,45,.45));border-bottom:1px solid rgba(200,50,50,.22);border-radius:7px 7px 0 0}
+.err-ic{font-size:12px;color:rgba(255,150,50,.9)}.err-tt{flex:1;font:700 9px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(255,170,170,.9)}
+.err-x{width:15px;height:15px;border-radius:50%;background:rgba(200,50,50,.35);border:1px solid rgba(255,80,80,.25);color:rgba(255,170,170,.75);font-size:8px;display:flex;align-items:center;justify-content:center;transition:background .2s}.err-x:hover{background:rgba(255,55,55,.6)}
+.err-bd{padding:13px 14px 11px}.err-cd{font:700 9px monospace;letter-spacing:2px;color:rgba(255,70,70,.55);margin-bottom:8px}
+.err-ms{font:400 10px/1.8 monospace;color:rgba(160,220,160,.75);min-height:60px}
+.err-cursor{color:rgba(160,220,160,.9);font-size:11px}.err-cursor.blink{animation:blink .9s step-end infinite}
+.err-bs{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.err-b{font:600 9px monospace;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:4px;background:rgba(20,10,45,.6);border:1px solid rgba(120,85,185,.35);color:rgba(165,145,205,.85);transition:all .2s}
+.err-b:hover{background:rgba(60,38,130,.5);border-color:rgba(165,125,240,.65);color:#fff}
+.err-bm{border-color:rgba(180,40,40,.35);color:rgba(205,135,135,.75)}.err-bm:hover{background:rgba(130,18,18,.45);border-color:rgba(240,70,70,.55);color:#fff}
+#char-click-zone{position:absolute;left:38%;top:58%;width:24%;height:20%;z-index:61}
+#terminal{position:absolute;bottom:14px;left:16px;z-index:80;font:11px/1.9 monospace;color:rgba(130,170,255,.56);letter-spacing:1px;pointer-events:none}
+.blink{animation:blink 1s infinite}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.1}}
+/* Nav */
+.float-nav{position:absolute;top:50%;z-index:81;display:flex;flex-direction:column;gap:26px;transform:translateY(-50%);pointer-events:all}
+.float-nav.left{left:8px}.float-nav.right{right:8px;align-items:flex-end}
+.nt{display:flex;flex-direction:column;align-items:flex-start;padding:8px 11px;border-radius:6px;user-select:none;animation:nav-float 5s ease-in-out infinite;border:1px solid transparent;transition:border-color .3s,background .25s}
+.float-nav.right .nt{align-items:flex-end}
+.nt:hover,.nt.nav-lit{background:rgba(55,25,115,.28);border-color:rgba(160,120,255,.35);box-shadow:0 0 18px rgba(120,80,255,.12) inset}
+.nt-en{font:800 clamp(13px,1.55vw,17px)/1 'Courier New',monospace;letter-spacing:4px;text-transform:uppercase;color:rgba(150,125,230,.5);transition:color .3s,letter-spacing .3s;animation:nav-flash 9s ease infinite}
+.nt:hover .nt-en,.nt.nav-lit .nt-en{color:rgba(220,200,255,.95)!important;text-shadow:0 0 4px rgba(255,250,255,.9),0 0 14px rgba(200,180,255,.85),0 0 28px rgba(160,130,255,.6)!important;letter-spacing:5px}
+.nt-zh{font:400 clamp(8px,.9vw,10px)/1.4 'Courier New',monospace;letter-spacing:3px;color:rgba(110,85,190,.3);margin-top:5px;transition:color .3s}
+.nt:hover .nt-zh,.nt.nav-lit .nt-zh{color:rgba(165,145,225,.55)}
+@keyframes nav-float{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@keyframes nav-flash{0%,87%,100%{color:rgba(150,125,230,.5)}92%{color:rgba(215,195,255,.9)}}
+#scroll-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:80;font:10px monospace;letter-spacing:3px;color:rgba(140,120,220,.33);pointer-events:none;animation:hint-pulse 3s ease-in-out infinite}
+@keyframes hint-pulse{0%,100%{opacity:.33;translate:0 0}50%{opacity:.6;translate:0 4px}}
+/* Sec2 */
+#sec2{background:#060612}
+.s2-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.88}
+.s2-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(5,5,20,.1) 0%,rgba(5,5,20,.72) 100%)}
+.s2-char-layer{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:block}
+.hidden-text-zone{position:absolute;top:10%;left:12%;right:12%;bottom:30%;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:all}
+.ht-line{font:400 clamp(11px,1.5vw,15px)/2.3 'Courier New',monospace;letter-spacing:3px;text-align:center;white-space:nowrap}
+.ht-empty{height:1.1em}
+.hw{display:inline-block;opacity:0;color:rgba(200,185,255,.9);text-shadow:0 0 8px rgba(160,140,220,.55);transition:opacity var(--d,.3s) ease,filter var(--d,.3s) ease;filter:blur(3px);cursor:default}
+.s2-bottom{position:absolute;bottom:0;left:0;right:0;padding:clamp(12px,2.5vh,24px) clamp(18px,4vw,50px);background:linear-gradient(to top,rgba(4,4,16,.92) 60%,transparent 100%);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.s2-name{font:900 clamp(20px,3.8vw,38px)/1 'Courier New',monospace;letter-spacing:5px;text-transform:uppercase;background:linear-gradient(135deg,#c084fc,#67e8f9,#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.s2-sub{font:400 clamp(8px,1.1vw,11px) monospace;color:rgba(170,155,210,.6);letter-spacing:4px;text-transform:uppercase;margin-top:6px}
+.s2-links{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.s2-link{font:600 9px monospace;letter-spacing:3px;text-transform:uppercase;padding:7px 15px;border-radius:4px;border:1px solid rgba(140,120,230,.35);background:rgba(14,7,38,.65);color:rgba(165,150,235,.8);transition:all .25s;backdrop-filter:blur(4px)}
+.s2-link:hover{border-color:rgba(200,185,255,.7);color:rgba(220,210,255,.97);box-shadow:0 0 12px rgba(140,120,255,.28);background:rgba(50,35,105,.55)}
+.s2-scroll-up{font:10px monospace;color:rgba(140,120,220,.38);letter-spacing:3px;padding:6px;animation:hint-pulse 3s ease-in-out infinite;align-self:center}
+/* Sec3 About */
+#sec3{background:#030108;overflow:hidden}
+.s3-cosmos{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;pointer-events:none;z-index:0}
+.s3-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(3,1,8,.3) 0%,rgba(3,1,8,.75) 100%);pointer-events:none}
+.ab-wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;z-index:2}
+
+.ab-ascii{padding:4px 0 2px 52px}
+.ab-ascii-art{font:400 9px/1.2 monospace;color:rgba(100,220,160,.55);white-space:pre;letter-spacing:1px}
+.ab-terminal{width:min(560px,90vw);background:rgba(4,2,14,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,80,200,.35);border-radius:10px;box-shadow:0 0 40px rgba(80,40,180,.15),inset 0 1px 0 rgba(140,120,255,.1);overflow:hidden}
+.ab-tbar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:rgba(30,15,60,.5);border-bottom:1px solid rgba(80,60,160,.25)}
+.ab-tprompt{color:rgba(140,255,140,.7);font:700 10px monospace}
+.ab-tsep{color:rgba(120,120,200,.5);font:400 10px monospace;margin:0 1px}
+.ab-tsep2{color:rgba(200,180,255,.6);font:400 10px monospace}
+.ab-tpath{font:400 10px monospace;color:rgba(140,120,200,.6);letter-spacing:2px;margin-left:8px}
+.ab-body{padding:20px 24px 18px}
+.ab-line{display:flex;gap:0;font:400 11px/2 'Courier New',monospace;margin-bottom:2px}
+.ab-spacer{height:10px}
+.ab-k{color:rgba(100,200,255,.7);min-width:56px;letter-spacing:1px}
+.ab-sep{color:rgba(100,80,180,.5)}
+.ab-v{color:rgba(200,185,255,.85)}
+#ab-name{color:rgba(220,200,255,.92);font-weight:700}
+.ab-cursor{color:rgba(160,220,160,.9)}
+.ab-about{font:400 11px/1.9 'Courier New',monospace;color:rgba(180,165,215,.7);padding:4px 0 4px 56px;letter-spacing:.5px}
+.ab-skills{display:flex;flex-wrap:wrap;gap:7px;padding:6px 0 6px 56px}
+.sk-tag{font:600 9px monospace;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid rgba(100,180,255,.28);color:rgba(120,190,255,.75);background:rgba(20,40,80,.4);transition:all .25s}
+.sk-tag:hover{border-color:rgba(140,210,255,.6);color:rgba(180,225,255,.95);background:rgba(20,60,120,.5)}
+.ab-links{display:flex;gap:12px;padding:8px 0 4px 56px;flex-wrap:wrap}
+.ab-link{display:flex;align-items:center;gap:6px;font:600 10px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(170,140,230,.65);border:1px solid rgba(130,100,200,.25);border-radius:5px;padding:6px 12px;text-decoration:none;transition:all .25s;background:rgba(20,10,50,.4)}
+.ab-link:hover{color:rgba(220,200,255,.95);border-color:rgba(180,150,255,.55);background:rgba(50,30,120,.5);box-shadow:0 0 10px rgba(140,100,255,.2)}
+.ab-link-ic{font-size:13px}
+.ab-scroll-up{font:10px monospace;color:rgba(140,120,220,.38);letter-spacing:3px;animation:hint-pulse 3s ease-in-out infinite}
+
+/* ── Data Sea (sec3) ── */
+#sec3{background:#04030f;overflow:hidden}
+.ds-card{background:rgba(6,4,20,.75);backdrop-filter:blur(12px);border:1px solid rgba(80,60,160,.3);border-radius:8px;padding:12px;box-shadow:0 0 20px rgba(40,20,100,.2)}
+.ds-card-title{font:700 10px monospace;letter-spacing:2px;color:rgba(180,160,240,.7);margin-bottom:10px;text-transform:uppercase}
+.ds-param{margin-bottom:10px}
+.ds-param-label{font:400 10px monospace;color:rgba(200,190,240,.7);display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+.ds-param-sub{font:400 8px monospace;color:rgba(100,85,180,.5);letter-spacing:1px}
+.ds-param-val{font:600 12px monospace;color:rgba(220,210,255,.9);text-align:right;margin-bottom:4px}
+.ds-slider{width:100%;-webkit-appearance:none;height:3px;border-radius:2px;background:rgba(60,40,140,.4);outline:none;cursor:none}
+.ds-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:rgba(160,120,255,.9);box-shadow:0 0 6px rgba(140,100,255,.6);cursor:none}
+.ds-btn{width:100%;margin-top:4px;padding:7px;font:400 9px monospace;letter-spacing:3px;text-transform:uppercase;color:rgba(160,140,220,.7);background:rgba(30,15,60,.6);border:1px solid rgba(100,80,180,.35);border-radius:4px;transition:all .2s;cursor:none}
+.ds-btn:hover{background:rgba(60,40,120,.6);border-color:rgba(160,120,255,.6);color:rgba(210,195,255,.95)}
+.ds-float{position:absolute;font:400 10px monospace;color:rgba(160,200,230,.55);letter-spacing:1px;white-space:nowrap;pointer-events:none;transition:opacity .3s}
+@keyframes ds-pulse{0%{opacity:.9;transform:translate(-50%,-50%) scale(1)}60%{opacity:0;transform:translate(-50%,-50%) scale(2.8)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.8)}}
+/* ── Sec2 角色互動 ── */
+.zzz-z{position:absolute;font-family:'Courier New',monospace;font-weight:700;color:rgba(195,185,255,.78);text-shadow:0 0 8px rgba(170,155,255,.5);animation:zzz-rise 2.6s ease-in-out infinite;animation-delay:var(--dl,0s);opacity:0;pointer-events:none}
+@keyframes zzz-rise{0%{opacity:0;transform:translateX(var(--dx,0px)) translateY(0) scale(.55)}14%{opacity:.88}82%{opacity:.3}100%{opacity:0;transform:translateX(var(--dx,0px)) translateY(-65px) scale(1.15)}}
+#s2-zzz{position:absolute;left:53%;top:63%;z-index:25;pointer-events:none;transition:opacity .55s}
+#s2-exclaim{position:absolute;left:52%;top:55%;z-index:25;pointer-events:none;display:none;font:900 38px/1 'Courier New',monospace;color:rgba(255,228,55,.95);text-shadow:0 0 14px rgba(255,200,40,.8),0 0 28px rgba(255,175,20,.45)}
+#s2-exclaim.pop{animation:ex-pop .38s cubic-bezier(.2,.8,.35,1.4) forwards,ex-bounce .72s ease-in-out .38s infinite}
+@keyframes ex-pop{0%{transform:scale(0) rotate(-18deg);opacity:0}100%{transform:scale(1) rotate(0deg);opacity:1}}
+@keyframes ex-bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.07)}}
+#s2-char-zone{position:absolute;left:37%;top:54%;width:26%;height:24%;z-index:30;cursor:none}
+@keyframes ds-hint{0%,100%{opacity:.35;transform:translateX(-50%) translateY(0)}50%{opacity:.65;transform:translateX(-50%) translateY(-3px)}}
+/* ds-panel redesign */
+#ds-panel{position:absolute;right:38px;top:50%;transform:translateY(-50%);z-index:10;width:258px}
+#ds-panel .ds-inner{background:rgba(4,2,18,.42);backdrop-filter:blur(22px) saturate(1.3);-webkit-backdrop-filter:blur(22px) saturate(1.3);border:1px solid rgba(90,65,200,.38);border-radius:14px;padding:22px 20px;box-shadow:0 0 50px rgba(40,20,120,.25),inset 0 1px 0 rgba(160,130,255,.12),inset 0 -1px 0 rgba(60,40,160,.08)}
+#ds-panel .ds-title{font:700 12px/1 monospace;letter-spacing:4px;text-transform:uppercase;color:rgba(180,160,255,.85);margin-bottom:4px}
+#ds-panel .ds-title-zh{font:400 10px monospace;letter-spacing:2px;color:rgba(100,85,185,.55);margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(80,60,160,.3)}
+#ds-panel .ds-row{margin-bottom:16px}
+#ds-panel .ds-row-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3px}
+#ds-panel .ds-label{font:600 10px monospace;letter-spacing:1px;color:rgba(200,188,245,.8)}
+#ds-panel .ds-label-zh{font:400 8px monospace;letter-spacing:1px;color:rgba(100,85,180,.5);margin-top:1px}
+#ds-panel .ds-val{font:700 15px/1 monospace;color:rgba(220,210,255,.95)}
+#ds-panel .ds-slider{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:rgba(60,40,140,.5);outline:none;cursor:none;margin-top:6px}
+#ds-panel .ds-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:rgba(160,120,255,.95);box-shadow:0 0 8px rgba(140,100,255,.7);cursor:none}
+#ds-panel .ds-btn{width:100%;margin-top:6px;padding:9px;font:600 9px monospace;letter-spacing:3px;text-transform:uppercase;color:rgba(170,150,230,.75);background:rgba(30,15,60,.7);border:1px solid rgba(100,80,190,.4);border-radius:7px;transition:all .2s;cursor:none}
+#ds-panel .ds-btn:hover{background:rgba(70,45,140,.65);border-color:rgba(170,130,255,.65);color:rgba(220,205,255,.98)}
+</style></head><body><div id="loader"><div class="loader-title">Loading</div><div class="loader-ring"></div><div class="loader-bar-wrap"><div id="loader-bar"></div></div><div class="loader-sub">initializing systems...</div></div><div id="wrapper"><canvas id="fxCv"></canvas><div id="sec1"><div id="scene"><img class="layer" id="bg-dark"   src="assets/fullBGwebp/bg_room_dark_webp.webp" style="z-index:1"><img class="layer" id="bg-bright" src="assets/fullBGwebp/bg_room_webp.webp" style="z-index:2"><canvas id="darkCv"></canvas><div class="sc-wrap" id="sc-main" data-cx="48.90" data-cy="52.50" data-top="41.60" data-w="27.80" data-tx="-55" data-ty="-85" data-rz="-28" data-skx="-8" data-sf="0.06" style="left:35.0%;top:41.6%;width:27.8%;height:21.8%;" onclick="enterPage('Portfolio')"><img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><img style="position:absolute;left:-2.8%;top:5%;width:105.6%;height:110.7%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-main" style="z-index:2"></div><div class="screen-lit-border" id="lit-main" style="z-index:4"></div><div class="tooltip" style="z-index:5">PORTFOLIO<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-L1" data-cx="27.95" data-cy="50.90" data-top="45.70" data-w="10.30" data-tx="58" data-ty="-82" data-rz="22" data-skx="7" data-sf="0.07" style="left:22.8%;top:45.7%;width:10.3%;height:10.4%;" onclick="enterPage('Live2D')"><img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><img style="position:absolute;left:-7.6%;top:-11.2%;width:115.2%;height:122.4%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L1" style="z-index:2"></div><div class="screen-lit-border" id="lit-L1" style="z-index:4"></div><div class="tooltip" style="z-index:5">LIVE2D<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-L2" data-cx="28.05" data-cy="63.40" data-top="57.80" data-w="10.30" data-tx="-38" data-ty="-95" data-rz="-18" data-skx="-6" data-sf="0.05" style="left:22.9%;top:57.8%;width:10.3%;height:11.2%;" onclick="enterPage('AIPost')"><img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><img style="position:absolute;left:-7.6%;top:-10.4%;width:115.2%;height:120.9%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L2" style="z-index:2"></div><div class="screen-lit-border" id="lit-L2" style="z-index:4"></div><div class="tooltip" style="z-index:5">AI POST<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-R1" data-cx="69.95" data-cy="51.85" data-top="46.10" data-w="11.70" data-tx="52" data-ty="-88" data-rz="30" data-skx="9" data-sf="0.06" style="left:64.1%;top:46.1%;width:11.7%;height:11.5%;" onclick="enterPage('Ecpay')"><img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><img style="position:absolute;left:-6.7%;top:-10.3%;width:113.3%;height:120.5%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R1" style="z-index:2"></div><div class="screen-lit-border" id="lit-R1" style="z-index:4"></div><div class="tooltip" style="z-index:5">ECPAY<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-R2" data-cx="69.65" data-cy="64.00" data-top="59.00" data-w="11.10" data-tx="12" data-ty="-100" data-rz="8" data-skx="4" data-sf="0.05" style="left:64.1%;top:59.0%;width:11.1%;height:10.0%;" onclick="enterPage('Art')"><img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><img style="position:absolute;left:-7.0%;top:-11.8%;width:114.0%;height:123.5%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R2" style="z-index:2"></div><div class="screen-lit-border" id="lit-R2" style="z-index:4"></div><div class="tooltip" style="z-index:5">ART<span class="tt-arrow"></span></div></div><img class="layer" id="frame-main" src="assets/fullBGwebp/middlescreen_webp.webp" style="z-index:11"><img class="layer" id="frame-L1" src="assets/fullBGwebp/screen_side_L1_webp.webp" style="z-index:12"><img class="layer" id="frame-L2" src="assets/fullBGwebp/screen_side_L2_webp.webp" style="z-index:13"><img class="layer" id="frame-R1" src="assets/fullBGwebp/screen_side_R1_webp.webp" style="z-index:14"><img class="layer" id="frame-R2" src="assets/fullBGwebp/screen_side_R2_webp.webp" style="z-index:15"><img class="layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:30"><img class="layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:31"><img class="layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:35"><img class="layer" id="lamp-light" src="assets/fullBGwebp/light_webp.webp" style="z-index:36"><div id="lamp-click-area"></div><div id="char-click-zone"></div><div id="terminal"><span id="term-text"></span><span class="blink">_</span></div><div class="float-nav left"><span class="nt" onclick="navTo('works.html')" tabindex="0"><span class="nt-en">WORKS</span><span class="nt-zh">作品集</span></span><span class="nt" onclick="navTo('live2d.html')" tabindex="0"><span class="nt-en">LIVE·2D</span><span class="nt-zh">虛擬形象</span></span><span class="nt" onclick="navTo('art.html')" tabindex="0"><span class="nt-en">ART</span><span class="nt-zh">插畫</span></span></div><div class="float-nav right"><span class="nt" onclick="navTo('commission.html')" tabindex="0"><span class="nt-en">COMMISSION</span><span class="nt-zh">委託</span></span><span class="nt" onclick="navTo('guestbook.html')" tabindex="0"><span class="nt-en">GUESTBOOK</span><span class="nt-zh">留言板</span></span><span class="nt" onclick="navTo('about')" tabindex="0"><span class="nt-en">ABOUT</span><span class="nt-zh">關於我</span></span></div><div id="scroll-hint">↓ scroll ↓</div></div></div><div id="sec2"><img class="s2-bg" src="assets/fullBGwebp/bg_room_webp.webp" alt=""><div class="s2-vignette"></div><img class="s2-char-layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:5"><img class="s2-char-layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:12"><img class="s2-char-layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:7"><img class="s2-char-layer" src="assets/fullBGwebp/light_webp.webp" style="z-index:8;mix-blend-mode:screen"><img class="s2-char-layer" id="s2-char-wakeup" src="assets/fullBGwebp/character_wakeup_webp.webp" style="z-index:10;opacity:0;transition:opacity .45s">
+<!-- ZZZ 泡泡（睡覺狀態，三個 z 大小漸增往上飄）-->
+<div id="s2-zzz"><span class="zzz-z" style="font-size:13px;left:0px;--dl:0s;--dx:-4px">z</span><span class="zzz-z" style="font-size:17px;left:12px;--dl:.85s;--dx:4px">z</span><span class="zzz-z" style="font-size:22px;left:26px;--dl:1.7s;--dx:12px">Z</span></div>
+<!-- ! 驚嘆號（被叫醒狀態）-->
+<div id="s2-exclaim">!</div>
+<!-- 角色點擊區 -->
+<div id="s2-char-zone"></div>
+<div class="hidden-text-zone"><div class="ht-line"><span class="hw" style="--d:0.10s">在很深的夜裡</span></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">我用程式碼描繪那些沒有形狀的想像</span></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">把她們變成會動的東西</span></div>
+<div class="ht-line ht-empty"></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">我畫角色</span>　<span class="hw" style="--d:0.16s">讓她們活著</span></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">寫程式</span>　<span class="hw" style="--d:0.16s">讓機器說話</span></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">做網站</span>　<span class="hw" style="--d:0.16s">讓世界看見</span></div>
+<div class="ht-line ht-empty"></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">我是創作者</span></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">也是開發者</span></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">更是一個</span></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">永遠好奇的人</span></div></div><div class="s2-bottom"><div><div class="s2-name">Your Name</div><div class="s2-sub">Artist · Developer · VTuber · Creative Coder</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px"><div class="s2-links"><div class="s2-link" onclick="navTo('works.html')">🎨 Works</div><div class="s2-link" onclick="navTo('live2d.html')">🎭 Live2D</div><div class="s2-link" onclick="navTo('commission.html')">💌 Commission</div><div class="s2-link" onclick="navTo('guestbook.html')">💬 Guestbook</div></div><div class="s2-scroll-up" onclick="navTo('about.html')" style="pointer-events:all">→ About Me</div></div></div></div><div id="sec3"><img class="s3-cosmos" src="assets/fullBGwebp/wave_bg_webp.webp" alt=""><canvas id="ocean-cv" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="s3-vignette"></div>
+<div id="s3-header" style="position:absolute;top:26px;left:28px;z-index:8;pointer-events:none">
+  <svg width="68" height="68" viewBox="0 0 52 52" style="display:block;margin-bottom:12px;filter:drop-shadow(0 0 10px rgba(140,170,255,0.6))">
+    <defs>
+      <mask id="cm"><circle cx="26" cy="26" r="19" fill="white"/><circle cx="33.5" cy="21.5" r="15.5" fill="black"/></mask>
+    </defs>
+    <circle cx="26" cy="26" r="23" fill="rgba(100,140,255,0.04)"/>
+    <circle cx="26" cy="26" r="19" fill="rgba(195,215,255,0.88)" mask="url(#cm)"/>
+    <circle cx="26" cy="26" r="19" fill="rgba(255,255,255,0.08)" mask="url(#cm)"/>
+    <circle cx="43" cy="9"  r="1.3" fill="rgba(200,220,255,0.7)"/>
+    <circle cx="7"  cy="42" r="0.9" fill="rgba(180,205,255,0.5)"/>
+    <circle cx="46" cy="32" r="0.8" fill="rgba(210,225,255,0.6)"/>
+    <circle cx="4"  cy="18" r="0.6" fill="rgba(180,200,255,0.45)"/>
+    <circle cx="38" cy="44" r="0.7" fill="rgba(190,210,255,0.4)"/>
+  </svg>
+  <div style="font:700 16px/1 monospace;letter-spacing:6px;text-transform:uppercase;color:rgba(185,205,255,0.92);text-shadow:0 0 16px rgba(130,165,255,0.7)">Data Sea</div>
+  <div style="font:400 10px/1 monospace;letter-spacing:2.5px;color:rgba(120,148,205,0.58);margin-top:8px">數據深海 · 一切如波，起落皆數</div>
+</div>
+<div id="ds-floaters" style="position:absolute;inset:0;pointer-events:none;z-index:5"></div>
+<div id="ds-panel">
+  <div class="ds-inner">
+    <div class="ds-title">Ocean Controls</div>
+    <div class="ds-title-zh">海洋控制器</div>
+    <div class="ds-row">
+      <div class="ds-row-top">
+        <div><div class="ds-label">Moon Influence</div><div class="ds-label-zh">月亮引力</div></div>
+        <div class="ds-val" id="moon-val">72%</div>
+      </div>
+      <input class="ds-slider" type="range" id="moon-slider" min="0" max="100" value="72">
+    </div>
+    <div class="ds-row">
+      <div class="ds-row-top">
+        <div><div class="ds-label">Wind Speed</div><div class="ds-label-zh">風速</div></div>
+        <div class="ds-val" id="wind-val">1.38x</div>
+      </div>
+      <input class="ds-slider" type="range" id="wind-slider" min="0" max="300" value="138">
+    </div>
+    <div class="ds-row">
+      <div class="ds-row-top">
+        <div><div class="ds-label">Wave Freq</div><div class="ds-label-zh">波動頻率</div></div>
+        <div class="ds-val" id="freq-val">2.45x</div>
+      </div>
+      <input class="ds-slider" type="range" id="freq-slider" min="0" max="500" value="245">
+    </div>
+    <div class="ds-row">
+      <div class="ds-row-top">
+        <div><div class="ds-label">Data Density</div><div class="ds-label-zh">數據密度</div></div>
+        <div class="ds-val" id="dens-val">89%</div>
+      </div>
+      <input class="ds-slider" type="range" id="dens-slider" min="0" max="100" value="89">
+    </div>
+    <button class="ds-btn" onclick="resetParams()">↺ RESET · 重置</button>
+  </div>
+</div>
+<div class="ab-scroll-up" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:all" onclick="goTo(1)">↑ scroll up ↑</div>
+</div><div id="cursor-dot"></div><script>
+// ── Core state ──
+const scene=document.getElementById('scene');
+const darkCv=document.getElementById('darkCv');const dctx=darkCv.getContext('2d');
+const fxCv=document.getElementById('fxCv');const fxCtx=fxCv.getContext('2d');
+const sec1=document.getElementById('sec1'),sec2=document.getElementById('sec2'),sec3=document.getElementById('sec3');
+
+const SCREENS=Array.from(document.querySelectorAll('.sc-wrap')).map(el=>({
+  id:el.id.replace('sc-',''),el,cx:parseFloat(el.dataset.cx),cy:parseFloat(el.dataset.cy),
+  top:parseFloat(el.dataset.top),w:parseFloat(el.dataset.w)}));
+const CHAR={cx:50,cy:74,top:64};
+const FRAME_ELS=['frame-main','frame-L1','frame-L2','frame-R1','frame-R2'].map(id=>document.getElementById(id));
+const MSGS=['> system idle...','> user detected','> observing...','> still sleeping','> try clicking a screen','> ...'];
+let mI=0,cI=0,typing=true,mT=0;
+
+let clientX=0,clientY=0,mx=0,my=0,sceneW=800,sceneH=533;
+let lightX=50,lightXT=50,lightW=16,lightWT=16,lightBot=85,lightBT=85;
+let snapId=null,isCharMode=false,charMs=0,charLit=false,lampOn=false;
+let lastT=performance.now(),section=0,peeling=false,scrollAccum=0,errN=0;
+const PEEL_MAX=160;
+
+function setPeel(v){
+  peeling=v;
+  if(v) setTimeout(()=>{peeling=false;},3000); // safety unlock
+}
+
+function resize(){
+  const r=scene.getBoundingClientRect();sceneW=r.width||800;sceneH=r.height||533;
+  darkCv.width=sceneW;darkCv.height=sceneH;
+}
+resize();new ResizeObserver(resize).observe(scene);window.addEventListener('resize',resize);
+
+const dot=document.getElementById('cursor-dot');
+document.addEventListener('mousemove',e=>{
+  clientX=e.clientX;clientY=e.clientY;
+  dot.style.left=clientX+'px';dot.style.top=clientY+'px';
+  const r=scene.getBoundingClientRect();mx=clientX-r.left;my=clientY-r.top;
+  dot.style.opacity=(mx>=0&&my>=0&&mx<=sceneW&&my<=sceneH)?'1':'0';
+  charLit=Math.hypot(mx-sceneW*CHAR.cx/100,my-sceneH*CHAR.cy/100)<sceneW*0.10;
+});
+sec2.addEventListener('mousemove',e=>{
+  document.querySelectorAll('.hw').forEach(s=>{
+    const r=s.getBoundingClientRect();
+    const op=Math.max(0,1-Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))/130);
+    s.style.opacity=op;s.style.filter=`blur(${(1-op)*2.5}px)`;
+  });
+});
+sec2.addEventListener('mouseleave',()=>{document.querySelectorAll('.hw').forEach(s=>{s.style.opacity='0';s.style.filter='blur(3px)';});});
+
+// Lamp
+document.getElementById('lamp-click-area').addEventListener('click',()=>{
+  lampOn=!lampOn;
+  document.getElementById('bg-bright').style.opacity=lampOn?'1':'0';
+  darkCv.style.opacity=lampOn?'0':'1';
+  document.querySelectorAll('.screen-glitch').forEach(el=>{el.style.opacity=lampOn?'0':'';el.style.animationPlayState=lampOn?'paused':'running';});
+});
+
+// ── Navigation ──
+function navTo(page){ console.log('navigate→',page); }
+
+// Screen clicks trigger magic circle
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.sc-wrap').forEach(sc=>{
+    sc.addEventListener('click',()=>{
+      if(section!==0)return;
+      const r=sc.getBoundingClientRect();
+      startMagic(r.left+r.width/2,r.top+r.height/2,()=>navTo(sc.id));
+    });
+  });
+  // ── Sec2 角色點擊：睡覺 ↔ 被叫醒 ──
+  (function(){
+    const zone    = document.getElementById('s2-char-zone');
+    const sleeping= document.querySelector('#sec2 img[src*="character_webp"]');
+    const wakeup  = document.getElementById('s2-char-wakeup');
+    const zzz     = document.getElementById('s2-zzz');
+    const exclaim = document.getElementById('s2-exclaim');
+    if(!zone||!wakeup)return;
+
+    let awake=false, sleepTimer=null;
+
+    function goSleep(){
+      awake=false;
+      wakeup.style.opacity='0';
+      if(sleeping) sleeping.style.opacity='1';
+      exclaim.style.display='none';
+      exclaim.classList.remove('pop');
+      zzz.style.opacity='1';
+    }
+    function goWake(){
+      awake=true;
+      clearTimeout(sleepTimer);
+      // 換圖
+      wakeup.style.opacity='1';
+      if(sleeping) sleeping.style.opacity='0';
+      // ZZZ 淡出，! 彈出
+      zzz.style.opacity='0';
+      exclaim.style.display='block';
+      exclaim.classList.remove('pop');
+      void exclaim.offsetWidth; // reflow 觸發動畫重置
+      exclaim.classList.add('pop');
+      // 3 秒後自動睡回去
+      sleepTimer=setTimeout(goSleep, 3200);
+    }
+
+    zone.addEventListener('click',()=>{ if(!awake)goWake(); });
+  })();
+
+  // About typing animation
+  const nameEl=document.getElementById('ab-name');
+  const curEl=document.getElementById('ab-cur');
+  if(nameEl){
+    const name='YourName';let i=0;
+    const iv=setInterval(()=>{if(i<name.length){nameEl.textContent+=name[i++];}else{clearInterval(iv);if(curEl)curEl.style.display='none';}},90);
+  }
+});
+
+// ── Error windows ──
+const ERR_T=['CATASTROPHIC FAILURE','SYSTEM BREACH','FATAL ERROR 0x000DEAD','CRITICAL EXCEPTION','ACCESS VIOLATION','UNHANDLED EXCEPTION'];
+const ERR_B=[
+  '> loading: SleepChar.exe\n> status: SLEEP_MODE\n> wake_attempts: 0/∞\n> result: 此程序已停止回應',
+  '> WARNING: unauthorized_poke()\n> target: sleeping_subject\n> behavior: undefined\n> 請勿打擾睡眠中的角色',
+  '> ZZZ.exe has stopped responding\n> stack_trace:\n    SleepingChar.wake() [ln.∞]\n    you.poke() [ln.1]\n> exit_code: zzz',
+  '> NullPointerException\n> cannot read "awake"\n> of type: undefined\n> 她還在睡覺',
+  '> MemoryError: DREAMS_OVERFLOW\n> usage: 100% RAM\n> GC cannot collect\n> 夢境佔用所有記憶體',
+  '> 災難性的失敗 [FATAL]\n> you broke something\n> that was never yours\n> to wake...',
+];
+document.getElementById('char-click-zone').addEventListener('click',e=>{errN++;spawnErr(errN,e.clientX,e.clientY);});
+function spawnErr(n,ox,oy){
+  const r=scene.getBoundingClientRect();
+  const el=document.createElement('div');el.className='err-win';
+  const sp=Math.min(n*22,180);
+  el.style.left=Math.min(sceneW-315,Math.max(4,(ox||clientX)-r.left-157+(Math.random()-.5)*sp))+'px';
+  el.style.top=Math.min(sceneH-185,Math.max(4,(oy||clientY)-r.top-92+(Math.random()-.5)*sp))+'px';
+  el.style.zIndex=250+n;
+  const code='0x'+(Math.floor(Math.random()*0xFFFFFF)).toString(16).toUpperCase().padStart(6,'0');
+  el.innerHTML=`<div class="err-tb"><span class="err-ic">⚠</span><span class="err-tt">${ERR_T[n%ERR_T.length]}</span><span class="err-x" onclick="this.closest('.err-win').remove()">✕</span></div>
+<div class="err-bd"><div class="err-cd">[ERR ${code}]</div><div class="err-ms" id="ems-${n}"></div>
+<div class="err-bs"><button class="err-b" onclick="this.closest('.err-win').remove()">確定</button>
+<button class="err-b err-bm" onclick="spawnErr(++errN);this.closest('.err-win').remove()">略過</button></div></div>`;
+  scene.appendChild(el);
+  const msgEl=document.getElementById('ems-'+n);
+  const full=ERR_B[n%ERR_B.length];let ci2=0;
+  const cur=document.createElement('span');cur.className='err-cursor';cur.textContent='█';msgEl.appendChild(cur);
+  const iv=setInterval(()=>{
+    if(ci2<full.length){
+      const ch=full[ci2++];
+      if(ch==='\n'){const br=document.createElement('br');msgEl.insertBefore(br,cur);}
+      else msgEl.insertBefore(document.createTextNode(ch),cur);
+    } else{clearInterval(iv);cur.classList.add('blink');}
+  },26);
+  let ft=null;
+  const sc=()=>{ft=setTimeout(()=>{el.style.transition='opacity 1.2s';el.style.opacity='0';setTimeout(()=>el.remove(),1300);},5000+Math.random()*3000);};
+  sc();el.addEventListener('mouseenter',()=>clearTimeout(ft));el.addEventListener('mouseleave',sc);
+}
+function burstErr(){for(let i=0;i<4;i++)setTimeout(()=>{errN++;spawnErr(errN);},i*110);}
+
+// ── Signal Lock 掃描門轉場（純 canvas，不需要圖片資源）──
+function startMagic(ox,oy,cb){
+  fxCv.style.display='block';fxCv.width=window.innerWidth;fxCv.height=window.innerHeight;
+  const W=fxCv.width,H=fxCv.height;let t=0;
+  // 預先計算一組隨機雜訊偏移（給 glitch 線用）
+  const noise=Array.from({length:20},()=>({y:Math.random()*H,w:20+Math.random()*120,a:Math.random()}));
+
+  function frame(){
+    t++;fxCtx.clearRect(0,0,W,H);
+
+    // ── 階段 1（t 0-55）：暗幕漸入 + 同心掃描環 ──
+    const dk=Math.min(0.9,t/50*0.9);
+    fxCtx.fillStyle=`rgba(0,3,10,${dk})`;fxCtx.fillRect(0,0,W,H);
+
+    // 同心環從點擊點向外擴散（5 層）
+    for(let r=0;r<5;r++){
+      const rt=Math.max(0,t-r*9);if(!rt)continue;
+      const rad=rt*8;const a=Math.max(0,1-rad/Math.max(W,H)*1.4);
+      fxCtx.save();
+      // 外暈（模糊感用 lineWidth 模擬）
+      fxCtx.beginPath();fxCtx.arc(ox,oy,rad,0,Math.PI*2);
+      fxCtx.strokeStyle=`rgba(60,180,255,${a*0.18})`;fxCtx.lineWidth=14;fxCtx.stroke();
+      // 主環
+      fxCtx.beginPath();fxCtx.arc(ox,oy,rad,0,Math.PI*2);
+      fxCtx.strokeStyle=`rgba(100,220,255,${a*0.75})`;fxCtx.lineWidth=1.5;fxCtx.stroke();
+      // 高光頂點
+      fxCtx.beginPath();fxCtx.arc(ox,oy,rad,Math.PI*1.4,Math.PI*1.7);
+      fxCtx.strokeStyle=`rgba(200,245,255,${a*0.9})`;fxCtx.lineWidth=2.5;fxCtx.stroke();
+      fxCtx.restore();
+    }
+
+    // ── 階段 2（t 15-65）：水平掃描線 + RGB 色差 ──
+    if(t>15){
+      // 快速橫向掃描線（模擬 CRT 信號）
+      const lineAlpha=Math.min(0.35,(t-15)/30*0.35);
+      for(let i=0;i<H;i+=4){
+        fxCtx.fillStyle=`rgba(40,180,255,${lineAlpha*(0.5+Math.sin(i*.08+t*.12)*.5)})`;
+        fxCtx.fillRect(0,i,W,1);
+      }
+      // RGB 色差光暈（點擊點附近）
+      if(t<68){
+        const sp=Math.sin(t*.28)*14*(1-(t-15)/55);
+        const sz=140+t*2.5;
+        fxCtx.save();fxCtx.globalCompositeOperation='screen';
+        fxCtx.beginPath();fxCtx.arc(ox+sp,oy,sz,0,Math.PI*2);
+        fxCtx.fillStyle='rgba(255,20,20,0.1)';fxCtx.fill();
+        fxCtx.beginPath();fxCtx.arc(ox-sp,oy,sz,0,Math.PI*2);
+        fxCtx.fillStyle='rgba(20,80,255,0.1)';fxCtx.fill();
+        fxCtx.restore();
+      }
+      // Glitch 色塊（隨機出現）
+      if(t>25&&t<70&&t%7<3){
+        noise.forEach(n=>{
+          fxCtx.fillStyle=`rgba(80,200,255,${n.a*0.12})`;
+          fxCtx.fillRect(Math.random()*W-n.w/2,n.y,n.w,2);
+        });
+      }
+    }
+
+    // ── 階段 3（t 52-85）：信號鎖定線從上往下全屏橫掃 ──
+    if(t>52){
+      const p=Math.min(1,(t-52)/33);
+      const sy=p*H;
+      fxCtx.save();
+      // 掃描頭光暈
+      const sg=fxCtx.createLinearGradient(0,sy-70,0,sy+6);
+      sg.addColorStop(0,'rgba(60,200,255,0)');
+      sg.addColorStop(0.55,'rgba(100,225,255,0.45)');
+      sg.addColorStop(0.85,'rgba(160,240,255,0.78)');
+      sg.addColorStop(1,'rgba(220,248,255,0.95)');
+      fxCtx.fillStyle=sg;fxCtx.fillRect(0,sy-70,W,76);
+      // 亮白核心線
+      fxCtx.fillStyle='rgba(230,250,255,0.98)';fxCtx.fillRect(0,sy,W,2);
+      // 掃過後留下的淡青色殘影
+      const tg=fxCtx.createLinearGradient(0,0,0,sy);
+      tg.addColorStop(0,'rgba(30,140,200,0.08)');
+      tg.addColorStop(1,'rgba(60,180,255,0.0)');
+      fxCtx.fillStyle=tg;fxCtx.fillRect(0,0,W,sy);
+      fxCtx.restore();
+    }
+
+    // ── 階段 4（t 80-105）：白閃全屏 ──
+    if(t>80){
+      const fa=Math.min(1,(t-80)/25);
+      fxCtx.fillStyle=`rgba(215,238,255,${fa})`;fxCtx.fillRect(0,0,W,H);
+    }
+
+    if(t<108)requestAnimationFrame(frame);
+    else{fxCv.style.display='none';if(cb)cb();}
+  }
+  requestAnimationFrame(frame);
+}
+
+// ── Scroll ──
+window.addEventListener('wheel',e=>{
+  e.preventDefault();
+  if(peeling)return;
+  if(section===1){if(e.deltaY<0)goTo(0);return;}
+  if(section===2){if(e.deltaY<0)goTo(1);return;}
+  // section 0: peel
+  if(e.deltaY>0)scrollAccum=Math.min(scrollAccum+Math.abs(e.deltaY)*2,PEEL_MAX);
+  else scrollAccum=Math.max(0,scrollAccum-Math.abs(e.deltaY)*.9);
+  applyPeel(scrollAccum/PEEL_MAX);
+  if(scrollAccum>=PEEL_MAX){setPeel(true);completePeel();}
+},{passive:false});
+
+function applyPeel(t){
+  [...SCREENS.map(s=>s.el),...document.querySelectorAll('.float-nav .nt')].forEach((el,i)=>{
+    const d=i*.05,lt=Math.max(0,Math.min(1,(t-d*.4)*1.5));
+    el.style.transition='none';el.style.transform=`translateY(${-lt*lt*110}%) scale(${1-lt*.15})`;el.style.opacity=`${1-lt*lt}`;
+    // 幀圖跟著同一個 sc-wrap 一起飛
+    if(i<FRAME_ELS.length&&FRAME_ELS[i]){
+      FRAME_ELS[i].style.transition='none';
+      FRAME_ELS[i].style.transform=`translateY(${-lt*lt*110}%) scale(${1-lt*.15})`;
+      FRAME_ELS[i].style.opacity=`${1-lt*lt}`;
+    }
+  });
+}
+function completePeel(){
+  [...SCREENS.map(s=>s.el),...document.querySelectorAll('.float-nav .nt')].forEach((el,i)=>{
+    const tr=`transform .5s cubic-bezier(.4,0,.6,1) ${i*.04}s,opacity .4s ease ${i*.04}s`;
+    el.style.transition=tr;el.style.transform='translateY(-115%) scale(0.82)';el.style.opacity='0';
+    if(i<FRAME_ELS.length&&FRAME_ELS[i]){
+      FRAME_ELS[i].style.transition=tr;
+      FRAME_ELS[i].style.transform='translateY(-115%) scale(0.82)';
+      FRAME_ELS[i].style.opacity='0';
+    }
+  });
+  setTimeout(()=>{sec1.style.opacity='0';sec2.classList.add('active');section=1;setTimeout(()=>{setPeel(false);scrollAccum=0;resetS1();},500);},480);
+}
+function resetS1(){
+  SCREENS.forEach(s=>{s.el.style.transition='none';s.el.style.transform='';s.el.style.opacity='';});
+  document.querySelectorAll('.float-nav .nt').forEach(el=>{el.style.transition='none';el.style.transform='';el.style.opacity='';});
+  FRAME_ELS.forEach(el=>{if(el){el.style.transition='none';el.style.transform='';el.style.opacity='';}});
+}
+function goTo(n){
+  if(peeling)return;
+  const from=section;section=n;
+  if(from===1&&n===0){setPeel(true);sec2.classList.remove('active');sec1.style.opacity='1';document.querySelectorAll('.hw').forEach(s=>{s.style.opacity='0';s.style.filter='blur(3px)';});scrollAccum=0;resetS1();setTimeout(()=>setPeel(false),600);}
+  else if(from===1&&n===2){
+    sec2.classList.remove('active');
+    sec3.classList.add('active');
+  }
+  else if(from===2&&n===1){
+    // Fade back to page2
+    sec3.classList.remove('active');sec2.classList.add('active');
+    setTimeout(()=>setPeel(false),400);
+  }
+}
+function startReturn(){goTo(section-1);}
+
+// ── Light ──
+function updateLight(dt){
+  if(!sceneW||lampOn)return;
+  const mxP=mx/sceneW*100,myP=my/sceneH*100;
+  const cdx=Math.abs(mxP-CHAR.cx),cdy=Math.abs(myP-CHAR.cy)*.6;
+  if(Math.sqrt(cdx*cdx+cdy*cdy)<10&&myP>61){lightXT=CHAR.cx;lightWT=4.5;lightBT=CHAR.top;snapId='char';isCharMode=true;}
+  else{isCharMode=false;let best=null,bestD=13;
+    for(const s of SCREENS){const dx=Math.abs(mxP-s.cx),dy=Math.abs(myP-s.cy)*.45,d=Math.sqrt(dx*dx+dy*dy);if(d<bestD){bestD=d;best=s;}}
+    if(best){lightXT=best.cx;lightWT=best.w*.50;lightBT=best.top;snapId=best.id;}
+    else{lightXT=mxP;lightWT=14;lightBT=88;snapId=null;}}
+  const e2=Math.min(1,dt*.009);lightX+=(lightXT-lightX)*e2;lightW+=(lightWT-lightW)*e2;lightBot+=(lightBT-lightBot)*e2;
+  updNavGlow(mxP);
+}
+function drawDark(){
+  if(!sceneW||!sceneH||darkCv.width<=0)return;
+  const w=darkCv.width,h=darkCv.height;dctx.clearRect(0,0,w,h);if(lampOn)return;
+  dctx.fillStyle='rgba(0,0,0,.72)';dctx.fillRect(0,0,w,h);
+  const lx=lightX/100*w,topHW=w*.005,botHW=lightW/100*w,botY=Math.min(lightBot/100*h,h*.98);
+  if(!isFinite(lx)||!isFinite(botHW)||!isFinite(botY))return;
+  dctx.save();dctx.globalCompositeOperation='destination-out';
+  const cg=dctx.createLinearGradient(0,0,0,botY);cg.addColorStop(0,'rgba(0,0,0,.96)');cg.addColorStop(.55,'rgba(0,0,0,.65)');cg.addColorStop(1,'rgba(0,0,0,.08)');
+  dctx.beginPath();dctx.moveTo(lx-topHW,0);dctx.lineTo(lx+topHW,0);dctx.lineTo(lx+botHW,botY);dctx.lineTo(lx-botHW,botY);dctx.closePath();dctx.fillStyle=cg;dctx.fill();
+  for(const s of[-1,1]){const ex=lx+s*botHW*.8;if(!isFinite(ex))continue;const eg=dctx.createRadialGradient(ex,botY*.5,0,ex,botY*.5,botHW*.55);eg.addColorStop(0,'rgba(0,0,0,.18)');eg.addColorStop(1,'rgba(0,0,0,0)');dctx.fillStyle=eg;dctx.fillRect(0,0,w,h);}
+  dctx.restore();dctx.save();dctx.globalCompositeOperation='source-over';
+  const tg=dctx.createLinearGradient(0,0,0,botY);tg.addColorStop(0,'rgba(215,200,255,.06)');tg.addColorStop(1,'rgba(215,200,255,0)');
+  dctx.beginPath();dctx.moveTo(lx-topHW,0);dctx.lineTo(lx+topHW,0);dctx.lineTo(lx+botHW,botY);dctx.lineTo(lx-botHW,botY);dctx.closePath();dctx.fillStyle=tg;dctx.fill();
+  const lpg=dctx.createRadialGradient(lx,1,0,lx,1,w*.03);lpg.addColorStop(0,'rgba(255,245,210,.4)');lpg.addColorStop(1,'rgba(255,245,210,0)');dctx.fillStyle=lpg;dctx.fillRect(0,0,w,h);dctx.restore();
+}
+function updOvl(){if(lampOn)return;for(const s of SCREENS){const lit=Math.abs(lightX-s.cx)<12;const ovl=document.getElementById('ovl-'+s.id),brd=document.getElementById('lit-'+s.id);if(ovl)ovl.style.opacity=lit?'0':'1';if(brd)brd.style.opacity=lit?'1':'0';}}
+function updNavGlow(mxP){document.querySelectorAll('.float-nav.left .nt').forEach(el=>el.classList.toggle('nav-lit',mxP<20));document.querySelectorAll('.float-nav.right .nt').forEach(el=>el.classList.toggle('nav-lit',mxP>80));}
+function typewriter(dt){mT+=dt;const m=MSGS[mI%MSGS.length];const el=document.getElementById('term-text');if(typing){if(mT>65){mT=0;cI++;el.textContent=m.slice(0,cI);if(cI>=m.length){typing=false;mT=0;}}}else{if(mT>2400){mT=0;cI=0;mI++;typing=true;el.textContent='';}}}
+function loop(now){
+  const dt=Math.min(now-lastT,80);lastT=now;
+  if(charLit&&!lampOn){charMs+=dt;if(charMs>8000){burstErr();charMs=0;}}else charMs=Math.max(0,charMs-dt*.5);
+  if(section===0){updateLight(dt);drawDark();updOvl();}
+  typewriter(dt);requestAnimationFrame(loop);
+}
+
+// ── ASCII art (typed in) ──
+(function(){
+  const el=document.getElementById('ab-ascii');
+  if(!el)return;
+  const art=`  /\\_∧_/\\   zzZ
+ ( ◕ ᴗ ◕ )  
+  >  ♡  <  
+  |  ↑  |  
+ ᓀ‾‾‾‾‾ᓂ  `;
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i<=art.length){el.textContent=art.slice(0,i);i++;}
+    else clearInterval(iv);
+  },18);
+})();
+
+// ── Data Sea Wave Engine ──
+(function(){
+  const cv = document.getElementById('ocean-cv');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  let W=0,H=0,mouseX=-999,mouseY=-999;
+
+  // Wave params (driven by sliders)
+  let moonInf=0.72, windSpd=1.38, waveFreq=2.45, dataDens=0.89;
+
+  function resize(){
+    const p=cv.parentElement;
+    W=p.offsetWidth||window.innerWidth;
+    H=p.offsetHeight||window.innerHeight;
+    cv.width=W; cv.height=H;
+  }
+  resize(); window.addEventListener('resize',resize);
+
+  // Wire sliders
+  function wireSlider(id, valId, scale, cb){
+    const sl=document.getElementById(id);
+    const vl=document.getElementById(valId);
+    if(!sl) return;
+    sl.addEventListener('input',()=>{
+      const v=sl.value/100;
+      cb(v*scale);
+      vl.textContent=scale===1?(Math.round(v*100)+'%'):(v*scale).toFixed(2)+'x';
+    });
+    sl.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+    sl.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+  }
+  wireSlider('moon-slider','moon-val',1,(v)=>moonInf=v);
+  wireSlider('wind-slider','wind-val',3,(v)=>windSpd=v);
+  wireSlider('freq-slider','freq-val',5,(v)=>waveFreq=v);
+  wireSlider('dens-slider','dens-val',1,(v)=>dataDens=v);
+  window.resetParams=()=>{
+    moonInf=0.72;windSpd=1.38;waveFreq=2.45;dataDens=0.89;
+    document.getElementById('moon-slider').value=72;document.getElementById('moon-val').textContent='72%';
+    document.getElementById('wind-slider').value=138;document.getElementById('wind-val').textContent='1.38x';
+    document.getElementById('freq-slider').value=245;document.getElementById('freq-val').textContent='2.45x';
+    document.getElementById('dens-slider').value=89;document.getElementById('dens-val').textContent='89%';
+  };
+
+  // Mouse — listen on sec3 so it works even when hovering over dots
+  const sec3El=cv.parentElement;
+  sec3El.addEventListener('mousemove',e=>{
+    const r=cv.getBoundingClientRect();
+    mouseX=e.clientX-r.left; mouseY=e.clientY-r.top;
+  });
+  sec3El.addEventListener('mouseleave',()=>{mouseX=-999;mouseY=-999;});
+
+  // Wave height function — multi-sine with params
+  function waveY(x, t, layerIdx){
+    const nx = x/W;
+    const moonAmp = moonInf * 0.12;   // moon boosts amplitude
+    const windAmp = windSpd * 0.035;  // wind boosts amplitude
+    const freq = waveFreq * 0.8;
+    const baseY = 0.38 + layerIdx*0.11;
+
+    let y = baseY
+      + Math.sin(nx*Math.PI*freq*2 + t*(0.4+layerIdx*0.12)) * (moonAmp + windAmp * 0.5)
+      + Math.sin(nx*Math.PI*freq*1.3 + t*(0.28+layerIdx*0.08)) * moonAmp * 0.55
+      + Math.sin(nx*Math.PI*freq*3.1 + t*(0.62+layerIdx*0.15)) * windAmp * 0.35;
+
+    // Mouse ripple: push wave up near cursor
+    if(mouseX>0){
+      const dx=x-mouseX, dy=H*y-mouseY;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120) y -= (1-dist/120)*0.04*(1-layerIdx*0.12);
+    }
+    return y;
+  }
+
+  // Build wave path
+  function wavePath(layerIdx, t, step=3){
+    const pts=[];
+    for(let x=0;x<=W;x+=step){
+      pts.push({x, y:waveY(x,t,layerIdx)*H});
+    }
+    return pts;
+  }
+
+  // Glow particles on wave crests
+  const PARTS=[];
+  function initParts(){
+    PARTS.length=0;
+    const n=Math.floor(60*dataDens);
+    for(let i=0;i<n;i++){
+      PARTS.push({
+        nx:Math.random(),
+        layer:Math.floor(Math.random()*5),
+        phase:Math.random()*Math.PI*2,
+        size:1.5+Math.random()*2.5,
+        alpha:0.4+Math.random()*0.5,
+        pulsePhase:Math.random()*Math.PI*2,
+      });
+    }
+  }
+  initParts();
+  // Re-init when density changes
+  let lastDens=dataDens;
+
+  function drawWaveLine(pts, col, lineW, glowCol, glowW){
+    // Glow pass
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+    ctx.strokeStyle=glowCol;
+    ctx.lineWidth=glowW;
+    ctx.filter=`blur(3px)`;
+    ctx.stroke();
+    ctx.restore();
+    // Sharp line
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+    ctx.strokeStyle=col;
+    ctx.lineWidth=lineW;
+    ctx.stroke();
+  }
+
+  const LAYER_COLS=[
+    ['rgba(60,80,200,0.6)','rgba(40,60,180,0.2)',2.8,5],
+    ['rgba(90,110,235,0.7)','rgba(70,100,220,0.28)',2.2,6],
+    ['rgba(130,155,255,0.78)','rgba(110,140,250,0.3)',2.0,8],
+    ['rgba(160,180,255,0.85)','rgba(145,165,255,0.38)',1.6,10],
+    ['rgba(195,210,255,0.90)','rgba(175,200,255,0.45)',1.3,12],
+    ['rgba(220,235,255,0.95)','rgba(210,228,255,0.52)',1.1,14],
+  ];
+
+  function frame(ts){
+    if(!document.getElementById('sec3').classList.contains('active')){requestAnimationFrame(frame);return;}
+    const t=ts*0.001;
+
+    // Re-init particles if density changed
+    if(Math.abs(dataDens-lastDens)>0.05){lastDens=dataDens;initParts();}
+
+    ctx.clearRect(0,0,W,H);
+
+    // 半透明深色遮罩（讓底圖 wave_bg 透出來）
+    const bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'rgba(1,1,14,0.48)');
+    bg.addColorStop(0.45,'rgba(3,2,22,0.45)');
+    bg.addColorStop(1,'rgba(5,3,30,0.42)');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+    // Draw filled wave layers (background depth)
+    for(let li=0;li<6;li++){
+      const pts=wavePath(li,t);
+      const [col,,lw]=LAYER_COLS[li];
+      // Fill below wave
+      ctx.beginPath();
+      ctx.moveTo(0,H);
+      ctx.lineTo(pts[0].x,pts[0].y);
+      for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+      ctx.lineTo(W,H);
+      ctx.closePath();
+      const fg=ctx.createLinearGradient(0,pts[0].y,0,H);
+      const opacity=(0.08+li*0.04)*(moonInf*0.5+0.7);
+      fg.addColorStop(0,`rgba(40,60,180,${opacity})`);
+      fg.addColorStop(1,'rgba(4,3,15,0)');
+      ctx.fillStyle=fg; ctx.fill();
+    }
+
+    // Draw wave lines (foreground, brightest on top)
+    for(let li=5;li>=0;li--){
+      const pts=wavePath(li,t);
+      const [col,glowCol,lw,glowW]=LAYER_COLS[li];
+      drawWaveLine(pts,col,lw,glowCol,glowW);
+
+      // Draw sub-lines between main lines (dense effect)
+      if(li<5){
+        const pts2=wavePath(li+0.5,t,6);
+        ctx.beginPath();ctx.moveTo(pts2[0].x,pts2[0].y);
+        for(let i=1;i<pts2.length;i++) ctx.lineTo(pts2[i].x,pts2[i].y);
+        ctx.strokeStyle=`rgba(100,120,220,${0.15+li*0.04})`;
+        ctx.lineWidth=0.8; ctx.stroke();
+      }
+    }
+
+    // Glowing particles on wave crests
+    for(const p of PARTS){
+      const x=p.nx*W;
+      const y=waveY(x,t,p.layer)*H;
+      const pulse=0.6+Math.sin(t*2+p.pulsePhase)*0.4;
+      const a=p.alpha*pulse;
+      const r=p.size*pulse;
+      // Glow
+      ctx.beginPath();ctx.arc(x,y,r*3,0,Math.PI*2);
+      ctx.fillStyle=`rgba(160,180,255,${a*0.12})`; ctx.fill();
+      // Core
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(220,230,255,${a})`; ctx.fill();
+    }
+
+    // Floating data labels near crests
+    const labelCount=Math.floor(8*dataDens);
+    ctx.font='9px monospace';
+    ctx.fillStyle='rgba(160,200,230,0.5)';
+    for(let i=0;i<labelCount;i++){
+      const nx=(i+0.5)/labelCount;
+      const x=nx*W;
+      const topLay=waveY(x,t,5)*H;
+      const val=(0.1+Math.sin(x*0.03+t*0.3)*0.2).toFixed(2);
+      ctx.fillText(val, x-12, topLay-8);
+      // Vertical tick
+      ctx.beginPath();ctx.moveTo(x,topLay-6);ctx.lineTo(x,topLay+4);
+      ctx.strokeStyle='rgba(140,180,220,0.3)';ctx.lineWidth=0.7;ctx.stroke();
+    }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // Wave-peak info nodes (clickable dots on crests)
+  (function(){
+    const container=document.getElementById('ds-floaters');
+    if(!container) return;
+    const nodes=[
+      {label:'PROFILE',icon:'👤',info:'Artist · Developer · VTuber'},
+      {label:'WORKS',icon:'🎨',info:'插畫 · 角色設計 · Live2D · Web'},
+      {label:'SKILLS',icon:'⚡',info:'Illustration · Live2D · React · Python'},
+      {label:'CONTACT',icon:'💌',info:'Commission & Collaboration'},
+      {label:'2025',icon:'✦',info:'永遠好奇，永遠在創作'},
+    ];
+    // Place dots at wave peaks
+    const positions=[0.12, 0.28, 0.5, 0.70, 0.86];
+    // 全域提示文字（底部，幾秒後淡出）
+    const hint=document.createElement('div');
+    hint.style.cssText='position:absolute;bottom:56px;left:50%;transform:translateX(-50%);font:400 9px monospace;letter-spacing:3px;color:rgba(160,180,255,.5);white-space:nowrap;pointer-events:none;animation:ds-hint 2.5s ease-in-out infinite;z-index:8;text-transform:uppercase';
+    hint.textContent='✦ 點擊光點探索 · click to explore ✦';
+    container.appendChild(hint);
+    setTimeout(()=>{hint.style.transition='opacity 1.5s';hint.style.opacity='0';},6000);
+
+    const dots=nodes.map((n,i)=>{
+      const wrap=document.createElement('div');
+      wrap.style.cssText='position:absolute;left:0;top:0;z-index:6;pointer-events:none;transform-origin:center bottom';
+
+      // 脈衝外環（純裝飾，不擋點擊）
+      const ring=document.createElement('div');
+      ring.style.cssText=`width:28px;height:28px;border-radius:50%;border:1px solid rgba(160,185,255,0.45);position:absolute;transform:translate(-50%,-50%);animation:ds-pulse ${1.9+i*0.35}s ease-out infinite;pointer-events:none`;
+
+      // 主光點（接收點擊）
+      const dot=document.createElement('div');
+      dot.style.cssText='width:13px;height:13px;border-radius:50%;background:rgba(200,220,255,0.9);box-shadow:0 0 10px rgba(180,205,255,0.85),0 0 24px rgba(140,170,255,0.5);transform:translate(-50%,-50%);transition:all .22s;pointer-events:all;cursor:none';
+
+      // 常駐標籤（點名，永遠可見）
+      const label=document.createElement('div');
+      label.style.cssText='position:absolute;top:12px;left:50%;transform:translateX(-50%);font:700 7px monospace;letter-spacing:2.5px;color:rgba(180,205,255,0.65);white-space:nowrap;pointer-events:none;text-transform:uppercase;text-shadow:0 0 8px rgba(140,170,255,0.6)';
+      label.textContent=n.label;
+
+      // 點擊展開的資訊卡
+      const popup=document.createElement('div');
+      popup.style.cssText='position:absolute;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(6,3,22,.92);backdrop-filter:blur(16px);border:1px solid rgba(110,85,215,.5);border-radius:9px;padding:12px 16px;min-width:155px;text-align:center;pointer-events:none;opacity:0;transition:opacity .25s,transform .25s;white-space:nowrap;transform-origin:bottom center';
+      popup.innerHTML=`<div style="font:700 10px monospace;letter-spacing:3px;color:rgba(190,168,255,.95);text-transform:uppercase;margin-bottom:6px">${n.icon} ${n.label}</div><div style="font:400 9px/1.6 monospace;color:rgba(140,165,215,.7);letter-spacing:.5px">${n.info}</div>`;
+
+      let open=false;
+      dot.addEventListener('click',()=>{
+        open=!open;
+        popup.style.opacity=open?'1':'0';
+        popup.style.transform=open?'translateX(-50%) translateY(-4px)':'translateX(-50%)';
+        dot.style.background=open?'rgba(230,215,255,1)':'rgba(200,220,255,0.9)';
+        dot.style.boxShadow=open?'0 0 16px rgba(200,180,255,1),0 0 32px rgba(160,140,255,0.8)':'0 0 10px rgba(180,205,255,0.85),0 0 24px rgba(140,170,255,0.5)';
+        // 關閉其他已開的
+        dots.forEach(other=>{
+          if(other&&other.dotEl!==dot&&other.openFn)other.openFn(false);
+        });
+      });
+      dot.addEventListener('mouseenter',()=>{dot.style.transform='translate(-50%,-50%) scale(1.6)';dot.style.boxShadow='0 0 14px rgba(200,210,255,1),0 0 30px rgba(160,180,255,0.9)';});
+      dot.addEventListener('mouseleave',()=>{dot.style.transform='translate(-50%,-50%)';if(!open)dot.style.boxShadow='0 0 10px rgba(180,205,255,0.85),0 0 24px rgba(140,170,255,0.5)';});
+
+      wrap.appendChild(ring);wrap.appendChild(dot);wrap.appendChild(label);wrap.appendChild(popup);
+      container.appendChild(wrap);
+      const entry={wrap,nx:positions[i],dotEl:dot,openFn:(v)=>{
+        open=v;popup.style.opacity=v?'1':'0';
+        dot.style.background=v?'rgba(230,215,255,1)':'rgba(200,220,255,0.9)';
+      }};
+      return entry;
+    });
+    // Update dot positions to follow wave peaks each frame
+    function tick(ts){
+      if(!cv.width){requestAnimationFrame(tick);return;}
+      const t=ts*0.001;
+      dots.forEach(d=>{
+        const x=d.nx*cv.offsetWidth;
+        const y=waveY(x,t,2)*cv.offsetHeight;
+        d.wrap.style.transform=`translate(${x}px,${y}px)`;
+        d.wrap.style.left='0';d.wrap.style.top='0';
+      });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+})();
+
+// Loader
+(function(){const loader=document.getElementById('loader');const bar=document.getElementById('loader-bar');let p=0;const iv=setInterval(()=>{p+=Math.random()*14+4;bar.style.width=Math.min(92,p)+'%';if(p>=92){clearInterval(iv);setTimeout(()=>{p=100;bar.style.width='100%';setTimeout(()=>{loader.style.opacity='0';loader.style.pointerEvents='none';setTimeout(()=>{loader.remove();resize();requestAnimationFrame(loop);},700);},250);},400);}},80);})();
+</script></div></body></html>

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(python3)",
+      "Bash(find assets *)",
+      "Bash(ls assets/)",
+      "Bash(dir assets *)",
+      "Bash(Start-Process \"d:\\\\GitHub\\\\PortfoliioWeb\\\\project_bookroom.html\")",
+      "PowerShell(Start-Process \"d:\\\\GitHub\\\\PortfoliioWeb\\\\project_bookroom.html\")"
+    ]
+  }
+}

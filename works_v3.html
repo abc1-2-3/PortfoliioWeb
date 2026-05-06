@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>ARCHIVE NAVIGATION</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#04020e;color:#c0b8e8;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
+*{cursor:none!important}
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(200,180,255,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(180,140,255,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(180,140,255,.7);box-shadow:0 0 12px rgba(140,100,255,.2)}
+
+/* Stars */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes twinkle{0%,100%{opacity:var(--a,.3)}50%{opacity:1}}
+
+/* ── Shell ── */
+#shell{display:grid;grid-template-columns:220px 1fr;grid-template-rows:auto 1fr auto auto;height:100vh;position:relative;z-index:1}
+
+/* ── Sidebar ── */
+#sidebar{grid-row:1/5;grid-column:1;display:flex;flex-direction:column;padding:0;position:relative;border-right:none}
+/* Track line */
+#sidebar::after{content:'';position:absolute;left:36px;top:80px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(130,90,230,.6) 20%,rgba(180,130,255,.9) 50%,rgba(130,90,230,.6) 80%,transparent);border-radius:2px;box-shadow:0 0 6px rgba(150,100,255,.3)}
+.sb-head{padding:22px 16px 16px 36px;margin-bottom:4px}
+.sb-title{font:700 10px monospace;letter-spacing:3px;color:rgba(160,130,255,.7);text-transform:uppercase}
+.sb-sub{font:400 8px monospace;color:rgba(100,80,140,.4);letter-spacing:2px;margin-top:2px}
+.sb-pulse{display:flex;align-items:center;gap:5px;margin-top:6px}
+.sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:pulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.sb-online{font:400 8px monospace;letter-spacing:2px;color:rgba(80,255,120,.55)}
+nav{flex:1;padding:8px 0}
+.ni{display:flex;flex-direction:column;padding:10px 14px 10px 60px;position:relative;transition:all .22s;margin-bottom:2px}
+.ni::before{content:'○';position:absolute;left:29px;top:50%;transform:translate(-50%,-50%);font-size:6px;color:rgba(100,80,180,.45);transition:all .22s;z-index:1}
+.ni:hover::before,.ni.act::before{content:'◆';color:rgba(180,140,255,.95);font-size:7px;text-shadow:0 0 5px rgba(160,120,255,.8)}
+.ni:hover,.ni.act{background:rgba(80,50,160,.18)}
+.ni.act{border-right:2px solid rgba(160,120,255,.6)}
+.ni-en{font:700 11px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(130,110,200,.5);transition:color .22s}
+.ni-zh{font:400 8px monospace;color:rgba(90,75,150,.38);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(210,195,255,.9)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(150,130,215,.6)}
+
+/* ── Top bar ── */
+#topbar{grid-column:2;grid-row:1;padding:14px 28px 10px;border-bottom:1px solid rgba(70,50,140,.2);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.6);backdrop-filter:blur(6px)}
+.tb-center{text-align:center}
+.tb-deco{display:flex;align-items:center;gap:10px;justify-content:center}
+.tb-line{width:28px;height:1px;background:linear-gradient(to right,transparent,rgba(150,110,255,.5))}
+.tb-line.r{background:linear-gradient(to left,transparent,rgba(150,110,255,.5))}
+.tb-title{font:900 clamp(14px,1.8vw,22px)/1 'Courier New',monospace;letter-spacing:7px;text-transform:uppercase;background:linear-gradient(135deg,#c084fc,#67e8f9,#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(160,100,255,.35))}
+.tb-sub{font:400 9px monospace;letter-spacing:4px;color:rgba(130,110,200,.45);margin-top:5px}
+.tb-time{font:400 11px monospace;color:rgba(110,90,170,.55);letter-spacing:2px}
+.tb-stat{text-align:right}
+.tb-stat div{font:400 8px monospace;color:rgba(90,75,155,.5);letter-spacing:2px;line-height:1.8}
+.tb-stat span{color:rgba(130,190,255,.6)}
+
+/* ── Portal area ── */
+#portals{grid-column:2;grid-row:2;display:flex;align-items:center;justify-content:center;gap:28px;padding:8px 28px}
+.portal{flex:1;max-width:220px;display:flex;flex-direction:column;align-items:center;transition:transform .3s}
+.portal:hover{transform:translateY(-6px)}
+.p-ring{width:100%;aspect-ratio:1;position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.p-ring svg{position:absolute;inset:0}
+.ring-a{animation:rspin var(--spd,12s) linear infinite}
+.ring-b{animation:rspin var(--spd2,8s) linear infinite reverse}
+@keyframes rspin{to{transform:rotate(360deg)}}
+.p-inner{width:68%;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,3.5vw,44px);position:relative;z-index:2;transition:box-shadow .3s}
+.portal:hover .p-inner{box-shadow:var(--glow)}
+.p-title{font:900 clamp(14px,2vw,20px)/1 monospace;letter-spacing:4px;text-transform:uppercase;color:rgba(215,205,255,.9);text-shadow:var(--tshadow);margin-bottom:3px}
+.p-sub{font:400 8px monospace;letter-spacing:3px;color:rgba(130,115,195,.55);margin-bottom:7px}
+.p-desc{font:400 8px/1.7 monospace;color:rgba(130,115,190,.5);text-align:center}
+.portal[data-c="web"]{--glow:0 0 35px rgba(80,200,255,.3);--tshadow:0 0 10px rgba(80,200,255,.4)}
+.portal[data-c="vtuber"]{--glow:0 0 45px rgba(190,100,255,.35);--tshadow:0 0 12px rgba(180,100,255,.45)}
+.portal[data-c="ai"]{--glow:0 0 35px rgba(60,215,175,.3);--tshadow:0 0 10px rgba(60,215,175,.4)}
+
+/* ── Memories section ── */
+#mem-section{grid-column:2;grid-row:3;padding:8px 28px 10px}
+.mem-frame{border:1px solid rgba(80,60,160,.3);border-radius:8px;padding:10px 14px 8px;background:rgba(8,4,20,.4);backdrop-filter:blur(6px);position:relative}
+.mem-frame::before{content:'RECENT MEMORIES';position:absolute;top:-8px;left:20px;font:400 8px monospace;letter-spacing:4px;color:rgba(110,90,170,.55);background:#04020e;padding:0 7px;text-transform:uppercase}
+.mem-c{display:flex;align-items:center;gap:8px;justify-content:center}
+.mem-nav{width:24px;height:24px;border-radius:50%;border:1px solid rgba(90,70,160,.35);background:rgba(20,10,40,.6);color:rgba(150,130,210,.65);font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.mem-nav:hover{border-color:rgba(160,120,255,.65);color:rgba(200,185,255,.95);background:rgba(55,35,120,.55)}
+#mem-viewport{overflow:hidden;width:620px;flex-shrink:0}
+#mem-track{display:flex;gap:12px;will-change:transform}
+.mc{flex-shrink:0;width:140px;transition:transform .2s}
+.mc:hover{transform:translateY(-2px)}
+.mc-thumb{width:100%;aspect-ratio:16/9;border-radius:4px;background:rgba(14,7,32,.8);border:1px solid rgba(70,55,140,.3);display:flex;align-items:center;justify-content:center;font-size:20px;position:relative;overflow:hidden;transition:border-color .2s}
+.mc-thumb::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none}
+.mc:hover .mc-thumb{border-color:rgba(140,100,255,.5);box-shadow:0 0 10px rgba(100,55,220,.2)}
+.mc-name{font:600 8px monospace;color:rgba(170,155,220,.72);letter-spacing:.5px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-cat{font:400 7px monospace;color:rgba(100,84,152,.48);margin-top:2px}
+/* Dots */
+#mem-dots{display:flex;gap:5px;justify-content:center;margin-top:7px}
+.m-dot{width:16px;height:2px;border-radius:1px;background:rgba(90,70,150,.3);transition:all .3s}
+.m-dot.on{background:rgba(155,115,255,.75);width:24px;box-shadow:0 0 4px rgba(135,95,255,.4)}
+
+/* ── Scroll hint ── */
+#scroll-hint{grid-column:2;grid-row:4;text-align:center;padding:6px 0 14px;flex-shrink:0}
+.sh-t{font:400 8px monospace;letter-spacing:4px;text-transform:uppercase;color:rgba(90,72,148,.4)}
+.sh-a{font-size:12px;color:rgba(90,72,148,.38);animation:bob 1.4s ease-in-out infinite alternate;display:block;margin-top:2px}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(3px)}}
+
+/* ── Right panels ── */
+#r-panels{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:168px;z-index:8;display:flex;flex-direction:column;gap:10px}
+.rp{background:rgba(7,4,20,.78);backdrop-filter:blur(12px);border:1px solid rgba(75,58,155,.32);border-radius:8px;padding:11px 13px}
+.rp-title{font:700 9px monospace;letter-spacing:2px;color:rgba(165,148,230,.65);text-transform:uppercase;margin-bottom:8px}
+.rp-dots{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.rp-dot{width:7px;height:7px;border-radius:50%;background:rgba(120,90,200,.4);border:1px solid rgba(120,90,200,.3)}
+.rp-dot.on{background:rgba(160,120,255,.8);box-shadow:0 0 4px rgba(140,100,255,.6)}
+
+/* Modal */
+#modal-bg{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(4,2,12,0);pointer-events:none;transition:background .3s}
+#modal-bg.open{background:rgba(4,2,12,.88);pointer-events:all}
+#modal-box{background:rgba(8,4,22,.92);border:1px solid rgba(120,90,220,.4);border-radius:12px;width:min(500px,90vw);padding:26px;transform:scale(.88);opacity:0;transition:all .3s cubic-bezier(.25,.46,.45,.94);backdrop-filter:blur(20px);box-shadow:0 0 50px rgba(80,40,180,.22)}
+#modal-bg.open #modal-box{transform:scale(1);opacity:1}
+</style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="stars"></div>
+
+<div id="shell">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="sb-head">
+      <div class="sb-title">WUYAN'S ARCHIVE</div>
+      <div class="sb-sub">v2.0.1</div>
+      <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
+    </div>
+    <nav id="nav"></nav>
+  </div>
+
+  <!-- Top bar -->
+  <div id="topbar">
+    <div class="tb-time" id="clock">00:00:00</div>
+    <div class="tb-center">
+      <div class="tb-deco">
+        <div class="tb-line"></div>
+        <div class="tb-title">ARCHIVE NAVIGATION</div>
+        <div class="tb-line r"></div>
+      </div>
+      <div class="tb-sub">選擇一段記憶，進入不同的世界</div>
+    </div>
+    <div class="tb-stat">
+      <div>MEMORY CORE : <span>STABLE</span></div>
+      <div>CONNECTION : <span>SECURE</span></div>
+      <div>USER : <span>WUYAN</span></div>
+    </div>
+  </div>
+
+  <!-- Portals -->
+  <div id="portals"></div>
+
+  <!-- Memories -->
+  <div id="mem-section">
+    <div class="mem-frame">
+      <div class="mem-c">
+        <button class="mem-nav" id="mprev">&#8249;</button>
+        <div id="mem-viewport"><div id="mem-track"></div></div>
+        <button class="mem-nav" id="mnext">&#8250;</button>
+      </div>
+      <div id="mem-dots"></div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div id="scroll-hint">
+    <div class="sh-t">Scroll to Explore</div>
+    <span class="sh-a">↓</span>
+  </div>
+</div>
+
+<!-- Right panels -->
+<div id="r-panels">
+  <div class="rp">
+    <div class="rp-title">TIP</div>
+    <div style="font:400 8px monospace;color:rgba(130,110,185,.5);line-height:1.7">將滑鼠移動到入口上<br>探索更多資訊</div>
+  </div>
+  <div class="rp">
+    <div class="rp-title">Memory Fragment</div>
+    <div style="display:flex;gap:5px;margin-bottom:5px">
+      <span style="font:400 8px monospace;padding:2px 6px;border:1px solid rgba(70,55,140,.3);border-radius:2px;color:rgba(100,82,155,.48)">#0421</span>
+      <span style="font:400 8px monospace;padding:2px 6px;border:1px solid rgba(70,55,140,.3);border-radius:2px;color:rgba(100,82,155,.48)">#0422</span>
+      <span style="font:700 8px monospace;padding:2px 6px;border:1px solid rgba(140,100,255,.55);border-radius:2px;color:rgba(175,150,255,.85);background:rgba(60,40,120,.3)">#0423</span>
+    </div>
+    <div style="font:400 8px monospace;color:rgba(90,72,148,.4);letter-spacing:1px">65%</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modal-bg" onclick="if(event.target===this)closeM()">
+  <div id="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span id="m-id" style="font:400 8px monospace;letter-spacing:3px;color:rgba(110,90,170,.5);text-transform:uppercase"></span>
+      <span onclick="closeM()" style="font:600 9px monospace;color:rgba(150,130,195,.5);padding:3px 9px;border:1px solid rgba(75,55,150,.3);border-radius:3px">✕</span>
+    </div>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+<script>
+// Cursor
+const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+document.addEventListener('mousemove',e=>{dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';dot.style.opacity='1';});
+document.querySelectorAll('button,.portal,.ni').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));});
+
+// Stars
+(function(){const bg=document.getElementById('stars');for(let i=0;i<100;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*1.8+0.4;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--a:${0.15+Math.random()*0.7};--d:${2+Math.random()*5}s;--dl:${-Math.random()*5}s`;bg.appendChild(s);}})();
+
+// Clock
+setInterval(()=>{const n=new Date();document.getElementById('clock').textContent=[n.getHours(),n.getMinutes(),n.getSeconds()].map(v=>String(v).padStart(2,'0')).join(':');},1000);
+document.getElementById('clock').textContent=new Date().toLocaleTimeString('en',{hour12:false});
+
+// Nav
+const NAVS=[{en:'PROFILE',zh:'個人檔案'},{en:'ARCHIVE',zh:'作品總覽',act:true},{en:'COMMISSION',zh:'委託'},{en:'SIGNAL',zh:'留言板'},{en:'LAB',zh:'雜七雜八'},{en:'OTHERS',zh:'其他'}];
+const navEl=document.getElementById('nav');
+NAVS.forEach(n=>{const d=document.createElement('div');d.className='ni'+(n.act?' act':'');d.innerHTML=`<div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div>`;d.addEventListener('mouseenter',()=>document.body.classList.add('hov'));d.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));navEl.appendChild(d);});
+
+// Portals
+const PORTALS=[
+  {c:'web',icon:'🖥️',title:'WEB',sub:'/ INTERACTIVE',desc:'網頁互動作品<br>前端・互動設計・視覺體驗',
+   col:'rgba(80,200,255,.7)',bg:'radial-gradient(ellipse,rgba(20,60,100,.65),rgba(4,10,30,.85))',border:'rgba(80,200,255,.22)',
+   items:['緣界互動頁面設計','這個作品集網站','留言板應用','互動遊戲']},
+  {c:'vtuber',icon:'🎭',title:'VTUBER',sub:'/ LIVE2D',desc:'角色設計・Live2D製作<br>模型・Rigging・動態展示',
+   col:'rgba(190,100,255,.8)',bg:'radial-gradient(ellipse,rgba(80,20,120,.7),rgba(20,4,40,.9))',border:'rgba(180,100,255,.28)',
+   items:['星夜貓娘 VTuber Model','表情包套組設計','角色設計原稿']},
+  {c:'ai',icon:'🤖',title:'AI',sub:'/ AUTOMATION',desc:'AI應用・自動化腳本<br>生成・分析・實驗性專案',
+   col:'rgba(60,215,175,.75)',bg:'radial-gradient(ellipse,rgba(20,80,70,.65),rgba(4,20,16,.9))',border:'rgba(60,215,175,.22)',
+   items:['AI 自動發推系統','圖像生成管線','資料分析儀表板']},
+];
+const portalsEl=document.getElementById('portals');
+PORTALS.forEach(p=>{
+  const div=document.createElement('div');div.className='portal';div.dataset.c=p.c;
+  div.style.setProperty('--glow',`0 0 40px ${p.col.replace('.7','').replace('.8','').replace('.75','')},.3)`);
+  div.innerHTML=`
+    <div class="p-ring">
+      <svg class="ring-a" style="--spd:12s" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="${p.col}" stroke-width="1.2" stroke-dasharray="5 9" opacity=".6"/></svg>
+      <svg class="ring-b" style="--spd2:8s" viewBox="0 0 200 200"><circle cx="100" cy="100" r="78" fill="none" stroke="${p.col}" stroke-width=".8" stroke-dasharray="2 14" opacity=".4"/>
+        <circle cx="100" cy="5" r="3" fill="${p.col}" opacity=".8"/>
+        <circle cx="195" cy="100" r="3" fill="${p.col}" opacity=".8"/>
+        <circle cx="100" cy="195" r="3" fill="${p.col}" opacity=".8"/>
+        <circle cx="5" cy="100" r="3" fill="${p.col}" opacity=".8"/>
+        <circle cx="170" cy="30" r="2" fill="${p.col}" opacity=".6"/>
+        <circle cx="170" cy="170" r="2" fill="${p.col}" opacity=".6"/>
+        <circle cx="30" cy="170" r="2" fill="${p.col}" opacity=".6"/>
+        <circle cx="30" cy="30" r="2" fill="${p.col}" opacity=".6"/>
+      </svg>
+      <div class="p-inner" style="background:${p.bg};border:1px solid ${p.border}">${p.icon}</div>
+    </div>
+    <div class="p-title">${p.title}</div>
+    <div class="p-sub">${p.sub}</div>
+    <div class="p-desc">${p.desc}</div>`;
+  div.addEventListener('click',()=>openM(p));
+  portalsEl.appendChild(div);
+});
+
+// Modal
+function openM(p){
+  document.getElementById('m-id').textContent=p.c+'.portal';
+  document.getElementById('m-body').innerHTML=`
+    <div style="font:900 18px monospace;letter-spacing:4px;color:${p.col};text-shadow:0 0 12px ${p.col};margin-bottom:7px">${p.title} ${p.sub}</div>
+    <div style="font:400 9px/1.9 monospace;color:rgba(155,140,205,.62);margin-bottom:14px">${p.desc.replace('<br>','\n')}</div>
+    <div style="font:700 8px monospace;letter-spacing:3px;color:rgba(110,92,168,.48);margin-bottom:8px;text-transform:uppercase">作品列表</div>
+    ${p.items.map(i=>`<div style="font:400 9px monospace;padding:6px 11px;border:1px solid rgba(75,55,150,.3);border-radius:4px;margin-bottom:5px;color:rgba(162,148,215,.72);transition:all .2s" onmouseenter="this.style.borderColor='${p.col.replace('.7','').replace('.8','').replace('.75','')},.4)';this.style.color='rgba(210,200,255,.92)'" onmouseleave="this.style.borderColor='rgba(75,55,150,.3)';this.style.color='rgba(162,148,215,.72)'">▷  ${i}</div>`).join('')}`;
+  document.getElementById('modal-bg').classList.add('open');
+}
+function closeM(){document.getElementById('modal-bg').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+
+// Memories
+const MEMS=[
+  {t:'緣界互動頁面設計',c:'WEB / INTERACTIVE',e:'🌐'},
+  {t:'VTuber 皮膚 - 星夜貓娘',c:'VTUBER / LIVE2D',e:'🐱'},
+  {t:'AI 自動發推系統',c:'AI / AUTOMATION',e:'🤖'},
+  {t:'這個網站本身（笑）',c:'WEB / SYSTEM',e:'💻'},
+  {t:'影子騎士角色設計',c:'CHARACTER',e:'⚔️'},
+  {t:'月下記憶插畫',c:'ILLUSTRATION',e:'🌙'},
+];
+const track=document.getElementById('mem-track');
+MEMS.forEach(m=>{const c=document.createElement('div');c.className='mc';c.innerHTML=`<div class="mc-thumb">${m.e}</div><div class="mc-name">${m.t}</div><div class="mc-cat">${m.c}</div>`;c.addEventListener('mouseenter',()=>document.body.classList.add('hov'));c.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));track.appendChild(c);});
+
+// Carousel — 修正循環：每次移動 1 格，支援首尾循環
+(function(){
+  const CARD=152,VIS=4;let idx=0;
+  const total=MEMS.length;
+  function maxIdx(){return Math.max(0,total-VIS);}
+  function upd(animate=true){
+    if(idx<0)idx=maxIdx();
+    if(idx>maxIdx())idx=0;
+    track.style.transition=animate?'transform .4s cubic-bezier(.25,.46,.45,.94)':'none';
+    track.style.transform=`translateX(-${idx*CARD}px)`;
+    // 點點：按比例顯示目前位置
+    const dotsEl=document.getElementById('mem-dots');
+    const nd=[...dotsEl.children].length;
+    const dotIdx=Math.round(idx/Math.max(1,maxIdx())*(nd-1));
+    [...dotsEl.children].forEach((d,i)=>d.className='m-dot'+(i===dotIdx?' on':''));
+  }
+  // 建立點點（每個 VIS 一格）
+  const dotsEl=document.getElementById('mem-dots');
+  const nd=Math.max(2,Math.ceil(total/VIS));
+  for(let i=0;i<nd;i++){const d=document.createElement('span');d.className='m-dot'+(i===0?' on':'');dotsEl.appendChild(d);}
+  // < > 各移動 1 格，到頭自動循環
+  document.getElementById('mprev').addEventListener('click',()=>{idx--;upd();});
+  document.getElementById('mnext').addEventListener('click',()=>{idx++;upd();});
+  upd(false);
+})();
+</script>
+</body>
+</html>

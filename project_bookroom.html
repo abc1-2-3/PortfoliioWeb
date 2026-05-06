@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>緣界串接・魔法書房 | WUYAN's ARCHIVE</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#04020e;color:#c0b8e8;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
+*{cursor:none!important}
+
+/* ── Cursor ── */
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(200,180,255,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(180,140,255,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(180,140,255,.7);box-shadow:0 0 12px rgba(140,100,255,.2)}
+
+/* ── Stars ── */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes twinkle{0%,100%{opacity:var(--a,.3)}50%{opacity:1}}
+
+/* ── Shell ── */
+#shell{display:grid;grid-template-columns:220px 1fr;height:100vh;position:relative;z-index:1}
+
+/* ── Sidebar ── */
+#sidebar{grid-column:1;display:flex;flex-direction:column;border-right:1px solid rgba(70,50,140,.2);height:100vh;overflow:hidden;position:relative}
+#sidebar::after{content:'';position:absolute;left:36px;top:85px;bottom:130px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(130,90,230,.6) 20%,rgba(180,130,255,.9) 50%,rgba(130,90,230,.6) 80%,transparent);border-radius:2px}
+
+.sb-head{padding:16px 14px 12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(70,50,140,.15);flex-shrink:0}
+.sb-cat{width:34px;height:34px;border:1px solid rgba(130,90,230,.4);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(20,10,40,.6);flex-shrink:0}
+.sb-info{flex:1;min-width:0}
+.sb-title{font:700 10px monospace;letter-spacing:2px;color:rgba(180,155,255,.8);text-transform:uppercase}
+.sb-sub{font:400 8px monospace;color:rgba(100,80,140,.45);letter-spacing:1px;margin-top:2px}
+.sb-pulse{display:flex;align-items:center;gap:5px;margin-top:4px}
+.sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:sbpulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
+@keyframes sbpulse{0%,100%{opacity:.6}50%{opacity:1}}
+.sb-online{font:400 8px monospace;letter-spacing:2px;color:rgba(80,255,120,.55)}
+
+nav{flex:1;padding:8px 0;overflow-y:auto}
+.ni{display:flex;flex-direction:column;padding:9px 14px 9px 58px;position:relative;transition:all .22s;margin-bottom:1px}
+.ni::before{content:'○';position:absolute;left:29px;top:50%;transform:translate(-50%,-50%);font-size:6px;color:rgba(100,80,180,.45);transition:all .22s}
+.ni:hover::before,.ni.act::before{content:'◆';color:rgba(180,140,255,.95);font-size:7px;text-shadow:0 0 5px rgba(160,120,255,.8)}
+.ni:hover,.ni.act{background:rgba(80,50,160,.18)}
+.ni.act{border-right:2px solid rgba(160,120,255,.6)}
+.ni-en{font:700 10px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(130,110,200,.5);transition:color .22s}
+.ni-zh{font:400 8px monospace;color:rgba(90,75,150,.38);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(210,195,255,.9)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(150,130,215,.6)}
+
+/* Music widget */
+.sb-music{padding:10px 14px;border-top:1px solid rgba(70,50,140,.2);background:rgba(8,4,22,.6);flex-shrink:0}
+.sb-mus-label{font:400 7px monospace;letter-spacing:3px;color:rgba(100,82,150,.5);text-transform:uppercase;margin-bottom:5px}
+.sb-mus-title{font:600 9px monospace;color:rgba(180,160,230,.75);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-mus-artist{font:400 8px monospace;color:rgba(110,90,160,.5);margin-top:1px;margin-bottom:6px}
+.sb-mus-wave{display:flex;align-items:flex-end;gap:2px;height:16px;margin-bottom:7px}
+.sb-mus-wave span{width:3px;background:rgba(160,120,255,.45);border-radius:1px;animation:waveAnim var(--spd,.6s) ease-in-out infinite alternate var(--dl,0s)}
+@keyframes waveAnim{from{height:3px}to{height:var(--h,12px)}}
+.sb-mus-ctrl{display:flex;gap:7px;align-items:center}
+.sb-btn{width:22px;height:22px;border-radius:50%;border:1px solid rgba(100,75,175,.35);background:rgba(15,8,35,.7);color:rgba(150,130,210,.65);display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .2s}
+.sb-btn:hover{border-color:rgba(160,120,255,.65);color:rgba(200,185,255,.95)}
+.sb-btn.play{width:28px;height:28px;font-size:11px;background:rgba(80,50,160,.5);border-color:rgba(140,100,255,.5)}
+
+/* ── Main ── */
+#main{grid-column:2;height:100vh;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column}
+#main::-webkit-scrollbar{width:3px}
+#main::-webkit-scrollbar-thumb{background:rgba(100,70,200,.35);border-radius:2px}
+
+/* ── Topbar ── */
+#topbar{flex-shrink:0;padding:11px 22px;border-bottom:1px solid rgba(70,50,140,.2);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.75);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+.tb-bc{display:flex;align-items:center;gap:6px;font:400 9px monospace;letter-spacing:1px;color:rgba(100,82,155,.5)}
+.tb-bc a{color:rgba(130,110,190,.6);text-decoration:none;transition:color .2s}
+.tb-bc a:hover{color:rgba(200,180,255,.9)}
+.tb-bc .sep{color:rgba(80,65,130,.4)}
+.tb-bc .cur{color:rgba(180,155,255,.8)}
+.tb-gem{font-size:22px;color:rgba(150,110,255,.75);animation:gemglow 3s ease-in-out infinite}
+@keyframes gemglow{0%,100%{filter:drop-shadow(0 0 5px rgba(140,100,255,.35))}50%{filter:drop-shadow(0 0 14px rgba(160,120,255,.65))}}
+.tb-right{display:flex;align-items:center;gap:10px;font:400 8px monospace;letter-spacing:2px;color:rgba(100,82,155,.5)}
+.tb-right .stable{color:rgba(130,190,255,.65)}
+.tb-icons{display:flex;gap:8px;font-size:11px;color:rgba(130,110,190,.5)}
+
+/* ── Project Header ── */
+.proj-head{flex-shrink:0;padding:20px 28px 14px;text-align:center}
+.proj-sparkle-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
+.sp{font-size:12px;color:rgba(220,170,80,.65);animation:spfade 2.5s ease-in-out infinite}
+.sp:nth-child(2){animation-delay:-.8s;font-size:10px;color:rgba(180,140,255,.5)}
+.sp:nth-child(3){animation-delay:-1.6s}
+@keyframes spfade{0%,100%{opacity:.25;transform:scale(.85)}50%{opacity:1;transform:scale(1.1)}}
+.proj-title{font:700 clamp(24px,2.8vw,38px)/1.2 'Georgia','Times New Roman',serif;letter-spacing:5px;background:linear-gradient(135deg,#f0ebff 0%,#c4b5fd 28%,#818cf8 52%,#67e8f9 78%,#ddd6fe 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 22px rgba(139,92,246,.32));margin-bottom:8px}
+.proj-sub-wrap{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:12px}
+.proj-sub-line{width:36px;height:1px;background:linear-gradient(to right,transparent,rgba(200,150,80,.4))}
+.proj-sub-line.r{background:linear-gradient(to left,transparent,rgba(200,150,80,.4))}
+.proj-sub{font:400 9px monospace;letter-spacing:5px;color:rgba(190,160,100,.5);text-transform:uppercase}
+.proj-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ptag{font:400 9px monospace;letter-spacing:2px;padding:5px 14px;border:1px solid rgba(120,90,200,.3);border-radius:20px;color:rgba(185,165,240,.65);background:rgba(18,8,40,.45);backdrop-filter:blur(4px);transition:all .25s}
+.ptag:hover{border-color:rgba(160,130,255,.6);color:rgba(220,210,255,.92);background:rgba(50,28,110,.3);box-shadow:0 0 10px rgba(130,100,255,.14)}
+
+/* ── Scene ── */
+.scene-wrap{position:relative;flex-shrink:0;background:#04020e;overflow:hidden;height:clamp(260px,38vh,460px)}
+.scene-bg{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
+.scene-layer{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.scene-form-card{position:absolute;left:38%;top:12%;width:21%;pointer-events:none;
+  filter:drop-shadow(0 12px 32px rgba(0,0,0,.75)) drop-shadow(0 0 20px rgba(200,140,60,.15));
+  transform:perspective(700px) rotateY(-6deg) rotateX(3deg);
+  animation:formFloat 5s ease-in-out infinite}
+@keyframes formFloat{0%,100%{transform:perspective(700px) rotateY(-6deg) rotateX(3deg) translateY(0)}50%{transform:perspective(700px) rotateY(-6deg) rotateX(3deg) translateY(-6px)}}
+
+/* Hotspots */
+.hotspot{position:absolute;display:flex;align-items:center;gap:7px;transform:translate(-50%,-50%);z-index:5}
+.hs-pin{width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(100,160,255,.75);background:rgba(6,3,26,.88);display:flex;align-items:center;justify-content:center;font:700 9px monospace;color:rgba(160,210,255,.95);letter-spacing:.5px;position:relative;transition:all .28s;flex-shrink:0;box-shadow:0 0 12px rgba(80,130,255,.28),inset 0 0 8px rgba(60,100,255,.1)}
+.hs-pin::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(100,160,255,.28);animation:hspulse 2.2s ease-in-out infinite}
+@keyframes hspulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.9;transform:scale(1.18)}}
+.hs-label{background:rgba(4,2,20,.9);border:1px solid rgba(90,130,255,.35);border-radius:6px;padding:6px 10px;backdrop-filter:blur(10px)}
+.hs-num{display:block;font:700 7px monospace;letter-spacing:2px;color:rgba(100,180,255,.7);margin-bottom:2px}
+.hs-text{font:600 10px monospace;color:rgba(210,230,255,.92);display:block}
+.hs-sub{font:400 8px monospace;color:rgba(120,155,220,.55);display:block;margin-top:2px}
+.hotspot:hover .hs-pin{border-color:rgba(130,190,255,.95);box-shadow:0 0 22px rgba(80,150,255,.45),inset 0 0 12px rgba(60,120,255,.18)}
+.hotspot:hover .hs-label{border-color:rgba(110,160,255,.6);background:rgba(8,5,30,.92)}
+
+/* Right panel */
+.scene-panel{position:absolute;right:10px;top:10px;bottom:10px;width:27%;background:rgba(4,2,16,.9);border:1px solid rgba(100,70,200,.32);border-radius:8px;backdrop-filter:blur(16px);overflow-y:auto;overflow-x:hidden;padding:13px;display:flex;flex-direction:column;gap:11px;box-shadow:0 0 40px rgba(40,20,100,.3)}
+.scene-panel::-webkit-scrollbar{width:2px}
+.scene-panel::-webkit-scrollbar-thumb{background:rgba(100,70,200,.3)}
+.sp-title{font:700 8px monospace;letter-spacing:3px;color:rgba(155,125,255,.8);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.sp-title::before,.sp-title::after{content:'+';color:rgba(130,100,220,.45);font-size:8px}
+.sp-desc{font:400 9px/1.9 monospace;color:rgba(148,128,198,.65)}
+.sp-icons{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:2px}
+.sp-ibox{background:rgba(12,6,30,.7);border:1px solid rgba(80,60,155,.25);border-radius:5px;padding:7px 6px;text-align:center;transition:all .2s}
+.sp-ibox:hover{border-color:rgba(140,100,255,.5);background:rgba(25,12,60,.7)}
+.sp-ibox .icon{font-size:16px;margin-bottom:3px}
+.sp-ibox .lbl{font:400 7px/1.35 monospace;color:rgba(125,105,180,.6)}
+.sp-cta{display:flex;align-items:center;justify-content:space-between;background:rgba(55,32,110,.5);border:1px solid rgba(130,90,250,.45);border-radius:6px;padding:9px 12px;transition:all .25s}
+.sp-cta:hover{background:rgba(75,46,150,.6);border-color:rgba(160,120,255,.7);box-shadow:0 0 16px rgba(120,80,255,.18)}
+.sp-cta-t .l1{font:700 10px monospace;color:rgba(215,200,255,.9);letter-spacing:1px;display:flex;align-items:center;gap:5px}
+.sp-cta-t .l2{font:400 8px monospace;color:rgba(130,110,190,.55);margin-top:2px}
+.sp-cta-arr{font-size:14px;color:rgba(160,130,255,.7)}
+.sp-divider{height:1px;background:linear-gradient(to right,transparent,rgba(100,70,200,.25),transparent);flex-shrink:0}
+.sp-link{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid rgba(70,55,130,.18);transition:all .2s}
+.sp-link:last-child{border-bottom:none}
+.sp-link:hover{padding-left:3px}
+.sp-link:hover .sp-ln{color:rgba(200,185,255,.95)}
+.sp-li{width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;border:1px solid rgba(80,60,150,.3);border-radius:3px;background:rgba(14,7,32,.7);color:rgba(140,120,200,.6)}
+.sp-lc{flex:1;min-width:0}
+.sp-ln{font:600 9px monospace;color:rgba(175,155,230,.72);display:block;transition:color .2s}
+.sp-lu{font:400 7px monospace;color:rgba(100,82,150,.45);display:block;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-lx{font-size:10px;color:rgba(100,82,155,.4)}
+
+/* ── Demo bar ── */
+.demo-bar{flex-shrink:0;padding:9px 28px;background:linear-gradient(to right,rgba(6,3,20,.8),rgba(14,7,38,.85),rgba(6,3,20,.8));border-top:1px solid rgba(80,60,160,.22);border-bottom:1px solid rgba(80,60,160,.22);display:flex;align-items:center;gap:12px}
+.demo-dot{width:7px;height:7px;border-radius:50%;background:rgba(120,180,255,.8);box-shadow:0 0 8px rgba(100,160,255,.5);animation:sbpulse 2s ease-in-out infinite}
+.demo-label{font:600 8px monospace;letter-spacing:4px;color:rgba(150,185,255,.72);text-transform:uppercase}
+.demo-hint{font:400 8px monospace;color:rgba(110,130,180,.45);letter-spacing:2px;flex:1;text-align:right}
+
+/* ── Tabs ── */
+.tabs-section{flex:1;padding:0 28px 0;display:flex;flex-direction:column;min-height:0}
+.tab-nav{display:flex;border-bottom:1px solid rgba(70,50,140,.2);flex-shrink:0}
+.tab-btn{font:600 8px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(110,90,165,.5);padding:12px 20px 10px;position:relative;transition:all .22s;white-space:nowrap}
+.tab-btn::after{content:'';position:absolute;bottom:-1px;left:8px;right:8px;height:2px;background:transparent;border-radius:2px;transition:all .22s}
+.tab-btn:hover{color:rgba(180,160,235,.82)}
+.tab-btn.active{color:rgba(215,200,255,.92)}
+.tab-btn.active::after{background:linear-gradient(to right,rgba(130,90,255,.6),rgba(100,180,255,.8),rgba(130,90,255,.6));box-shadow:0 0 8px rgba(120,160,255,.35)}
+.tab-zh{display:block;font:400 7px monospace;letter-spacing:1px;color:rgba(90,72,148,.4);margin-top:2px}
+.tab-btn.active .tab-zh{color:rgba(135,115,195,.55)}
+
+.tab-pane{display:none;padding:16px 0 20px;grid-template-columns:1fr 1fr 1.1fr;gap:14px}
+.tab-pane.active{display:grid}
+
+.tc-block{background:rgba(8,4,22,.5);border:1px solid rgba(70,55,140,.22);border-radius:7px;padding:13px}
+.tc-head{font:700 8px monospace;letter-spacing:3px;color:rgba(150,122,240,.72);text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.tc-head::before{content:'+';color:rgba(140,110,220,.45)}
+.tc-text{font:400 10px/2 monospace;color:rgba(148,128,195,.68)}
+
+.tg-title{font:700 8px monospace;letter-spacing:2px;color:rgba(100,82,155,.5);text-transform:uppercase;margin:8px 0 4px}
+.tg-item{font:400 10px monospace;color:rgba(162,144,220,.72);padding:3px 0;display:flex;align-items:center;gap:6px}
+.tg-item::before{content:'›';color:rgba(140,110,220,.45)}
+
+.flow-chain{display:flex;flex-direction:column;gap:5px}
+.flow-step{display:flex;align-items:center;gap:9px}
+.flow-icon{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(100,75,200,.4);background:rgba(14,7,32,.85);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.flow-step-t{font:700 9px monospace;color:rgba(182,162,238,.8)}
+.flow-step-s{font:400 8px monospace;color:rgba(108,88,162,.5);margin-top:1px}
+.flow-arr{padding-left:15px;color:rgba(100,75,180,.4);font-size:9px}
+
+/* Tab 2 - Technology detailed */
+.tab-pane.tab-tech{grid-template-columns:1fr 1fr 1fr}
+
+/* Tab 3 - System flow wide */
+.tab-pane.tab-flow{grid-template-columns:1fr}
+.flow-h-wrap{padding:12px 0}
+.flow-h{display:flex;align-items:center;gap:0;flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
+.fh-node{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;width:110px}
+.fh-icon{width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(100,75,200,.45);background:rgba(14,7,32,.85);display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .25s}
+.fh-icon:hover{border-color:rgba(160,120,255,.7);box-shadow:0 0 14px rgba(120,80,255,.2)}
+.fh-title{font:700 8px monospace;color:rgba(175,155,228,.7);text-align:center;letter-spacing:.5px}
+.fh-sub{font:400 7px monospace;color:rgba(100,82,150,.5);text-align:center}
+.fh-arr{font-size:14px;color:rgba(100,75,180,.4);flex-shrink:0;padding-bottom:14px;padding:0 4px 14px}
+
+/* Tab 4 - Open source */
+.tab-pane.tab-open{grid-template-columns:1fr 1fr}
+.repo-card{background:rgba(8,4,22,.5);border:1px solid rgba(70,55,140,.22);border-radius:7px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.repo-icon-row{display:flex;align-items:center;gap:8px}
+.repo-icon{font-size:18px}
+.repo-name{font:700 11px monospace;color:rgba(195,175,245,.82);letter-spacing:1px}
+.repo-desc{font:400 9px/1.7 monospace;color:rgba(135,115,182,.58)}
+.repo-tags{display:flex;flex-wrap:wrap;gap:5px}
+.repo-tag{font:400 7px monospace;padding:2px 7px;border:1px solid rgba(80,60,150,.3);border-radius:2px;color:rgba(125,105,180,.6);background:rgba(14,7,32,.6)}
+.repo-link{font:600 9px monospace;color:rgba(140,105,255,.7);letter-spacing:1px;display:flex;align-items:center;gap:5px;transition:color .2s}
+.repo-link:hover{color:rgba(180,155,255,.95)}
+
+/* ── Footer nav ── */
+.footer-nav{flex-shrink:0;padding:12px 28px;border-top:1px solid rgba(70,50,140,.2);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.6)}
+.fn-btn{display:flex;align-items:center;gap:8px;font:400 9px monospace;letter-spacing:3px;color:rgba(110,90,165,.55);text-transform:uppercase;transition:all .22s;padding:5px 9px;border:1px solid transparent;border-radius:4px}
+.fn-btn:hover{color:rgba(200,185,255,.9);border-color:rgba(100,70,200,.3);background:rgba(28,14,58,.4)}
+.fn-center{font:400 8px monospace;letter-spacing:4px;color:rgba(100,82,150,.42);display:flex;align-items:center;gap:8px}
+.fn-gem{font-size:14px;color:rgba(150,110,255,.55);animation:gemglow 3s ease-in-out infinite}
+.fn-gem:nth-child(3){animation-delay:-1.5s}
+</style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="stars"></div>
+
+<div id="shell">
+
+  <!-- ── Sidebar ── -->
+  <aside id="sidebar">
+    <div class="sb-head">
+      <div class="sb-cat">🐱</div>
+      <div class="sb-info">
+        <div class="sb-title">WUYAN'S ARCHIVE</div>
+        <div class="sb-sub">探索記憶・創造未來</div>
+        <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
+      </div>
+    </div>
+    <nav id="nav"></nav>
+    <div class="sb-music">
+      <div class="sb-mus-label">NOW PLAYING</div>
+      <div class="sb-mus-title">Book of Whispers</div>
+      <div class="sb-mus-artist">by Wuyan</div>
+      <div class="sb-mus-wave">
+        <span style="--spd:.5s;--dl:0s;--h:14px"></span>
+        <span style="--spd:.7s;--dl:.1s;--h:10px"></span>
+        <span style="--spd:.4s;--dl:.2s;--h:16px"></span>
+        <span style="--spd:.6s;--dl:.05s;--h:8px"></span>
+        <span style="--spd:.5s;--dl:.15s;--h:13px"></span>
+        <span style="--spd:.8s;--dl:.3s;--h:11px"></span>
+        <span style="--spd:.4s;--dl:.1s;--h:15px"></span>
+        <span style="--spd:.6s;--dl:.25s;--h:9px"></span>
+        <span style="--spd:.5s;--dl:.05s;--h:12px"></span>
+      </div>
+      <div class="sb-mus-ctrl">
+        <div class="sb-btn">⏮</div>
+        <div class="sb-btn play">⏸</div>
+        <div class="sb-btn">⏭</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main id="main">
+
+    <!-- Topbar -->
+    <div id="topbar">
+      <div class="tb-bc">
+        <span>🏠</span>
+        <a href="#">ARCHIVE</a>
+        <span class="sep">›</span>
+        <span class="cur">PROJECT DETAIL</span>
+      </div>
+      <div class="tb-gem">💎</div>
+      <div class="tb-right">
+        MEMORY CORE : <span class="stable">STABLE</span>
+        <div class="tb-icons"><span>◇</span><span>⚙</span><span>🐱</span></div>
+      </div>
+    </div>
+
+    <!-- Project Header -->
+    <div class="proj-head">
+      <div class="proj-sparkle-row">
+        <span class="sp">✦</span>
+        <span class="sp">✧</span>
+        <span class="sp">✦</span>
+        <span class="sp">✧</span>
+        <span class="sp">✦</span>
+      </div>
+      <div class="proj-title">緣界串接・魔法書房</div>
+      <div class="proj-sub-wrap">
+        <div class="proj-sub-line"></div>
+        <span class="proj-sub">Donation System &amp; Interactive Experience</span>
+        <div class="proj-sub-line r"></div>
+      </div>
+      <div class="proj-tags">
+        <span class="ptag">互動體驗</span>
+        <span class="ptag">金流串接</span>
+        <span class="ptag">點數系統</span>
+        <span class="ptag">魔法世界觀</span>
+      </div>
+    </div>
+
+    <!-- Scene -->
+    <div class="scene-wrap">
+      <!-- Base background with transparent edges (blends into dark bg) -->
+      <img class="scene-bg" src="assets/DonationPagePic/BGtransparentedges.webp" alt="魔法書房">
+      <!-- Full-canvas split layers -->
+      <img class="scene-layer" src="assets/DonationPagePic/paper.webp" alt="">
+      <img class="scene-layer" src="assets/DonationPagePic/pen.webp" alt="">
+      <!-- Form card positioned in scene -->
+      <img class="scene-form-card" src="assets/DonationPagePic/form.webp" alt="贊助魔法書房表單">
+
+      <!-- Hotspot markers -->
+      <div class="hotspot" style="left:19%;top:54%">
+        <div class="hs-pin">01</div>
+        <div class="hs-label">
+          <span class="hs-num">INTERACT</span>
+          <span class="hs-text">點擊書本</span>
+          <span class="hs-sub">獲得祝福紙條</span>
+        </div>
+      </div>
+      <div class="hotspot" style="left:37%;top:67%">
+        <div class="hs-pin">02</div>
+        <div class="hs-label">
+          <span class="hs-num">INTERACT</span>
+          <span class="hs-text">提燈投遞</span>
+          <span class="hs-sub">投遞過濾與祝福</span>
+        </div>
+      </div>
+      <div class="hotspot" style="left:57%;top:58%">
+        <div class="hs-pin">03</div>
+        <div class="hs-label">
+          <span class="hs-num">INTERACT</span>
+          <span class="hs-text">羽毛筆</span>
+          <span class="hs-sub">魔法效果表單</span>
+        </div>
+      </div>
+
+      <!-- Right Info Panel -->
+      <div class="scene-panel">
+        <div>
+          <div class="sp-title">PROJECT OVERVIEW</div>
+          <div class="sp-desc">在魔法書房中捐獻支持，將你的心意化為魔法能量。透過綠界串接的安全金流，累積點數解鎖更多祝福與故事，打造一個充滿溫度與互動的捐獻體驗。</div>
+        </div>
+        <div class="sp-icons">
+          <div class="sp-ibox"><div class="icon">💳</div><div class="lbl">綠界 ECPay<br>串接</div></div>
+          <div class="sp-ibox"><div class="icon">🔐</div><div class="lbl">Google 登入<br>/ OAuth</div></div>
+          <div class="sp-ibox"><div class="icon">⭐</div><div class="lbl">點數累積<br>與兌換</div></div>
+          <div class="sp-ibox"><div class="icon">📜</div><div class="lbl">即時互動<br>表單</div></div>
+          <div class="sp-ibox"><div class="icon">🪄</div><div class="lbl">魔法互動<br>場景</div></div>
+        </div>
+        <div class="sp-cta">
+          <div class="sp-cta-t">
+            <div class="l1">✦ 進入完整體驗</div>
+            <div class="l2">前往魔法書房網站 →</div>
+          </div>
+          <div class="sp-cta-arr">↗</div>
+        </div>
+        <div class="sp-divider"></div>
+        <div>
+          <div class="sp-title">LINKS &amp; SOURCE CODE</div>
+          <div class="sp-link">
+            <div class="sp-li">🌐</div>
+            <div class="sp-lc">
+              <span class="sp-ln">Website</span>
+              <span class="sp-lu">magic-bookroom.wuyan.tw</span>
+            </div>
+            <span class="sp-lx">↗</span>
+          </div>
+          <div class="sp-link">
+            <div class="sp-li">⌥</div>
+            <div class="sp-lc">
+              <span class="sp-ln">Frontend (GitHub)</span>
+              <span class="sp-lu">github.com/Wuyan/Bookroom-Frontend</span>
+            </div>
+            <span class="sp-lx">↗</span>
+          </div>
+          <div class="sp-link">
+            <div class="sp-li">⌥</div>
+            <div class="sp-lc">
+              <span class="sp-ln">Backend (GitHub)</span>
+              <span class="sp-lu">github.com/Wuyan/Bookroom-Backend</span>
+            </div>
+            <span class="sp-lx">↗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo bar -->
+    <div class="demo-bar">
+      <div class="demo-dot"></div>
+      <div class="demo-label">互動 DEMO 體驗區</div>
+      <div class="demo-hint">點擊場景中的物品，體驗魔法互動效果</div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-section">
+      <div class="tab-nav">
+        <div class="tab-btn active" data-tab="inspiration">
+          創作發想<span class="tab-zh">INSPIRATION</span>
+        </div>
+        <div class="tab-btn" data-tab="technology">
+          技術應用<span class="tab-zh">TECHNOLOGY</span>
+        </div>
+        <div class="tab-btn" data-tab="flow">
+          系統流程<span class="tab-zh">SYSTEM FLOW</span>
+        </div>
+        <div class="tab-btn" data-tab="source">
+          開源程式碼<span class="tab-zh">OPEN SOURCE</span>
+        </div>
+      </div>
+
+      <!-- Tab 1: Inspiration -->
+      <div class="tab-pane active" id="tab-inspiration">
+        <div class="tc-block">
+          <div class="tc-head">INSPIRATION</div>
+          <div class="tc-text">我希望捐款不只是冰冷的金融交易，而是一場「放送祝福」的行為，每一份支持，都能在魔法書房中留下痕跡，累積成改變世界的力量。<br><br>用奇幻世界觀包裝現實的支付串接，讓使用者在完成交易的同時，感受到儀式感與溫度。</div>
+        </div>
+        <div class="tc-block">
+          <div class="tc-head">TECH STACK</div>
+          <div class="tg-title">Frontend</div>
+          <div class="tg-item">Next.js 14</div>
+          <div class="tg-item">TypeScript</div>
+          <div class="tg-item">Tailwind CSS</div>
+          <div class="tg-item">Framer Motion</div>
+          <div class="tg-title">Backend</div>
+          <div class="tg-item">Node.js</div>
+          <div class="tg-item">Express</div>
+          <div class="tg-item">MongoDB</div>
+          <div class="tg-title">Service</div>
+          <div class="tg-item">ECPay 綠界金流</div>
+          <div class="tg-item">Google OAuth</div>
+          <div class="tg-item">JWT / Session</div>
+        </div>
+        <div class="tc-block">
+          <div class="tc-head">SYSTEM FLOW</div>
+          <div class="flow-chain">
+            <div class="flow-step">
+              <div class="flow-icon">G</div>
+              <div><div class="flow-step-t">使用者登入</div><div class="flow-step-s">Google 登入</div></div>
+            </div>
+            <div class="flow-arr">↓</div>
+            <div class="flow-step">
+              <div class="flow-icon">📝</div>
+              <div><div class="flow-step-t">填寫贊助表單</div><div class="flow-step-s">選金額與祝詞</div></div>
+            </div>
+            <div class="flow-arr">↓</div>
+            <div class="flow-step">
+              <div class="flow-icon">💳</div>
+              <div><div class="flow-step-t">綠界金流處理</div><div class="flow-step-s">安全交易</div></div>
+            </div>
+            <div class="flow-arr">↓</div>
+            <div class="flow-step">
+              <div class="flow-icon">⭐</div>
+              <div><div class="flow-step-t">累積點數</div><div class="flow-step-s">寫入資料庫</div></div>
+            </div>
+            <div class="flow-arr">↓</div>
+            <div class="flow-step">
+              <div class="flow-icon">🎁</div>
+              <div><div class="flow-step-t">解鎖祝福</div><div class="flow-step-s">兌換 / 成就</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Technology -->
+      <div class="tab-pane tab-tech" id="tab-technology">
+        <div class="tc-block">
+          <div class="tc-head">FRONTEND</div>
+          <div class="tc-text" style="margin-bottom:8px">以 Next.js 14 App Router 為基礎，搭配 TypeScript 確保型別安全。</div>
+          <div class="tg-item">Next.js 14 App Router</div>
+          <div class="tg-item">TypeScript 嚴格模式</div>
+          <div class="tg-item">Tailwind CSS 樣式系統</div>
+          <div class="tg-item">Framer Motion 動畫</div>
+          <div class="tg-item">React Hook Form</div>
+          <div class="tg-item">Zustand 狀態管理</div>
+        </div>
+        <div class="tc-block">
+          <div class="tc-head">BACKEND</div>
+          <div class="tc-text" style="margin-bottom:8px">RESTful API 架構，JWT 做身份驗證，MongoDB 儲存點數與祝詞記錄。</div>
+          <div class="tg-item">Node.js + Express</div>
+          <div class="tg-item">MongoDB + Mongoose</div>
+          <div class="tg-item">JWT / Session 認證</div>
+          <div class="tg-item">Google OAuth 2.0</div>
+          <div class="tg-item">ECPay 金流 SDK</div>
+          <div class="tg-item">Webhook 回調處理</div>
+        </div>
+        <div class="tc-block">
+          <div class="tc-head">DEPLOYMENT</div>
+          <div class="tc-text" style="margin-bottom:8px">前後端分離部署，CI/CD 自動化流程。</div>
+          <div class="tg-item">Vercel（前端）</div>
+          <div class="tg-item">Railway（後端）</div>
+          <div class="tg-item">MongoDB Atlas</div>
+          <div class="tg-item">GitHub Actions CI/CD</div>
+          <div class="tg-item">環境變數加密管理</div>
+        </div>
+      </div>
+
+      <!-- Tab 3: System Flow -->
+      <div class="tab-pane tab-flow" id="tab-flow">
+        <div class="tc-block">
+          <div class="tc-head">COMPLETE SYSTEM FLOW</div>
+          <div class="flow-h-wrap">
+            <div class="flow-h">
+              <div class="fh-node">
+                <div class="fh-icon">G</div>
+                <div class="fh-title">使用者登入</div>
+                <div class="fh-sub">Google 登入</div>
+              </div>
+              <span class="fh-arr">→</span>
+              <div class="fh-node">
+                <div class="fh-icon">📝</div>
+                <div class="fh-title">填寫贊助表單</div>
+                <div class="fh-sub">選金額與祝詞</div>
+              </div>
+              <span class="fh-arr">→</span>
+              <div class="fh-node">
+                <div class="fh-icon">💳</div>
+                <div class="fh-title">綠界金流處理</div>
+                <div class="fh-sub">安全交易</div>
+              </div>
+              <span class="fh-arr">→</span>
+              <div class="fh-node">
+                <div class="fh-icon">🔔</div>
+                <div class="fh-title">Webhook 回調</div>
+                <div class="fh-sub">後端接收通知</div>
+              </div>
+              <span class="fh-arr">→</span>
+              <div class="fh-node">
+                <div class="fh-icon">⭐</div>
+                <div class="fh-title">累積點數</div>
+                <div class="fh-sub">寫入資料庫</div>
+              </div>
+              <span class="fh-arr">→</span>
+              <div class="fh-node">
+                <div class="fh-icon">🎁</div>
+                <div class="fh-title">解鎖祝福</div>
+                <div class="fh-sub">兌換 / 成就</div>
+              </div>
+            </div>
+          </div>
+          <div class="tc-text" style="margin-top:6px">使用者透過 Google OAuth 登入後，填寫贊助金額與祝詞，前端送出至後端產生綠界交易訂單。完成付款後，ECPay 透過 Webhook 通知後端，後端驗證交易合法性並將點數寫入資料庫，使用者可在書房中兌換祝福或解鎖成就。</div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Open Source -->
+      <div class="tab-pane tab-open" id="tab-source">
+        <div class="repo-card">
+          <div class="repo-icon-row">
+            <span class="repo-icon">⚡</span>
+            <span class="repo-name">Bookroom-Frontend</span>
+          </div>
+          <div class="repo-desc">Next.js 14 前端應用，包含魔法書房互動場景、贊助表單、點數系統 UI 與動畫效果。</div>
+          <div class="repo-tags">
+            <span class="repo-tag">Next.js</span>
+            <span class="repo-tag">TypeScript</span>
+            <span class="repo-tag">Tailwind</span>
+            <span class="repo-tag">Framer Motion</span>
+          </div>
+          <div class="repo-link">⌥ github.com/Wuyan/Bookroom-Frontend ↗</div>
+        </div>
+        <div class="repo-card">
+          <div class="repo-icon-row">
+            <span class="repo-icon">🔧</span>
+            <span class="repo-name">Bookroom-Backend</span>
+          </div>
+          <div class="repo-desc">Node.js + Express 後端 API，處理 Google OAuth、ECPay 金流串接、點數邏輯與資料庫操作。</div>
+          <div class="repo-tags">
+            <span class="repo-tag">Node.js</span>
+            <span class="repo-tag">Express</span>
+            <span class="repo-tag">MongoDB</span>
+            <span class="repo-tag">ECPay SDK</span>
+          </div>
+          <div class="repo-link">⌥ github.com/Wuyan/Bookroom-Backend ↗</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer nav -->
+    <div class="footer-nav">
+      <div class="fn-btn"><span>←</span> PREV PROJECT</div>
+      <div class="fn-center">
+        <span>✦</span>
+        <span class="fn-gem">♦</span>
+        <span>探索更多魔法與故事</span>
+        <span class="fn-gem">♦</span>
+        <span>✦</span>
+      </div>
+      <div class="fn-btn">NEXT PROJECT <span>→</span></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Cursor
+const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+document.addEventListener('mousemove',e=>{
+  dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
+  ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
+});
+document.querySelectorAll('.ni,.tab-btn,.fn-btn,.sp-cta,.sp-link,.hotspot,.sp-ibox,.ptag,.repo-link,.fh-icon').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+
+// Stars
+(function(){
+  const bg=document.getElementById('stars');
+  for(let i=0;i<75;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*1.8+0.4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--a:${0.12+Math.random()*.65};--d:${2+Math.random()*5}s;--dl:${-Math.random()*5}s`;
+    bg.appendChild(s);
+  }
+})();
+
+// Nav
+const NAVS=[
+  {en:'HOME',zh:'首頁'},
+  {en:'PROFILE',zh:'個人檔案'},
+  {en:'ARCHIVE',zh:'作品總覽'},
+  {en:'project',zh:'作品詳情',act:true},
+  {en:'COMMISSION',zh:'委託'},
+  {en:'SIGNAL',zh:'留言板'},
+  {en:'LAB',zh:'實驗室'},
+  {en:'OTHERS',zh:'其他'},
+];
+const navEl=document.getElementById('nav');
+NAVS.forEach(n=>{
+  const d=document.createElement('div');
+  d.className='ni'+(n.act?' act':'');
+  d.innerHTML=`<div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div>`;
+  d.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  d.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+  navEl.appendChild(d);
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    const pane=document.getElementById('tab-'+btn.dataset.tab);
+    if(pane)pane.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
