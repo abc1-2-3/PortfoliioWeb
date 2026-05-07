@@ -1,0 +1,158 @@
+# WUYAN's Archive — 專案規格文件
+
+## 專案概述
+
+Wuyan 的個人作品集網站。**Wuyan 不寫前端程式碼，所有 HTML/CSS/JS 由 Claude 負責撰寫與維護。** 角色分工：Wuyan 提供設計方向、素材、文案；Claude 實作。
+
+目前架構：純靜態 HTML，無 build system，無框架。每個頁面是一個獨立的 `.html` 單檔。
+
+---
+
+## 頁面清單
+
+| 檔案 | 用途 | 狀態 |
+|---|---|---|
+| `homepage_final.html` | 首頁（房間場景、角色動畫） | 存在，未大改 |
+| `works_v3.html` | 作品導覽頁（三個 Portal 入口） | 已更新配色 + sidebar |
+| `project_bookroom.html` | 作品詳情：緣界串接・魔法書房 | 已完成 |
+
+---
+
+## 設計系統
+
+### 色彩
+
+背景底色：`#04020e`（極深紫黑）
+
+**三色點綴系統（粉 × 藍 × 金）：**
+- 粉：`rgba(240,165,205,X)` 主 / `rgba(215,120,170,X)` 暗
+- 藍：`rgba(165,215,255,X)` 主 / `rgba(120,190,240,X)` 暗
+- 金：`#d4a84e` 主 / `#e8c880` 亮 / `#c09030` 暗（標題用）
+- 紫（原底色保留，降權）：`rgba(180,140,255,X)`
+
+文字可讀性基準：主文 opacity ≥ `.80`，次要文字 ≥ `.55`，標籤 ≥ `.42`
+
+**星星顏色（JS 生成）：**
+```js
+const colors = ['#ffffff', 'rgba(255,185,215,1)', 'rgba(165,215,255,1)', 'rgba(255,220,140,1)'];
+```
+
+### 字體
+
+- 內文、UI 標籤：`'Courier New', monospace`
+- 大標題（中文）：`'Noto Serif TC', Georgia, serif` weight 200，金色漸層
+  - Google Fonts：`https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap`
+- 金色標題漸層：`linear-gradient(135deg, #f5e8c2 0%, #e8c87a 18%, #d4a84e 38%, #c09030 52%, #d4a84e 66%, #e8c87a 82%, #f5e8c2 100%)`
+
+### 游標
+
+```css
+#cursor-dot { background:#fff; box-shadow:0 0 8px rgba(255,180,220,.9) }
+#cursor-ring { border:1px solid rgba(240,160,200,.4) }
+body.hov #cursor-ring { border-color:rgba(240,160,205,.75); box-shadow:0 0 12px rgba(220,120,175,.22) }
+```
+
+---
+
+## Sidebar 規格（兩頁統一）
+
+**行為：** 平時收縮至 16px 寬，靠近左邊展開，離開收回。
+
+```css
+#sidebar {
+  position: fixed; left:0; top:0; bottom:0; width:220px;
+  background: rgba(4,2,16,.97);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(180,100,145,.22);
+  z-index: 50;
+  transform: translateX(calc(-100% + 16px));
+  transition: transform .38s cubic-bezier(.25,.46,.45,.94), box-shadow .38s;
+}
+#sidebar:hover {
+  transform: translateX(0);
+  box-shadow: 4px 0 44px rgba(0,0,0,.75);
+}
+/* 收縮時的粉→藍光條提示 */
+#sidebar::before {
+  content:''; position:absolute; right:0; top:22%; bottom:22%; width:2px;
+  background: linear-gradient(to bottom, transparent, rgba(240,165,205,.72) 40%, rgba(165,215,255,.58) 60%, transparent);
+  transition: opacity .25s;
+}
+#sidebar:hover::before { opacity:0 }
+/* 軌跡線（展開後可見）*/
+#sidebar::after {
+  content:''; position:absolute; left:36px; top:85px; bottom:130px; width:1.5px;
+  background: linear-gradient(to bottom, transparent, rgba(215,120,170,.5) 20%, rgba(240,165,205,.85) 50%, rgba(215,120,170,.5) 80%, transparent);
+}
+```
+
+`#shell` grid：`grid-template-columns: 1fr`（sidebar 不佔格）
+主要內容 `grid-column: 1`
+
+---
+
+## Scene 互動區規格
+
+```css
+.scene-wrap {
+  aspect-ratio: 2/1;
+  min-height: 200px;
+  max-height: clamp(260px, 44vh, 480px);
+  overflow: hidden;
+}
+```
+圖片用 `object-fit: cover; object-position: center top`
+
+---
+
+## Assets 清單
+
+```
+assets/
+├── DonationPagePic/          ← project_bookroom 用
+│   ├── BGtransparentedges.webp
+│   ├── BG.webp
+│   ├── form.webp
+│   ├── paper.webp
+│   └── pen.webp
+├── fullBGwebp/               ← homepage 用（房間場景分層）
+│   ├── bg_room_dark_webp.webp
+│   ├── bg_room_webp.webp
+│   ├── chair_webp.webp
+│   ├── character_wakeup_webp.webp
+│   ├── character_webp.webp
+│   ├── lamp_webp.webp
+│   ├── light_webp.webp
+│   ├── middlescreen_webp.webp
+│   ├── screen_side_L1/L2_webp.webp
+│   └── screen_side_R1/R2_webp.webp
+└── gif/
+    ├── bg_room_web.gif
+    └── character_breathing_web.gif
+```
+
+新頁面素材建議放 `assets/[頁面名稱]/`
+
+---
+
+## 引入 Claude Design 生成頁面的流程
+
+Claude Design 可能輸出 HTML / JSX / CSS / JS。
+
+- **目前專案（純 HTML）**：只能直接用 HTML 版本；JSX 需要我轉換為 vanilla JS
+- 做法：整包原封不動丟進 `design-drafts/[頁面名稱]/`，告訴我哪一頁要整合，我負責轉換並套入現有設計語言（sidebar、配色、字體等）
+- 如果未來頁面增多、元件重複率高，考慮升級至 Vite + React，屆時 JSX 可直接使用
+
+---
+
+## 新增頁面 Checklist
+
+新 project detail 頁面需包含：
+- [ ] Google Fonts link（Noto Serif TC）
+- [ ] 統一游標 CSS + JS
+- [ ] 彩色星星 JS（4色混合）
+- [ ] Sidebar（fixed，收縮行為）
+- [ ] `#shell` grid 為 `1fr`
+- [ ] Topbar（sticky，粉色點綴邊框）
+- [ ] 標題用 Noto Serif TC 200 + 金色漸層
+- [ ] Scene wrap 用 aspect-ratio
