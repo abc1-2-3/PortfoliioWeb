@@ -40,9 +40,9 @@ const colors = ['#ffffff', 'rgba(255,185,215,1)', 'rgba(165,215,255,1)', 'rgba(2
 ### 字體
 
 - 內文、UI 標籤：`'Courier New', monospace`
-- 大標題（中文）：`'Noto Serif TC', Georgia, serif` weight 200，金色漸層
+- 大標題（中文）：`'Noto Serif TC', Georgia, serif` weight 200，漸層色依頁面主題決定
   - Google Fonts：`https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap`
-- 金色標題漸層：`linear-gradient(135deg, #f5e8c2 0%, #e8c87a 18%, #d4a84e 38%, #c09030 52%, #d4a84e 66%, #e8c87a 82%, #f5e8c2 100%)`
+- 金色標題漸層（bookroom 用，因頁面有暖黃元素）：`linear-gradient(135deg, #f5e8c2 0%, #e8c87a 18%, #d4a84e 38%, #c09030 52%, #d4a84e 66%, #e8c87a 82%, #f5e8c2 100%)`
 
 ### 游標
 
