@@ -9,12 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;background:#04020e;color:#cec8f0;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
+html,body{width:100%;height:100%;color:#cec8f0;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
+body{background:#04020e url('assets/project_archive/background.webp') center/cover no-repeat fixed}
+body::before{content:'';position:fixed;inset:0;background:rgba(4,2,14,.82);z-index:0;pointer-events:none}
 *{cursor:none!important}
 
-#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(180,210,255,.9)}
-#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(140,195,255,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
-body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(160,210,255,.75);box-shadow:0 0 12px rgba(100,175,240,.22)}
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
 
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 .star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
@@ -23,189 +25,310 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(160,210,255,.75);
 #shell{display:grid;grid-template-columns:1fr;height:100vh;position:relative;z-index:1}
 
 /* ── Sidebar ── */
-#sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;display:flex;flex-direction:column;border-right:1px solid rgba(100,155,210,.22);height:100vh;overflow:hidden;z-index:50;background:rgba(2,4,18,.97);backdrop-filter:blur(20px);transform:translateX(calc(-100% + 16px));transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s}
-#sidebar:hover{transform:translateX(0);box-shadow:4px 0 44px rgba(0,0,0,.75)}
-#sidebar::before{content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;background:linear-gradient(to bottom,transparent,rgba(165,215,255,.72) 40%,rgba(200,175,255,.58) 60%,transparent);border-radius:1px;transition:opacity .25s;pointer-events:none;z-index:2}
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;display:flex;flex-direction:column;border-right:1px solid rgba(167,139,250,.22);height:100vh;overflow:hidden;z-index:50;background:rgba(7,5,15,.97);backdrop-filter:blur(20px);transform:translateX(calc(-100% + 16px));transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s}
+#sidebar:hover{transform:translateX(0);box-shadow:4px 0 44px rgba(0,0,0,.75),0 0 0 1px rgba(167,139,250,.1)}
+#sidebar::before{content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.72) 40%,rgba(165,215,255,.58) 60%,transparent);border-radius:1px;transition:opacity .25s;pointer-events:none;z-index:2}
 #sidebar:hover::before{opacity:0}
-#sidebar::after{content:'';position:absolute;left:36px;top:85px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(100,165,240,.5) 20%,rgba(165,215,255,.85) 50%,rgba(100,165,240,.5) 80%,transparent);border-radius:2px}
-
-.sb-head{padding:16px 14px 12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(100,155,210,.15);flex-shrink:0}
-.sb-cat{width:34px;height:34px;border:1px solid rgba(120,175,240,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(5,10,30,.6);flex-shrink:0}
+#sidebar::after{content:'';position:absolute;left:36px;top:80px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);box-shadow:0 0 6px rgba(167,139,250,.28)}
+.sb-head{padding:16px 14px 12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(167,139,250,.15);flex-shrink:0}
+.sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(5,10,30,.6);flex-shrink:0}
+.sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
 .sb-info{flex:1;min-width:0}
-.sb-title{font:700 10px monospace;letter-spacing:2px;color:rgba(185,215,255,.88);text-transform:uppercase}
-.sb-sub{font:400 8px monospace;color:rgba(120,155,200,.52);letter-spacing:1px;margin-top:2px}
+.sb-title{font:700 10px monospace;letter-spacing:2px;color:rgba(196,181,253,.88);text-transform:uppercase}
+.sb-sub{font:400 8px monospace;color:rgba(167,139,250,.52);letter-spacing:1px;margin-top:2px}
 .sb-pulse{display:flex;align-items:center;gap:5px;margin-top:4px}
 .sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:sbpulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
 @keyframes sbpulse{0%,100%{opacity:.6}50%{opacity:1}}
 .sb-online{font:400 8px monospace;letter-spacing:2px;color:rgba(80,255,120,.58)}
 nav{flex:1;padding:8px 0;overflow-y:auto}
-.ni{display:flex;flex-direction:column;padding:9px 14px 9px 58px;position:relative;transition:all .22s;margin-bottom:1px}
-.ni::before{content:'○';position:absolute;left:29px;top:50%;transform:translate(-50%,-50%);font-size:6px;color:rgba(120,165,215,.45);transition:all .22s}
-.ni:hover::before,.ni.act::before{content:'◆';color:rgba(165,220,255,.95);font-size:7px;text-shadow:0 0 5px rgba(120,190,255,.82)}
-.ni:hover,.ni.act{background:rgba(30,60,120,.18)}
-.ni.act{border-right:2px solid rgba(140,200,255,.68)}
-.ni-en{font:700 10px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(130,165,210,.55);transition:color .22s}
-.ni-zh{font:400 8px monospace;color:rgba(95,125,175,.42);letter-spacing:1px;margin-top:2px;transition:color .22s}
-.ni:hover .ni-en,.ni.act .ni-en{color:rgba(210,235,255,.94)}
-.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(160,195,240,.68)}
-.sb-music{padding:10px 14px;border-top:1px solid rgba(100,155,210,.22);background:rgba(4,8,24,.62);flex-shrink:0}
-.sb-mus-label{font:400 7px monospace;letter-spacing:3px;color:rgba(120,165,210,.55);text-transform:uppercase;margin-bottom:5px}
-.sb-mus-title{font:600 9px monospace;color:rgba(195,225,255,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sb-mus-artist{font:400 8px monospace;color:rgba(138,172,215,.58);margin-top:1px;margin-bottom:6px}
+.ni{display:flex;flex-direction:column;padding:9px 14px 9px 62px;position:relative;transition:all .22s;margin-bottom:1px}
+.ni-icon{position:absolute;left:40px;top:50%;transform:translateY(-50%);width:18px;height:18px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.42;transition:opacity .22s;object-fit:contain}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
+.ni::before{content:'';position:absolute;left:28px;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;border:1px solid rgba(167,139,250,.35);background:transparent;transition:all .22s}
+.ni:hover::before,.ni.act::before{background:rgba(196,181,253,.85);border-color:rgba(196,181,253,.8);box-shadow:0 0 5px rgba(167,139,250,.6)}
+.ni:hover,.ni.act{background:rgba(40,25,80,.18)}
+.ni.act{border-right:2px solid rgba(167,139,250,.68)}
+.ni-en{font:700 10px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(167,139,250,.55);transition:color .22s}
+.ni-zh{font:400 8px monospace;color:rgba(139,92,246,.42);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(221,214,254,.94)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(196,181,253,.68)}
+.sb-music{padding:10px 14px;border-top:1px solid rgba(167,139,250,.22);background:rgba(4,2,14,.62);flex-shrink:0}
+.sb-mus-label{font:400 7px monospace;letter-spacing:3px;color:rgba(167,139,250,.55);text-transform:uppercase;margin-bottom:5px}
+.sb-mus-title{font:600 9px monospace;color:rgba(221,214,254,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-mus-artist{font:400 8px monospace;color:rgba(167,139,250,.58);margin-top:1px;margin-bottom:6px}
 .sb-mus-wave{display:flex;align-items:flex-end;gap:2px;height:16px;margin-bottom:7px}
-.sb-mus-wave span{width:3px;background:rgba(140,195,255,.48);border-radius:1px;animation:waveAnim var(--spd,.6s) ease-in-out infinite alternate var(--dl,0s)}
+.sb-mus-wave span{width:3px;background:rgba(167,139,250,.48);border-radius:1px;animation:waveAnim var(--spd,.6s) ease-in-out infinite alternate var(--dl,0s)}
 @keyframes waveAnim{from{height:3px}to{height:var(--h,12px)}}
 .sb-mus-ctrl{display:flex;gap:7px;align-items:center}
-.sb-btn{width:22px;height:22px;border-radius:50%;border:1px solid rgba(100,155,220,.38);background:rgba(5,10,30,.72);color:rgba(165,200,240,.72);display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .2s}
-.sb-btn:hover{border-color:rgba(160,215,255,.68);color:rgba(218,240,255,.96)}
-.sb-btn.play{width:28px;height:28px;font-size:11px;background:rgba(20,50,120,.52);border-color:rgba(120,185,255,.52)}
+.sb-btn{width:22px;height:22px;border-radius:50%;border:1px solid rgba(167,139,250,.38);background:rgba(5,10,30,.72);color:rgba(196,181,253,.72);display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .2s}
+.sb-btn:hover{border-color:rgba(221,214,254,.68);color:rgba(233,231,255,.96)}
+.sb-btn.play{width:28px;height:28px;font-size:11px;background:rgba(40,20,80,.52);border-color:rgba(167,139,250,.52)}
 
 /* ── Main ── */
 #main{grid-column:1;height:100vh;overflow-y:auto;overflow-x:hidden}
 #main::-webkit-scrollbar{width:3px}
-#main::-webkit-scrollbar-thumb{background:rgba(100,165,240,.35);border-radius:2px}
+#main::-webkit-scrollbar-thumb{background:rgba(240,165,205,.3);border-radius:2px}
 
 /* ── Topbar ── */
-#topbar{padding:11px 22px;border-bottom:1px solid rgba(80,135,210,.22);display:flex;align-items:center;justify-content:space-between;background:rgba(2,4,18,.82);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
-.tb-bc{display:flex;align-items:center;gap:6px;font:400 9px monospace;letter-spacing:1px;color:rgba(130,168,215,.58)}
-.tb-bc a{color:rgba(160,195,238,.68);text-decoration:none;transition:color .2s}
-.tb-bc a:hover{color:rgba(188,225,255,.92)}
-.tb-bc .sep{color:rgba(100,138,188,.45)}
-.tb-bc .cur{color:rgba(195,225,255,.88)}
-.tb-gem{font-size:22px;animation:gemglow 3s ease-in-out infinite}
-@keyframes gemglow{0%,100%{filter:drop-shadow(0 0 5px rgba(100,175,255,.38))}50%{filter:drop-shadow(0 0 14px rgba(130,200,255,.68))}}
-.tb-right{display:flex;align-items:center;gap:10px;font:400 8px monospace;letter-spacing:2px;color:rgba(120,158,208,.58)}
-.tb-right .stable{color:rgba(138,215,255,.75)}
-.tb-icons{display:flex;gap:8px;font-size:11px;color:rgba(148,185,228,.58)}
+#topbar{padding:11px 22px;border-bottom:1px solid rgba(240,165,205,.18);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+.tb-bc{display:flex;align-items:center;gap:6px;font:400 9px monospace;letter-spacing:1px;color:rgba(240,165,205,.52)}
+.tb-bc a{color:rgba(240,165,205,.65);text-decoration:none;transition:color .2s}
+.tb-bc a:hover{color:rgba(255,200,230,.92)}
+.tb-bc .sep{color:rgba(215,120,170,.38)}
+.tb-bc .cur{color:rgba(255,210,235,.88)}
+.tb-gem{animation:gemglow 3s ease-in-out infinite}
+.tb-gem img{width:20px;height:20px;filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg);opacity:.85}
+@keyframes gemglow{0%,100%{filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg) drop-shadow(0 0 5px rgba(240,165,205,.4))}50%{filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg) drop-shadow(0 0 14px rgba(240,165,205,.9))}}
+.tb-right{display:flex;align-items:center;gap:10px;font:400 8px monospace;letter-spacing:2px;color:rgba(240,165,205,.52)}
+.tb-right .stable{color:rgba(240,165,205,.78)}
+.tb-icons{display:flex;gap:8px;align-items:center}
+.tb-icon-img{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(285deg);opacity:.55}
 
 /* ── HERO ── */
 .hero{position:relative;height:88vh;min-height:520px;overflow:hidden;flex-shrink:0}
-.hero-bg,.hero-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
-.hero-layer{pointer-events:none}
-.hero-vignette{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(2,4,18,.0) 0%,rgba(2,4,18,.45) 55%,rgba(2,4,18,.98) 100%);z-index:1}
-.hero-content{position:absolute;bottom:0;left:0;right:0;z-index:5;padding:0 max(40px,calc((100% - 1280px)/2)) 48px}
-/* ── Scene frame (互動展示 section) ── */
-.scene-frame{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(80,138,210,.22);height:clamp(280px,34vw,480px);margin-bottom:28px}
-.sf-bg{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.hero-bg{position:absolute;inset:0;width:100%;height:110%;object-fit:cover;object-position:center top;will-change:transform;transform-origin:center top;z-index:0}
+#curtainCv{position:absolute;inset:0;width:100%;height:100%;z-index:2;display:block;pointer-events:none}
+.hero-vignette{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,2,14,.05) 0%,rgba(4,2,14,.22) 35%,rgba(4,2,14,.88) 82%,rgba(4,2,14,1) 100%);z-index:3;pointer-events:none}
+.hero-content{position:absolute;bottom:0;left:0;right:0;z-index:5;padding:0 max(40px,calc((100% - 1280px)/2)) 52px}
 
-.proj-sparkle-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.sp{font-size:11px;animation:spfade 2.5s ease-in-out infinite}
-.sp:nth-child(1){color:rgba(165,210,255,.72)}
-.sp:nth-child(2){animation-delay:-.8s;font-size:9px;color:rgba(200,185,255,.62)}
-.sp:nth-child(3){animation-delay:-1.6s;color:rgba(165,210,255,.68)}
-.sp:nth-child(4){animation-delay:-.4s;font-size:9px;color:rgba(255,215,165,.55)}
-.sp:nth-child(5){animation-delay:-1.2s;color:rgba(165,210,255,.68)}
+/* Hero title */
+.hero-title-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);z-index:4;text-align:center;pointer-events:none}
+.hero-big-title{font:200 clamp(28px,3.5vw,52px)/1.3 'Noto Serif TC','Georgia',serif;letter-spacing:12px;background:linear-gradient(135deg,#f8f0ff 0%,#d8c0f8 20%,#a890e8 40%,#c890d8 58%,#e8b0f0 78%,#f8f0ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 28px rgba(196,130,240,.38));opacity:0;animation:heroTitleIn 1.2s ease forwards .4s}
+@keyframes heroTitleIn{to{opacity:1}}
+.hero-big-sub{font:400 9px monospace;letter-spacing:8px;color:rgba(220,190,255,.52);text-transform:uppercase;margin-top:10px;opacity:0;animation:heroTitleIn .9s ease forwards 1.2s}
+
+.char-span{display:inline-block;opacity:0;transform:translateY(14px);animation:charReveal .5s ease forwards}
+@keyframes charReveal{to{opacity:1;transform:translateY(0)}}
+
+.proj-sparkle-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sp{font-size:12px;animation:spfade 2.5s ease-in-out infinite}
+.sp:nth-child(1){color:rgba(240,165,205,.75)}
+.sp:nth-child(2){animation-delay:-.8s;font-size:10px;color:rgba(196,181,253,.65)}
+.sp:nth-child(3){animation-delay:-1.6s;color:rgba(240,165,205,.72)}
+.sp:nth-child(4){animation-delay:-.4s;font-size:10px;color:rgba(165,215,255,.58)}
+.sp:nth-child(5){animation-delay:-1.2s;color:rgba(240,165,205,.70)}
 @keyframes spfade{0%,100%{opacity:.2;transform:scale(.82)}50%{opacity:1;transform:scale(1.12)}}
-.proj-title{font:200 clamp(24px,2.8vw,40px)/1.35 'Noto Serif TC','Georgia',serif;letter-spacing:10px;background:linear-gradient(135deg,#f0f4ff 0%,#c8d8f8 18%,#8ca8e8 38%,#a090e0 55%,#c8b8f8 75%,#f0eeff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(100,160,240,.28));margin-bottom:10px}
-.proj-sub-wrap{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.proj-sub-line{width:36px;height:1px;background:linear-gradient(to right,transparent,rgba(120,175,240,.48))}
-.proj-sub-line.r{background:linear-gradient(to left,transparent,rgba(120,175,240,.48))}
-.proj-sub{font:400 9px monospace;letter-spacing:5px;color:rgba(148,185,235,.58);text-transform:uppercase}
-.proj-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.ptag{font:400 9px monospace;letter-spacing:2px;padding:4px 12px;border:1px solid rgba(100,165,240,.32);border-radius:20px;color:rgba(200,225,255,.75);background:rgba(5,12,38,.52);backdrop-filter:blur(4px);transition:all .25s}
-.ptag:hover{border-color:rgba(155,205,255,.68);color:rgba(228,242,255,.96)}
-.hero-scroll-hint{display:flex;align-items:center;gap:10px;font:400 8px monospace;letter-spacing:4px;color:rgba(130,170,220,.42);text-transform:uppercase}
-.hint-line{display:block;width:1px;height:24px;background:linear-gradient(to bottom,transparent,rgba(140,195,255,.45))}
+
+.proj-title{font:200 clamp(26px,3vw,44px)/1.35 'Noto Serif TC','Georgia',serif;letter-spacing:10px;background:linear-gradient(135deg,#f0f4ff 0%,#c8d8f8 18%,#8ca8e8 38%,#a090e0 55%,#c8b8f8 75%,#f0eeff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(196,181,253,.32));margin-bottom:12px;min-height:1.4em}
+.proj-sub-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.proj-sub-line{width:36px;height:1px;background:linear-gradient(to right,transparent,rgba(240,165,205,.48))}
+.proj-sub-line.r{background:linear-gradient(to left,transparent,rgba(240,165,205,.48))}
+.proj-sub{font:400 10px monospace;letter-spacing:5px;color:rgba(240,165,205,.55);text-transform:uppercase}
+.proj-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.ptag{font:400 10px monospace;letter-spacing:2px;padding:5px 14px;border:1px solid rgba(240,165,205,.28);border-radius:20px;color:rgba(255,210,235,.80);background:rgba(38,5,18,.52);backdrop-filter:blur(4px);transition:all .25s;opacity:0;animation:tagLight .4s ease forwards}
+@keyframes tagLight{to{opacity:1}}
+.ptag:hover{border-color:rgba(240,165,205,.65);color:rgba(255,228,242,.96);box-shadow:0 0 10px rgba(240,120,175,.18)}
+.hero-scroll-hint{display:flex;align-items:center;gap:10px;font:400 9px monospace;letter-spacing:4px;color:rgba(240,165,205,.38);text-transform:uppercase}
+.hint-line{display:block;width:1px;height:24px;background:linear-gradient(to bottom,transparent,rgba(240,165,205,.42))}
 .hint-arrow{animation:bob 1.5s ease-in-out infinite alternate;display:inline-block}
 @keyframes bob{from{transform:translateY(0)}to{transform:translateY(4px)}}
 
-/* Hotspots (hero-positioned) */
-.hotspot{position:absolute;display:flex;align-items:center;gap:7px;transform:translate(-50%,-50%);z-index:4}
-.hs-pin{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(120,195,248,.78);background:rgba(3,6,26,.88);display:flex;align-items:center;justify-content:center;font:700 8px monospace;color:rgba(175,225,255,.96);position:relative;transition:all .28s;flex-shrink:0;box-shadow:0 0 10px rgba(80,160,240,.28)}
-.hs-pin::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(120,195,248,.28);animation:hspulse 2.2s ease-in-out infinite}
-@keyframes hspulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.9;transform:scale(1.18)}}
-.hs-label{background:rgba(2,4,20,.92);border:1px solid rgba(100,170,240,.36);border-radius:6px;padding:5px 9px;backdrop-filter:blur(10px)}
-.hs-num{display:block;font:700 7px monospace;letter-spacing:2px;color:rgba(130,200,255,.78);margin-bottom:1px}
-.hs-text{font:600 10px monospace;color:rgba(215,238,255,.96);display:block}
-.hs-sub{font:400 8px monospace;color:rgba(140,185,240,.62);display:block;margin-top:1px}
+/* ── Dividers ── */
+.sec-divider{text-align:center;padding:4px 0;line-height:0}
+.sec-divider img{height:22px;width:auto;max-width:60%;opacity:.42;filter:hue-rotate(310deg) brightness(.85) saturate(1.5)}
 
 /* ── Sections ── */
-.sec-divider{height:1px;background:linear-gradient(to right,transparent,rgba(80,138,230,.2) 25%,rgba(80,138,230,.2) 75%,transparent)}
-.sec{padding:52px max(40px,calc((100% - 1280px)/2))}
-.sec-label{font:700 8px monospace;letter-spacing:4px;color:rgba(130,195,255,.65);text-transform:uppercase;margin-bottom:32px;display:flex;align-items:center;gap:14px}
-.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(130,195,255,.2),transparent)}
-.sec-label .sec-zh{font:400 8px monospace;letter-spacing:2px;opacity:.7}
+.sec{padding:56px max(40px,calc((100% - 1280px)/2))}
+.sec-label{font:700 9px monospace;letter-spacing:4px;color:rgba(240,165,205,.68);text-transform:uppercase;margin-bottom:34px;display:flex;align-items:center;gap:14px}
+.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(240,165,205,.22),transparent)}
+.sec-label .sec-zh{font:400 9px monospace;letter-spacing:2px;opacity:.7}
 
-/* Column layouts */
 .l2{display:grid;grid-template-columns:1.3fr 1fr;gap:44px;align-items:start}
 .l3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .l4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 
-/* Blocks */
-.s-block{background:rgba(4,8,28,.55);border:1px solid rgba(80,138,210,.25);border-radius:10px;padding:20px}
-.s-head{font:700 8px monospace;letter-spacing:3px;color:rgba(165,212,252,.82);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:5px}
-.s-head::before{content:'+';color:rgba(120,178,248,.52)}
-.s-text{font:400 10px/2.1 monospace;color:rgba(185,212,245,.84)}
-.s-cat{font:700 8px monospace;letter-spacing:2px;color:rgba(125,168,218,.62);text-transform:uppercase;margin:10px 0 4px}
-.s-item{font:400 10px monospace;color:rgba(188,218,250,.82);padding:3px 0;display:flex;align-items:center;gap:6px}
-.s-item::before{content:'›';color:rgba(120,188,255,.55)}
+.s-block{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:22px;transition:border-color .25s,box-shadow .25s}
+.s-block:hover{border-color:rgba(196,181,253,.38);box-shadow:0 0 22px rgba(167,139,250,.08)}
+.s-head{font:700 9px monospace;letter-spacing:3px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:5px}
+.s-head::before{content:'+';color:rgba(196,181,253,.55)}
+.s-text{font:400 12px/2.1 monospace;color:rgba(200,220,248,.84)}
+.s-cat{font:700 8px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);text-transform:uppercase;margin:12px 0 5px}
+.s-item{font:400 11px monospace;color:rgba(205,225,252,.82);padding:3px 0;display:flex;align-items:center;gap:6px}
+.s-item::before{content:'›';color:rgba(196,181,253,.62)}
 
-/* Overview section */
-.overview-text{font:400 11px/2.1 monospace;color:rgba(185,212,245,.84);margin-bottom:20px}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.feat-box{background:rgba(5,10,30,.7);border:1px solid rgba(80,148,230,.28);border-radius:7px;padding:10px 8px;text-align:center;transition:all .2s}
-.feat-box:hover{border-color:rgba(140,205,255,.55);background:rgba(15,35,90,.7)}
-.feat-box .f-icon{font-size:18px;margin-bottom:5px}
-.feat-box .f-lbl{font:400 7px/1.45 monospace;color:rgba(162,198,240,.72)}
-.links-card{background:rgba(4,8,28,.55);border:1px solid rgba(80,138,210,.25);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:0}
-.cta-box{display:flex;align-items:center;justify-content:space-between;background:rgba(20,48,120,.42);border:1px solid rgba(120,188,255,.45);border-radius:7px;padding:11px 14px;transition:all .25s;margin-bottom:14px}
-.cta-box:hover{background:rgba(30,65,160,.52);border-color:rgba(168,218,255,.72);box-shadow:0 0 16px rgba(80,155,255,.18)}
-.cta-t1{font:700 10px monospace;color:rgba(215,238,255,.94);letter-spacing:1px;margin-bottom:3px}
-.cta-t2{font:400 8px monospace;color:rgba(148,185,228,.62)}
-.cta-arr{font-size:14px;color:rgba(165,215,255,.75)}
-.link-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(80,130,195,.18);transition:all .2s}
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+.stat-box{background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.2);border-radius:8px;padding:18px 12px;text-align:center;transition:all .28s}
+.stat-box:hover{border-color:rgba(240,165,205,.5);background:rgba(22,8,45,.7);box-shadow:0 0 20px rgba(167,139,250,.14);transform:translateY(-2px)}
+.stat-num{font:200 32px 'Noto Serif TC',serif;background:linear-gradient(135deg,#f5d0e8,#d090c0,#a070e0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1.1}
+.stat-lbl{font:400 8px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);text-transform:uppercase;margin-top:6px;display:block}
+
+/* Overview */
+.overview-text{font:400 12px/2.2 monospace;color:rgba(205,225,248,.86);margin-bottom:22px}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.feat-box{background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.22);border-radius:7px;padding:14px 10px;text-align:center;transition:all .22s}
+.feat-box:hover{border-color:rgba(240,165,205,.55);background:rgba(30,10,60,.7);transform:translateY(-2px);box-shadow:0 4px 18px rgba(167,139,250,.14)}
+.feat-box .f-icon-img{width:30px;height:30px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;margin-bottom:8px;transition:opacity .22s;display:block;margin-left:auto;margin-right:auto}
+.feat-box:hover .f-icon-img{opacity:1}
+.feat-box .f-lbl{font:400 8px/1.5 monospace;color:rgba(196,181,253,.72)}
+.links-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:0}
+.cta-box{display:flex;align-items:center;justify-content:space-between;background:rgba(40,10,70,.42);border:1px solid rgba(240,165,205,.38);border-radius:7px;padding:12px 16px;transition:all .25s;margin-bottom:16px}
+.cta-box:hover{background:rgba(60,15,100,.52);border-color:rgba(255,185,225,.65);box-shadow:0 0 18px rgba(220,120,180,.15)}
+.cta-t1{font:700 11px monospace;color:rgba(255,220,240,.94);letter-spacing:1px;margin-bottom:3px}
+.cta-t2{font:400 9px monospace;color:rgba(196,181,253,.65)}
+.cta-arr{font-size:14px;color:rgba(240,165,205,.78)}
+.link-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid rgba(167,139,250,.15);transition:all .2s}
 .link-row:last-child{border-bottom:none}
 .link-row:hover{padding-left:4px}
-.link-row:hover .link-name{color:rgba(215,240,255,.96)}
-.link-ic{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;border:1px solid rgba(90,148,220,.32);border-radius:3px;background:rgba(5,10,32,.72)}
-.link-name{font:600 9px monospace;color:rgba(195,225,252,.80);display:block;transition:color .2s}
-.link-url{font:400 7px monospace;color:rgba(120,158,208,.52);display:block;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.link-arr{font-size:10px;color:rgba(145,185,228,.48)}
+.link-row:hover .link-name{color:rgba(255,220,240,.96)}
+.link-ic{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid rgba(167,139,250,.28);border-radius:3px;background:rgba(10,5,32,.72)}
+.link-ic img{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(280deg);opacity:.72}
+.link-name{font:600 10px monospace;color:rgba(220,200,252,.82);display:block;transition:color .2s}
+.link-url{font:400 8px monospace;color:rgba(167,139,250,.52);display:block;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link-arr{font-size:10px;color:rgba(196,181,253,.48)}
+
+/* ── 互動展示 Scene ── */
+.scene-frame{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(240,165,205,.25);height:clamp(420px,52vw,680px);margin-bottom:22px}
+.sf-bg,.sf-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block;pointer-events:none}
+.sf-bright{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 12%;z-index:5;opacity:0;transition:opacity .6s ease;pointer-events:none;display:block}
+.sf-scanline{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);z-index:8;pointer-events:none}
+.sf-hud{position:absolute;inset:0;z-index:9;pointer-events:none}
+.sf-hud::before,.sf-hud::after{content:'';position:absolute;width:28px;height:28px;border-color:rgba(240,165,205,.5);border-style:solid}
+.sf-hud::before{top:10px;left:10px;border-width:2px 0 0 2px}
+.sf-hud::after{top:10px;right:10px;border-width:2px 2px 0 0}
+.sf-hud-bl{position:absolute;bottom:10px;left:10px;width:28px;height:28px;border:2px solid rgba(240,165,205,.5);border-top:none;border-right:none;z-index:9;pointer-events:none}
+.sf-hud-br{position:absolute;bottom:10px;right:10px;width:28px;height:28px;border:2px solid rgba(240,165,205,.5);border-top:none;border-left:none;z-index:9;pointer-events:none}
+.sf-label{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:10;font:400 7px monospace;letter-spacing:4px;color:rgba(240,165,205,.65);text-transform:uppercase;background:rgba(4,2,14,.65);padding:3px 12px;border-radius:2px;white-space:nowrap;pointer-events:none;border:1px solid rgba(240,165,205,.2)}
+.sf-ping{position:absolute;bottom:14px;right:52px;z-index:10;font:400 7px monospace;letter-spacing:2px;color:rgba(80,220,140,.65);pointer-events:none}
+.sf-ping::before{content:'●';font-size:5px;margin-right:4px;animation:sbpulse 1.8s ease-in-out infinite}
+.sf-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:10;font:400 7px monospace;letter-spacing:3px;color:rgba(196,181,253,.55);pointer-events:none;white-space:nowrap}
+
+/* Hotspots */
+.hotspot{position:absolute;display:flex;align-items:center;gap:7px;transform:translate(-50%,-50%);z-index:12}
+.hotspot.hs-left{flex-direction:row-reverse}
+.hs-pin{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(240,165,205,.72);background:rgba(3,2,20,.88);display:flex;align-items:center;justify-content:center;font:700 8px monospace;color:rgba(255,215,235,.96);position:relative;transition:all .28s;flex-shrink:0;box-shadow:0 0 10px rgba(200,100,160,.28)}
+.hs-pin::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(240,165,205,.25);animation:hspulse 2.2s ease-in-out infinite}
+@keyframes hspulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.9;transform:scale(1.2)}}
+.hotspot:hover .hs-pin{border-color:rgba(255,200,230,.98);box-shadow:0 0 22px rgba(240,120,175,.55);background:rgba(30,5,40,.95)}
+.hs-label{background:rgba(4,2,18,.92);border:1px solid rgba(167,139,250,.32);border-radius:6px;padding:5px 9px;backdrop-filter:blur(10px);transition:all .25s}
+.hs-num{display:block;font:700 7px monospace;letter-spacing:2px;color:rgba(240,165,205,.75);margin-bottom:1px}
+.hs-text{font:600 11px monospace;color:rgba(255,220,240,.96);display:block}
+.hs-sub{font:400 9px monospace;color:rgba(196,181,253,.65);display:block;margin-top:1px}
+.hotspot:hover .hs-label,.hotspot.active .hs-label{border-color:rgba(240,165,205,.62);box-shadow:0 0 14px rgba(200,100,160,.22)}
+
+/* Hotspot tooltip */
+.hs-tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:rgba(6,3,18,.96);border:1px solid rgba(196,181,253,.45);border-radius:6px;padding:6px 12px;font:400 9px monospace;letter-spacing:1px;color:rgba(220,205,255,.94);white-space:nowrap;z-index:15;opacity:0;pointer-events:none;transition:opacity .22s;text-align:center}
+.hs-tip.show{opacity:1}
+
+/* Scene error window */
+.scene-err-win{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);z-index:20;background:rgba(6,3,18,.97);border:1px solid rgba(240,165,205,.55);border-radius:8px;width:260px;opacity:0;pointer-events:none;transition:opacity .28s;overflow:hidden}
+.scene-err-win.open{opacity:1;pointer-events:all}
+.sew-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-bottom:1px solid rgba(240,165,205,.22);background:rgba(40,5,30,.72)}
+.sew-bar-title{font:700 9px monospace;letter-spacing:2px;color:rgba(255,210,235,.92)}
+.sew-close{font:400 14px monospace;color:rgba(240,165,205,.75);transition:color .2s}
+.sew-close:hover{color:rgba(255,200,230,.98)}
+.sew-code{font:400 8px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);padding:8px 12px 4px}
+.sew-msg{font:400 10px/1.75 monospace;color:rgba(220,200,255,.90);padding:4px 12px 10px}
+.sew-btns{display:flex;gap:6px;padding:0 12px 12px}
+.sew-btn{font:400 8px monospace;letter-spacing:1px;color:rgba(196,181,253,.75);padding:5px 14px;border:1px solid rgba(167,139,250,.32);border-radius:3px;transition:all .2s}
+.sew-btn:hover{border-color:rgba(240,165,205,.55);color:rgba(255,215,235,.96)}
+
+/* Interactive cards */
+.ic-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:18px;transition:all .28s}
+.ic-card:hover{border-color:rgba(240,165,205,.38);box-shadow:0 0 16px rgba(167,139,250,.1)}
+.ic-card.lit{border-color:rgba(240,165,205,.7) !important;background:rgba(35,5,55,.7) !important;box-shadow:0 0 26px rgba(200,100,160,.22) !important}
+.ic-icon{width:28px;height:28px;margin-bottom:9px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;transition:opacity .22s;display:block}
+.ic-card:hover .ic-icon,.ic-card.lit .ic-icon{opacity:1}
+.ic-head{font:700 9px monospace;letter-spacing:2px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:7px}
+.ic-text{font:400 11px/1.95 monospace;color:rgba(205,220,248,.82)}
 
 /* 創作發想 */
-.concept-text{font:400 11px/2.1 monospace;color:rgba(185,212,245,.84)}
-.concept-pull{font:200 22px/1.6 'Noto Serif TC',serif;letter-spacing:4px;background:linear-gradient(135deg,#f0f4ff,#8ca8e8,#a090e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:24px 0;padding:18px 0;border-top:1px solid rgba(80,138,210,.18);border-bottom:1px solid rgba(80,138,210,.18)}
+.concept-text{font:400 12px/2.2 monospace;color:rgba(205,225,248,.86)}
+.concept-pull{font:200 24px/1.6 'Noto Serif TC',serif;letter-spacing:4px;background:linear-gradient(135deg,#f5d0e8,#c890d8,#a070e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:26px 0;padding:20px 0;border-top:1px solid rgba(167,139,250,.18);border-bottom:1px solid rgba(167,139,250,.18)}
 .flow-chain{display:flex;flex-direction:column;gap:5px}
 .flow-step{display:flex;align-items:center;gap:12px}
-.flow-ico{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(100,165,240,.42);background:rgba(5,10,32,.85);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.flow-t{font:700 9px monospace;color:rgba(205,232,255,.88)}
-.flow-s{font:400 8px monospace;color:rgba(120,162,215,.62);margin-top:2px}
-.flow-arr{padding-left:17px;color:rgba(100,165,240,.42);font-size:9px}
+.flow-ico{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(167,139,250,.42);background:rgba(10,5,32,.85);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.flow-ico img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(275deg);opacity:.82}
+.flow-t{font:700 10px monospace;color:rgba(220,205,255,.90)}
+.flow-s{font:400 9px monospace;color:rgba(167,139,250,.65);margin-top:2px}
+.flow-arr{padding-left:18px;color:rgba(167,139,250,.42);font-size:9px}
 
-/* 設計系統 - palette */
-.palette-row{display:flex;gap:5px;margin-top:6px;margin-bottom:4px}
-.swatch{height:26px;border-radius:4px;flex:1;position:relative;overflow:hidden}
-.swatch-lbl{font:400 6px monospace;color:rgba(255,255,255,.55);position:absolute;bottom:3px;left:5px;white-space:nowrap}
-.font-demo{font:200 18px 'Noto Serif TC',serif;letter-spacing:4px;background:linear-gradient(135deg,#f0f4ff,#8ca8e8,#a090e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:10px 0 4px}
+/* 設計系統 */
+.palette-row{display:flex;gap:5px;margin-top:7px;margin-bottom:5px}
+.swatch{height:30px;border-radius:4px;flex:1;position:relative;overflow:hidden;transition:transform .15s}
+.swatch:hover{transform:scaleY(1.18)}
+.swatch-lbl{font:400 7px monospace;color:rgba(255,255,255,.55);position:absolute;bottom:3px;left:5px;white-space:nowrap;pointer-events:none}
+.swatch-copied{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 7px monospace;letter-spacing:2px;color:#fff;background:rgba(167,100,255,.75);opacity:0;transition:opacity .2s;text-transform:uppercase;pointer-events:none}
+.swatch.copied .swatch-copied{opacity:1}
+.font-preview{width:100%;background:rgba(8,4,28,.7);border:1px solid rgba(167,139,250,.28);border-radius:5px;padding:9px 13px;font:200 22px 'Noto Serif TC',serif;letter-spacing:4px;color:rgba(220,205,255,.90);outline:none;margin:10px 0 5px;transition:border-color .2s;caret-color:rgba(240,165,205,.9)}
+.font-preview:focus{border-color:rgba(240,165,205,.52);background:rgba(15,5,40,.7)}
+.font-preview-hint{font:400 7px monospace;letter-spacing:2px;color:rgba(167,139,250,.48);text-transform:uppercase}
 
 /* 頁面概覽 */
-.page-card{background:rgba(4,8,28,.55);border:1px solid rgba(80,138,210,.25);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:all .28s}
-.page-card:hover{border-color:rgba(140,205,255,.5);transform:translateY(-4px);box-shadow:0 8px 28px rgba(60,130,255,.12)}
-.page-thumb{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:38px;opacity:.75;border-bottom:1px solid rgba(80,138,210,.2);position:relative}
-.page-badge{position:absolute;top:6px;right:8px;font:400 7px monospace;letter-spacing:2px;color:rgba(140,185,235,.55);background:rgba(4,8,28,.75);padding:2px 7px;border-radius:2px;text-transform:uppercase}
-.page-info{padding:15px}
-.page-name{font:700 11px monospace;color:rgba(195,228,255,.90);letter-spacing:1px;margin-bottom:5px}
-.page-desc{font:400 8px/1.75 monospace;color:rgba(148,188,235,.72)}
+.page-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:all .28s}
+.page-card:hover{border-color:rgba(240,165,205,.5);transform:translateY(-4px);box-shadow:0 8px 28px rgba(167,139,250,.14)}
+.page-thumb{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(167,139,250,.18);position:relative}
+.page-thumb-icon{width:50px;height:50px;filter:invert(1) sepia(1) saturate(2) hue-rotate(282deg);opacity:.52;transition:opacity .22s}
+.page-card:hover .page-thumb-icon{opacity:.85}
+.page-badge{position:absolute;top:6px;right:8px;font:400 7px monospace;letter-spacing:2px;color:rgba(196,181,253,.55);background:rgba(4,2,18,.78);padding:2px 7px;border-radius:2px;text-transform:uppercase}
+.page-info{padding:16px}
+.page-name{font:700 12px monospace;color:rgba(220,205,255,.92);letter-spacing:1px;margin-bottom:6px}
+.page-desc{font:400 10px/1.8 monospace;color:rgba(196,181,253,.72)}
 .page-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-.page-tag{font:400 7px monospace;padding:2px 7px;border:1px solid rgba(80,148,230,.28);border-radius:2px;color:rgba(148,188,235,.62)}
+.page-tag{font:400 8px monospace;padding:2px 7px;border:1px solid rgba(167,139,250,.25);border-radius:2px;color:rgba(196,181,253,.62)}
+
+/* Technical Challenges */
+.challenge-list{display:flex;flex-direction:column;gap:16px}
+.challenge-card{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid rgba(167,139,250,.2);border-radius:10px;overflow:hidden;transition:border-color .25s}
+.challenge-card:hover{border-color:rgba(240,165,205,.38)}
+.ch-part{padding:20px 22px}
+.ch-part+.ch-part{border-left:1px solid rgba(167,139,250,.15)}
+.ch-label{font:700 8px monospace;letter-spacing:3px;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.ch-label-c{color:rgba(255,155,135,.72)}
+.ch-label-s{color:rgba(165,215,255,.72)}
+.ch-label-r{color:rgba(130,225,165,.72)}
+.ch-label-c::before,.ch-label-s::before,.ch-label-r::before{content:'●';font-size:5px}
+.ch-text{font:400 11px/2.0 monospace;color:rgba(205,220,250,.84)}
+.ch-bg-c{background:rgba(255,60,40,.04)}
+.ch-bg-s{background:rgba(100,140,255,.05)}
+.ch-bg-r{background:rgba(60,200,100,.04)}
 
 /* 彩蛋探索 */
-.egg-hint{font:400 8px monospace;letter-spacing:3px;color:rgba(138,175,222,.48);margin-bottom:20px}
-.egg-card{background:rgba(4,8,28,.55);border:1px solid rgba(80,138,210,.25);border-radius:9px;padding:14px;display:flex;flex-direction:column;gap:7px;transition:all .28s}
-.egg-card:hover{border-color:rgba(140,205,255,.52);background:rgba(8,18,55,.62);transform:translateY(-3px);box-shadow:0 5px 20px rgba(60,130,255,.12)}
-.egg-icon-ph{width:40px;height:40px;border-radius:8px;background:rgba(12,24,60,.7);border:1px solid rgba(80,148,230,.3);display:flex;align-items:center;justify-content:center;font-size:19px}
-.egg-trigger{font:700 7px monospace;letter-spacing:2px;color:rgba(120,195,255,.65);text-transform:uppercase;padding:2px 7px;border:1px solid rgba(100,175,255,.25);border-radius:2px;width:fit-content}
-.egg-title{font:700 10px monospace;color:rgba(200,232,255,.92);letter-spacing:.5px}
-.egg-desc{font:400 8px/1.65 monospace;color:rgba(148,188,238,.75)}
-.egg-note{font:400 7px monospace;color:rgba(248,215,140,.52);margin-top:2px}
+.egg-hint{font:400 9px monospace;letter-spacing:3px;color:rgba(196,181,253,.52);margin-bottom:22px}
+.egg-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:9px;padding:16px;display:flex;flex-direction:column;gap:8px;transition:all .28s}
+.egg-card:hover{border-color:rgba(240,165,205,.52);background:rgba(18,5,40,.65);transform:translateY(-3px);box-shadow:0 5px 22px rgba(167,139,250,.14)}
+.egg-icon-ph{width:42px;height:42px;border-radius:8px;background:rgba(15,5,40,.7);border:1px solid rgba(167,139,250,.28);display:flex;align-items:center;justify-content:center;transition:border-color .22s}
+.egg-card:hover .egg-icon-ph{border-color:rgba(240,165,205,.45)}
+.egg-icon-ph img{width:25px;height:25px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.78}
+.egg-trigger{font:700 7px monospace;letter-spacing:2px;color:rgba(240,165,205,.68);text-transform:uppercase;padding:2px 7px;border:1px solid rgba(240,165,205,.25);border-radius:2px;width:fit-content}
+.egg-title{font:700 11px monospace;color:rgba(220,205,255,.94);letter-spacing:.5px}
+.egg-desc{font:400 9px/1.7 monospace;color:rgba(196,181,253,.78)}
+.egg-note{font:400 8px monospace;color:rgba(248,215,140,.52);margin-top:2px}
 .egg-note::before{content:'※ '}
 
+/* Reflection */
+.reflect-wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:44px;align-items:start}
+.reflect-quote{font:200 22px/1.75 'Noto Serif TC',serif;letter-spacing:4px;background:linear-gradient(135deg,#f5d0e8,#c890d8,#a070e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;border-left:2px solid rgba(240,165,205,.35);padding-left:22px;margin-bottom:22px}
+.reflect-body{font:400 12px/2.1 monospace;color:rgba(205,225,248,.86)}
+.reflect-list{margin-top:18px}
+.reflect-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(167,139,250,.14)}
+.reflect-item:last-child{border-bottom:none}
+.reflect-item img{width:28px;height:28px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(275deg);opacity:.68;flex-shrink:0;margin-top:2px}
+.reflect-item-t{font:700 10px monospace;color:rgba(220,205,255,.90);margin-bottom:4px}
+.reflect-item-s{font:400 9px/1.7 monospace;color:rgba(196,181,253,.75)}
+
+/* ── Scroll Scene ── */
+.scroll-scene-wrap{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(196,181,253,.22);height:clamp(340px,44vw,540px)}
+.ss-bg,.ss-layer,.ss-char,.ss-wakeup{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block}
+.ss-char{z-index:3;pointer-events:all}
+.ss-wakeup{z-index:4;opacity:0;transition:opacity .5s ease;pointer-events:none}
+.ss-wakeup.awake{opacity:1}
+.ss-zzz{position:absolute;left:62%;top:28%;z-index:5;pointer-events:none;width:40px;height:50px}
+.zzz-z{position:absolute;left:0;top:0;font:600 13px monospace;color:rgba(196,181,253,.88);text-shadow:0 0 8px rgba(196,181,253,.5);opacity:0;animation:zzzRise 2.6s ease-in-out infinite var(--dl,0s)}
+@keyframes zzzRise{0%{opacity:0;transform:translate(var(--dx,0px),0) scale(.75)}25%{opacity:.92}65%{opacity:.5}100%{opacity:0;transform:translate(calc(var(--dx,0px) * 2),-32px) scale(1.25)}}
+.ss-wakeup.awake ~ .ss-zzz,.ss-zzz.hidden{display:none}
+.hw-wrap{position:absolute;inset:0;pointer-events:none;z-index:6}
+.hw{position:absolute;font:200 15px 'Noto Serif TC',serif;letter-spacing:6px;color:rgba(220,205,255,.95);opacity:0;transition:opacity .32s,filter .32s;filter:blur(4px);white-space:nowrap;text-shadow:0 0 14px rgba(196,181,253,.45)}
+.ss-scan{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);z-index:7;pointer-events:none}
+.ss-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:8;font:400 7px monospace;letter-spacing:3px;color:rgba(196,181,253,.48);white-space:nowrap;pointer-events:none;transition:opacity .4s}
+.ss-hint.hidden{opacity:0}
+
 /* ── Footer nav ── */
-.footer-nav{padding:14px max(40px,calc((100% - 1280px)/2));border-top:1px solid rgba(80,138,220,.22);display:flex;align-items:center;justify-content:space-between;background:rgba(2,4,18,.68)}
-.fn-btn{display:flex;align-items:center;gap:8px;font:400 9px monospace;letter-spacing:3px;color:rgba(138,178,222,.60);text-transform:uppercase;transition:all .22s;padding:6px 10px;border:1px solid transparent;border-radius:4px}
-.fn-btn:hover{color:rgba(215,242,255,.94);border-color:rgba(100,168,255,.32);background:rgba(12,30,80,.42)}
-.fn-center{font:400 8px monospace;letter-spacing:4px;color:rgba(120,158,205,.45);display:flex;align-items:center;gap:8px}
-.fn-gem{font-size:14px;color:rgba(155,205,255,.62);animation:gemglow 3s ease-in-out infinite}
+.footer-nav{padding:16px max(40px,calc((100% - 1280px)/2));border-top:1px solid rgba(167,139,250,.18);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.72)}
+.fn-btn{display:flex;align-items:center;gap:8px;font:400 10px monospace;letter-spacing:3px;color:rgba(196,181,253,.62);text-transform:uppercase;transition:all .22s;padding:7px 12px;border:1px solid transparent;border-radius:4px}
+.fn-btn:hover{color:rgba(255,220,240,.94);border-color:rgba(240,165,205,.32);background:rgba(30,5,50,.42)}
+.fn-center{font:400 8px monospace;letter-spacing:4px;color:rgba(167,139,250,.45);display:flex;align-items:center;gap:8px}
+.fn-gem{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg);opacity:.65;animation:gemglow 3s ease-in-out infinite}
 .fn-gem:nth-child(3){animation-delay:-1.5s}
 </style>
 </head>
@@ -217,7 +340,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 <div id="shell">
   <aside id="sidebar">
     <div class="sb-head">
-      <div class="sb-cat">🐱</div>
+      <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
       <div class="sb-info">
         <div class="sb-title">WUYAN'S ARCHIVE</div>
         <div class="sb-sub">探索記憶・創造未來</div>
@@ -243,25 +366,39 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 
   <main id="main">
     <div id="topbar">
-      <div class="tb-bc"><span>🏠</span><a href="#">ARCHIVE</a><span class="sep">›</span><span class="cur">PROJECT DETAIL</span></div>
-      <div class="tb-gem">💠</div>
-      <div class="tb-right">MEMORY CORE : <span class="stable">STABLE</span><div class="tb-icons"><span>◇</span><span>⚙</span><span>🐱</span></div></div>
+      <div class="tb-bc">
+        <img src="assets/icon/Home.png" style="width:12px;height:12px;filter:invert(1) sepia(1) saturate(2) hue-rotate(285deg);opacity:.55" alt="">
+        <a href="#">ARCHIVE</a><span class="sep">›</span><span class="cur">PROJECT DETAIL</span>
+      </div>
+      <div class="tb-gem"><img src="assets/icon/Star.png" alt=""></div>
+      <div class="tb-right">MEMORY CORE : <span class="stable">STABLE</span>
+        <div class="tb-icons">
+          <img class="tb-icon-img" src="assets/icon/Multi-faceteddice.png" alt="">
+          <img class="tb-icon-img" src="assets/icon/Code.png" alt="">
+          <img class="tb-icon-img" src="assets/icon/Cat.png" alt="">
+        </div>
+      </div>
     </div>
 
-    <!-- HERO -->
-    <div class="hero">
-      <img class="hero-bg" src="assets/fullBGwebp/bg_room_webp.webp" alt="WUYAN's Archive 首頁房間">
+    <!-- ① HERO -->
+    <div class="hero" id="heroSection">
+      <img class="hero-bg" id="heroBg" src="assets/fullBGwebp/bg_room_webp.webp" alt="WUYAN's Archive 首頁房間">
+      <canvas id="curtainCv"></canvas>
+      <!-- Hero centered title over curtain -->
+      <div class="hero-title-wrap">
+        <div class="hero-big-title">WUYAN'S ARCHIVE</div>
+        <div class="hero-big-sub">Portfolio Website · Interactive Experience</div>
+      </div>
       <div class="hero-vignette"></div>
-
       <div class="hero-content">
         <div class="proj-sparkle-row"><span class="sp">✦</span><span class="sp">✧</span><span class="sp">✦</span><span class="sp">✧</span><span class="sp">✦</span></div>
-        <div class="proj-title">WUYAN'S ARCHIVE・作品集網站</div>
+        <div class="proj-title" id="heroTitle"></div>
         <div class="proj-sub-wrap">
           <div class="proj-sub-line"></div>
-          <span class="proj-sub">Portfolio Website · Interactive Experience</span>
+          <span class="proj-sub">作品集網站・互動體驗</span>
           <div class="proj-sub-line r"></div>
         </div>
-        <div class="proj-tags">
+        <div class="proj-tags" id="heroTags">
           <span class="ptag">互動設計</span>
           <span class="ptag">暗室場景</span>
           <span class="ptag">聚光燈系統</span>
@@ -276,40 +413,46 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </div>
 
-    <!-- OVERVIEW -->
-    <div class="sec-divider"></div>
+    <!-- ② OVERVIEW -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
     <div class="sec">
-      <div class="sec-label"><span>PROJECT OVERVIEW</span> <span class="sec-zh">專案概覽</span></div>
+      <div class="sec-label"><span>PROJECT OVERVIEW</span><span class="sec-zh">專案概覽</span></div>
+      <div class="stats-row">
+        <div class="stat-box"><span class="stat-num" data-target="15" data-suffix="+">0+</span><span class="stat-lbl">Interactive Elements</span></div>
+        <div class="stat-box"><span class="stat-num" data-target="7" data-suffix="">0</span><span class="stat-lbl">Hidden Easter Eggs</span></div>
+        <div class="stat-box"><span class="stat-num" data-target="3" data-suffix="">0</span><span class="stat-lbl">Core Pages</span></div>
+        <div class="stat-box"><span class="stat-num" data-target="100" data-suffix="%">0%</span><span class="stat-lbl">Static HTML Only</span></div>
+      </div>
       <div class="l2">
         <div>
           <p class="overview-text">這個作品集網站本身就是一件互動作品。以昏暗的個人房間作為入口，透過聚光燈、點擊彩蛋、捲動動畫，引導訪客進入不同的記憶空間。每一個細節都是刻意設計的探索邀請。</p>
           <div class="feat-grid">
-            <div class="feat-box"><div class="f-icon">🏠</div><div class="f-lbl">暗室場景<br>首頁</div></div>
-            <div class="feat-box"><div class="f-icon">🔦</div><div class="f-lbl">聚光燈<br>互動系統</div></div>
-            <div class="feat-box"><div class="f-icon">🥚</div><div class="f-lbl">7 個<br>隱藏彩蛋</div></div>
-            <div class="feat-box"><div class="f-icon">📄</div><div class="f-lbl">純靜態<br>HTML</div></div>
-            <div class="feat-box"><div class="f-icon">🌟</div><div class="f-lbl">捲動<br>轉場動畫</div></div>
-            <div class="feat-box"><div class="f-icon">🎭</div><div class="f-lbl">角色<br>互動</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Home.png" alt=""><div class="f-lbl">暗室場景<br>首頁</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Lamp.png" alt=""><div class="f-lbl">聚光燈<br>互動系統</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/CrackedEgg.png" alt=""><div class="f-lbl">7 個<br>隱藏彩蛋</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Code.png" alt=""><div class="f-lbl">純靜態<br>HTML</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Star.png" alt=""><div class="f-lbl">捲動<br>轉場動畫</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Cat.png" alt=""><div class="f-lbl">角色<br>互動</div></div>
           </div>
         </div>
         <div>
           <div class="links-card">
             <div class="cta-box">
-              <div><div class="cta-t1">💠 進入首頁體驗</div><div class="cta-t2">前往 WUYAN's ARCHIVE →</div></div>
+              <div><div class="cta-t1">↗ 進入首頁體驗</div><div class="cta-t2">前往 WUYAN's ARCHIVE</div></div>
               <div class="cta-arr">↗</div>
             </div>
             <div class="link-row">
-              <div class="link-ic">🏠</div>
+              <div class="link-ic"><img src="assets/icon/Home.png" alt=""></div>
               <div class="link-info"><span class="link-name">首頁</span><span class="link-url">homepage_final.html</span></div>
               <span class="link-arr">↗</span>
             </div>
             <div class="link-row">
-              <div class="link-ic">🗂</div>
+              <div class="link-ic"><img src="assets/icon/File.png" alt=""></div>
               <div class="link-info"><span class="link-name">作品導覽</span><span class="link-url">works_v3.html</span></div>
               <span class="link-arr">↗</span>
             </div>
             <div class="link-row">
-              <div class="link-ic">📖</div>
+              <div class="link-ic"><img src="assets/icon/Detail.png" alt=""></div>
               <div class="link-info"><span class="link-name">作品詳情頁群</span><span class="link-url">project_*.html</span></div>
               <span class="link-arr">↗</span>
             </div>
@@ -318,57 +461,119 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </div>
 
-    <!-- 互動展示 -->
-    <div class="sec-divider"></div>
+    <!-- ③ INTERACTIVE DEMO -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
     <div class="sec">
-      <div class="sec-label"><span>互動設計</span> <span class="sec-zh">INTERACTIVE</span></div>
-      <div class="scene-frame">
-        <img class="sf-bg" src="assets/fullBGwebp/bg_room_dark_webp.webp" alt="首頁暗室場景">
-        <div class="hotspot" style="left:52%;top:46%">
+      <div class="sec-label"><span>互動設計</span><span class="sec-zh">INTERACTIVE DEMO</span></div>
+      <div class="scene-frame" id="sceneFrame">
+        <img class="sf-bg" src="assets/fullBGwebp/bg_room_dark_webp.webp" alt="暗室背景">
+        <img class="sf-layer" src="assets/fullBGwebp/lamp_webp.webp" alt="吊燈" style="z-index:1">
+        <img class="sf-layer" src="assets/fullBGwebp/middlescreen_webp.webp" alt="中央螢幕" style="z-index:2">
+        <img class="sf-layer" src="assets/fullBGwebp/character_webp.webp" alt="人物" style="z-index:3">
+        <!-- lamp-on bright overlay -->
+        <img class="sf-bright" id="sfBright" src="assets/fullBGwebp/bg_room_webp.webp" alt="">
+        <!-- spotlight canvas inserted by JS at z-index 6 -->
+        <div class="sf-scanline" style="z-index:8"></div>
+        <div class="sf-hud" style="z-index:9"></div>
+        <div class="sf-hud-bl" style="z-index:9"></div>
+        <div class="sf-hud-br" style="z-index:9"></div>
+        <div class="sf-label">HOMEPAGE · INTERACTIVE MAP</div>
+        <div class="sf-ping">LIVE</div>
+        <div class="sf-hint">移動滑鼠點亮場景 · HOVER TO ILLUMINATE</div>
+        <!-- Error popup for character click -->
+        <div class="scene-err-win" id="sceneErrWin">
+          <div class="sew-bar">
+            <span class="sew-bar-title">⚠ SYSTEM ERROR</span>
+            <span class="sew-close" id="sewClose">×</span>
+          </div>
+          <div class="sew-code">ERROR_CODE: HMN_042</div>
+          <div class="sew-msg">偵測到人類干擾。<br>請勿對角色進行未授權的接觸。<br><br><span style="color:rgba(240,165,205,.65)">按任意按鈕繼續...</span></div>
+          <div class="sew-btns">
+            <div class="sew-btn" id="sewOk">確認</div>
+            <div class="sew-btn" id="sewIgnore">忽略</div>
+          </div>
+        </div>
+        <!-- Hotspot 01: Screen -->
+        <div class="hotspot" style="left:51%;top:40%" data-id="01" data-card="ic-01">
           <div class="hs-pin">01</div>
           <div class="hs-label"><span class="hs-num">CLICK</span><span class="hs-text">中央螢幕</span><span class="hs-sub">轉場至作品導覽</span></div>
+          <div class="hs-tip" id="tip01">→ 前往作品導覽頁</div>
         </div>
-        <div class="hotspot" style="left:70%;top:52%">
+        <!-- Hotspot 02: Character (label flipped left) -->
+        <div class="hotspot hs-left" style="left:66%;top:50%" data-id="02" data-card="ic-02">
           <div class="hs-pin">02</div>
           <div class="hs-label"><span class="hs-num">CLICK</span><span class="hs-text">人物</span><span class="hs-sub">觸發隱藏對話</span></div>
         </div>
-        <div class="hotspot" style="left:38%;top:20%">
+        <!-- Hotspot 03: Lamp -->
+        <div class="hotspot" style="left:39%;top:14%" data-id="03" data-card="ic-03">
           <div class="hs-pin">03</div>
           <div class="hs-label"><span class="hs-num">CLICK</span><span class="hs-text">吊燈</span><span class="hs-sub">切換房間明暗</span></div>
         </div>
-        <div class="hotspot" style="left:20%;top:42%">
+        <!-- Hotspot 04: Spotlight -->
+        <div class="hotspot" style="left:20%;top:42%" data-id="04" data-card="ic-04">
           <div class="hs-pin">04</div>
           <div class="hs-label"><span class="hs-num">HOVER</span><span class="hs-text">聚光燈</span><span class="hs-sub">跟隨滑鼠移動</span></div>
+          <div class="hs-tip" id="tip04">滑鼠移動帶動聚光燈</div>
         </div>
       </div>
       <div class="l4">
-        <div class="s-block">
-          <div class="f-icon" style="font-size:20px;margin-bottom:8px">🔦</div>
-          <div class="s-head" style="margin-bottom:6px">聚光燈跟隨</div>
-          <p class="s-text">進入首頁後，滑鼠移動即帶動聚光燈在昏暗房間中照射，非互動區域保持暗沉。</p>
+        <div class="ic-card" id="ic-01">
+          <img class="ic-icon" src="assets/icon/Frontend.png" alt="">
+          <div class="ic-head">螢幕點擊轉場</div>
+          <p class="ic-text">點擊中央螢幕，觸發轉場動畫並跳轉至作品導覽頁面。</p>
         </div>
-        <div class="s-block">
-          <div class="f-icon" style="font-size:20px;margin-bottom:8px">🖥</div>
-          <div class="s-head" style="margin-bottom:6px">螢幕點擊轉場</div>
-          <p class="s-text">點擊房間中的中央螢幕，觸發轉場動畫並跳轉至作品導覽頁面。</p>
+        <div class="ic-card" id="ic-02">
+          <img class="ic-icon" src="assets/icon/Cat.png" alt="">
+          <div class="ic-head">人物互動</div>
+          <p class="ic-text">點擊角色或聚光燈停留 8 秒，觸發隱藏的錯誤訊息彈窗。</p>
         </div>
-        <div class="s-block">
-          <div class="f-icon" style="font-size:20px;margin-bottom:8px">💡</div>
-          <div class="s-head" style="margin-bottom:6px">吊燈切換亮暗</div>
-          <p class="s-text">點擊吊燈，整個房間亮起，窗外出現星辰紫雲與都市夜景，場景完全轉變。</p>
+        <div class="ic-card" id="ic-03">
+          <img class="ic-icon" src="assets/icon/Lamp.png" alt="">
+          <div class="ic-head">吊燈切換亮暗</div>
+          <p class="ic-text">點擊吊燈，整個房間亮起，窗外出現星辰紫雲與都市夜景。</p>
         </div>
-        <div class="s-block">
-          <div class="f-icon" style="font-size:20px;margin-bottom:8px">🐱</div>
-          <div class="s-head" style="margin-bottom:6px">人物互動</div>
-          <p class="s-text">點擊角色或將聚光燈停留 8 秒，觸發隱藏的錯誤訊息彈窗，捲動後可再喚醒趴睡人物。</p>
+        <div class="ic-card" id="ic-04">
+          <img class="ic-icon" src="assets/icon/Star.png" alt="">
+          <div class="ic-head">聚光燈跟隨</div>
+          <p class="ic-text">進入首頁，滑鼠移動即帶動聚光燈在昏暗房間中照射。</p>
         </div>
       </div>
     </div>
 
-    <!-- 創作發想 -->
-    <div class="sec-divider"></div>
+    <!-- ④ SCROLL SCENE -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider3.png" alt=""></div>
     <div class="sec">
-      <div class="sec-label"><span>創作發想</span> <span class="sec-zh">INSPIRATION</span></div>
+      <div class="sec-label"><span>記憶空間</span><span class="sec-zh">SCROLL SCENE</span></div>
+      <p style="font:400 12px/2.1 monospace;color:rgba(196,181,253,.72);margin-bottom:22px">捲動離開首頁，螢幕飛走，房間迎來片刻寂靜。靠近窗邊，浮現隱藏的文字。趴睡的人物點擊後會驚醒。</p>
+      <div class="scroll-scene-wrap" id="scrollSceneWrap">
+        <img class="ss-bg" src="assets/fullBGwebp/bg_room_webp.webp" alt="亮室背景" style="z-index:0">
+        <img class="ss-layer" src="assets/fullBGwebp/lamp_webp.webp" alt="吊燈" style="z-index:1">
+        <img class="ss-layer" src="assets/fullBGwebp/chair_webp.webp" alt="椅子" style="z-index:2">
+        <img class="ss-char" id="ssChar" src="assets/fullBGwebp/character_webp.webp" alt="趴睡人物" style="z-index:3">
+        <img class="ss-wakeup" id="ssWakeup" src="assets/fullBGwebp/character_wakeup_webp.webp" alt="驚醒人物" style="z-index:4">
+        <!-- ZZZ animation -->
+        <div class="ss-zzz" id="ssZzz">
+          <span class="zzz-z" style="font-size:14px;left:0;top:0;--dl:0s;--dx:-5px">z</span>
+          <span class="zzz-z" style="font-size:11px;left:10px;top:-4px;--dl:0.5s;--dx:2px">z</span>
+          <span class="zzz-z" style="font-size:9px;left:20px;top:-8px;--dl:1s;--dx:6px">z</span>
+        </div>
+        <!-- Hidden text revealed by mouse proximity -->
+        <div class="hw-wrap" id="hwWrap">
+          <span class="hw" style="left:15%;top:30%">靜靜趴著</span>
+          <span class="hw" style="left:52%;top:18%">窗外的夜</span>
+          <span class="hw" style="left:72%;top:38%">只有風聲</span>
+          <span class="hw" style="left:30%;top:60%">等待天明</span>
+          <span class="hw" style="left:62%;top:62%">夢見了誰</span>
+        </div>
+        <div class="ss-scan"></div>
+        <div class="ss-hint" id="ssHint">點擊人物 喚醒他 · CLICK TO WAKE</div>
+      </div>
+    </div>
+
+    <!-- ⑤ INSPIRATION -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider4.png" alt=""></div>
+    <div class="sec">
+      <div class="sec-label"><span>創作發想</span><span class="sec-zh">INSPIRATION</span></div>
       <div class="l2">
         <div>
           <p class="concept-text">不想要普通的作品集。想要一個「進入了才能探索」的空間，像是打開了某人的房間門，而不是翻開一份履歷。</p>
@@ -379,22 +584,22 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
           <div class="s-head">PROCESS</div>
           <div class="flow-chain">
             <div class="flow-step">
-              <div class="flow-ico">💡</div>
+              <div class="flow-ico"><img src="assets/icon/Idea.png" alt=""></div>
               <div><div class="flow-t">概念發想</div><div class="flow-s">暗室・記憶・探索</div></div>
             </div>
             <div class="flow-arr">↓</div>
             <div class="flow-step">
-              <div class="flow-ico">🎨</div>
+              <div class="flow-ico"><img src="assets/icon/MagicWand.png" alt=""></div>
               <div><div class="flow-t">視覺設計</div><div class="flow-s">配色・素材分層</div></div>
             </div>
             <div class="flow-arr">↓</div>
             <div class="flow-step">
-              <div class="flow-ico">⚡</div>
+              <div class="flow-ico"><img src="assets/icon/Code.png" alt=""></div>
               <div><div class="flow-t">互動開發</div><div class="flow-s">彩蛋・動畫・轉場</div></div>
             </div>
             <div class="flow-arr">↓</div>
             <div class="flow-step">
-              <div class="flow-ico">🌐</div>
+              <div class="flow-ico"><img src="assets/icon/Rocket.png" alt=""></div>
               <div><div class="flow-t">持續迭代</div><div class="flow-s">新頁面・新彩蛋</div></div>
             </div>
           </div>
@@ -402,41 +607,41 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </div>
 
-    <!-- 設計系統 -->
-    <div class="sec-divider"></div>
+    <!-- ⑥ DESIGN SYSTEM -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
     <div class="sec">
-      <div class="sec-label"><span>設計系統</span> <span class="sec-zh">DESIGN SYSTEM</span></div>
+      <div class="sec-label"><span>設計系統</span><span class="sec-zh">DESIGN SYSTEM</span></div>
       <div class="l3">
         <div class="s-block">
           <div class="s-head">COLOR PALETTE</div>
           <p class="s-text" style="margin-bottom:10px">極深紫黑底色，三色點綴系統</p>
           <div class="s-cat">底色</div>
           <div class="palette-row">
-            <div class="swatch" style="background:#04020e;border:1px solid rgba(255,255,255,.1)"><span class="swatch-lbl">#04020e</span></div>
-            <div class="swatch" style="background:rgba(4,8,28,.95)"><span class="swatch-lbl">Panel</span></div>
+            <div class="swatch" style="background:#04020e;border:1px solid rgba(255,255,255,.1)" data-hex="#04020e"><span class="swatch-lbl">#04020e</span><div class="swatch-copied">COPIED</div></div>
+            <div class="swatch" style="background:rgba(7,4,20,.97)" data-hex="#070414"><span class="swatch-lbl">Panel</span><div class="swatch-copied">COPIED</div></div>
           </div>
           <div class="s-cat">三色點綴</div>
           <div class="palette-row">
-            <div class="swatch" style="background:rgba(240,165,205,1)"><span class="swatch-lbl">粉</span></div>
-            <div class="swatch" style="background:rgba(165,215,255,1)"><span class="swatch-lbl">藍</span></div>
-            <div class="swatch" style="background:#d4a84e"><span class="swatch-lbl">金</span></div>
+            <div class="swatch" style="background:rgba(240,165,205,1)" data-hex="#f0a5cd"><span class="swatch-lbl">粉</span><div class="swatch-copied">COPIED</div></div>
+            <div class="swatch" style="background:rgba(196,181,253,1)" data-hex="#c4b5fd"><span class="swatch-lbl">紫</span><div class="swatch-copied">COPIED</div></div>
+            <div class="swatch" style="background:rgba(165,215,255,1)" data-hex="#a5d7ff"><span class="swatch-lbl">藍</span><div class="swatch-copied">COPIED</div></div>
           </div>
           <div class="s-cat">星星</div>
           <div class="palette-row">
-            <div class="swatch" style="background:#fff;border:1px solid rgba(255,255,255,.15)"><span class="swatch-lbl" style="color:#000">白</span></div>
-            <div class="swatch" style="background:rgba(255,185,215,1)"><span class="swatch-lbl">粉</span></div>
-            <div class="swatch" style="background:rgba(165,215,255,1)"><span class="swatch-lbl">藍</span></div>
-            <div class="swatch" style="background:rgba(255,220,140,1)"><span class="swatch-lbl">金</span></div>
+            <div class="swatch" style="background:#fff;border:1px solid rgba(255,255,255,.15)" data-hex="#ffffff"><span class="swatch-lbl" style="color:#000">白</span><div class="swatch-copied">COPIED</div></div>
+            <div class="swatch" style="background:rgba(255,185,215,1)" data-hex="#ffb9d7"><span class="swatch-lbl">粉</span><div class="swatch-copied">COPIED</div></div>
+            <div class="swatch" style="background:rgba(165,215,255,1)" data-hex="#a5d7ff"><span class="swatch-lbl">藍</span><div class="swatch-copied">COPIED</div></div>
+            <div class="swatch" style="background:rgba(255,220,140,1)" data-hex="#ffdc8c"><span class="swatch-lbl">金</span><div class="swatch-copied">COPIED</div></div>
           </div>
         </div>
         <div class="s-block">
           <div class="s-head">TYPOGRAPHY</div>
-          <div class="font-demo">標題示範</div>
+          <div class="s-cat">字體預覽（可輸入）</div>
+          <div class="font-preview-hint">↓ CLICK TO EDIT</div>
+          <input class="font-preview" type="text" value="標題示範" spellcheck="false" autocomplete="off">
           <div class="s-cat">字體</div>
           <div class="s-item">Courier New — UI / 標籤 / 內文</div>
           <div class="s-item">Noto Serif TC 200 — 大標題</div>
-          <div class="s-cat">大標顏色原則</div>
-          <p class="s-text">漸層色依頁面主題決定<br>bookroom → 暖金<br>此頁 → 冷調銀藍紫</p>
           <div class="s-cat">字重</div>
           <div class="s-item">700 — 區塊標題</div>
           <div class="s-item">600 — 卡片標題</div>
@@ -448,36 +653,60 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
           <div class="s-cat">Sidebar</div>
           <div class="s-item">16px strip 收縮提示</div>
           <div class="s-item">hover 展開 220px</div>
-          <div class="s-item">粉→藍光條提示</div>
+          <div class="s-item">紫→藍光條提示</div>
           <div class="s-item">0.38s cubic-bezier 動畫</div>
           <div class="s-cat">游標</div>
           <div class="s-item">自訂 dot + ring</div>
           <div class="s-item">hover 時 ring 放大</div>
-          <div class="s-cat">Scene 區</div>
-          <div class="s-item">aspect-ratio 2:1 維持比例</div>
-          <div class="s-item">hotspot 絕對定位標記</div>
+          <div class="s-cat">Scene 互動區</div>
+          <div class="s-item">聚光燈跟隨滑鼠</div>
+          <div class="s-item">HUD 框線裝飾</div>
+          <div class="s-item">吊燈點擊切換亮暗</div>
         </div>
       </div>
     </div>
 
-    <!-- 頁面概覽 -->
-    <div class="sec-divider"></div>
+    <!-- ⑦ TECHNICAL CHALLENGES -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
     <div class="sec">
-      <div class="sec-label"><span>頁面概覽</span> <span class="sec-zh">PAGES</span></div>
+      <div class="sec-label"><span>技術挑戰</span><span class="sec-zh">TECHNICAL CHALLENGES</span></div>
+      <div class="challenge-list">
+        <div class="challenge-card">
+          <div class="ch-part ch-bg-c"><div class="ch-label ch-label-c">Challenge</div><p class="ch-text">Carousel 在不同螢幕尺寸下容易錯位，卡片之間出現間距不一致的問題。</p></div>
+          <div class="ch-part ch-bg-s"><div class="ch-label ch-label-s">Solution</div><p class="ch-text">改用 clamp() 搭配 CSS transform 重新計算卡片寬度與位移量，不依賴固定像素。</p></div>
+          <div class="ch-part ch-bg-r"><div class="ch-label ch-label-r">Result</div><p class="ch-text">桌機與手機皆穩定顯示，無需媒體查詢即可自適應。</p></div>
+        </div>
+        <div class="challenge-card">
+          <div class="ch-part ch-bg-c"><div class="ch-label ch-label-c">Challenge</div><p class="ch-text">分層透明 webp 圖片在不同瀏覽器的渲染順序與合成效果有差異。</p></div>
+          <div class="ch-part ch-bg-s"><div class="ch-label ch-label-s">Solution</div><p class="ch-text">統一使用 position:absolute + z-index 管理每一圖層，確保合成行為一致。</p></div>
+          <div class="ch-part ch-bg-r"><div class="ch-label ch-label-r">Result</div><p class="ch-text">跨瀏覽器場景渲染一致，吊燈・人物・螢幕各層正確疊合。</p></div>
+        </div>
+        <div class="challenge-card">
+          <div class="ch-part ch-bg-c"><div class="ch-label ch-label-c">Challenge</div><p class="ch-text">純靜態 HTML 無框架，難以在多頁面間共享 Sidebar、游標等元件。</p></div>
+          <div class="ch-part ch-bg-s"><div class="ch-label ch-label-s">Solution</div><p class="ch-text">每頁內嵌完整 CSS + JS，維持一個 .html 一個完整世界的原則。</p></div>
+          <div class="ch-part ch-bg-r"><div class="ch-label ch-label-r">Result</div><p class="ch-text">部署零配置，任意靜態空間皆可上線，維護成本低。</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑧ WORLD MAP -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider3.png" alt=""></div>
+    <div class="sec">
+      <div class="sec-label"><span>頁面地圖</span><span class="sec-zh">WORLD MAP</span></div>
       <div class="l3">
         <div class="page-card">
-          <div class="page-thumb" style="background:radial-gradient(ellipse at 55% 50%,rgba(255,255,200,.07),rgba(2,4,18,.95))">
-            🏠<span class="page-badge">HOMEPAGE</span>
+          <div class="page-thumb" style="background:radial-gradient(ellipse at 55% 50%,rgba(240,165,205,.07),rgba(4,2,14,.95))">
+            <img class="page-thumb-icon" src="assets/icon/Home.png" alt=""><span class="page-badge">HOMEPAGE</span>
           </div>
           <div class="page-info">
             <div class="page-name">首頁</div>
-            <div class="page-desc">暗室場景入口。聚光燈跟隨、點擊轉場、燈光切換、7 個隱藏彩蛋。截圖即將補上。</div>
+            <div class="page-desc">暗室場景入口。聚光燈跟隨、點擊轉場、燈光切換、7 個隱藏彩蛋。</div>
             <div class="page-tags"><span class="page-tag">分層動畫</span><span class="page-tag">聚光燈</span><span class="page-tag">彩蛋</span></div>
           </div>
         </div>
         <div class="page-card">
-          <div class="page-thumb" style="background:radial-gradient(ellipse at 50% 50%,rgba(140,80,255,.1),rgba(2,4,18,.95))">
-            🗂<span class="page-badge">WORKS</span>
+          <div class="page-thumb" style="background:radial-gradient(ellipse at 50% 50%,rgba(196,181,253,.08),rgba(4,2,14,.95))">
+            <img class="page-thumb-icon" src="assets/icon/File.png" alt=""><span class="page-badge">WORKS</span>
           </div>
           <div class="page-info">
             <div class="page-name">作品導覽</div>
@@ -486,8 +715,8 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
           </div>
         </div>
         <div class="page-card">
-          <div class="page-thumb" style="background:radial-gradient(ellipse at 45% 50%,rgba(200,140,60,.08),rgba(2,4,18,.95))">
-            📖<span class="page-badge">PROJECT</span>
+          <div class="page-thumb" style="background:radial-gradient(ellipse at 45% 50%,rgba(165,215,255,.07),rgba(4,2,14,.95))">
+            <img class="page-thumb-icon" src="assets/icon/Detail.png" alt=""><span class="page-badge">PROJECT</span>
           </div>
           <div class="page-info">
             <div class="page-name">作品詳情頁</div>
@@ -498,51 +727,51 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </div>
 
-    <!-- 彩蛋探索 -->
-    <div class="sec-divider"></div>
+    <!-- ⑨ EASTER EGGS -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider4.png" alt=""></div>
     <div class="sec">
-      <div class="sec-label"><span>彩蛋探索</span> <span class="sec-zh">EASTER EGGS</span></div>
-      <p class="egg-hint">首頁共有 7 個隱藏互動彩蛋 — 截圖與 icon 補上後替換佔位圖示</p>
+      <div class="sec-label"><span>彩蛋探索</span><span class="sec-zh">EASTER EGGS</span></div>
+      <p class="egg-hint">首頁共有 7 個隱藏互動彩蛋 — 你找到了幾個？</p>
       <div class="l4">
         <div class="egg-card">
-          <div class="egg-icon-ph">🔦</div>
+          <div class="egg-icon-ph"><img src="assets/icon/Lamp.png" alt=""></div>
           <span class="egg-trigger">HOVER</span>
           <div class="egg-title">聚光燈跟隨</div>
           <div class="egg-desc">進入首頁，房間昏暗，聚光燈隨滑鼠移動照亮局部區域。</div>
         </div>
         <div class="egg-card">
-          <div class="egg-icon-ph">🖥</div>
+          <div class="egg-icon-ph"><img src="assets/icon/Frontend.png" alt=""></div>
           <span class="egg-trigger">CLICK</span>
           <div class="egg-title">點擊螢幕轉場</div>
           <div class="egg-desc">點擊房間螢幕，觸發轉場動畫並跳轉至對應頁面。</div>
         </div>
         <div class="egg-card">
-          <div class="egg-icon-ph">⚠️</div>
+          <div class="egg-icon-ph"><img src="assets/icon/CircleExclamationMark.png" alt=""></div>
           <span class="egg-trigger">HOVER × 8s</span>
           <div class="egg-title">聚光燈照人物</div>
           <div class="egg-desc">將聚光燈停在人物身上持續 8 秒，彈出錯誤訊息小窗。</div>
           <div class="egg-note">與直接點擊人物效果相同</div>
         </div>
         <div class="egg-card">
-          <div class="egg-icon-ph">🐱</div>
+          <div class="egg-icon-ph"><img src="assets/icon/Cat.png" alt=""></div>
           <span class="egg-trigger">CLICK</span>
           <div class="egg-title">點擊人物</div>
           <div class="egg-desc">直接點擊人物角色，觸發隱藏的錯誤訊息彈窗互動。</div>
         </div>
         <div class="egg-card">
-          <div class="egg-icon-ph">💡</div>
+          <div class="egg-icon-ph"><img src="assets/icon/Sun.png" alt=""></div>
           <span class="egg-trigger">CLICK</span>
           <div class="egg-title">點擊吊燈</div>
-          <div class="egg-desc">點擊房間吊燈，整個房間亮起來，窗外出現星辰紫雲與都市夜景。</div>
+          <div class="egg-desc">點擊吊燈，整個房間亮起，窗外出現星辰紫雲與都市夜景。</div>
         </div>
         <div class="egg-card">
-          <div class="egg-icon-ph">📜</div>
+          <div class="egg-icon-ph"><img src="assets/icon/PaperAirplane.png" alt=""></div>
           <span class="egg-trigger">SCROLL</span>
           <div class="egg-title">螢幕飛走・自介</div>
           <div class="egg-desc">往下捲動，螢幕飛走，出現透明自介文字，滑鼠靠近才顯現。</div>
         </div>
         <div class="egg-card">
-          <div class="egg-icon-ph">😴</div>
+          <div class="egg-icon-ph"><img src="assets/icon/CrackedEgg.png" alt=""></div>
           <span class="egg-trigger">CLICK</span>
           <div class="egg-title">喚醒趴睡人物</div>
           <div class="egg-desc">捲動後人物趴在桌上，點擊他，人物被驚醒。</div>
@@ -550,29 +779,385 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </div>
 
+    <!-- ⑩ REFLECTION -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
+    <div class="sec">
+      <div class="sec-label"><span>反思與回顧</span><span class="sec-zh">REFLECTION</span></div>
+      <div class="reflect-wrap">
+        <div>
+          <div class="reflect-quote">做這個網站<br>讓我明白「體驗」<br>比「展示」更重要</div>
+          <p class="reflect-body">從一開始只是想要一個放作品的地方，到後來開始思考「訪客的第一秒會感受到什麼」——這個轉變讓整個設計方向完全改變了。</p>
+        </div>
+        <div>
+          <div class="reflect-list">
+            <div class="reflect-item">
+              <img src="assets/icon/Idea.png" alt="">
+              <div>
+                <div class="reflect-item-t">學到了什麼</div>
+                <div class="reflect-item-s">純靜態 HTML 的極限與可能性，以及「少即是多」的互動設計哲學。不需要框架也能做出讓人印象深刻的體驗。</div>
+              </div>
+            </div>
+            <div class="reflect-item">
+              <img src="assets/icon/Rocket.png" alt="">
+              <div>
+                <div class="reflect-item-t">未來想優化的方向</div>
+                <div class="reflect-item-s">考慮升級至 Vite + React 以支援元件共享；加入更多跨頁面的連貫敘事，讓整個網站感覺像一個完整的故事。</div>
+              </div>
+            </div>
+            <div class="reflect-item">
+              <img src="assets/icon/MagicWand.png" alt="">
+              <div>
+                <div class="reflect-item-t">最滿意的部分</div>
+                <div class="reflect-item-s">聚光燈系統。簡單的 Canvas radial-gradient 跟隨滑鼠，卻能製造出強烈的「探索感」，是成本最低、回報最高的設計決策。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑪ FOOTER -->
     <div class="footer-nav">
       <div class="fn-btn"><span>←</span> PREV PROJECT</div>
-      <div class="fn-center"><span>✦</span><span class="fn-gem">◆</span><span>探索更多魔法與故事</span><span class="fn-gem">◆</span><span>✦</span></div>
+      <div class="fn-center">
+        <img class="fn-gem" src="assets/icon/Star.png" alt="">
+        <span>探索更多魔法與故事</span>
+        <img class="fn-gem" src="assets/icon/Star.png" alt="">
+      </div>
       <div class="fn-btn">NEXT PROJECT <span>→</span></div>
     </div>
   </main>
 </div>
 
 <script>
+/* ── Cursor ── */
 const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
 document.addEventListener('mousemove',e=>{dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
-document.querySelectorAll('.ni,.fn-btn,.cta-box,.link-row,.hotspot,.feat-box,.ptag,.egg-card,.page-card').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));});
+document.querySelectorAll('.ni,.fn-btn,.cta-box,.link-row,.hotspot,.feat-box,.ptag,.egg-card,.page-card,.swatch,.ic-card,.stat-box,.sb-btn,.font-preview,.reflect-item,.sew-btn,.ss-char').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
 
+/* ── Stars ── */
 (function(){
   const bg=document.getElementById('stars');
   const colors=['#ffffff','rgba(255,185,215,1)','rgba(165,215,255,1)','rgba(255,220,140,1)'];
-  for(let i=0;i<75;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*1.8+0.4;const c=colors[Math.floor(Math.random()*colors.length)];s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${c};--a:${0.12+Math.random()*.65};--d:${2+Math.random()*5}s;--dl:${-Math.random()*5}s`;bg.appendChild(s);}
+  for(let i=0;i<80;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*1.8+0.4,c=colors[Math.floor(Math.random()*colors.length)];
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${c};--a:${0.12+Math.random()*.65};--d:${2+Math.random()*5}s;--dl:${-Math.random()*5}s`;
+    bg.appendChild(s);
+  }
 })();
 
-const NAVS=[{en:'HOME',zh:'首頁'},{en:'PROFILE',zh:'個人檔案'},{en:'ARCHIVE',zh:'作品總覽'},{en:'project',zh:'作品詳情',act:true},{en:'COMMISSION',zh:'委託'},{en:'SIGNAL',zh:'留言板'},{en:'LAB',zh:'實驗室'},{en:'OTHERS',zh:'其他'}];
+/* ── Sidebar Nav ── */
+const NAVS=[
+  {en:'HOME',zh:'首頁',icon:'assets/icon/Home.png'},
+  {en:'PROFILE',zh:'個人檔案',icon:'assets/icon/OverView.png'},
+  {en:'ARCHIVE',zh:'作品總覽',icon:'assets/icon/File.png'},
+  {en:'PROJECT',zh:'作品詳情',icon:'assets/icon/Detail.png',act:true},
+  {en:'COMMISSION',zh:'委託',icon:'assets/icon/Pay.png'},
+  {en:'SIGNAL',zh:'留言板',icon:'assets/icon/Comment.png'},
+  {en:'LAB',zh:'實驗室',icon:'assets/icon/Experiment.png'},
+  {en:'OTHERS',zh:'其他',icon:'assets/icon/Dot3.png'}
+];
 const navEl=document.getElementById('nav');
-NAVS.forEach(n=>{const d=document.createElement('div');d.className='ni'+(n.act?' act':'');d.innerHTML=`<div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div>`;d.addEventListener('mouseenter',()=>document.body.classList.add('hov'));d.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));navEl.appendChild(d);});
+NAVS.forEach(n=>{
+  const d=document.createElement('div');d.className='ni'+(n.act?' act':'');
+  d.innerHTML=`<img class="ni-icon" src="${n.icon}" alt=""><div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div>`;
+  d.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  d.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+  navEl.appendChild(d);
+});
 
+/* ── Hero title letter reveal ── */
+(function(){
+  const title="WUYAN'S ARCHIVE・作品集網站";
+  const el=document.getElementById('heroTitle');
+  title.split('').forEach((ch,i)=>{
+    const s=document.createElement('span');s.className='char-span';
+    s.textContent=ch===' '?' ':ch;
+    s.style.animationDelay=(0.6+i*0.048)+'s';
+    el.appendChild(s);
+  });
+})();
+
+/* ── Hero tag sequential reveal ── */
+document.querySelectorAll('.ptag').forEach((t,i)=>{t.style.animationDelay=(1.9+i*0.12)+'s';});
+
+/* ── Hero parallax ── */
+const heroBg=document.getElementById('heroBg');
+document.getElementById('main').addEventListener('scroll',function(){
+  heroBg.style.transform=`translateY(${this.scrollTop*0.28}px)`;
+});
+
+/* ── Verlet Curtain ── */
+(function(){
+  const hero=document.getElementById('heroSection');
+  const cv=document.getElementById('curtainCv');
+  const ctx=cv.getContext('2d');
+  const COLS=20,ROWS=14;
+  let W=0,H=0,pts=[],sticks=[],restLens=[];
+  let mx=0,my=0,inside=false;
+
+  function initPts(){
+    pts=[];sticks=[];restLens=[];
+    for(let r=0;r<ROWS;r++){
+      for(let c=0;c<COLS;c++){
+        const x=c/(COLS-1)*W;
+        const y=r/(ROWS-1)*(H*0.72);
+        pts.push({x,y,px:x,py:y,pinned:r===0});
+      }
+    }
+    for(let r=0;r<ROWS;r++){
+      for(let c=0;c<COLS;c++){
+        if(c<COLS-1){sticks.push([r*COLS+c,r*COLS+c+1]);}
+        if(r<ROWS-1){sticks.push([r*COLS+c,(r+1)*COLS+c]);}
+      }
+    }
+    restLens=sticks.map(([a,b])=>Math.hypot(pts[b].x-pts[a].x,pts[b].y-pts[a].y));
+  }
+
+  function resize(){
+    const r=hero.getBoundingClientRect();
+    W=r.width;H=r.height;
+    cv.width=W;cv.height=H;
+    initPts();
+  }
+  new ResizeObserver(resize).observe(hero);
+  resize();
+
+  hero.addEventListener('mousemove',e=>{
+    const r=hero.getBoundingClientRect();
+    mx=e.clientX-r.left;my=e.clientY-r.top;inside=true;
+  });
+  hero.addEventListener('mouseleave',()=>{inside=false;});
+
+  function update(){
+    for(const p of pts){
+      if(p.pinned) continue;
+      const vx=(p.x-p.px)*0.985;
+      const vy=(p.y-p.py)*0.985;
+      p.px=p.x;p.py=p.y;
+      p.x+=vx;p.y+=vy+0.18;
+      if(inside){
+        const dx=p.x-mx,dy=p.y-my;
+        const d=Math.hypot(dx,dy);
+        if(d<90&&d>0){
+          const f=(90-d)/90*2.2;
+          p.x+=dx/d*f;p.y+=dy/d*f;
+        }
+      }
+    }
+    for(let it=0;it<5;it++){
+      for(let i=0;i<sticks.length;i++){
+        const[ai,bi]=sticks[i];
+        const a=pts[ai],b=pts[bi];
+        const dx=b.x-a.x,dy=b.y-a.y;
+        const d=Math.hypot(dx,dy)||0.001;
+        const diff=(d-restLens[i])/d*0.5;
+        if(!a.pinned){a.x+=dx*diff;a.y+=dy*diff;}
+        if(!b.pinned){b.x-=dx*diff;b.y-=dy*diff;}
+      }
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let r=0;r<ROWS-1;r++){
+      for(let c=0;c<COLS-1;c++){
+        const tl=pts[r*COLS+c],tr=pts[r*COLS+c+1];
+        const bl=pts[(r+1)*COLS+c],br=pts[(r+1)*COLS+c+1];
+        const velX=tl.x-tl.px,velY=tl.y-tl.py;
+        const vel=Math.hypot(velX,velY);
+        ctx.beginPath();
+        ctx.moveTo(tl.x,tl.y);ctx.lineTo(tr.x,tr.y);
+        ctx.lineTo(br.x,br.y);ctx.lineTo(bl.x,bl.y);
+        ctx.closePath();
+        ctx.fillStyle='rgba(12,4,28,0.52)';
+        ctx.fill();
+        if(vel>1.2){
+          const g=Math.min(vel/10,1);
+          ctx.save();
+          ctx.globalCompositeOperation='lighter';
+          ctx.fillStyle=`rgba(${r%2?240:196},${r%2?130:130},${r%2?205:253},${g*0.07})`;
+          ctx.shadowBlur=12;
+          ctx.shadowColor=vel>2.5?`rgba(240,130,205,${g*0.4})`:`rgba(196,130,253,${g*0.35})`;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+    // tiny glow dots at high-velocity nodes
+    ctx.save();
+    ctx.globalCompositeOperation='lighter';
+    for(const p of pts){
+      if(p.pinned) continue;
+      const vel=Math.hypot(p.x-p.px,p.y-p.py);
+      if(vel>2){
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,1.2,0,Math.PI*2);
+        ctx.fillStyle=`rgba(255,185,215,${Math.min(vel/8,.6)})`;
+        ctx.shadowBlur=6;ctx.shadowColor='rgba(240,165,205,.5)';
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+
+  function loop(){update();draw();requestAnimationFrame(loop);}
+  loop();
+})();
+
+/* ── Stats counter ── */
+function animateCount(el){
+  const target=parseInt(el.dataset.target),suffix=el.dataset.suffix||'';
+  let v=0;const step=target/44;
+  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=Math.floor(v)+suffix;if(v>=target){el.textContent=target+suffix;clearInterval(t);}},18);
+}
+new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){document.querySelectorAll('.stat-num').forEach(animateCount);}
+},{threshold:.4}).observe(document.querySelector('.stats-row'));
+
+/* ── Spotlight (scene) ── */
+const sceneFrame=document.getElementById('sceneFrame');
+const sdCv=document.createElement('canvas');
+sdCv.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;display:block;transition:opacity .6s';
+sceneFrame.appendChild(sdCv);
+const sdCtx=sdCv.getContext('2d');
+let sdW=0,sdH=0,slX=0,slY=0,tX=200,tY=80,inScene=false;
+
+function resizeSd(){
+  const r=sceneFrame.getBoundingClientRect();
+  sdW=Math.round(r.width);sdH=Math.round(r.height);
+  sdCv.width=sdW;sdCv.height=sdH;
+  if(!inScene){tX=sdW*.39;tY=sdH*.16;slX=tX;slY=tY;}
+}
+new ResizeObserver(resizeSd).observe(sceneFrame);
+resizeSd();
+
+sceneFrame.addEventListener('mousemove',e=>{
+  const r=sceneFrame.getBoundingClientRect();
+  tX=e.clientX-r.left;tY=e.clientY-r.top;inScene=true;
+});
+sceneFrame.addEventListener('mouseleave',()=>{
+  inScene=false;tX=sdW*.39;tY=sdH*.16;
+});
+
+function drawSpotlight(){
+  if(!sdW||!sdH){requestAnimationFrame(drawSpotlight);return;}
+  const ease=inScene?.12:.04;
+  slX+=(tX-slX)*ease;slY+=(tY-slY)*ease;
+  sdCtx.clearRect(0,0,sdW,sdH);
+  sdCtx.fillStyle='rgba(0,0,0,.78)';sdCtx.fillRect(0,0,sdW,sdH);
+  sdCtx.save();
+  sdCtx.globalCompositeOperation='destination-out';
+  const r=Math.min(sdW,sdH)*.28;
+  const g=sdCtx.createRadialGradient(slX,slY,0,slX,slY,r);
+  g.addColorStop(0,'rgba(0,0,0,1)');
+  g.addColorStop(.5,'rgba(0,0,0,.7)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  sdCtx.fillStyle=g;sdCtx.fillRect(0,0,sdW,sdH);
+  sdCtx.restore();
+  requestAnimationFrame(drawSpotlight);
+}
+drawSpotlight();
+
+/* ── Lamp toggle ── */
+let lampOn=false;
+const sfBright=document.getElementById('sfBright');
+
+function toggleLamp(){
+  lampOn=!lampOn;
+  sfBright.style.opacity=lampOn?'1':'0';
+  sdCv.style.opacity=lampOn?'0':'1';
+}
+
+/* ── Scene error popup ── */
+const sceneErrWin=document.getElementById('sceneErrWin');
+function openErrWin(){sceneErrWin.classList.add('open');}
+function closeErrWin(){sceneErrWin.classList.remove('open');}
+document.getElementById('sewClose').addEventListener('click',closeErrWin);
+document.getElementById('sewOk').addEventListener('click',closeErrWin);
+document.getElementById('sewIgnore').addEventListener('click',closeErrWin);
+
+/* ── Hotspot interactions ── */
+document.querySelectorAll('.hotspot').forEach(hs=>{
+  const card=hs.dataset.card?document.getElementById(hs.dataset.card):null;
+  hs.addEventListener('mouseenter',()=>{if(card)card.classList.add('lit');});
+  hs.addEventListener('mouseleave',()=>{if(card)card.classList.remove('lit');});
+
+  hs.addEventListener('click',()=>{
+    const id=hs.dataset.id;
+    if(id==='03'){
+      toggleLamp();
+      return;
+    }
+    if(id==='02'){
+      openErrWin();
+      return;
+    }
+    if(id==='01'){
+      const tip=document.getElementById('tip01');
+      tip.classList.add('show');
+      setTimeout(()=>tip.classList.remove('show'),2200);
+      return;
+    }
+    if(id==='04'){
+      const tip=document.getElementById('tip04');
+      tip.classList.add('show');
+      setTimeout(()=>tip.classList.remove('show'),2000);
+      return;
+    }
+  });
+});
+
+/* ── Swatch copy HEX ── */
+document.querySelectorAll('.swatch').forEach(sw=>{
+  sw.addEventListener('click',()=>{
+    navigator.clipboard.writeText(sw.dataset.hex||'').catch(()=>{});
+    sw.classList.add('copied');setTimeout(()=>sw.classList.remove('copied'),1200);
+  });
+});
+
+/* ── Scroll Scene ── */
+(function(){
+  const wrap=document.getElementById('scrollSceneWrap');
+  const ssChar=document.getElementById('ssChar');
+  const ssWakeup=document.getElementById('ssWakeup');
+  const ssZzz=document.getElementById('ssZzz');
+  const ssHint=document.getElementById('ssHint');
+  const hwEls=document.querySelectorAll('#scrollSceneWrap .hw');
+  let awake=false;
+
+  // Mouse proximity → reveal hidden text
+  wrap.addEventListener('mousemove',e=>{
+    const r=wrap.getBoundingClientRect();
+    const cx=e.clientX-r.left;
+    const cy=e.clientY-r.top;
+    hwEls.forEach(el=>{
+      const er=el.getBoundingClientRect();
+      const ex=er.left-r.left+er.width/2;
+      const ey=er.top-r.top+er.height/2;
+      const d=Math.hypot(cx-ex,cy-ey);
+      const op=Math.max(0,1-d/140);
+      el.style.opacity=op;
+      el.style.filter=`blur(${(1-op)*4}px)`;
+    });
+  });
+  wrap.addEventListener('mouseleave',()=>{
+    hwEls.forEach(el=>{el.style.opacity='0';el.style.filter='blur(4px)';});
+  });
+
+  // Character click → wakeup
+  ssChar.addEventListener('click',()=>{
+    if(awake) return;
+    awake=true;
+    ssWakeup.classList.add('awake');
+    ssZzz.style.display='none';
+    ssHint.classList.add('hidden');
+  });
+})();
 </script>
 </body>
 </html>

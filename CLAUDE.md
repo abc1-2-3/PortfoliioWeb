@@ -54,35 +54,38 @@ body.hov #cursor-ring { border-color:rgba(240,160,205,.75); box-shadow:0 0 12px 
 
 ---
 
-## Sidebar 規格（兩頁統一）
+## Sidebar 規格（各頁統一）
 
-**行為：** 平時收縮至 16px 寬，靠近左邊展開，離開收回。
+**行為：** 平時收縮至 16px 寬，靠近左邊展開，離開收回。**配色：紫色系（violet）**，與 works 頁 design-drafts 一致。
+
+**導覽項目含三層：** `<img class="ni-icon">` + `.ni-en`（英文大寫）+ `.ni-zh`（中文）
 
 ```css
 #sidebar {
   position: fixed; left:0; top:0; bottom:0; width:220px;
-  background: rgba(4,2,16,.97);
+  background: rgba(7,5,15,.97);
   backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(180,100,145,.22);
+  border-right: 1px solid rgba(167,139,250,.22);
   z-index: 50;
   transform: translateX(calc(-100% + 16px));
   transition: transform .38s cubic-bezier(.25,.46,.45,.94), box-shadow .38s;
 }
 #sidebar:hover {
   transform: translateX(0);
-  box-shadow: 4px 0 44px rgba(0,0,0,.75);
+  box-shadow: 4px 0 44px rgba(0,0,0,.75), 0 0 0 1px rgba(167,139,250,.1);
 }
-/* 收縮時的粉→藍光條提示 */
+/* 收縮時的紫→藍光條提示 */
 #sidebar::before {
   content:''; position:absolute; right:0; top:22%; bottom:22%; width:2px;
-  background: linear-gradient(to bottom, transparent, rgba(240,165,205,.72) 40%, rgba(165,215,255,.58) 60%, transparent);
+  background: linear-gradient(to bottom, transparent, rgba(167,139,250,.72) 40%, rgba(165,215,255,.58) 60%, transparent);
   transition: opacity .25s;
 }
 #sidebar:hover::before { opacity:0 }
 /* 軌跡線（展開後可見）*/
 #sidebar::after {
-  content:''; position:absolute; left:36px; top:85px; bottom:130px; width:1.5px;
-  background: linear-gradient(to bottom, transparent, rgba(215,120,170,.5) 20%, rgba(240,165,205,.85) 50%, rgba(215,120,170,.5) 80%, transparent);
+  content:''; position:absolute; left:36px; top:80px; bottom:80px; width:1.5px;
+  background: linear-gradient(to bottom, transparent, rgba(167,139,250,.5) 20%, rgba(196,181,253,.85) 50%, rgba(167,139,250,.5) 80%, transparent);
+  box-shadow: 0 0 6px rgba(167,139,250,.28);
 }
 ```
 
@@ -109,6 +112,15 @@ body.hov #cursor-ring { border-color:rgba(240,160,205,.75); box-shadow:0 0 12px 
 
 ```
 assets/
+├── icon/                     ← 共用 UI 圖示（PNG，白底可用 filter:invert）
+│   ├── Home / File / OverView / Detail / Mission / Comment / LittleWorld
+│   ├── Experiment / Dot3 / Idea / Concept / Process / Code / Github / Rocket
+│   ├── Backend / Frontend / Website / CrackedEgg / MagicWand / Live / Crown
+│   ├── StarTalk / Reward / Pay / Link / Google / Lamp / Pen / Book / FillForm
+│   ├── PaperAirplane / Unlocked / Gift / IntroductionTips / Cat
+│   └── CrescentMoon / Star / Sun / Cloud / Cube / Multi-faceteddice / CircleExclamationMark / CircleQuestionMark
+├── Dividers/                 ← 裝飾分隔線 Divider1~4.png（橫向，filter 可染色）
+├── ClickHint/                ← 點擊提示圖 ClickHint1~5.png
 ├── DonationPagePic/          ← project_bookroom 用
 │   ├── BGtransparentedges.webp
 │   ├── BG.webp
@@ -116,20 +128,16 @@ assets/
 │   ├── paper.webp
 │   └── pen.webp
 ├── fullBGwebp/               ← homepage 用（房間場景分層）
-│   ├── bg_room_dark_webp.webp
-│   ├── bg_room_webp.webp
-│   ├── chair_webp.webp
-│   ├── character_wakeup_webp.webp
-│   ├── character_webp.webp
-│   ├── lamp_webp.webp
-│   ├── light_webp.webp
-│   ├── middlescreen_webp.webp
-│   ├── screen_side_L1/L2_webp.webp
-│   └── screen_side_R1/R2_webp.webp
+│   ├── bg_room_dark_webp.webp / bg_room_webp.webp
+│   ├── chair / character / lamp / light / middlescreen / screen_side 等
 └── gif/
     ├── bg_room_web.gif
     └── character_breathing_web.gif
 ```
+
+**Sidebar icon 對應慣例：**
+- 頁面導覽：Home→Home, PROFILE→OverView, ARCHIVE→File, PROJECT→Detail, COMMISSION→Pay, SIGNAL→Comment, LAB→Experiment, OTHERS→Dot3
+- 作品分類（rail）：ALL→Crown, VTUBER→Live, WEB→Website, PAYMENT→Pay, AI·BOT→Code, ILLUST→Pen, OTHERS→Experiment
 
 新頁面素材建議放 `assets/[頁面名稱]/`
 
