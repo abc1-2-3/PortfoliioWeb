@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Portfolio</title><style>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Portfolio</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet"><style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:none}
 #loader{position:fixed;inset:0;background:#030108;z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding-top:min(16vh,140px);transition:opacity .65s ease}
@@ -336,39 +336,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 });
 
-// ── 螢幕浮現文字 Screen Float Text ──
-(function(){
-  const FLT={
-    'sc-main':{words:['ARCHIVE','WORKS','PROJECT','GALLERY','DESIGN','PORTFOLIO','EXHIBIT'],col:'rgba(255,220,140,'},
-    'sc-L1':  {words:['COMMISSION','VTUBER','ILLUST','L2D','委託','ART','REQUEST'],        col:'rgba(240,165,205,'},
-    'sc-L2':  {words:['SIGNAL','BLOG','廢話','日常','IDEAS','RANT','THOUGHTS'],            col:'rgba(165,215,255,'},
-    'sc-R1':  {words:['GUESTBOOK','留言板','MESSAGE','CHAT','CONNECT','HELLO','WAVE'],     col:'rgba(196,181,253,'},
-    'sc-R2':  {words:['OTHERS','LAB','MISC','其他','EXTRA','MORE','STUFF'],               col:'rgba(165,215,255,'},
-  };
-  const st=document.createElement('style');
-  st.textContent='@keyframes sc-float{0%{transform:translateY(6px);opacity:0}12%{opacity:1}80%{opacity:.75}100%{transform:translateY(-95px);opacity:0}}.sc-float-word{position:absolute;font:700 7.5px "Courier New",monospace;letter-spacing:2px;text-transform:uppercase;pointer-events:none;white-space:nowrap;z-index:20;animation:sc-float 2.4s ease-out forwards}';
-  document.head.appendChild(st);
-  document.querySelectorAll('.sc-wrap').forEach(wrap=>{
-    const cfg=FLT[wrap.id];if(!cfg)return;
-    let timer=null,idx=0,active=false;
-    function spawn(){
-      if(!active)return;
-      const word=cfg.words[idx%cfg.words.length];idx++;
-      const el=document.createElement('div');
-      el.className='sc-float-word';
-      el.textContent=word;
-      const x=16+Math.random()*68,op=.7+Math.random()*.28;
-      el.style.left=x+'%';el.style.bottom='10%';
-      el.style.color=cfg.col+op.toFixed(2)+')';
-      el.style.textShadow=`0 0 ${Math.round(5+Math.random()*8)}px ${cfg.col+(op*.48).toFixed(2)})`;
-      wrap.appendChild(el);
-      setTimeout(()=>el.remove(),2500);
-      timer=setTimeout(spawn,360+Math.random()*300);
-    }
-    wrap.addEventListener('mouseenter',()=>{active=true;wrap.style.zIndex='22';spawn();});
-    wrap.addEventListener('mouseleave',()=>{active=false;clearTimeout(timer);wrap.style.zIndex='';});
-  });
-})();
 
 // ── 神祕訊號節點（mousemove 近接偵測）──
 (function(){
@@ -393,7 +360,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   let cur=null;
   document.addEventListener('mousemove',e=>{
     if(!sceneW)return;
-    const rx=3.5/100*sceneW,ry=3.5/100*sceneH;
+    const rx=6/100*sceneW,ry=6/100*sceneH;
     let hit=null;
     for(const n of NODES){
       if(Math.abs(mx-n.cx/100*sceneW)<rx&&Math.abs(my-n.cy/100*sceneH)<ry){hit=n;break;}
@@ -411,17 +378,17 @@ document.addEventListener('DOMContentLoaded',()=>{
 (function(){
   const bio=document.getElementById('bio');if(!bio)return;
   const st=document.createElement('style');
-  st.textContent='@keyframes bio-q{0%,100%{transform:translate(0,0)}20%{transform:translate(-1.3px,.9px)}40%{transform:translate(1.1px,-.7px)}60%{transform:translate(-.7px,1.3px)}80%{transform:translate(1.5px,-.5px)}}.bio-ch{display:inline-block;transition:transform .55s cubic-bezier(.2,.8,.2,1)}.bio-on .bio-ch{animation:bio-q 2.6s ease-in-out infinite}';
+  st.textContent='@keyframes bio-q{0%,100%{transform:translate(0,0)}20%{transform:translate(-1.3px,.9px)}40%{transform:translate(1.1px,-.7px)}60%{transform:translate(-.7px,1.3px)}80%{transform:translate(1.5px,-.5px)}}.bio-ch{display:inline-block;transition:transform .15s cubic-bezier(.15,.75,.2,1)}.bio-on .bio-ch{animation:bio-q 2.6s ease-in-out infinite}';
   document.head.appendChild(st);
   const LINES=[
-    {t:'我 是 吳 言',c:'rgba(200,185,255,.72)',sz:'9.5px'},
-    {t:'Vtuber · 後端工程師',c:'rgba(165,215,255,.58)',sz:'9px'},
-    {t:'這裡是我的作品集 · 隨便看看',c:'rgba(240,165,205,.45)',sz:'8.5px'},
+    {t:'我 是 吳 言',c:'rgba(230,220,255,.95)',sz:'18px',ff:"'Noto Serif TC',Georgia,serif",fw:'200',lsp:'5px',mb:'10px'},
+    {t:'Vtuber · 後端工程師',c:'rgba(200,188,240,.72)',sz:'12px',ff:"'Courier New',monospace",fw:'400',lsp:'3px',mb:'4px'},
+    {t:'這裡是我的作品集 · 隨便看看',c:'rgba(170,158,215,.52)',sz:'10.5px',ff:"'Courier New',monospace",fw:'400',lsp:'2px',mb:'3px'},
   ];
   const chars=[];
   LINES.forEach((ln,li)=>{
     const div=document.createElement('div');
-    div.style.cssText=`color:${ln.c};margin-bottom:3px;font-size:${ln.sz}`;
+    div.style.cssText=`color:${ln.c};margin-bottom:${ln.mb||'3px'};font-size:${ln.sz};font-family:${ln.ff};font-weight:${ln.fw};letter-spacing:${ln.lsp}`;
     [...ln.t].forEach((ch,ci)=>{
       const sp=document.createElement('span');
       sp.className='bio-ch';sp.textContent=ch===' '?' ':ch;
@@ -436,13 +403,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     const r=bio.getBoundingClientRect();
     if(!r.width)return;
     const bx=r.left+r.width/2,by=r.top+r.height/2;
-    const dist=Math.hypot(e.clientX-bx,e.clientY-by);
+    if(Math.hypot(e.clientX-bx,e.clientY-by)>300){chars.forEach(ch=>{ch.style.transform='';ch.style.animationPlayState='';});return;}
     chars.forEach(ch=>{
-      if(dist>200){ch.style.transform='';ch.style.animationPlayState='';return;}
       const cr=ch.getBoundingClientRect();
       const dx=cr.left+cr.width/2-e.clientX,dy=cr.top+cr.height/2-e.clientY;
       const d=Math.max(1,Math.hypot(dx,dy));
-      const f=Math.min(60,2000/d);
+      if(d>150){ch.style.transform='';ch.style.animationPlayState='';return;}
+      const f=Math.min(75,3500/d);
       ch.style.animationPlayState='paused';
       ch.style.transform=`translate(${(dx/d*f).toFixed(1)}px,${(dy/d*f).toFixed(1)}px)`;
     });
