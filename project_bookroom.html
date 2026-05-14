@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>緣界串接・魔法書房 | WUYAN's ARCHIVE</title>
+<title>綠界串接・魔法書房 | WUYAN's ARCHIVE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet">
@@ -11,6 +11,9 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;background:#04020e;color:#cec8f0;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
 *{cursor:none!important}
+
+/* ── Progress Bar ── */
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,rgba(212,168,78,.4),rgba(212,168,78,.9),rgba(240,165,205,.7));z-index:200;pointer-events:none;transition:width .1s linear}
 
 /* ── Cursor ── */
 #cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
@@ -22,6 +25,10 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 .star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
 @keyframes twinkle{0%,100%{opacity:var(--a,.3)}50%{opacity:1}}
 
+/* ── Scroll reveal ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
 /* ── Shell ── */
 #shell{display:grid;grid-template-columns:1fr;height:100vh;position:relative;z-index:1}
 
@@ -31,7 +38,6 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 #sidebar::before{content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.72) 40%,rgba(165,215,255,.58) 60%,transparent);border-radius:1px;transition:opacity .25s;pointer-events:none;z-index:2}
 #sidebar:hover::before{opacity:0}
 #sidebar::after{content:'';position:absolute;left:36px;top:85px;bottom:130px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);border-radius:2px;box-shadow:0 0 6px rgba(167,139,250,.28)}
-
 .sb-head{padding:16px 14px 12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(167,139,250,.15);flex-shrink:0}
 .sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(20,10,40,.6);flex-shrink:0;box-shadow:0 0 12px rgba(167,139,250,.22)}
 .sb-info{flex:1;min-width:0}
@@ -41,21 +47,19 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 .sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:sbpulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
 @keyframes sbpulse{0%,100%{opacity:.6}50%{opacity:1}}
 .sb-online{font:400 8px monospace;letter-spacing:2px;color:rgba(80,255,120,.58)}
-
 nav{flex:1;padding:8px 0;overflow-y:auto}
 .ni{display:flex;align-items:center;gap:9px;padding:9px 14px 9px 50px;position:relative;transition:all .22s;margin-bottom:1px;text-decoration:none;color:inherit}
 .ni::before{content:'○';position:absolute;left:29px;top:50%;transform:translate(-50%,-50%);font-size:6px;color:rgba(167,139,250,.35);transition:all .22s}
 .ni:hover::before,.ni.act::before{content:'◆';color:rgba(196,181,253,.95);font-size:7px;text-shadow:0 0 5px rgba(167,139,250,.82)}
 .ni:hover,.ni.act{background:rgba(100,50,180,.1)}
 .ni.act{border-right:2px solid rgba(167,139,250,.68)}
-.ni-icon{width:13px;height:13px;object-fit:contain;opacity:.4;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
-.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.8}
+.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.55;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
 .ni-text{display:flex;flex-direction:column}
 .ni-en{font:700 10px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(140,110,180,.55);transition:color .22s}
 .ni-zh{font:400 8px monospace;color:rgba(74,66,100,.9);letter-spacing:1px;margin-top:2px;transition:color .22s}
 .ni:hover .ni-en,.ni.act .ni-en{color:rgba(196,181,253,.94)}
 .ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(138,126,170,.9)}
-
 .sb-music{padding:10px 14px;border-top:1px solid rgba(167,139,250,.22);background:rgba(8,4,22,.62);flex-shrink:0}
 .sb-mus-label{font:400 7px monospace;letter-spacing:3px;color:rgba(167,139,250,.55);text-transform:uppercase;margin-bottom:5px}
 .sb-mus-title{font:600 9px monospace;color:rgba(196,181,253,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -96,32 +100,42 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
   animation:formFloat 5s ease-in-out infinite}
 @keyframes formFloat{0%,100%{transform:perspective(700px) rotateY(-6deg) rotateX(3deg) translateY(0)}50%{transform:perspective(700px) rotateY(-6deg) rotateX(3deg) translateY(-7px)}}
 .hero-vignette{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,2,14,.04) 0%,rgba(4,2,14,.22) 48%,rgba(4,2,14,.96) 100%);z-index:2}
+.hero-candle{position:absolute;width:5px;border-radius:3px 3px 0 0;background:linear-gradient(to bottom,#e8dcc8,#9a7040);z-index:3;pointer-events:none}
+.hero-candle::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:7px;height:12px;border-radius:50% 50% 30% 30%;background:radial-gradient(ellipse at 50% 30%,#fffbe0,#f0c040 40%,transparent 80%);animation:flame 1.8s ease-in-out infinite alternate}
+@keyframes flame{from{transform:translateX(-50%) scale(1) rotate(-3deg)}to{transform:translateX(-50%) scale(1.1) rotate(3deg)}}
+.c1{bottom:120px;left:7%;height:55px;opacity:.55}
+.c2{bottom:145px;right:9%;height:72px;opacity:.5}
+.hero-glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:200px;background:radial-gradient(ellipse at 50% 100%,rgba(201,168,76,.14) 0%,transparent 70%);animation:glow-pulse 3s ease-in-out infinite alternate;z-index:2;pointer-events:none}
+@keyframes glow-pulse{from{opacity:.5}to{opacity:1}}
 .hero-content{position:absolute;bottom:0;left:0;right:0;z-index:5;padding:0 max(40px,calc((100% - 1280px)/2)) 52px}
-.hero-sparkles{display:flex;gap:10px;margin-bottom:14px}
+.hero-sparkles{display:flex;gap:10px;margin-bottom:10px}
 .sp{font-size:12px;animation:spfade 2.5s ease-in-out infinite}
-.sp:nth-child(1){color:rgba(220,170,80,.7);animation-delay:0s}
+.sp:nth-child(1){color:rgba(220,170,80,.7)}
 .sp:nth-child(2){animation-delay:-.8s;font-size:10px;color:rgba(248,168,205,.68)}
 .sp:nth-child(3){animation-delay:-1.6s;color:rgba(220,170,80,.65)}
 .sp:nth-child(4){animation-delay:-.4s;font-size:10px;color:rgba(138,202,248,.6)}
 .sp:nth-child(5){animation-delay:-1.2s;color:rgba(220,170,80,.65)}
 @keyframes spfade{0%,100%{opacity:.2;transform:scale(.82)}50%{opacity:1;transform:scale(1.12)}}
-.hero-title{
-  display:block;
-  font:200 clamp(28px,4vw,58px)/1.2 'Noto Serif TC','Georgia',serif;
-  letter-spacing:10px;
-  background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 28px rgba(195,148,42,.42));
-  margin-bottom:12px}
-.hero-sub{font:400 9px monospace;letter-spacing:5px;color:rgba(195,162,105,.62);text-transform:uppercase;margin-bottom:18px}
+.hero-eyebrow{font:400 8px monospace;letter-spacing:6px;color:rgba(212,168,78,.5);text-transform:uppercase;margin-bottom:10px}
+.hero-title{display:block;font:200 clamp(28px,4vw,58px)/1.2 'Noto Serif TC','Georgia',serif;letter-spacing:10px;background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 28px rgba(195,148,42,.42));margin-bottom:8px}
+.hero-sub{font:200 clamp(13px,1.4vw,17px)/1.6 'Noto Serif TC',serif;letter-spacing:4px;color:rgba(228,208,170,.72);margin-bottom:5px}
+.hero-sub-en{font:400 8px monospace;letter-spacing:4px;color:rgba(195,162,105,.45);text-transform:uppercase;margin-bottom:18px}
 .hero-tags{display:flex;gap:8px;flex-wrap:wrap}
-.htag{font:400 9px monospace;letter-spacing:2px;padding:5px 14px;border:1px solid rgba(215,118,162,.32);border-radius:20px;color:rgba(228,192,248,.75);background:rgba(4,2,14,.62);backdrop-filter:blur(8px);transition:all .25s}
+.htag{font:400 10px monospace;letter-spacing:2px;padding:6px 16px;border:1px solid rgba(215,118,162,.32);border-radius:20px;color:rgba(228,192,248,.78);background:rgba(4,2,14,.62);backdrop-filter:blur(8px);transition:all .25s}
 .htag:hover{border-color:rgba(252,162,208,.68);color:rgba(255,228,248,.96)}
 
+/* ── Gold Divider ── */
+.divider{display:flex;align-items:center;gap:14px;padding:0 max(40px,calc((100% - 1280px)/2));opacity:.4;flex-shrink:0}
+.div-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(212,168,78,.75),transparent)}
+.div-gem{width:5px;height:5px;background:#d4a84e;transform:rotate(45deg);flex-shrink:0;box-shadow:0 0 6px rgba(212,168,78,.4)}
+
+/* ── Section title ── */
+.sec-title{font:200 clamp(18px,2.6vw,30px)/1.4 'Noto Serif TC','Georgia',serif;letter-spacing:4px;background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:22px}
+
 /* ── Sections ── */
-.sec{padding:52px max(40px,calc((100% - 1280px)/2))}
+.sec{padding:44px max(40px,calc((100% - 1280px)/2))}
 .sec-alt{background:rgba(8,4,18,.62)}
-.sec-label{font:700 8px monospace;letter-spacing:4px;color:rgba(225,148,192,.65);text-transform:uppercase;margin-bottom:32px;display:flex;align-items:center;gap:14px}
+.sec-label{font:700 9px monospace;letter-spacing:4px;color:rgba(225,148,192,.7);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:14px}
 .sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(225,148,192,.2),transparent)}
 
 /* ── Grids ── */
@@ -130,91 +144,224 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 
 /* ── Cards ── */
-.card{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.28);border-radius:8px;padding:20px}
-.card-head{font:700 8px monospace;letter-spacing:3px;color:rgba(240,185,215,.90);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.card{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.28);border-radius:8px;padding:22px}
+.card-head{font:700 9px monospace;letter-spacing:3px;color:rgba(240,185,215,.92);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .card-head::before{content:'+';color:rgba(225,150,195,.62)}
-.card-text{font:400 10px/2 monospace;color:rgba(218,205,245,.90)}
-.tag-item{font:400 10px monospace;color:rgba(220,205,250,.88);padding:3px 0;display:flex;align-items:center;gap:6px}
+.card-text{font:400 12px/2 monospace;color:rgba(218,205,245,.90);margin-bottom:12px}
+.tag-item{font:400 12px monospace;color:rgba(220,205,250,.88);padding:4px 0;display:flex;align-items:center;gap:6px}
 .tag-item::before{content:'›';color:rgba(240,158,200,.68)}
-.tag-cat{font:700 8px monospace;letter-spacing:2px;color:rgba(188,158,215,.72);text-transform:uppercase;margin:10px 0 4px}
-.tag-cat:first-child{margin-top:0}
 
 /* ── Overview ── */
-.ov-intro{font:400 11px/2.2 monospace;color:rgba(222,208,248,.90);margin-bottom:24px}
-.ov-cta{display:flex;align-items:center;justify-content:space-between;background:rgba(85,28,62,.45);border:1px solid rgba(232,125,178,.48);border-radius:8px;padding:14px 18px;transition:all .25s}
-.ov-cta:hover{background:rgba(115,42,82,.58);border-color:rgba(255,168,210,.75);box-shadow:0 0 18px rgba(228,88,148,.2)}
-.ov-cta-label{font:700 10px monospace;color:rgba(255,218,242,.94);letter-spacing:1px;display:flex;align-items:center;gap:5px}
-.ov-cta-sub{font:400 8px monospace;color:rgba(188,150,210,.62);margin-top:3px}
-.ov-cta-arr{font-size:16px;color:rgba(248,165,205,.78)}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.stat-cell{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.22);border-radius:6px;padding:12px 14px}
-.stat-val{font:700 18px monospace;color:rgba(240,165,205,.92);letter-spacing:1px}
-.stat-key{font:400 8px monospace;letter-spacing:2px;color:rgba(162,128,192,.58);text-transform:uppercase;margin-top:3px}
-.link-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(158,108,138,.18)}
-.link-row:last-child{border-bottom:none}
-.link-name{font:400 9px monospace;color:rgba(218,188,248,.8)}
-.link-url{font:400 8px monospace;color:rgba(162,132,188,.58)}
+.ov-intro{font:400 13px/2.1 monospace;color:rgba(222,208,248,.90);margin-bottom:24px}
+
+/* Magic CTA button */
+.cta-magic{display:block;position:relative;border:1px solid rgba(212,168,78,.48);border-radius:10px;padding:20px 24px;background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(212,168,78,.04));overflow:hidden;text-decoration:none;transition:border-color .3s,box-shadow .3s;margin-top:24px}
+.cta-magic:hover{border-color:rgba(212,168,78,.88);box-shadow:0 0 28px rgba(212,168,78,.2),inset 0 0 20px rgba(212,168,78,.04)}
+.cta-magic-inner{display:flex;align-items:center;gap:16px;position:relative;z-index:2}
+.cta-magic-icon{width:44px;height:44px;border-radius:8px;border:1px solid rgba(212,168,78,.32);background:rgba(201,168,76,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cta-magic-icon img{width:24px;height:24px;filter:brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg);opacity:.85}
+.cta-magic-text{flex:1}
+.cta-magic-main{font:700 15px monospace;letter-spacing:2px;color:rgba(255,218,168,.95);margin-bottom:4px}
+.cta-magic-sub{font:400 10px monospace;letter-spacing:2px;color:rgba(195,162,105,.58)}
+.cta-magic-arr{font:700 18px monospace;color:rgba(212,168,78,.72);transition:transform .25s;flex-shrink:0}
+.cta-magic:hover .cta-magic-arr{transform:translateX(5px)}
+.cta-shimmer{position:absolute;top:0;left:-100%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(212,168,78,.12),transparent);animation:shimmer 3.5s ease-in-out infinite;z-index:1}
+@keyframes shimmer{0%{left:-100%}60%,100%{left:200%}}
+.cta-sparkles{position:absolute;top:10px;right:16px;font-size:10px;color:rgba(212,168,78,.35);animation:spfade 2s ease-in-out infinite;z-index:2}
+
+/* Magic statement callout */
+.magic-statement{border-left:3px solid rgba(212,168,78,.55);padding:14px 20px;margin-top:28px;background:rgba(201,168,76,.06);border-radius:0 8px 8px 0}
+.magic-statement-text{font:200 15px/1.7 'Noto Serif TC',serif;color:rgba(240,215,160,.88);letter-spacing:2px}
+
+/* Meta cards */
+.meta-cards{display:flex;flex-direction:column;gap:10px}
+.mc{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:14px 16px;position:relative}
+.mc::before{content:'';position:absolute;top:-1px;left:20px;right:20px;height:1px;background:linear-gradient(to right,transparent,rgba(212,168,78,.4),transparent)}
+.mc-label{font:700 9px monospace;letter-spacing:3px;color:rgba(195,162,105,.65);text-transform:uppercase;margin-bottom:5px}
+.mc-val{font:400 12px/1.85 monospace;color:rgba(222,208,248,.88)}
+.mc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.mc-tag{font:400 9px monospace;padding:3px 9px;border:1px solid rgba(155,111,206,.28);border-radius:2px;color:rgba(196,181,253,.75)}
 
 /* ── Interactive Scene ── */
-.scene-showcase{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(188,108,148,.22);height:clamp(260px,32vw,460px);margin-bottom:28px}
+.scene-showcase{position:relative;border-radius:10px;overflow:hidden;border:1px solid rgba(188,108,148,.22);height:clamp(260px,32vw,460px);margin-bottom:22px}
 .sc-bg{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .sc-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.sc-form{position:absolute;left:55%;top:8%;width:19%;z-index:3;pointer-events:none;
-  filter:drop-shadow(0 8px 24px rgba(0,0,0,.7));
-  transform:perspective(700px) rotateY(-6deg) rotateX(3deg);
-  animation:formFloat 5s ease-in-out infinite}
+.sc-form{position:absolute;left:55%;top:8%;width:19%;z-index:3;pointer-events:none;filter:drop-shadow(0 8px 24px rgba(0,0,0,.7));transform:perspective(700px) rotateY(-6deg) rotateX(3deg);animation:formFloat 5s ease-in-out infinite}
 .hotspot{position:absolute;display:flex;align-items:center;gap:7px;transform:translate(-50%,-50%);z-index:5}
 .hs-pin{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(240,165,205,.78);background:rgba(6,3,26,.88);display:flex;align-items:center;justify-content:center;font:700 8px monospace;color:rgba(255,215,240,.96);position:relative;transition:all .28s;flex-shrink:0;box-shadow:0 0 10px rgba(240,100,160,.22)}
 .hs-pin::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(240,165,205,.28);animation:hspulse 2.2s ease-in-out infinite}
 @keyframes hspulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.9;transform:scale(1.18)}}
 .hs-label{background:rgba(4,2,20,.92);border:1px solid rgba(210,108,155,.36);border-radius:6px;padding:6px 10px;backdrop-filter:blur(10px)}
 .hs-num{display:block;font:700 7px monospace;letter-spacing:2px;color:rgba(240,165,205,.78);margin-bottom:2px}
-.hs-text{font:600 10px monospace;color:rgba(255,232,248,.96);display:block}
-.hs-sub{font:400 8px monospace;color:rgba(210,162,222,.62);display:block;margin-top:2px}
+.hs-text{font:600 11px monospace;color:rgba(255,232,248,.96);display:block}
+.hs-sub{font:400 9px monospace;color:rgba(210,162,222,.62);display:block;margin-top:2px}
 .hotspot:hover .hs-pin{border-color:rgba(255,200,230,.96);box-shadow:0 0 20px rgba(248,100,165,.42)}
 .hotspot:hover .hs-label{border-color:rgba(255,165,210,.68);background:rgba(12,4,28,.95)}
-.ic-card{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.22);border-radius:8px;padding:18px;transition:all .25s}
+.ic-card{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.22);border-radius:8px;padding:20px;transition:all .25s}
 .ic-card:hover{border-color:rgba(240,148,188,.48);background:rgba(22,8,38,.55)}
-.ic-num{font:700 9px monospace;color:rgba(248,178,215,.68);letter-spacing:2px;margin-bottom:8px}
-.ic-name{font:700 11px monospace;color:rgba(248,218,255,.96);margin-bottom:6px;letter-spacing:.5px}
-.ic-desc{font:400 9px/1.75 monospace;color:rgba(208,185,238,.86)}
+.ic-num{font:700 9px monospace;color:rgba(248,178,215,.7);letter-spacing:2px;margin-bottom:8px}
+.ic-name{font:700 13px monospace;color:rgba(248,218,255,.96);margin-bottom:8px;letter-spacing:.5px}
+.ic-desc{font:400 11px/1.8 monospace;color:rgba(208,185,238,.86)}
 
-/* ── Inspiration ── */
-.insp-body{font:400 11px/2.2 monospace;color:rgba(222,208,248,.90)}
-.insp-body p{margin-bottom:18px}
-.insp-quote{border-left:2px solid rgba(218,148,192,.55);padding:14px 20px;margin:24px 0;background:rgba(80,20,55,.22);border-radius:0 6px 6px 0}
-.insp-quote-text{font:200 14px/1.85 'Noto Serif TC',serif;color:rgba(252,228,242,.96);letter-spacing:2px}
-.insp-side{display:flex;flex-direction:column;gap:12px}
-.insp-pill{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.22);border-radius:6px;padding:14px 16px;transition:all .22s}
-.insp-pill:hover{border-color:rgba(240,148,188,.48)}
-.insp-pill-icon{font-size:18px;margin-bottom:6px}
-.insp-pill-title{font:700 9px monospace;letter-spacing:2px;color:rgba(252,178,218,.90);text-transform:uppercase;margin-bottom:4px}
-.insp-pill-text{font:400 9px/1.65 monospace;color:rgba(208,185,238,.86)}
+/* ── Easter Egg Gallery ── */
+.egg-list{display:flex;flex-direction:column;gap:0;border:1px solid rgba(155,111,206,.2);border-radius:8px;overflow:hidden;margin-bottom:28px}
+.egg-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid rgba(155,111,206,.12);transition:background .2s}
+.egg-row:last-child{border-bottom:none}
+.egg-row:hover{background:rgba(155,111,206,.06)}
+.egg-status{font:700 8px monospace;letter-spacing:3px;padding:3px 10px;border-radius:2px;flex-shrink:0;white-space:nowrap}
+.egg-status.unlock{color:rgba(80,255,160,.88);background:rgba(80,255,160,.08);border:1px solid rgba(80,255,160,.22)}
+.egg-status.lock{color:rgba(162,132,188,.42);background:rgba(80,60,120,.12);border:1px solid rgba(155,111,206,.18)}
+.egg-info{flex:1}
+.egg-title{font:700 12px monospace;color:rgba(248,218,255,.92);letter-spacing:1px;margin-bottom:3px}
+.egg-tip{font:400 10px monospace;color:rgba(162,132,188,.58);letter-spacing:1px}
+.egg-row-icon{width:22px;height:22px;object-fit:contain;opacity:.6;filter:brightness(0) invert(1);flex-shrink:0}
+.egg-row.lock-row .egg-row-icon{opacity:.22;filter:brightness(0) invert(1) blur(1px)}
+
+/* Demo cards (glass style) */
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.egg-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:0}
+.demo-card{background:rgba(10,4,24,.42);border:1px solid rgba(155,111,206,.25);border-radius:12px;padding:20px;display:flex;flex-direction:column;min-height:300px;backdrop-filter:blur(12px);box-shadow:0 0 20px rgba(155,111,206,.06),inset 0 0 20px rgba(155,111,206,.02);transition:border-color .3s,box-shadow .3s}
+.demo-card:hover{border-color:rgba(155,111,206,.52);box-shadow:0 0 32px rgba(155,111,206,.18),inset 0 0 20px rgba(155,111,206,.04)}
+.dc-badge{font:700 7px monospace;letter-spacing:3px;color:rgba(80,255,160,.82);border:1px solid rgba(80,255,160,.22);border-radius:2px;padding:2px 8px;align-self:flex-start;margin-bottom:8px}
+.dc-badge.locked{color:rgba(162,132,188,.45);border-color:rgba(155,111,206,.2)}
+.dc-title{font:700 11px monospace;letter-spacing:2px;color:rgba(212,168,78,.95);margin-bottom:6px}
+.dc-desc{font:400 11px/1.8 monospace;color:rgba(208,185,238,.82);margin-bottom:14px}
+
+/* Pen scene */
+.pen-scene{flex:1;position:relative;border-radius:8px;overflow:hidden;min-height:160px;background:#060312}
+.ps-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.3}
+.ps-pen{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.72;transition:filter .3s,opacity .3s}
+.ps-pen.writing{opacity:.92;filter:drop-shadow(0 0 18px rgba(212,168,78,.8));animation:penWriteShake .18s ease-in-out infinite alternate}
+@keyframes penWriteShake{from{transform:translateY(0) rotate(0deg)}to{transform:translateY(-4px) rotate(.8deg)}}
+.ps-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;background:rgba(4,2,14,.15);pointer-events:none}
+.ps-label{font:700 8px monospace;letter-spacing:4px;color:rgba(212,168,78,.5);text-transform:uppercase;margin-bottom:8px}
+.ps-amount{font:200 clamp(36px,5vw,56px) 'Noto Serif TC',serif;background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 22px rgba(212,168,78,.65));letter-spacing:4px;line-height:1;text-align:center;transition:filter .2s}
+.ps-amount.drama{animation:amtDrama .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes amtDrama{0%{transform:scale(.55);filter:drop-shadow(0 0 40px rgba(212,168,78,1))}55%{transform:scale(1.2);filter:drop-shadow(0 0 30px rgba(212,168,78,.9))}100%{transform:scale(1);filter:drop-shadow(0 0 22px rgba(212,168,78,.65))}}
+.ps-hint{font:400 9px monospace;letter-spacing:2px;color:rgba(195,162,105,.45);margin-top:10px;animation:spfade 2s ease-in-out infinite}
+
+/* Rune canvas */
+#rs{flex:1;min-height:130px;border-radius:6px;overflow:hidden;border:1px solid rgba(155,111,206,.18);background:rgba(0,0,0,.38);position:relative}
+#rune-c{width:100%;height:100%;display:block}
+.rs-hint{position:absolute;bottom:7px;left:0;right:0;text-align:center;font:400 7px monospace;letter-spacing:3px;color:rgba(155,111,206,.32);pointer-events:none}
+.ri-row{display:flex;gap:6px;margin-top:10px}
+.ri{flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(155,111,206,.25);border-radius:3px;color:rgba(155,111,206,.9);font:400 10px monospace;padding:6px 9px;outline:none}
+.ri::placeholder{color:rgba(155,111,206,.28)}
+.ri:focus{border-color:rgba(155,111,206,.6)}
+.rb{background:none;border:1px solid rgba(212,168,78,.38);color:rgba(212,168,78,.8);font:700 8px monospace;padding:6px 14px;letter-spacing:2px;transition:all .3s;border-radius:3px}
+.rb:hover{border-color:rgba(212,168,78,.78);color:rgba(240,190,80,.96);background:rgba(212,168,78,.06)}
+
+/* Escape button */
+.escape-demo{flex:1;position:relative;min-height:140px;background:rgba(0,0,0,.22);border-radius:6px;overflow:hidden;border:1px solid rgba(155,111,206,.15)}
+.escape-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px 22px;border:1px solid rgba(155,111,206,.55);background:rgba(80,40,120,.38);color:rgba(196,181,253,.92);font:700 10px monospace;letter-spacing:3px;border-radius:6px;white-space:nowrap;transition:left .18s ease,top .18s ease,box-shadow .2s}
+.escape-btn.caught{border-color:rgba(212,168,78,.8);color:rgba(212,168,78,.95);background:rgba(201,168,76,.1);animation:none}
+.escape-msg{position:absolute;bottom:8px;left:0;right:0;text-align:center;font:400 9px monospace;letter-spacing:2px;color:rgba(212,168,78,.72);opacity:0;transition:opacity .5s}
+.escape-msg.show{opacity:1}
+
+/* Locked egg */
+.locked-egg{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.locked-egg-icon{font-size:40px;filter:blur(.5px);animation:smokeFloat 4s ease-in-out infinite}
+@keyframes smokeFloat{0%,100%{transform:translateY(0) scale(1);opacity:.55}50%{transform:translateY(-8px) scale(1.1);opacity:1}}
+.locked-egg-text{font:700 9px monospace;letter-spacing:3px;color:rgba(162,132,188,.72)}
+.locked-egg-hint{font:400 9px monospace;letter-spacing:1px;color:rgba(162,132,188,.55);text-align:center;line-height:1.8;animation:hintBlink 5s ease-in-out infinite}
+@keyframes hintBlink{0%,85%,100%{opacity:.55}93%{opacity:.9}}
+
+/* ── Conception ── */
+.con-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.cc{border:1px solid rgba(201,168,76,.16);border-radius:8px;padding:22px;background:rgba(201,168,76,.035);transition:border-color .3s,background .3s;display:flex;flex-direction:column;gap:10px}
+.cc:hover{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.07)}
+.cc-num{font:200 32px 'Noto Serif TC',serif;color:rgba(201,168,76,.22);line-height:1}
+.cc-icon{width:28px;height:28px;object-fit:contain;opacity:.78;filter:brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg)}
+.cc-title{font:700 11px monospace;letter-spacing:3px;color:rgba(212,168,78,.92);text-transform:uppercase}
+.cc-body{font:400 12px/1.9 monospace;color:rgba(208,185,238,.86)}
+
+/* Quote */
+.insp-body{font:400 13px/2.2 monospace;color:rgba(222,208,248,.90)}
+.insp-quote{border-left:2px solid rgba(218,148,192,.55);padding:14px 20px;margin:22px 0;background:rgba(80,20,55,.22);border-radius:0 6px 6px 0}
+.insp-quote-text{font:200 15px/1.85 'Noto Serif TC',serif;color:rgba(252,228,242,.96);letter-spacing:2px}
+
+/* ── Architecture HUD ── */
+.hud-wrap{position:relative;padding:20px;border:1px solid rgba(201,168,76,.15);border-radius:6px;background:rgba(4,2,14,.4);margin-bottom:28px}
+.hud-corner{position:absolute;width:12px;height:12px;border-color:rgba(212,168,78,.55);border-style:solid}
+.hud-corner.tl{top:0;left:0;border-width:2px 0 0 2px}
+.hud-corner.tr{top:0;right:0;border-width:2px 2px 0 0}
+.hud-corner.bl{bottom:0;left:0;border-width:0 0 2px 2px}
+.hud-corner.br{bottom:0;right:0;border-width:0 2px 2px 0}
+.hud-label{font:700 7px monospace;letter-spacing:5px;color:rgba(212,168,78,.38);text-transform:uppercase;margin-bottom:12px}
+.arch-row{display:flex;align-items:center;overflow-x:auto;gap:0;padding-bottom:4px}
+.an{flex:1;min-width:100px;border:1px solid rgba(201,168,76,.18);padding:16px 12px;text-align:center;background:rgba(10,4,24,.72);border-radius:3px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.an+.an{margin-left:-1px}
+.an.hl{border-color:rgba(155,111,206,.38);background:rgba(155,111,206,.07)}
+.an-icon-img{width:30px;height:30px;object-fit:contain;opacity:.78;filter:brightness(0) invert(1)}
+.an.hl .an-icon-img{opacity:.88}
+.an-name{font:700 9px monospace;letter-spacing:2px;color:rgba(212,168,78,.88);text-transform:uppercase}
+.an-desc{font:400 8px/1.4 monospace;color:rgba(162,132,188,.62)}
+.an-arr{color:rgba(195,162,105,.45);font-size:16px;padding:0 5px;flex-shrink:0;display:flex;align-items:center}
 
 /* ── Flow ── */
 .flow-wrap{overflow-x:auto;padding-bottom:12px}
 .flow-wrap::-webkit-scrollbar{height:2px}
 .flow-wrap::-webkit-scrollbar-thumb{background:rgba(210,108,158,.32)}
-.flow-h{display:flex;align-items:center;gap:0;min-width:max-content;padding:8px 4px}
-.fh-node{display:flex;flex-direction:column;align-items:center;gap:6px;width:130px}
-.fh-icon{width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(210,118,162,.48);background:rgba(14,7,32,.85);display:flex;align-items:center;justify-content:center;font-size:22px;transition:all .25s}
-.fh-icon:hover{border-color:rgba(255,165,210,.78);box-shadow:0 0 16px rgba(238,105,162,.28)}
-.fh-title{font:700 9px monospace;color:rgba(235,195,255,.82);text-align:center;letter-spacing:.5px}
-.fh-sub{font:400 8px monospace;color:rgba(162,128,188,.58);text-align:center}
-.fh-arr{font-size:16px;color:rgba(218,138,182,.48);flex-shrink:0;padding:0 8px 18px}
-.flow-desc{font:400 10px/2.1 monospace;color:rgba(208,188,245,.88);margin-top:24px;max-width:820px}
+.flow-box{min-width:600px;background:rgba(10,4,24,.5);border:1px solid rgba(201,168,76,.15);border-radius:6px;padding:28px;margin-top:20px}
+.flow-row{display:flex;align-items:stretch;justify-content:center}
+.fb{flex:1;min-width:100px;max-width:140px;border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:14px 10px;text-align:center;font:400 10px/1.6 monospace;color:rgba(222,208,248,.9);background:rgba(201,168,76,.04);display:flex;flex-direction:column;align-items:center;gap:6px}
+.fb.p{border-color:rgba(155,111,206,.32);background:rgba(155,111,206,.08);color:rgba(196,181,253,.9)}
+.fb.k{border-color:rgba(240,165,205,.25);background:rgba(240,165,205,.06);color:rgba(240,165,205,.88)}
+.fb img{width:22px;height:22px;object-fit:contain;opacity:.72;filter:brightness(0) invert(1)}
+.fa{color:rgba(195,162,105,.45);padding:0 5px;flex-shrink:0;font-size:15px;display:flex;align-items:center}
+.fav{text-align:center;color:rgba(195,162,105,.45);padding:6px 0;font-size:16px;margin-left:25%}
+.flow-desc{font:400 12px/2.1 monospace;color:rgba(208,188,245,.88);margin-top:22px;max-width:820px}
 
-/* ── Repo cards ── */
-.repo-card{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.28);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:all .25s}
-.repo-card:hover{border-color:rgba(240,148,188,.48);box-shadow:0 0 30px rgba(190,80,140,.12)}
-.repo-icon-row{display:flex;align-items:center;gap:10px}
-.repo-icon{font-size:20px}
-.repo-name{font:700 13px monospace;color:rgba(248,218,255,.96);letter-spacing:1px}
-.repo-desc{font:400 10px/1.8 monospace;color:rgba(208,185,238,.88)}
-.repo-tags{display:flex;flex-wrap:wrap;gap:5px}
-.repo-tag{font:400 7px monospace;padding:3px 8px;border:1px solid rgba(188,115,155,.32);border-radius:2px;color:rgba(202,165,218,.72);background:rgba(14,7,32,.62)}
-.repo-link{font:600 9px monospace;color:rgba(232,162,205,.85);letter-spacing:1px;display:flex;align-items:center;gap:5px;transition:color .2s;margin-top:4px}
-.repo-link:hover{color:rgba(255,215,248,.98)}
+/* ── Reflection ── */
+.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.ref-card{background:rgba(10,4,24,.55);border:1px solid rgba(188,108,148,.25);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .25s,background .25s}
+.ref-card:hover{border-color:rgba(240,148,188,.48);background:rgba(22,8,38,.55)}
+.ref-icon-box{width:40px;height:40px;border-radius:8px;border:1px solid rgba(240,165,205,.28);background:rgba(85,28,62,.35);display:flex;align-items:center;justify-content:center}
+.ref-icon-box img{width:20px;height:20px;filter:brightness(0) invert(1) sepia(.5) saturate(3) hue-rotate(280deg);opacity:.82}
+.ref-title{font:700 12px monospace;letter-spacing:2px;color:rgba(248,218,255,.92)}
+.ref-body{font:400 12px/1.9 monospace;color:rgba(208,185,238,.85)}
+
+/* ── Open source ── */
+.repo-uni{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);border-radius:8px;padding:28px;margin-top:28px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.repo-uni-name{font:200 clamp(17px,1.8vw,22px) 'Noto Serif TC',serif;background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.repo-uni-desc{font:400 12px/1.85 monospace;color:rgba(208,185,238,.86);max-width:480px}
+.repo-uni-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.rl{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border:1px solid rgba(201,168,76,.28);color:rgba(212,168,78,.88);text-decoration:none;font:700 9px monospace;letter-spacing:2px;text-transform:uppercase;transition:all .3s;border-radius:4px}
+.rl:hover{background:rgba(201,168,76,.1);border-color:rgba(212,168,78,.65);color:rgba(240,200,100,.96)}
+.rl.main{background:rgba(201,168,76,.06)}
+
+/* ── Egg unlock animation ── */
+.egg-found{animation:eggDiscover .9s ease-out}
+@keyframes eggDiscover{0%{background:rgba(80,255,160,.16)}100%{background:transparent}}
+.egg-status.unlock{color:rgba(80,255,160,.88);background:rgba(80,255,160,.08);border:1px solid rgba(80,255,160,.22)}
+.egg-status.lock{color:rgba(162,132,188,.42);background:rgba(80,60,120,.12);border:1px solid rgba(155,111,206,.18)}
+.egg-status.newly{animation:badgePop .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes badgePop{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+
+/* ── Sequence diagram ── */
+.seq-diag{background:rgba(10,4,24,.5);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:24px;margin-top:20px;overflow-x:auto}
+.seq-actors{display:flex;gap:8px;margin-bottom:14px;min-width:500px}
+.seq-actor{flex:1;text-align:center;padding:10px 6px;border-radius:6px;font:700 9px monospace;letter-spacing:2px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.seq-actor span{font-size:18px}
+.sa-c{background:rgba(240,165,205,.07);border:1px solid rgba(240,165,205,.28);color:rgba(240,165,205,.88)}
+.sa-s{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);color:rgba(212,168,78,.9)}
+.sa-e{background:rgba(80,200,120,.06);border:1px solid rgba(80,200,120,.28);color:rgba(100,225,145,.85)}
+.sa-b{background:rgba(138,202,248,.06);border:1px solid rgba(138,202,248,.22);color:rgba(138,202,248,.82)}
+.seq-steps{display:flex;flex-direction:column;gap:4px;min-width:500px}
+.seq-step{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(4,2,14,.42);border-radius:4px;border:1px solid rgba(255,255,255,.03);transition:background .2s}
+.seq-step:hover{background:rgba(10,5,28,.7)}
+.sn{width:20px;height:20px;border-radius:50%;border:1px solid rgba(212,168,78,.35);color:rgba(212,168,78,.75);font:700 8px monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sf,.st{font:700 8px monospace;padding:3px 9px;border-radius:3px;flex-shrink:0;white-space:nowrap}
+.sf.c,.st.c{background:rgba(240,165,205,.1);border:1px solid rgba(240,165,205,.22);color:rgba(240,165,205,.85)}
+.sf.s,.st.s{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);color:rgba(212,168,78,.88)}
+.sf.e,.st.e{background:rgba(80,200,120,.06);border:1px solid rgba(80,200,120,.2);color:rgba(100,225,145,.82)}
+.sf.b,.st.b{background:rgba(138,202,248,.06);border:1px solid rgba(138,202,248,.18);color:rgba(138,202,248,.8)}
+.sa{color:rgba(195,162,105,.45);padding:0 6px;font-size:14px;letter-spacing:-1px;flex-shrink:0}
+.sd{font:400 11px/1.5 monospace;color:rgba(222,208,248,.85);flex:1}
+.seq-outcomes{display:flex;gap:12px;margin-top:12px;min-width:500px}
+.so{flex:1;text-align:center;padding:12px;border-radius:6px;font:700 11px monospace;letter-spacing:2px}
+.so.ok{background:rgba(80,200,120,.08);border:1px solid rgba(80,200,120,.25);color:rgba(80,200,120,.88)}
+.so.fail{background:rgba(240,80,100,.06);border:1px solid rgba(240,80,100,.2);color:rgba(240,130,140,.75)}
 
 /* ── Footer nav ── */
 .footer-nav{flex-shrink:0;padding:18px max(40px,calc((100% - 1280px)/2));border-top:1px solid rgba(188,108,148,.22);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.68)}
@@ -226,13 +373,12 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 </style>
 </head>
 <body>
+<div id="prog"></div>
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
 <div id="stars"></div>
 
 <div id="shell">
-
-  <!-- ── Sidebar ── -->
   <aside id="sidebar">
     <div class="sb-head">
       <div class="sb-cat">🐱</div>
@@ -248,34 +394,25 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       <div class="sb-mus-title">Book of Whispers</div>
       <div class="sb-mus-artist">by Wuyan</div>
       <div class="sb-mus-wave">
-        <span style="--spd:.5s;--dl:0s;--h:14px"></span>
-        <span style="--spd:.7s;--dl:.1s;--h:10px"></span>
-        <span style="--spd:.4s;--dl:.2s;--h:16px"></span>
-        <span style="--spd:.6s;--dl:.05s;--h:8px"></span>
-        <span style="--spd:.5s;--dl:.15s;--h:13px"></span>
-        <span style="--spd:.8s;--dl:.3s;--h:11px"></span>
-        <span style="--spd:.4s;--dl:.1s;--h:15px"></span>
-        <span style="--spd:.6s;--dl:.25s;--h:9px"></span>
+        <span style="--spd:.5s;--dl:0s;--h:14px"></span><span style="--spd:.7s;--dl:.1s;--h:10px"></span>
+        <span style="--spd:.4s;--dl:.2s;--h:16px"></span><span style="--spd:.6s;--dl:.05s;--h:8px"></span>
+        <span style="--spd:.5s;--dl:.15s;--h:13px"></span><span style="--spd:.8s;--dl:.3s;--h:11px"></span>
+        <span style="--spd:.4s;--dl:.1s;--h:15px"></span><span style="--spd:.6s;--dl:.25s;--h:9px"></span>
         <span style="--spd:.5s;--dl:.05s;--h:12px"></span>
       </div>
       <div class="sb-mus-ctrl">
-        <div class="sb-btn">⏮</div>
-        <div class="sb-btn play">⏸</div>
-        <div class="sb-btn">⏭</div>
+        <div class="sb-btn">⏮</div><div class="sb-btn play">⏸</div><div class="sb-btn">⏭</div>
       </div>
     </div>
   </aside>
 
-  <!-- ── Main ── -->
   <main id="main">
-
-    <!-- Topbar -->
     <div id="topbar">
       <div class="tb-bc">
         <span>🏠</span>
-        <a href="#">ARCHIVE</a>
+        <a href="homepage_final.html">ARCHIVE</a>
         <span class="sep">›</span>
-        <span class="cur">緣界串接・魔法書房</span>
+        <span class="cur">綠界串接・魔法書房</span>
       </div>
       <div class="tb-gem">💎</div>
       <div class="tb-right">
@@ -290,17 +427,21 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       <img class="hero-layer" src="assets/DonationPagePic/paper.webp" alt="">
       <img class="hero-layer" src="assets/DonationPagePic/pen.webp" alt="">
       <img class="hero-form" src="assets/DonationPagePic/form.webp" alt="贊助表單">
+      <div class="hero-candle c1"></div>
+      <div class="hero-candle c2"></div>
+      <div class="hero-glow"></div>
       <div class="hero-vignette"></div>
       <div class="hero-content">
         <div class="hero-sparkles">
           <span class="sp">✦</span><span class="sp">✧</span><span class="sp">✦</span><span class="sp">✧</span><span class="sp">✦</span>
         </div>
-        <span class="hero-title">緣界串接・魔法書房</span>
-        <div class="hero-sub">Donation System &amp; Interactive Experience</div>
+        <div class="hero-eyebrow">Portfolio · Interactive Web · Payment System</div>
+        <span class="hero-title">綠界串接・魔法書房</span>
+        <div class="hero-sub">以靈魂之名，留下你的心意</div>
+        <div class="hero-sub-en">Donation System &amp; Interactive Experience</div>
         <div class="hero-tags">
           <span class="htag">互動體驗</span>
           <span class="htag">金流串接</span>
-          <span class="htag">點數系統</span>
           <span class="htag">魔法世界觀</span>
           <span class="htag">Next.js 14</span>
           <span class="htag">Node.js</span>
@@ -308,40 +449,59 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </div>
 
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
     <!-- OVERVIEW -->
-    <section class="sec" id="sec-overview">
+    <section class="sec reveal" id="sec-overview">
       <div class="sec-label">OVERVIEW 作品概覽</div>
+      <h2 class="sec-title">一頁互動魔法，串接真實贊助</h2>
       <div class="g2">
         <div>
-          <p class="ov-intro">在魔法書房中捐獻支持，將你的心意化為魔法能量。透過綠界串接的安全金流，累積點數解鎖更多祝福與故事，打造一個充滿溫度與互動的捐獻體驗。<br><br>用奇幻世界觀包裝現實的支付串接，讓使用者在完成交易的同時，感受到儀式感與溫度。讓每一份支持都能在書房中留下痕跡，累積成改變世界的力量。</p>
-          <div class="ov-cta">
-            <div>
-              <div class="ov-cta-label">✦ 進入完整體驗</div>
-              <div class="ov-cta-sub">前往魔法書房網站 →</div>
+          <p class="ov-intro">為創作者打造的沉浸式贊助體驗頁面。以奇幻書房為舞台，將冰冷的金流轉化為充滿儀式感的魔法獻禮——透過古書、燭火、羽毛筆等互動彩蛋，讓每一筆贊助都成為書寫在故事裡的一頁。<br><br>用奇幻世界觀包裝現實的支付串接，讓使用者在完成交易的同時，感受到儀式感與溫度。</p>
+          <a class="cta-magic" href="https://wuyan-thankyou-donate.vercel.app/donate" target="_blank">
+            <div class="cta-magic-inner">
+              <div class="cta-magic-icon"><img src="assets/icon/MagicWand.png" alt=""></div>
+              <div class="cta-magic-text">
+                <div class="cta-magic-main">進入完整體驗</div>
+                <div class="cta-magic-sub">前往魔法書房網站</div>
+              </div>
+              <div class="cta-magic-arr">✦ →</div>
             </div>
-            <div class="ov-cta-arr">↗</div>
+            <div class="cta-shimmer"></div>
+            <div class="cta-sparkles">✦ ✧ ✦</div>
+          </a>
+          <div class="magic-statement">
+            <div class="magic-statement-text">把傳統支付流程，包裝成一個具有故事感與互動性的魔法體驗。</div>
           </div>
         </div>
-        <div>
-          <div class="stat-grid">
-            <div class="stat-cell"><div class="stat-val">2024</div><div class="stat-key">製作年份</div></div>
-            <div class="stat-cell"><div class="stat-val">Full</div><div class="stat-key">前後端分離</div></div>
-            <div class="stat-cell"><div class="stat-val">ECPay</div><div class="stat-key">金流串接</div></div>
-            <div class="stat-cell"><div class="stat-val">OAuth</div><div class="stat-key">Google 登入</div></div>
+        <div class="meta-cards">
+          <div class="mc"><div class="mc-label">專案性質</div><div class="mc-val">個人作品 · 互動體驗設計</div></div>
+          <div class="mc"><div class="mc-label">核心功能</div><div class="mc-val">綠界金流串接 · 沉浸式互動彩蛋 · 贊助留名</div></div>
+          <div class="mc">
+            <div class="mc-label">技術棧</div>
+            <div class="mc-tags">
+              <span class="mc-tag">Next.js 14</span><span class="mc-tag">TypeScript</span><span class="mc-tag">ECPay API</span>
+              <span class="mc-tag">Node.js</span><span class="mc-tag">MongoDB</span><span class="mc-tag">Vercel</span>
+            </div>
           </div>
-          <div class="card">
-            <div class="card-head">QUICK LINKS</div>
-            <div class="link-row"><span class="link-name">🌐 Website</span><span class="link-url">magic-bookroom.wuyan.tw ↗</span></div>
-            <div class="link-row"><span class="link-name">⌥ Frontend</span><span class="link-url">GitHub ↗</span></div>
-            <div class="link-row"><span class="link-name">⌥ Backend</span><span class="link-url">GitHub ↗</span></div>
+          <div class="mc"><div class="mc-label">設計理念</div><div class="mc-val">夢幻 × 駭客 × 魔法<br>暗色系 + 紫、粉、藍點綴</div></div>
+          <div class="mc">
+            <div class="mc-label">快速連結</div>
+            <div class="mc-val" style="display:flex;flex-direction:column;gap:4px;margin-top:2px">
+              <span>🌐 magic-bookroom.wuyan.tw</span>
+              <span>⌥ GitHub Frontend / Backend</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
     <!-- INTERACTIVE SCENE -->
-    <section class="sec sec-alt" id="sec-scene">
+    <section class="sec sec-alt reveal" id="sec-scene">
       <div class="sec-label">INTERACTIVE SCENE 互動場景</div>
+      <h2 class="sec-title">在這裡，每個角落都藏著秘密</h2>
       <div class="scene-showcase">
         <img class="sc-bg" src="assets/DonationPagePic/BGtransparentedges.webp" alt="魔法書房場景">
         <img class="sc-layer" src="assets/DonationPagePic/paper.webp" alt="">
@@ -349,93 +509,173 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
         <img class="sc-form" src="assets/DonationPagePic/form.webp" alt="贊助表單">
         <div class="hotspot" style="left:18%;top:54%">
           <div class="hs-pin">01</div>
-          <div class="hs-label">
-            <span class="hs-num">INTERACT</span>
-            <span class="hs-text">點擊書本</span>
-            <span class="hs-sub">獲得祝福紙條</span>
-          </div>
+          <div class="hs-label"><span class="hs-num">INTERACT</span><span class="hs-text">點擊書本</span><span class="hs-sub">獲得祝福紙條</span></div>
         </div>
         <div class="hotspot" style="left:36%;top:68%">
           <div class="hs-pin">02</div>
-          <div class="hs-label">
-            <span class="hs-num">INTERACT</span>
-            <span class="hs-text">提燈投遞</span>
-            <span class="hs-sub">投遞過濾與祝福</span>
-          </div>
+          <div class="hs-label"><span class="hs-num">INTERACT</span><span class="hs-text">提燈投遞</span><span class="hs-sub">投遞過濾與祝福</span></div>
         </div>
         <div class="hotspot" style="left:56%;top:59%">
           <div class="hs-pin">03</div>
-          <div class="hs-label">
-            <span class="hs-num">INTERACT</span>
-            <span class="hs-text">羽毛筆</span>
-            <span class="hs-sub">魔法效果表單</span>
-          </div>
+          <div class="hs-label"><span class="hs-num">INTERACT</span><span class="hs-text">羽毛筆</span><span class="hs-sub">魔法效果表單</span></div>
         </div>
       </div>
       <div class="g3">
-        <div class="ic-card">
-          <div class="ic-num">01 BOOKS</div>
-          <div class="ic-name">點擊書本</div>
-          <div class="ic-desc">書架上的書籍點擊後會掉落祝福紙條，帶著溫度的訊息漂浮而出，每次都是不同的驚喜。</div>
+        <div class="ic-card"><div class="ic-num">01 BOOKS</div><div class="ic-name">點擊書本</div><div class="ic-desc">書架上的書籍點擊後會掉落祝福紙條，帶著溫度的訊息漂浮而出，每次都是不同的驚喜。</div></div>
+        <div class="ic-card"><div class="ic-num">02 LANTERN</div><div class="ic-name">提燈投遞</div><div class="ic-desc">將你的祝福裝入提燈，飛向目的地，通過即時過濾確保祝福純淨傳達。</div></div>
+        <div class="ic-card"><div class="ic-num">03 QUILL</div><div class="ic-name">羽毛筆</div><div class="ic-desc">以羽毛筆填寫贊助表單，魔法粒子特效讓每一次輸入都充滿儀式感。</div></div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
+    <!-- EASTER EGGS -->
+    <section class="sec reveal" id="sec-demo">
+      <div class="sec-label">EASTER EGGS 隱藏彩蛋</div>
+      <h2 class="sec-title">試著動手玩玩看</h2>
+
+      <!-- Unlock gallery list -->
+      <div class="egg-list">
+        <div class="egg-row lock-row" id="egg-row-rune">
+          <div class="egg-status lock">🔒 LOCKED</div>
+          <div class="egg-info"><div class="egg-title">符文召喚術</div><div class="egg-tip">在下方舞台互動解鎖</div></div>
+          <img class="egg-row-icon" src="assets/icon/Star.png" alt="">
         </div>
-        <div class="ic-card">
-          <div class="ic-num">02 LANTERN</div>
-          <div class="ic-name">提燈投遞</div>
-          <div class="ic-desc">將你的祝福裝入提燈，飛向目的地，通過即時過濾確保祝福純淨傳達。</div>
+        <div class="egg-row lock-row" id="egg-row-pen">
+          <div class="egg-status lock">🔒 LOCKED</div>
+          <div class="egg-info"><div class="egg-title">羽毛筆附身術</div><div class="egg-tip">點擊羽毛筆場景解鎖</div></div>
+          <img class="egg-row-icon" src="assets/icon/Pen.png" alt="">
         </div>
-        <div class="ic-card">
-          <div class="ic-num">03 QUILL</div>
-          <div class="ic-name">羽毛筆</div>
-          <div class="ic-desc">以羽毛筆填寫贊助表單，魔法粒子特效讓每一次輸入都充滿儀式感。</div>
+        <div class="egg-row lock-row" id="egg-row-escape">
+          <div class="egg-status lock">🔒 LOCKED</div>
+          <div class="egg-info"><div class="egg-title">逃跑按鈕</div><div class="egg-tip">追到它才算解鎖</div></div>
+          <img class="egg-row-icon" src="assets/icon/Rocket.png" alt="">
+        </div>
+        <div class="egg-row lock-row">
+          <div class="egg-status lock">🔒 LOCKED</div>
+          <div class="egg-info"><div class="egg-title">Hidden Smoke</div><div class="egg-tip">藏於書房之外，尋訪首頁</div></div>
+          <img class="egg-row-icon" src="assets/icon/CircleQuestionMark.png" alt="">
+        </div>
+      </div>
+
+      <!-- 2x2 interactive demos -->
+      <div class="egg-grid-2">
+        <!-- Rune canvas -->
+        <div class="demo-card">
+          <div class="dc-badge locked" id="dc-badge-rune">🔒 LOCKED</div>
+          <div class="dc-title">✦ 符文召喚術</div>
+          <div class="dc-desc">點擊舞台，神秘符文浮現。用滑鼠驅散它們，或輸入咒文召喚。</div>
+          <div id="rs">
+            <canvas id="rune-c"></canvas>
+            <div class="rs-hint">CLICK TO SUMMON</div>
+          </div>
+          <div class="ri-row">
+            <input class="ri" id="ri" placeholder="輸入你的咒文…" maxlength="18">
+            <button class="rb" id="rcb">召喚</button>
+          </div>
+        </div>
+
+        <!-- Pen scene with actual assets -->
+        <div class="demo-card">
+          <div class="dc-badge locked" id="dc-badge-pen">🔒 LOCKED</div>
+          <div class="dc-title">✦ 羽毛筆附身術</div>
+          <div class="dc-desc">點擊羽毛筆，它悄悄附身表單，金額欄被神秘竄改。</div>
+          <div class="pen-scene" id="pen-scene">
+            <img class="ps-bg" src="assets/DonationPagePic/BG.webp" alt="">
+            <img class="ps-pen" src="assets/DonationPagePic/pen.webp" alt="" id="pen-el">
+            <div class="ps-overlay">
+              <div class="ps-label">MAGIC AMOUNT</div>
+              <div class="ps-amount" id="ps-amount">NT$ 300</div>
+              <div class="ps-hint">點擊羽毛筆啟動</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Escape button -->
+        <div class="demo-card">
+          <div class="dc-badge locked" id="dc-badge-escape">🔒 LOCKED</div>
+          <div class="dc-title">✦ 逃跑按鈕</div>
+          <div class="dc-desc">你追，它跑。能按到就送你一個彩蛋。</div>
+          <div class="escape-demo" id="escape-demo">
+            <button class="escape-btn" id="escape-btn">✦ 點我 ✦</button>
+            <div class="escape-msg" id="escape-msg">✦ 你追到了！魔法能量 +999 ✦</div>
+          </div>
+        </div>
+
+        <!-- Locked -->
+        <div class="demo-card">
+          <div class="dc-badge locked">🔒 LOCKED</div>
+          <div class="dc-title" style="color:rgba(200,170,230,.78)">Hidden Smoke</div>
+          <div class="dc-desc" style="color:rgba(180,150,210,.62)">這個彩蛋還沒有被解鎖。繼續探索書房，也許某個角落藏著線索……</div>
+          <div class="locked-egg">
+            <div class="locked-egg-icon">🌫️</div>
+            <div class="locked-egg-text">? ? ? ? ?</div>
+            <div class="locked-egg-hint">此彩蛋藏於書房之外<br>尋訪首頁，也許它在等你</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- INSPIRATION -->
-    <section class="sec" id="sec-inspiration">
-      <div class="sec-label">INSPIRATION 創作發想</div>
-      <div class="g2">
-        <div>
-          <div class="insp-body">
-            <p>我希望捐款不只是冰冷的金融交易，而是一場「放送祝福」的行為。每一份支持，都能在魔法書房中留下痕跡，累積成改變世界的力量。</p>
-            <p>用奇幻世界觀包裝現實的支付串接——使用者不是在「付款」，而是在「投遞魔法能量」。完成交易後，書房中會有對應的視覺回饋，讓每次捐獻都成為一個獨特的故事。</p>
-          </div>
-          <div class="insp-quote">
-            <div class="insp-quote-text">「讓每一份善意，<br>都化為永遠留在書房中的魔法。」</div>
-          </div>
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
+    <!-- CONCEPTION -->
+    <section class="sec sec-alt reveal" id="sec-conception">
+      <div class="sec-label">CONCEPTION 創作發想</div>
+      <h2 class="sec-title">從「為什麼不能更有趣一點？」開始</h2>
+      <div class="insp-body" style="max-width:640px">
+        <p>現有的贊助平台多半功能導向，缺乏個性與溫度。我想做一個讓人願意多待一下、多點幾個地方的頁面——不只是結帳，而是一次小小的奇幻體驗。</p>
+      </div>
+      <div class="insp-quote">
+        <div class="insp-quote-text">「讓每一份善意，<br>都化為永遠留在書房中的魔法。」</div>
+      </div>
+      <div class="con-grid">
+        <div class="cc">
+          <div class="cc-num">一</div>
+          <img class="cc-icon" src="assets/icon/Book.png" alt="">
+          <div class="cc-title">場景即敘事</div>
+          <div class="cc-body">以夜晚的魔法書房作為世界觀，所有 UI 元素都是這個故事的道具——書、蠟燭、符文、古卷。</div>
         </div>
-        <div class="insp-side">
-          <div class="insp-pill">
-            <div class="insp-pill-icon">💳</div>
-            <div class="insp-pill-title">金流串接</div>
-            <div class="insp-pill-text">使用綠界 ECPay SDK 處理真實支付流程，Webhook 確保後端即時收到付款通知。</div>
-          </div>
-          <div class="insp-pill">
-            <div class="insp-pill-icon">⭐</div>
-            <div class="insp-pill-title">點數系統</div>
-            <div class="insp-pill-text">每次捐獻累積魔法點數，可在書房中兌換不同等級的祝福與獨家故事。</div>
-          </div>
-          <div class="insp-pill">
-            <div class="insp-pill-icon">🔐</div>
-            <div class="insp-pill-title">身份認證</div>
-            <div class="insp-pill-text">Google OAuth 2.0 讓用戶一鍵登入，JWT Session 管理確保安全與持久化。</div>
-          </div>
-          <div class="insp-pill">
-            <div class="insp-pill-icon">🪄</div>
-            <div class="insp-pill-title">互動體驗</div>
-            <div class="insp-pill-text">Framer Motion 動畫系統搭配自製場景，打造沉浸式的捐獻互動體驗。</div>
-          </div>
+        <div class="cc">
+          <div class="cc-num">二</div>
+          <img class="cc-icon" src="assets/icon/Gift.png" alt="">
+          <div class="cc-title">彩蛋作為獎勵</div>
+          <div class="cc-body">用好奇心驅動探索，讓「意外發現」成為體驗的一部分，而不是只有功能性的點擊。</div>
+        </div>
+        <div class="cc">
+          <div class="cc-num">三</div>
+          <img class="cc-icon" src="assets/icon/MagicWand.png" alt="">
+          <div class="cc-title">儀式感的金流</div>
+          <div class="cc-body">贊助不只是轉帳，而是「以靈魂之名封印心意」——讓每位贊助者都感受到自己的名字被珍視。</div>
         </div>
       </div>
     </section>
+
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
 
     <!-- TECHNOLOGY -->
-    <section class="sec sec-alt" id="sec-tech">
+    <section class="sec reveal" id="sec-tech">
       <div class="sec-label">TECHNOLOGY 技術架構</div>
+      <h2 class="sec-title">魔法之下，是工程的骨架</h2>
+      <div class="hud-wrap">
+        <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+        <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+        <div class="hud-label">SYSTEM ARCHITECTURE</div>
+        <div class="arch-row">
+          <div class="an"><img class="an-icon-img" src="assets/icon/Frontend.png" alt=""><div class="an-name">Next.js</div><div class="an-desc">React 18 · App Router</div></div>
+          <div class="an-arr">→</div>
+          <div class="an hl"><img class="an-icon-img" src="assets/icon/Code.png" alt=""><div class="an-name">Canvas API</div><div class="an-desc">粒子 · 符文 · 彩蛋</div></div>
+          <div class="an-arr">→</div>
+          <div class="an"><img class="an-icon-img" src="assets/icon/Backend.png" alt=""><div class="an-name">API Routes</div><div class="an-desc">訂單 · SHA256</div></div>
+          <div class="an-arr">→</div>
+          <div class="an hl"><img class="an-icon-img" src="assets/icon/Pay.png" alt=""><div class="an-name">ECPay</div><div class="an-desc">綠界金流</div></div>
+          <div class="an-arr">→</div>
+          <div class="an"><img class="an-icon-img" src="assets/icon/Rocket.png" alt=""><div class="an-name">Callback</div><div class="an-desc">確認 · 感謝頁</div></div>
+        </div>
+      </div>
       <div class="g3">
         <div class="card">
           <div class="card-head">FRONTEND</div>
-          <div class="card-text" style="margin-bottom:10px">以 Next.js 14 App Router 為基礎，搭配 TypeScript 確保型別安全。</div>
+          <div class="card-text">以 Next.js 14 App Router 為基礎，搭配 TypeScript 確保型別安全。</div>
           <div class="tag-item">Next.js 14 App Router</div>
           <div class="tag-item">TypeScript 嚴格模式</div>
           <div class="tag-item">Tailwind CSS 樣式系統</div>
@@ -445,7 +685,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
         </div>
         <div class="card">
           <div class="card-head">BACKEND</div>
-          <div class="card-text" style="margin-bottom:10px">RESTful API 架構，JWT 做身份驗證，MongoDB 儲存點數與祝詞記錄。</div>
+          <div class="card-text">RESTful API 架構，JWT 做身份驗證，MongoDB 儲存點數與祝詞記錄。</div>
           <div class="tag-item">Node.js + Express</div>
           <div class="tag-item">MongoDB + Mongoose</div>
           <div class="tag-item">JWT / Session 認證</div>
@@ -455,7 +695,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
         </div>
         <div class="card">
           <div class="card-head">DEPLOYMENT</div>
-          <div class="card-text" style="margin-bottom:10px">前後端分離部署，CI/CD 自動化流程，安全的環境管理。</div>
+          <div class="card-text">前後端分離部署，CI/CD 自動化流程，安全的環境管理。</div>
           <div class="tag-item">Vercel（前端）</div>
           <div class="tag-item">Railway（後端）</div>
           <div class="tag-item">MongoDB Atlas</div>
@@ -465,113 +705,116 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </section>
 
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
     <!-- SYSTEM FLOW -->
-    <section class="sec" id="sec-flow">
+    <section class="sec sec-alt reveal" id="sec-flow">
       <div class="sec-label">SYSTEM FLOW 系統流程</div>
-      <div class="flow-wrap">
-        <div class="flow-h">
-          <div class="fh-node">
-            <div class="fh-icon">G</div>
-            <div class="fh-title">使用者登入</div>
-            <div class="fh-sub">Google OAuth</div>
-          </div>
-          <span class="fh-arr">→</span>
-          <div class="fh-node">
-            <div class="fh-icon">📝</div>
-            <div class="fh-title">填寫贊助表單</div>
-            <div class="fh-sub">選金額與祝詞</div>
-          </div>
-          <span class="fh-arr">→</span>
-          <div class="fh-node">
-            <div class="fh-icon">💳</div>
-            <div class="fh-title">綠界金流</div>
-            <div class="fh-sub">安全交易處理</div>
-          </div>
-          <span class="fh-arr">→</span>
-          <div class="fh-node">
-            <div class="fh-icon">🔔</div>
-            <div class="fh-title">Webhook 回調</div>
-            <div class="fh-sub">後端接收通知</div>
-          </div>
-          <span class="fh-arr">→</span>
-          <div class="fh-node">
-            <div class="fh-icon">⭐</div>
-            <div class="fh-title">累積點數</div>
-            <div class="fh-sub">寫入資料庫</div>
-          </div>
-          <span class="fh-arr">→</span>
-          <div class="fh-node">
-            <div class="fh-icon">🎁</div>
-            <div class="fh-title">解鎖祝福</div>
-            <div class="fh-sub">兌換 / 成就</div>
-          </div>
+      <h2 class="sec-title">從書房到綠界，一趟魔法之旅</h2>
+      <div class="seq-diag">
+        <div class="seq-actors">
+          <div class="seq-actor sa-c"><span>👤</span>消費者</div>
+          <div class="seq-actor sa-s"><span>🏪</span>商店後端</div>
+          <div class="seq-actor sa-e"><span>💳</span>ECPay</div>
+          <div class="seq-actor sa-b"><span>🏦</span>銀行</div>
+        </div>
+        <div class="seq-steps">
+          <div class="seq-step"><div class="sn">0</div><div class="sf c">消費者</div><div class="sa">→</div><div class="st s">商店</div><div class="sd">Google OAuth 登入 · 身份驗證</div></div>
+          <div class="seq-step"><div class="sn">1</div><div class="sf c">消費者</div><div class="sa">→</div><div class="st s">商店</div><div class="sd">填寫贊助金額與祝詞 · 點擊送出</div></div>
+          <div class="seq-step"><div class="sn">2</div><div class="sf s">商店後端</div><div class="sa">→</div><div class="st e">ECPay</div><div class="sd">產生 AIO 訂單請求（含 SHA256 驗簽）</div></div>
+          <div class="seq-step"><div class="sn">3</div><div class="sf e">ECPay</div><div class="sa">→</div><div class="st c">消費者</div><div class="sd">跳轉綠界付款頁面（信用卡 / ATM）</div></div>
+          <div class="seq-step"><div class="sn">4</div><div class="sf c">消費者</div><div class="sa">→</div><div class="st b">銀行</div><div class="sd">繳費 / 刷卡付款</div></div>
+          <div class="seq-step"><div class="sn">5</div><div class="sf b">銀行</div><div class="sa">→</div><div class="st e">ECPay</div><div class="sd">回覆付款結果</div></div>
+          <div class="seq-step"><div class="sn">6</div><div class="sf e">ECPay</div><div class="sa">→</div><div class="st s">商店後端</div><div class="sd">Webhook 付款結果通知（ServerPush）</div></div>
+          <div class="seq-step"><div class="sn">7</div><div class="sf s">商店後端</div><div class="sa">→</div><div class="st c">消費者</div><div class="sd">跳轉付款成功 / 失敗頁面</div></div>
+        </div>
+        <div class="seq-outcomes">
+          <div class="so ok">✦ 付款成功頁面<br><span style="font:400 9px monospace;opacity:.7;letter-spacing:1px">感謝頁 · 贊助留名</span></div>
+          <div class="so fail">✗ 付款失敗頁面<br><span style="font:400 9px monospace;opacity:.7;letter-spacing:1px">提示重試</span></div>
         </div>
       </div>
-      <div class="flow-desc">使用者透過 Google OAuth 登入後，填寫贊助金額與祝詞，前端送出至後端產生綠界交易訂單。完成付款後，ECPay 透過 Webhook 通知後端，後端驗證交易合法性並將點數寫入資料庫，使用者可在書房中兌換祝福或解鎖成就。</div>
+      <div class="flow-desc" style="margin-top:18px">消費者填寫贊助金額後，商店後端向 ECPay 發出 AIO 訂單請求（附 SHA256 驗簽），消費者被跳轉至綠界付款頁面完成刷卡。銀行回傳結果後，ECPay 透過 ServerPush Webhook 通知商店後端，後端驗證訂單合法性，並將消費者導向付款成功或失敗頁面。</div>
     </section>
+
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
+    <!-- REFLECTION -->
+    <section class="sec reveal" id="sec-reflection">
+      <div class="sec-label">REFLECTION 心得反思</div>
+      <h2 class="sec-title">從魔法到工程，我學到的事</h2>
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-icon-box"><img src="assets/icon/MagicWand.png" alt=""></div>
+          <div class="ref-title">將商業流程轉化成遊戲體驗</div>
+          <div class="ref-body">學會把枯燥的「付款流程」包裝成具有故事性的互動敘事。每個技術決策背後，都是一個設計選擇。</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon-box"><img src="assets/icon/Code.png" alt=""></div>
+          <div class="ref-title">API 串接與動畫整合</div>
+          <div class="ref-body">ECPay 串接讓我理解了後端訂單邏輯與驗簽機制；Framer Motion 讓我理解動畫系統與 React 狀態之間的關係。</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon-box"><img src="assets/icon/Star.png" alt=""></div>
+          <div class="ref-title">未來：會員與點數系統</div>
+          <div class="ref-body">讓每位支持者都能在書房中累積自己的魔法足跡，看見自己的贊助化為書房裡一點一滴的變化。</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
 
     <!-- OPEN SOURCE -->
-    <section class="sec sec-alt" id="sec-source">
+    <section class="sec sec-alt reveal" id="sec-source">
       <div class="sec-label">OPEN SOURCE 開源程式碼</div>
-      <div class="g2-eq">
-        <div class="repo-card">
-          <div class="repo-icon-row">
-            <span class="repo-icon">⚡</span>
-            <span class="repo-name">Bookroom-Frontend</span>
+      <h2 class="sec-title">魔法配方，公開共享</h2>
+      <p style="font:400 13px/2.1 monospace;color:rgba(208,185,238,.86);max-width:580px">全部原始碼開放於 GitHub，歡迎其他創作者取用、改造，打造屬於自己的魔法書房。</p>
+      <div class="repo-uni">
+        <div>
+          <div class="repo-uni-name">✦ wuyan-thankyou-donate</div>
+          <div class="repo-uni-desc">沉浸式贊助頁完整原始碼，含綠界 API 串接、Canvas 粒子系統、所有互動彩蛋實作，以及部署至 Vercel 的設定。前後端分離架構，前端 Next.js 14、後端 Node.js + Express。</div>
+          <div class="repo-uni-links">
+            <a href="#" class="rl main">↗ GitHub Frontend</a>
+            <a href="#" class="rl">↗ GitHub Backend</a>
+            <a href="https://wuyan-thankyou-donate.vercel.app/donate" target="_blank" class="rl">✦ 線上體驗</a>
           </div>
-          <div class="repo-desc">Next.js 14 前端應用，包含魔法書房互動場景、贊助表單、點數系統 UI 與動畫效果。</div>
-          <div class="repo-tags">
-            <span class="repo-tag">Next.js</span>
-            <span class="repo-tag">TypeScript</span>
-            <span class="repo-tag">Tailwind</span>
-            <span class="repo-tag">Framer Motion</span>
-          </div>
-          <div class="repo-link">⌥ github.com/Wuyan/Bookroom-Frontend ↗</div>
-        </div>
-        <div class="repo-card">
-          <div class="repo-icon-row">
-            <span class="repo-icon">🔧</span>
-            <span class="repo-name">Bookroom-Backend</span>
-          </div>
-          <div class="repo-desc">Node.js + Express 後端 API，處理 Google OAuth、ECPay 金流串接、點數邏輯與資料庫操作。</div>
-          <div class="repo-tags">
-            <span class="repo-tag">Node.js</span>
-            <span class="repo-tag">Express</span>
-            <span class="repo-tag">MongoDB</span>
-            <span class="repo-tag">ECPay SDK</span>
-          </div>
-          <div class="repo-link">⌥ github.com/Wuyan/Bookroom-Backend ↗</div>
         </div>
       </div>
     </section>
 
-    <!-- Footer nav -->
     <div class="footer-nav">
       <div class="fn-btn"><span>←</span> PREV PROJECT</div>
-      <div class="fn-center">
-        <span>✦</span>
-        <span class="fn-gem">♦</span>
-        <span>探索更多魔法與故事</span>
-        <span class="fn-gem">♦</span>
-        <span>✦</span>
-      </div>
+      <div class="fn-center"><span>✦</span><span class="fn-gem">♦</span><span>探索更多魔法與故事</span><span class="fn-gem">♦</span><span>✦</span></div>
       <div class="fn-btn">NEXT PROJECT <span>→</span></div>
     </div>
-
   </main>
 </div>
 
 <script>
 // Cursor
 const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0;
 document.addEventListener('mousemove',e=>{
-  dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
-  ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
+  mx=e.clientX;my=e.clientY;
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+  ring.style.left=mx+'px';ring.style.top=my+'px';
 });
-document.querySelectorAll('.ni,.fn-btn,.ov-cta,.hotspot,.htag,.ic-card,.insp-pill,.repo-card,.repo-link,.sb-btn,.fh-icon').forEach(el=>{
+document.querySelectorAll('.ni,.fn-btn,.ov-cta,.hotspot,.htag,.ic-card,.cc,.demo-card,.rb,.pen-scene,.rl,.an,.sb-btn,.cta-magic,.ref-card,.egg-row').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
+
+// Progress bar
+const prog=document.getElementById('prog'),mainEl=document.getElementById('main');
+mainEl.addEventListener('scroll',()=>{
+  const s=mainEl.scrollTop,h=mainEl.scrollHeight-mainEl.clientHeight;
+  prog.style.width=(h>0?Math.round(s/h*100):0)+'%';
+});
+
+// Scroll reveal
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
 
 // Stars
 (function(){
@@ -579,8 +822,7 @@ document.querySelectorAll('.ni,.fn-btn,.ov-cta,.hotspot,.htag,.ic-card,.insp-pil
   const colors=['#ffffff','rgba(255,185,215,1)','rgba(165,215,255,1)','rgba(255,220,140,1)'];
   for(let i=0;i<75;i++){
     const s=document.createElement('div');s.className='star';
-    const sz=Math.random()*1.8+0.4;
-    const c=colors[Math.floor(Math.random()*colors.length)];
+    const sz=Math.random()*1.8+0.4,c=colors[Math.floor(Math.random()*colors.length)];
     s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${c};--a:${0.12+Math.random()*.65};--d:${2+Math.random()*5}s;--dl:${-Math.random()*5}s`;
     bg.appendChild(s);
   }
@@ -588,24 +830,137 @@ document.querySelectorAll('.ni,.fn-btn,.ov-cta,.hotspot,.htag,.ic-card,.insp-pil
 
 // Nav
 const NAVS=[
-  {en:'HOME',    zh:'首頁',     icon:'assets/icon/Home.png',       href:'homepage_final.html'},
-  {en:'PROFILE', zh:'個人檔案', icon:'assets/icon/OverView.png',   href:'#'},
-  {en:'ARCHIVE', zh:'作品總覽', icon:'assets/icon/File.png',       href:'works_v3.html'},
-  {en:'PROJECT', zh:'作品詳情', icon:'assets/icon/Detail.png',     href:'#', act:true},
-  {en:'COMMISSION',zh:'委託',   icon:'assets/icon/Pay.png',        href:'#'},
-  {en:'SIGNAL',  zh:'留言板',   icon:'assets/icon/Comment.png',    href:'#'},
-  {en:'LAB',     zh:'實驗室',   icon:'assets/icon/Experiment.png', href:'#'},
-  {en:'OTHERS',  zh:'其他',     icon:'assets/icon/Dot3.png',       href:'#'},
+  {en:'HOME',zh:'首頁',icon:'assets/icon/Home.png',href:'homepage_final.html'},
+  {en:'PROFILE',zh:'個人檔案',icon:'assets/icon/OverView.png',href:'#'},
+  {en:'ARCHIVE',zh:'作品總覽',icon:'assets/icon/File.png',href:'works_v3.html'},
+  {en:'PROJECT',zh:'作品詳情',icon:'assets/icon/Detail.png',href:'#',act:true},
+  {en:'COMMISSION',zh:'委託',icon:'assets/icon/Pay.png',href:'#'},
+  {en:'SIGNAL',zh:'留言板',icon:'assets/icon/Comment.png',href:'#'},
+  {en:'LAB',zh:'實驗室',icon:'assets/icon/Experiment.png',href:'#'},
+  {en:'OTHERS',zh:'其他',icon:'assets/icon/Dot3.png',href:'#'},
 ];
 const navEl=document.getElementById('nav');
 NAVS.forEach(n=>{
   const a=document.createElement('a');
-  a.className='ni'+(n.act?' act':'');
-  a.href=n.href||'#';
+  a.className='ni'+(n.act?' act':'');a.href=n.href||'#';
   a.innerHTML=`<img class="ni-icon" src="${n.icon}" alt=""><div class="ni-text"><div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div></div>`;
   a.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   a.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
   navEl.appendChild(a);
+});
+
+// ── Rune Canvas ──
+const rs=document.getElementById('rs'),rc=document.getElementById('rune-c'),rx=rc.getContext('2d');
+let runes=[],runeActive=false;
+const CHARS='✦☽✵⊕⊗✺⟡◈⟢⌖⌘⧖⌁⊛',WORDS=['以靈魂之名','封印心意','魔法書房','願幸運降臨','古老咒文','✦ 神秘 ✦'];
+function rszR(){rc.width=rs.clientWidth||300;rc.height=rs.clientHeight||130}
+rszR();setTimeout(rszR,200);window.addEventListener('resize',rszR);
+function mkR(txt){const w=rc.width,h=rc.height;return{
+  text:txt||(CHARS[Math.floor(Math.random()*CHARS.length)]+' '+WORDS[Math.floor(Math.random()*WORDS.length)]),
+  x:w*.1+Math.random()*w*.8,y:h*.85,vx:(Math.random()-.5)*.3,vy:-Math.random()*.15-.05,
+  a:0,ta:Math.random()*.6+.25,sz:Math.random()*7+10,
+  col:Math.random()>.5?'#c9a84c':'#9b6fce',scatter:false,svx:0,svy:0}}
+function spawn(t){runeActive=true;for(let i=0;i<(t?1:6);i++)runes.push(mkR(t))}
+rs.addEventListener('click',()=>{spawn();unlockEgg('rune')});
+document.getElementById('rcb').addEventListener('click',()=>{
+  const v=document.getElementById('ri').value.trim();if(v){spawn(v);document.getElementById('ri').value=''}
+});
+document.getElementById('ri').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('rcb').click()});
+let rmx=-999,rmy=-999;
+rs.addEventListener('mousemove',e=>{
+  const r=rc.getBoundingClientRect();rmx=e.clientX-r.left;rmy=e.clientY-r.top;
+  runes.forEach(rn=>{const dx=rn.x-rmx,dy=rn.y-rmy,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<55&&!rn.scatter){rn.scatter=true;rn.svx=(dx/d)*(2.5+Math.random()*2);rn.svy=(dy/d)*(2.5+Math.random()*2)-.8}});
+});
+rs.addEventListener('mouseleave',()=>{rmx=-999;rmy=-999});
+function animR(){
+  if(!rc.width){requestAnimationFrame(animR);return}
+  rx.clearRect(0,0,rc.width,rc.height);
+  runes=runes.filter(rn=>rn.a>.01||rn.ta>0);
+  runes.forEach(rn=>{
+    if(rn.scatter){rn.x+=rn.svx;rn.y+=rn.svy;rn.svx*=.9;rn.svy*=.9;rn.ta=0}else{rn.x+=rn.vx;rn.y+=rn.vy}
+    rn.a+=(rn.ta-rn.a)*.05;if(rn.y<-10)rn.ta=0;
+    rx.save();rx.font=`${rn.sz}px 'Noto Serif TC',serif`;rx.globalAlpha=Math.max(0,rn.a);
+    rx.fillStyle=rn.col;rx.shadowColor=rn.col;rx.shadowBlur=8;rx.fillText(rn.text,rn.x,rn.y);rx.restore();
+  });
+  if(runeActive&&runes.length<25&&Math.random()<.025)runes.push(mkR());
+  requestAnimationFrame(animR);
+}
+animR();
+
+// ── Egg unlock logic ──
+function unlockEgg(which){
+  const row=document.getElementById('egg-row-'+which);
+  if(!row||!row.classList.contains('lock-row'))return;
+  row.classList.remove('lock-row');
+  const badge=row.querySelector('.egg-status');
+  if(badge){badge.className='egg-status unlock newly';badge.textContent='🔓 UNLOCKED'}
+  const icon=row.querySelector('.egg-row-icon');
+  if(icon){icon.style.opacity='.78';icon.style.filter='brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg)'}
+  row.classList.add('egg-found');
+  row.addEventListener('animationend',()=>row.classList.remove('egg-found'),{once:true});
+  setTimeout(()=>{if(badge)badge.classList.remove('newly')},2000);
+  // also flip the demo-card badge
+  const dcBadge=document.getElementById('dc-badge-'+which);
+  if(dcBadge){dcBadge.className='dc-badge';dcBadge.textContent='🔓 UNLOCKED'}
+}
+
+// ── Pen scene (uses actual asset) ──
+const penEl=document.getElementById('pen-el'),psAmount=document.getElementById('ps-amount');
+const AMT_POOL=[1,10,50,88,100,200,300,520,1000,2000,3000,5200,9999];
+let penT;
+function setPenAmount(a){
+  psAmount.textContent=a;
+  psAmount.classList.remove('drama');
+  void psAmount.offsetWidth;
+  psAmount.classList.add('drama');
+}
+function buildAscendingAmts(){
+  // pick 4 random values from pool, sort ascending, append ✦∞✦
+  const pool=[...AMT_POOL];
+  const picked=[];
+  for(let i=0;i<4;i++){const idx=Math.floor(Math.random()*pool.length);picked.push(pool.splice(idx,1)[0])}
+  picked.sort((a,b)=>a-b);
+  return picked.map(n=>'NT$ '+n.toLocaleString()).concat(['NT$ ✦∞✦']);
+}
+const penScene=document.getElementById('pen-scene')||penEl.closest('.pen-scene')||penEl.parentElement;
+penScene.addEventListener('click',()=>{
+  penEl.classList.add('writing');clearTimeout(penT);
+  unlockEgg('pen');
+  const seq=buildAscendingAmts();
+  let i=0;
+  const iv=setInterval(()=>{
+    setPenAmount(seq[i]);
+    if(++i>=seq.length){clearInterval(iv);penT=setTimeout(()=>penEl.classList.remove('writing'),800)}
+  },380);
+});
+
+// ── Escape button ──
+const escBtn=document.getElementById('escape-btn'),escDemo=document.getElementById('escape-demo'),escMsg=document.getElementById('escape-msg');
+let escCaught=false;
+document.addEventListener('mousemove',e=>{
+  if(escCaught||!escDemo)return;
+  const dr=escDemo.getBoundingClientRect();
+  if(e.clientX<dr.left||e.clientX>dr.right||e.clientY<dr.top||e.clientY>dr.bottom)return;
+  const br=escBtn.getBoundingClientRect();
+  const bcx=br.left+br.width/2,bcy=br.top+br.height/2;
+  const dx=e.clientX-bcx,dy=e.clientY-bcy,dist=Math.sqrt(dx*dx+dy*dy);
+  if(dist<90){
+    const angle=Math.atan2(-dy,-dx),push=75;
+    const hw=br.width/2,hh=br.height/2;
+    const relCx=bcx-dr.left,relCy=bcy-dr.top;
+    let nx=Math.max(hw,Math.min(dr.width-hw,relCx+Math.cos(angle)*push));
+    let ny=Math.max(hh,Math.min(dr.height-hh,relCy+Math.sin(angle)*push));
+    escBtn.style.left=nx+'px';escBtn.style.top=ny+'px';escBtn.style.transform='translate(-50%,-50%)';
+  }
+});
+escBtn.addEventListener('click',()=>{
+  if(escCaught)return;
+  escCaught=true;
+  escBtn.textContent='✦ 被你抓到了！✦';
+  escBtn.classList.add('caught');
+  escMsg.classList.add('show');
+  unlockEgg('escape');
 });
 </script>
 </body>
