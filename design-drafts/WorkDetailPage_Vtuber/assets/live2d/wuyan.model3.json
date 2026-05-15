@@ -1,0 +1,36 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "wuyan.moc3",
+		"Textures": [
+			"吳言拆件4.4096/texture_00.png",
+			"吳言拆件4.4096/texture_01.png",
+			"吳言拆件4.4096/texture_02.png"
+		],
+		"Physics": "wuyan.physics3.json",
+		"DisplayInfo": "wuyan.cdi3.json",
+		"Expressions": [
+			{ "Name": "xinxin",   "File": "expressions/xinxin.exp3.json" },
+			{ "Name": "crycry",   "File": "expressions/crycry.exp3.json" },
+			{ "Name": "dazweye",  "File": "expressions/dazweye.exp3.json" },
+			{ "Name": "fuwafuwa", "File": "expressions/fuwafuwa.exp3.json" },
+			{ "Name": "loading",  "File": "expressions/loading.exp3.json" },
+			{ "Name": "petal",    "File": "expressions/petal.exp3.json" },
+			{ "Name": "手把切換", "File": "expressions/手把切換.exp3.json" },
+			{ "Name": "數學思考", "File": "expressions/數學思考.exp3.json" },
+			{ "Name": "脫外套",   "File": "expressions/脫外套.exp3.json" },
+			{ "Name": "臉黑",     "File": "expressions/臉黑.exp3.json" },
+			{ "Name": "芙莉蓮表情", "File": "expressions/芙莉蓮表情.exp3.json" },
+			{ "Name": "藍色頭髮", "File": "expressions/藍色頭髮.exp3.json" },
+			{ "Name": "貓耳",     "File": "expressions/貓耳.exp3.json" },
+			{ "Name": "骨頭帽子", "File": "expressions/骨頭帽子.exp3.json" }
+		],
+		"Motions": {
+			"Idle": [ { "File": "motions/motion123.motion3.json" } ]
+		}
+	},
+	"Groups": [
+		{ "Target": "Parameter", "Name": "LipSync",  "Ids": ["ParamMouthOpenY"] },
+		{ "Target": "Parameter", "Name": "EyeBlink", "Ids": ["ParamEyeLOpen", "ParamEyeROpen"] }
+	]
+}

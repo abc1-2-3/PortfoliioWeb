@@ -7,7 +7,11 @@
       "Bash(ls assets/)",
       "Bash(dir assets *)",
       "Bash(Start-Process \"d:\\\\GitHub\\\\PortfoliioWeb\\\\project_bookroom.html\")",
-      "PowerShell(Start-Process \"d:\\\\GitHub\\\\PortfoliioWeb\\\\project_bookroom.html\")"
+      "PowerShell(Start-Process \"d:\\\\GitHub\\\\PortfoliioWeb\\\\project_bookroom.html\")",
+      "Bash(Select-String -Path \"d:\\\\GitLab\\\\PortfoliioWeb\\\\project_bookroom.html\" -Pattern \"penEl|penScene|unlockEgg|escBtn|rune.*click|rs\\\\.addEventListener\")",
+      "Bash(Select-Object LineNumber, Line)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(\\(Get-Content \"d:\\\\GitLab\\\\PortfoliioWeb\\\\project_vtuber.html\" | Measure-Object -Line\\).Lines)"
     ]
   }
 }
