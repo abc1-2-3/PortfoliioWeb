@@ -384,14 +384,51 @@ body.hov #cursor-ring {
 .card-thumb-art svg { width: 100%; height: 100%; }
 .card-title { font-family: var(--font-display); font-size: 13px; letter-spacing: .18em; color: var(--ink-0); margin-bottom: 4px; text-shadow: 0 1px 10px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,.9); }
 .card-subtitle { font-family: var(--font-ui); font-size: 10px; letter-spacing: .08em; color: var(--ink-1); text-shadow: 0 1px 8px rgba(0,0,0,1); }
-/* ── Vtuber hover image swap ── */
-.vtuber-normal { transition: opacity 0.35s; }
-.vtuber-hover  {
-  opacity: 0; transition: opacity 0.35s;
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+/* ── Vtuber card layer system ── */
+.vtuber-normal {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  transition: opacity 1.0s ease, transform 0.9s cubic-bezier(.2,.8,.2,1);
 }
-.card:hover .vtuber-hover  { opacity: 1; }
-.card:hover .vtuber-normal { opacity: 0; }
+.card:hover .vtuber-normal {
+  opacity: 0;
+  transform: translateY(-24px) scale(1.05);
+}
+.vtuber-hover {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  opacity: 0;
+  transform: translateX(32px) scale(0.97);
+  transition: opacity 0.5s ease 0.15s, transform 0.6s cubic-bezier(.2,.8,.2,1) 0.15s;
+}
+.card:hover .vtuber-hover {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+.vtuber-label {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-display); font-weight: 200; font-size: 44px;
+  writing-mode: vertical-rl; letter-spacing: 0.22em;
+  color: rgba(210,185,255,0.88);
+  pointer-events: none; z-index: 6;
+  text-shadow: 0 0 14px rgba(196,181,253,0.8), 0 0 36px rgba(167,139,250,0.55), 0 0 70px rgba(109,40,217,0.4);
+  transition: opacity 0.38s ease, transform 0.45s ease;
+}
+.card:hover .vtuber-label {
+  opacity: 0;
+  transform: translateY(-50%) translateX(8px);
+}
+.vtuber-card-front {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: fill; pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px) scale(1.02);
+  transition: opacity 0.5s ease 0.18s, transform 0.55s cubic-bezier(.2,.8,.2,1) 0.18s;
+}
+.card:hover .vtuber-card-front {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
 
 /* ── Magic incantation columns ── */
 .magic-cols {
@@ -1032,7 +1069,7 @@ updateClock(); setInterval(updateClock, 1000);
 
 /* ── CARD ART CONFIG ─────────────────────────────────────────── */
 const CARD_ART = {
-  vtuber:      { back:'assets/workV3/card_vtuber/cardback.png',      mid:'assets/workV3/card_vtuber/Vtuber.png', mid2:'assets/workV3/card_vtuber/Vtuber2.png', front:'assets/workV3/card_vtuber/cardfront.png' },
+  vtuber:      { back:'assets/workV3/card_vtuber/cardback.png', backLighten:'assets/workV3/card_vtuber/cardback_s_lighten.png', backColorDodge:'assets/workV3/card_vtuber/cardback_s_colordodge.png', mid:'assets/workV3/card_vtuber/Vtuber.png', mid2:'assets/workV3/card_vtuber/Vtuber2.png', front:'assets/workV3/card_vtuber/cardfront.png' },
   ecpay:       { frameBot:'assets/workV3/card_ecpay/cardbuttom.png', bg:'assets/workV3/card_ecpay/ecpayBGpicture.png', pen:'assets/workV3/card_ecpay/pen.png', frameTop:'assets/workV3/card_ecpay/cardtop.png', paper:'assets/workV3/card_ecpay/papper.png' },
   portfolio:   { full:'assets/workV3/card_web/card.png' },
   auto:        { cube: true, cubeColor: '#d946ef', cubeLabel: 'AUTO · BOT',    frameBot: 'assets/workV3/card_other/cardbuttom.png', cardFront: 'assets/workV3/card_other/cardfront.png' },
@@ -1060,6 +1097,15 @@ function buildThumb(a) {
   }
   if (a.full) return `<img class="art-layer" src="${a.full}" style="object-fit:cover" alt="">`;
   if (a.bg)   return `<img class="art-layer" src="${a.bg}" style="object-fit:cover" alt=""><img class="art-layer" src="${a.pen}" style="object-fit:contain;object-position:62% 84%" alt="">`;
+  if (a.backLighten) {
+    return `<img class="art-layer" src="${a.back}" style="object-fit:fill" alt="">` +
+      `<img class="art-layer" src="${a.backLighten}" style="object-fit:fill;mix-blend-mode:lighten" alt="">` +
+      `<img class="art-layer" src="${a.backColorDodge}" style="object-fit:fill;mix-blend-mode:color-dodge" alt="">` +
+      `<img class="art-layer vtuber-normal" src="${a.mid}" alt="">` +
+      `<img class="art-layer vtuber-hover" src="${a.mid2}" alt="">` +
+      `<div class="vtuber-label">VTUBER</div>` +
+      `<img class="art-layer vtuber-card-front" src="${a.front}" style="object-fit:fill" alt="">`;
+  }
   const layers = [];
   if (a.mid) {
     if (a.mid2) {
@@ -1116,15 +1162,16 @@ function miniThumb(a) {
     const card = document.createElement('div');
     card.className = 'card';
     const a = CARD_ART[w.art] || {};
+    const isVtuber = !!a.backLighten;
     card.innerHTML =
-      `${a.back ? `<img class="card-art-back" src="${a.back}" alt="">` : ''}
+      `${a.back && !isVtuber ? `<img class="card-art-back" src="${a.back}" alt="">` : ''}
       ${a.frameBot ? `<img class="png-frame-bot" src="${a.frameBot}" alt="">` : ''}
       <div class="card-inner">
         <div class="card-thumb">
           <div class="card-thumb-art">${buildThumb(a)}</div>
         </div>
       </div>
-      ${a.front ? `<img class="card-art-front" src="${a.front}" alt="">` : ''}
+      ${a.front && !isVtuber ? `<img class="card-art-front" src="${a.front}" alt="">` : ''}
       ${a.frameTop ? `<img class="png-frame-top" src="${a.frameTop}" alt="">` : ''}
       ${a.paper ? `<img class="ecpay-paper" src="${a.paper}" alt="">` : ''}
       <div class="card-tag" style="color:${w.color};border-color:${w.color}88">${w.tag}</div>
@@ -1135,47 +1182,6 @@ function miniThumb(a) {
       </div>`;
 
     // Cube card — fully transparent, cube floats above the frame
-
-    // Magic columns for vtuber card
-    if (w.art === 'vtuber') {
-      const magicEl = document.createElement('div');
-      magicEl.className = 'magic-cols';
-      magicEl.innerHTML = `
-        <div class="magic-col magic-col-1" style="left:36px">
-          <div class="magic-stream"><div class="magic-stream-inner">
-            <img src="assets/workV3/card_vtuber/magic1/magic1-1.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic1/magic1-2.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic1/magic1-3.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic1/magic1-1.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic1/magic1-2.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic1/magic1-3.png" alt="">
-          </div></div>
-          <img class="magic-base" src="assets/workV3/card_vtuber/magic1/buttom1.png" alt="">
-        </div>
-        <div class="magic-col magic-col-2" style="left:157px">
-          <div class="magic-stream"><div class="magic-stream-inner magic-stream-2">
-            <img src="assets/workV3/card_vtuber/magic2/magic2-1.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic2/magic2-2.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic2/magic2-3.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic2/magic2-1.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic2/magic2-2.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic2/magic2-3.png" alt="">
-          </div></div>
-          <img class="magic-base" src="assets/workV3/card_vtuber/magic2/button2.png" alt="">
-        </div>
-        <div class="magic-col magic-col-3" style="left:278px">
-          <div class="magic-stream"><div class="magic-stream-inner magic-stream-3">
-            <img src="assets/workV3/card_vtuber/magic3/magic3-1.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic3/magic3-2.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic3/magic3-1.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic3/magic3-2.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic3/magic3-1.png" alt="">
-            <img src="assets/workV3/card_vtuber/magic3/magic3-2.png" alt="">
-          </div></div>
-          <img class="magic-base" src="assets/workV3/card_vtuber/magic3/buttom3.png" alt="">
-        </div>`;
-      card.appendChild(magicEl);
-    }
 
     // Fragment scatter for web/portfolio card
     if (w.art === 'portfolio') {
