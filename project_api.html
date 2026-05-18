@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API · SDK — 後端小作品 | WUYAN's ARCHIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400&family=Cinzel:wght@400&family=Instrument+Serif:ital@0;1&family=Noto+Serif+TC:wght@200;300&family=Noto+Sans+TC:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none!important}
+html,body{width:100%;min-height:100vh;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+
+/* ── CSS Variables ── */
+:root{
+  --bg:#04020e;
+  --bg-deep:rgba(2,0,10,1);
+  --bg-card:rgba(14,7,40,0.88);
+  --bg-card-2:rgba(20,10,52,0.88);
+  --line:rgba(167,139,250,0.22);
+  --line-soft:rgba(167,139,250,0.12);
+  --ink:rgba(246,242,255,0.95);
+  --ink-mute:rgba(198,186,222,0.78);
+  --ink-dim:rgba(138,122,176,0.56);
+  --violet:rgba(196,181,253,0.9);
+  --violet-deep:rgba(110,68,196,0.9);
+  --powder:rgba(165,215,255,0.95);
+  --powder-deep:rgba(118,188,240,0.9);
+  --magic:rgba(240,165,205,0.95);
+  --gold:#d4a84e;
+  --r-sm:8px;--r:14px;--r-lg:22px;
+  --display:'Instrument Serif','Noto Serif TC',Georgia,serif;
+  --sans:'Noto Sans TC','Courier New',system-ui,sans-serif;
+  --body:'Courier New',monospace;
+  --mono:'JetBrains Mono','Courier New',monospace;
+}
+
+/* ── Body ── */
+body{
+  background:#04020e;
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+}
+
+/* ── Page background image (fixed, behind everything) ── */
+#page-bg{position:fixed;inset:0;z-index:0;background-image:url('assets/project_api/hero-reference.webp');background-size:contain;background-repeat:no-repeat;background-position:center top;filter:saturate(1.1) brightness(.62);pointer-events:none}
+#page-bg::after{content:'';position:absolute;inset:0;background:rgba(4,2,14,.42)}
+
+/* ── Cursor ── */
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
+
+/* ── Stars ── */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes twinkle{0%,100%{opacity:var(--a,.3)}50%{opacity:1}}
+
+/* ── Sidebar ── */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;display:flex;flex-direction:column;border-right:1px solid rgba(167,139,250,.22);height:100vh;overflow:hidden;z-index:50;background:linear-gradient(to bottom,rgba(12,5,32,.80) 0%,rgba(14,6,40,.72) 48%,rgba(28,10,55,.55) 70%,rgba(28,10,55,.28) 88%,rgba(28,10,55,.06) 100%);backdrop-filter:blur(20px);transform:translateX(calc(-100% + 16px));transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s}
+#sidebar:hover{transform:translateX(0);box-shadow:4px 0 44px rgba(0,0,0,.75),0 0 0 1px rgba(167,139,250,.1)}
+#sidebar::before{content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.72) 40%,rgba(165,215,255,.58) 60%,transparent);border-radius:1px;transition:opacity .25s;pointer-events:none;z-index:2}
+#sidebar:hover::before{opacity:0}
+#sidebar::after{content:'';position:absolute;left:36px;top:80px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);box-shadow:0 0 6px rgba(167,139,250,.28)}
+.sb-head{padding:20px 14px 16px 18px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid rgba(167,139,250,.12);flex-shrink:0}
+.sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(5,10,30,.6);flex-shrink:0;box-shadow:0 0 12px rgba(167,139,250,.22)}
+.sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
+.sb-info{flex:1;min-width:0}
+.sb-title{font:700 12px monospace;letter-spacing:3px;color:rgba(196,181,253,.88);text-transform:uppercase}
+.sb-sub{font:400 10px monospace;color:rgba(74,66,100,.85);letter-spacing:2px;margin-top:3px}
+.sb-pulse{display:flex;align-items:center;gap:5px;margin-top:8px}
+.sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:sbpulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
+@keyframes sbpulse{0%,100%{opacity:.6}50%{opacity:1}}
+.sb-online{font:400 10px monospace;letter-spacing:2px;color:rgba(80,255,120,.58)}
+nav{flex:1;padding:10px 0;overflow-y:auto}
+nav::-webkit-scrollbar{width:0}
+.ni{display:flex;align-items:center;gap:9px;padding:12px 14px 12px 50px;position:relative;transition:all .28s cubic-bezier(.25,.46,.45,.94);margin-bottom:4px;text-decoration:none;color:inherit}
+.ni::before{content:'';position:absolute;left:29px;top:50%;width:9px;height:9px;transform:translate(-50%,-50%) rotate(45deg);border:1px solid rgba(167,139,250,.4);background:transparent;transition:all .28s ease}
+.ni:hover::before{border-color:rgba(196,181,253,.88);box-shadow:0 0 8px rgba(196,181,253,.5)}
+.ni.act::before{background:rgba(167,139,250,.18);border-color:rgba(196,181,253,.92);box-shadow:0 0 10px rgba(196,181,253,.6)}
+.ni::after{content:'';position:absolute;left:29px;top:50%;width:4px;height:4px;transform:translate(-50%,-50%);border-radius:50%;background:transparent;transition:all .28s ease;pointer-events:none}
+.ni:hover::after{background:rgba(196,181,253,.82);box-shadow:0 0 5px rgba(196,181,253,.6)}
+.ni.act::after{background:rgba(255,255,255,.88);box-shadow:0 0 6px rgba(196,181,253,.8)}
+.ni:hover,.ni.act{background:rgba(100,50,180,.1)}
+.ni:hover{transform:translateY(-1px)}
+.ni.act{border-right:2px solid rgba(167,139,250,.68)}
+.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.55;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
+.ni-text{display:flex;flex-direction:column}
+.ni-en{font:400 12px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(140,110,180,.55);transition:color .22s}
+.ni-zh{font:400 11px monospace;color:rgba(140,126,170,.48);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(196,181,253,.94)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(138,126,170,.9)}
+.sb-footer{padding:14px 18px 18px 22px;background:transparent;flex-shrink:0}
+.sb-footer-text{font:400 10px monospace;letter-spacing:1px;color:rgba(120,90,150,.45);line-height:1.6}
+
+/* ── Page section nav (right side dots) ── */
+#page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+#page-nav::before{content:'';position:absolute;right:3px;top:14px;bottom:14px;width:1px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.2) 20%,rgba(167,139,250,.2) 80%,transparent);pointer-events:none}
+.pn-item{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;text-decoration:none}
+.pn-label{font:400 11px monospace;letter-spacing:.15em;text-transform:uppercase;color:rgba(196,181,253,.15);transform:translateX(6px);transition:color .2s,transform .2s;white-space:nowrap;user-select:none}
+.pn-item:hover .pn-label{color:rgba(196,181,253,.85);transform:translateX(0)}
+.pn-item.act .pn-label{color:rgba(196,181,253,.68);transform:translateX(0)}
+.pn-node{width:7px;height:7px;transform:rotate(45deg);border:1px solid rgba(167,139,250,.28);background:transparent;transition:all .25s;flex-shrink:0}
+.pn-item:hover .pn-node{border-color:rgba(196,181,253,.82);background:rgba(167,139,250,.35);box-shadow:0 0 8px rgba(167,139,250,.45)}
+.pn-item.act .pn-node{border-color:rgba(196,181,253,.9);background:rgba(167,139,250,.72);box-shadow:0 0 10px rgba(196,181,253,.65),0 0 22px rgba(167,139,250,.3)}
+
+/* ── Topbar ── */
+#topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 40px;background:rgba(4,2,14,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(167,139,250,.18)}
+.tb-brand{font:400 12px 'Cinzel Decorative','Cinzel',serif;letter-spacing:3px;color:rgba(218,185,255,.82);text-transform:uppercase}
+.tb-brand span{background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.topbar-crumb{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:rgba(138,122,176,.7);text-transform:uppercase;display:flex;align-items:center;gap:0}
+.topbar-crumb a{color:rgba(198,186,222,.6);text-decoration:none;transition:color .2s}
+.topbar-crumb a:hover{color:rgba(196,181,253,.9)}
+.topbar-crumb .sep{margin:0 8px;opacity:.45}
+.topbar-crumb .here{color:rgba(196,181,253,.85)}
+.topbar-tag{font-family:var(--mono);font-size:10px;letter-spacing:.2em;padding:4px 12px;border:1px solid rgba(167,139,250,.3);border-radius:999px;color:rgba(196,181,253,.8);text-transform:uppercase}
+
+/* ── Shell + Page layout ── */
+#shell{display:grid;grid-template-columns:1fr;min-height:100vh;position:relative;z-index:1}
+.page{max-width:1240px;margin:0 auto;padding:56px 40px 120px;width:100%}
+
+/* ── Typography ── */
+.h-display{font-family:var(--display);font-weight:400;font-size:clamp(48px,7vw,96px);line-height:.95;letter-spacing:-.025em;margin:0}
+.h-display em{font-style:italic;color:var(--magic);font-family:'Instrument Serif',serif}
+.h-sec{font-family:var(--sans);font-weight:600;font-size:clamp(26px,3.2vw,44px);letter-spacing:-.01em;line-height:1.05;margin:0}
+.h-sec em{font-family:var(--sans);font-style:normal;font-weight:500;color:var(--magic);font-size:.7em;letter-spacing:0}
+.lead{font-size:16px;color:var(--ink-mute);max-width:62ch;line-height:1.7}
+
+/* ── Common components ── */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--powder)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--powder);box-shadow:0 0 12px var(--powder)}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:11px;color:var(--ink-mute);background:rgba(14,7,40,0.5);backdrop-filter:blur(4px)}
+.tag.glow{border-color:var(--powder-deep);color:var(--powder);box-shadow:inset 0 0 0 1px rgba(165,215,255,.18)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:80px 0}
+
+/* ── Code block ── */
+.code{background:var(--bg-deep);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;font-family:var(--mono);font-size:13px}
+.code-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(167,139,250,.1);background:rgba(8,3,24,1);font-size:11px;color:var(--ink-dim)}
+.code-head .lang{font-family:var(--mono);color:var(--powder);margin-left:auto}
+.code-head .file{color:var(--ink-mute)}
+.code-body{padding:14px 18px;overflow:auto;max-height:480px;line-height:1.65;color:var(--ink);white-space:pre}
+.code-body .kw{color:var(--magic)}
+.code-body .str{color:var(--powder)}
+.code-body .num{color:var(--gold)}
+.code-body .com{color:var(--ink-dim);font-style:italic}
+.code-body .fn{color:rgba(130,210,255,.9)}
+.code-body .dec{color:var(--violet)}
+.code-body .ln{display:inline-block;width:28px;color:var(--ink-dim);user-select:none}
+.copy-btn{appearance:none;background:rgba(30,16,72,0.7);border:1px solid var(--line);color:var(--ink-mute);padding:4px 10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;border-radius:999px;cursor:pointer!important;transition:all .15s ease}
+.copy-btn:hover{color:var(--ink);border-color:var(--powder-deep)}
+.copy-btn.ok{color:var(--powder);border-color:var(--powder)}
+.code-body::-webkit-scrollbar{height:8px;width:8px}
+.code-body::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+
+/* ── Tabs ── */
+.tabs{display:inline-flex;gap:6px;padding:5px;background:rgba(8,3,24,1);border:1px solid var(--line);border-radius:999px}
+.tabs button{appearance:none;background:transparent;border:0;color:var(--ink-mute);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;border-radius:999px;cursor:pointer!important;transition:all .15s ease}
+.tabs button:hover{color:var(--ink)}
+.tabs button.on{background:linear-gradient(135deg,var(--violet-deep),var(--magic));color:white;box-shadow:0 6px 22px rgba(110,68,196,.4)}
+
+/* ── Hero section ── */
+.hero{display:grid;gap:28px;padding:24px 0 36px}
+.hero-mark{width:52px;height:52px;display:grid;place-items:center;background:rgba(14,7,40,0.6);border:1px solid var(--line);border-radius:14px;filter:drop-shadow(0 0 20px rgba(240,165,205,.4))}
+.hero-eyebrow{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.hero-crumbs{font-family:var(--mono);font-size:12px;color:var(--ink-dim);display:inline-flex;gap:8px;align-items:center}
+.hero-crumbs a{color:var(--ink-mute);text-decoration:none}
+.hero-crumbs a:hover{color:var(--ink)}
+.hero-crumbs .sep{opacity:.45}
+.hero-crumbs .here{color:var(--powder)}
+.h-display .hero-zh{font-family:var(--sans);font-weight:600;letter-spacing:.04em;background:linear-gradient(135deg,var(--powder),var(--magic) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-lead{font-size:18px;line-height:1.65;color:var(--ink-mute);max-width:64ch;margin:4px 0 0}
+.hero-lead em{font-family:var(--display);font-style:italic;color:var(--ink);font-size:1.05em;padding:0 2px}
+.hero-lead .emp{font-style:normal;font-family:var(--sans);font-weight:500;letter-spacing:0;color:var(--powder)}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px 24px;border:1px solid var(--line);background:rgba(10,4,28,0.55);border-radius:var(--r-lg);backdrop-filter:blur(8px)}
+.hero-meta-cell+.hero-meta-cell{padding-left:20px;border-left:1px solid rgba(167,139,250,.12)}
+.meta-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:6px}
+.meta-val{font-family:var(--sans);font-size:14px;color:var(--ink);letter-spacing:-.005em}
+@media(max-width:760px){.hero-meta{grid-template-columns:1fr 1fr}.hero-meta-cell:nth-child(odd){padding-left:0;border-left:0}}
+.hero-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hero-nav a{display:flex;align-items:baseline;gap:14px;padding:16px 18px;background:linear-gradient(180deg,rgba(22,10,58,0.65),rgba(14,6,40,0.65));border:1px solid var(--line);border-radius:var(--r-lg);text-decoration:none;color:var(--ink);font-family:var(--sans);font-weight:500;font-size:14px;transition:all .2s ease}
+.hero-nav a:hover{border-color:rgba(165,215,255,.5);transform:translateY(-2px);box-shadow:0 12px 28px rgba(4,2,14,.4)}
+.hero-nav .num{font-family:var(--mono);font-size:12px;color:var(--powder);letter-spacing:.1em}
+@media(max-width:760px){.hero-nav{grid-template-columns:1fr}}
+
+/* ── Project section dark backdrop ── */
+.project{background:rgba(4,2,14,.58);border-radius:28px;padding:40px 44px;border:1px solid rgba(167,139,250,.08);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+
+/* ── Repo link ── */
+.repo-link-row{margin:8px 0 28px}
+.repo-link{display:inline-flex;align-items:center;gap:14px;padding:10px 16px;background:rgba(14,6,40,0.6);border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-family:var(--mono);font-size:13px;transition:all .2s ease}
+.repo-link:hover{border-color:rgba(165,215,255,.5);background:rgba(22,10,58,0.7)}
+.repo-mark{display:inline-grid;place-items:center;width:22px;height:22px;background:linear-gradient(135deg,var(--violet-deep),var(--magic));border-radius:50%;color:white;font-size:11px}
+.repo-path{color:var(--ink)}
+.repo-path b{color:var(--powder);font-weight:600}
+.repo-meta{color:var(--ink-dim);font-size:11px;letter-spacing:.08em;padding-left:12px;border-left:1px solid rgba(167,139,250,.12)}
+.repo-link.as-note{background:transparent;border-style:dashed;color:var(--ink-mute);cursor:default!important}
+.repo-link.as-note:hover{background:transparent;border-color:var(--line)}
+.repo-mark.mark-note{background:transparent;border:1px dashed var(--line);color:var(--ink-dim)}
+
+/* ── Pipeline (Project X) ── */
+.pipeline{display:flex;align-items:stretch;gap:6px;margin:8px 0 40px;flex-wrap:wrap}
+.step{flex:1 1 130px;min-width:130px;padding:16px 14px;border-radius:var(--r);background:linear-gradient(180deg,rgba(22,10,58,1),rgba(14,6,40,1));border:1px solid var(--line)}
+.step-num{font-family:var(--mono);font-size:11px;color:var(--ink-dim);letter-spacing:.16em}
+.step-en{font-family:var(--sans);font-weight:600;font-size:16px;margin-top:8px;letter-spacing:-.005em}
+.step-zh{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--magic);line-height:1.2;margin:4px 0 8px}
+.step-note{font-size:12px;color:var(--ink-mute);line-height:1.4}
+.step[data-k="schedule"],.step[data-k="post"]{border-color:rgba(165,215,255,.5);background:linear-gradient(180deg,rgba(16,28,68,1),rgba(10,18,50,1))}
+.step[data-k="post"] .step-en{color:var(--powder)}
+.step-arrow{display:flex;align-items:center;color:var(--ink-dim);flex:0 0 auto}
+
+/* ── Status strip ── */
+.status-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:36px 0 48px;padding:20px 22px;background:rgba(10,4,28,0.6);border:1px solid var(--line);border-radius:var(--r-lg);backdrop-filter:blur(8px)}
+.status-cell{position:relative}
+.status-cell+.status-cell{padding-left:20px;border-left:1px solid rgba(167,139,250,.12)}
+.status-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim)}
+.status-value{line-height:1.1;margin:6px 0 4px;letter-spacing:-.01em}
+.status-value.mono{font-family:var(--mono);font-weight:500;font-size:20px;color:var(--powder)}
+.status-sub{font-size:11.5px;color:var(--ink-mute)}
+
+/* ── Glass card effect (commission.html style) ── */
+.post-frame{
+  position:relative;
+  background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.025) 50%,rgba(255,255,255,.07));
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-radius:var(--r-lg);
+  padding:16px 16px 12px;
+  overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(255,255,255,.05),0 22px 48px -14px rgba(0,0,0,.55);
+  transform-style:preserve-3d;
+  will-change:transform;
+  transition:box-shadow .3s,border-color .3s;
+  isolation:isolate;
+}
+.post-frame::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:conic-gradient(from calc(var(--iris-angle,135deg) - 30deg),
+    rgba(240,165,205,.85) 0%,rgba(196,181,253,.85) 20%,rgba(165,215,255,.85) 40%,
+    rgba(140,225,200,.75) 55%,rgba(212,168,78,.75) 70%,rgba(240,165,205,.85) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  filter:drop-shadow(0 0 5px rgba(240,165,205,.4)) drop-shadow(0 0 12px rgba(196,181,253,.3));
+  transition:filter .3s,opacity .3s;opacity:.5;
+}
+.post-frame:hover::before{
+  opacity:1;
+  filter:drop-shadow(0 0 8px rgba(240,165,205,.75)) drop-shadow(0 0 18px rgba(196,181,253,.65)) drop-shadow(0 0 30px rgba(165,215,255,.45));
+}
+.card-shimmer{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;opacity:0;transition:opacity .3s;mix-blend-mode:screen}
+
+/* ── Post wall ── */
+.post-wall-head{display:flex;align-items:baseline;justify-content:space-between;gap:18px;margin:18px 0 16px;flex-wrap:wrap}
+.px-h3{font-family:var(--sans);font-weight:600;font-size:21px;margin:0}
+.px-h3-em{font-family:var(--sans);font-weight:400;color:var(--ink-mute);font-size:13px;margin-left:6px}
+.px-hint{font-family:var(--mono);font-size:11px;color:var(--ink-dim);letter-spacing:.08em}
+.post-wall{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.post-wall{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.post-wall{grid-template-columns:1fr}}
+.post{--accent:var(--magic);position:relative;transition:transform .25s ease,box-shadow .25s ease}
+.post:hover{transform:translateY(-2px)}
+.post-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.post-orb{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(240,242,255,.9),transparent 55%),conic-gradient(from 180deg,var(--accent),var(--powder),var(--violet),var(--accent));box-shadow:0 0 14px var(--accent),inset 0 0 10px rgba(0,0,0,.35);flex:0 0 auto}
+.post-id{display:grid;gap:2px;min-width:0;flex:1}
+.post-name{font-family:var(--sans);font-weight:600;font-size:13.5px;letter-spacing:-.005em}
+.post-tail{color:var(--accent);font-weight:400;margin-left:2px}
+.post-meta{font-family:var(--mono);font-size:11px;color:var(--ink-dim);display:flex;gap:5px;align-items:center}
+.post-meta .dot-sep{opacity:.45}
+.post-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;padding:3px 7px 3px 6px;border:1px solid rgba(165,215,255,.4);border-radius:999px;color:var(--powder);background:rgba(30,60,140,.18)}
+.post-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--powder);box-shadow:0 0 7px var(--powder)}
+.post-text{font-family:var(--body);font-size:14.5px;line-height:1.55;margin:4px 0 12px;color:var(--ink)}
+.post-image{position:relative;aspect-ratio:16/10;border-radius:var(--r);overflow:hidden;border:1px solid rgba(167,139,250,.12);background:var(--bg-deep)}
+.post-image-inner{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(135deg,rgba(50,16,90,.6),rgba(16,36,90,.6))}
+.ph-stripes{position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 6px,transparent 6px 14px)}
+.ph-label{position:relative;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:rgba(255,255,255,.5);background:rgba(0,0,0,.35);padding:4px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.1)}
+.post-image-real{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.post:hover .post-image-real{transform:scale(1.03)}
+.post-image-tag{position:absolute;top:8px;left:8px;z-index:1;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;padding:2px 7px;border-radius:99px;background:rgba(0,0,0,.4);color:var(--magic);border:1px solid rgba(240,165,205,.38)}
+.post-stats{display:flex;align-items:center;gap:16px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(167,139,250,.12);font-family:var(--mono);font-size:12px;color:var(--ink-mute)}
+.post-numbers b{font-weight:600;color:var(--ink)}
+.post-numbers .dot-sep{opacity:.4;margin:0 3px}
+.post-view{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--powder);text-decoration:none;padding:3px 9px;border:1px solid rgba(165,215,255,.32);border-radius:999px;transition:all .15s ease}
+.post-view:hover{color:white;border-color:var(--powder);background:rgba(30,60,140,.25)}
+
+/* ── Notes ── */
+.notes-wrap{margin:44px 0 8px}
+.notes-head{margin-bottom:14px}
+.notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.notes-grid{grid-template-columns:1fr}}
+.note-card{position:relative;padding:20px 20px 22px;border-radius:var(--r-lg);background:linear-gradient(180deg,rgba(22,10,58,0.7),rgba(14,6,40,0.7));border:1px solid var(--line);overflow:hidden}
+.note-card::before{content:'';position:absolute;top:-18px;right:-18px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,var(--magic),transparent 65%);opacity:.16;pointer-events:none}
+.note-num{font-family:var(--mono);font-size:11px;color:var(--powder);letter-spacing:.18em;margin-bottom:12px}
+.note-t{font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:-.005em;margin-bottom:7px;color:var(--ink)}
+.note-d{font-size:13px;line-height:1.6;color:var(--ink-mute)}
+
+/* ── Code wrap (Project X) ── */
+.px-code-wrap{margin-top:36px}
+.px-code-head{display:flex;align-items:baseline;gap:18px;margin-bottom:14px;flex-wrap:wrap}
+.px-code-sub{color:var(--ink-mute);font-family:var(--sans);font-weight:400;letter-spacing:0}
+
+/* ── Arch diagram (MVC) ── */
+.arch{display:grid;grid-template-columns:1fr auto 2fr;gap:20px;align-items:stretch;margin:8px 0 40px}
+.arch-side{padding:20px;border-radius:var(--r-lg);border:1px solid var(--line);background:rgba(14,6,40,.5);display:flex;flex-direction:column}
+.arch-side.arch-after .arch-three{flex:1}
+.arch-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink-dim);margin-bottom:10px}
+.arch-arrow{display:flex;align-items:center;color:var(--ink-dim)}
+.arch-monolith{background:linear-gradient(180deg,rgba(44,18,12,.55),rgba(26,8,6,.55));border:1px dashed rgba(200,100,60,.48);border-radius:var(--r);padding:16px}
+.arch-mono-head{font-family:var(--sans);font-weight:600;font-size:15px;margin-bottom:10px}
+.arch-mono-stack{display:grid;gap:5px;font-family:var(--mono);font-size:12px}
+.arch-mono-stack>div{background:rgba(80,36,20,.4);padding:7px 9px;border-radius:6px;color:var(--ink);border:1px solid rgba(200,100,60,.28)}
+.arch-mono-tag{font-family:var(--sans);font-weight:500;color:rgba(220,140,100,.9);font-size:13px;margin-top:10px}
+.arch-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch}
+.arch-box{padding:14px 12px;border-radius:var(--r);background:linear-gradient(180deg,rgba(22,12,58,.7),rgba(14,6,44,.7));border:1px solid var(--line);display:flex;flex-direction:column}
+.arch-box[data-k="web"]{border-color:rgba(165,215,255,.55)}
+.arch-box[data-k="api"]{border-color:rgba(240,165,205,.55)}
+.arch-box[data-k="test"]{border-color:rgba(212,168,78,.5)}
+.arch-box-head{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:-.005em}
+.arch-box-sub{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-dim);margin:4px 0 9px;text-transform:uppercase}
+.arch-box ul{margin:0;padding:0;list-style:none;font-size:12px;color:var(--ink-mute);display:grid;gap:3px}
+.arch-box ul li::before{content:'·';margin-right:5px;color:var(--magic)}
+@media(max-width:880px){.arch{grid-template-columns:1fr}.arch-arrow{transform:rotate(90deg);justify-content:center}}
+
+/* ── MVC body ── */
+.mvc-grid{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+@media(max-width:980px){.mvc-grid{grid-template-columns:1fr}}
+.mvc-steps{position:sticky;top:72px;padding:20px;background:rgba(10,4,28,0.6);border:1px solid var(--line);border-radius:var(--r-lg);backdrop-filter:blur(8px)}
+.mvc-steps-head{margin-bottom:16px}
+.mvc-steps-title{font-family:var(--sans);font-weight:600;font-size:18px;color:var(--magic);margin-top:6px;line-height:1.15}
+.mvc-step-list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.mvc-step-list li{display:grid;grid-template-columns:auto 1fr;gap:10px}
+.mvc-step-num{font-family:var(--mono);font-size:12px;color:var(--powder);padding-top:2px;letter-spacing:.1em}
+.mvc-step-t{font-family:var(--sans);font-weight:600;font-size:13.5px;margin-bottom:2px}
+.mvc-step-d{font-size:12px;color:var(--ink-mute);line-height:1.5}
+.mvc-code-col{min-width:0}
+.mvc-code-top{display:flex;align-items:center;gap:16px;margin-bottom:10px;flex-wrap:wrap}
+.mvc-zh{font-family:var(--sans);font-weight:500;font-size:16px;color:var(--magic);line-height:1.2}
+.mvc-note{font-size:13.5px;color:var(--ink-mute);margin:8px 0 12px;max-width:60ch;line-height:1.6}
+
+/* ── JWT flow (SDK) ── */
+.jwt-flow{display:flex;align-items:stretch;gap:6px;margin:8px 0 36px;flex-wrap:wrap}
+.jwt-node{flex:1 1 130px;min-width:130px;padding:12px 13px;border-radius:var(--r);background:linear-gradient(180deg,rgba(22,10,58,1),rgba(14,6,40,1));border:1px solid var(--line)}
+.jwt-node.n-token{border-color:rgba(240,165,205,.52);background:linear-gradient(180deg,rgba(52,14,42,.5),rgba(26,6,26,.5))}
+.jwt-node.n-server,.jwt-node.n-api{border-color:rgba(165,215,255,.42)}
+.jwt-t{font-family:var(--mono);font-size:12px;letter-spacing:.04em;font-weight:500;margin-bottom:3px}
+.jwt-d{font-size:11.5px;color:var(--ink-mute)}
+.jwt-arrow{display:flex;align-items:center;color:var(--ink-dim)}
+
+/* ── SDK grid ── */
+.sdk-grid{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+@media(max-width:980px){.sdk-grid{grid-template-columns:1fr}}
+.sdk-list{background:rgba(10,4,28,.6);border:1px solid var(--line);border-radius:var(--r-lg);padding:12px;backdrop-filter:blur(8px);position:sticky;top:72px}
+.sdk-list-head{padding:5px 7px 10px;border-bottom:1px solid rgba(167,139,250,.1);margin-bottom:5px}
+.sdk-group+.sdk-group{margin-top:4px}
+.sdk-group-h{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);padding:10px 7px 5px}
+.sdk-row{appearance:none;display:flex;align-items:center;gap:9px;width:100%;background:transparent;border:1px solid transparent;border-radius:9px;padding:7px 9px;color:var(--ink);cursor:pointer!important;text-align:left;transition:all .15s ease}
+.sdk-row:hover{background:rgba(36,20,80,.4);border-color:rgba(167,139,250,.12)}
+.sdk-row.on{background:rgba(48,24,92,.5);border-color:rgba(240,165,205,.48);box-shadow:inset 0 0 0 1px rgba(240,165,205,.12)}
+.sdk-path{font-family:var(--mono);font-size:12px;flex:1;color:var(--ink)}
+.sdk-lock{font-size:10.5px;opacity:.55}
+.mb{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;padding:3px 6px;border-radius:5px;min-width:42px;text-align:center;display:inline-block}
+.mb-get{background:rgba(22,56,110,.9);color:rgba(130,195,255,.95)}
+.mb-post{background:rgba(16,68,36,.9);color:rgba(100,215,130,.95)}
+.mb-put{background:rgba(68,50,12,.9);color:rgba(215,195,70,.95)}
+.mb-patch{background:rgba(76,48,10,.9);color:rgba(228,175,70,.95)}
+.mb-delete{background:rgba(76,16,16,.9);color:rgba(238,110,90,.95)}
+.sdk-detail{background:rgba(14,6,40,.5);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
+.sdk-detail-head{margin-bottom:16px}
+.sdk-detail-row{display:flex;align-items:center;gap:11px;margin-bottom:11px;flex-wrap:wrap}
+.sdk-detail-path{font-family:var(--mono);font-size:15px;color:var(--ink)}
+.sdk-detail-title{font-family:var(--sans);font-weight:600;font-size:21px;margin:3px 0;letter-spacing:-.005em}
+.sdk-detail-zh{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--magic);margin:0}
+.sdk-detail-tabs{margin-bottom:12px}
+
+/* ── Footer ── */
+.foot{margin-top:96px;padding:36px 0 0;border-top:1px solid rgba(167,139,250,.12);display:grid;gap:12px;justify-items:center;text-align:center}
+.foot-mark{font-family:var(--display);font-size:30px;color:var(--magic)}
+.foot-text{font-size:13.5px;color:var(--ink-mute)}
+.foot-text em{font-family:var(--display);font-style:italic;color:var(--ink)}
+.foot-nav{display:flex;gap:12px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-dim)}
+.foot-nav a{color:var(--ink-mute);text-decoration:none}
+.foot-nav a:hover{color:var(--ink)}
+.foot-nav span{opacity:.45}
+</style>
+</head>
+<body>
+
+<div id="page-bg"></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="stars"></div>
+
+<!-- ── Sidebar ── -->
+<div id="sidebar">
+  <div class="sb-head">
+    <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
+    <div class="sb-info">
+      <div class="sb-title">WUYAN</div>
+      <div class="sb-sub">ARCHIVE · PORTFOLIO</div>
+      <div class="sb-pulse"><div class="sb-dot"></div><div class="sb-online">ONLINE</div></div>
+    </div>
+  </div>
+  <nav>
+    <a class="ni" href="homepage_final.html"><img class="ni-icon" src="assets/icon/Home.png" alt=""><div class="ni-text"><span class="ni-en">HOME</span><span class="ni-zh">首頁</span></div></a>
+    <a class="ni act" href="works_v3.html"><img class="ni-icon" src="assets/icon/File.png" alt=""><div class="ni-text"><span class="ni-en">ARCHIVE</span><span class="ni-zh">作品集</span></div></a>
+    <a class="ni" href="commission.html"><img class="ni-icon" src="assets/icon/Pay.png" alt=""><div class="ni-text"><span class="ni-en">COMMISSION</span><span class="ni-zh">委託</span></div></a>
+    <a class="ni" href="#"><img class="ni-icon" src="assets/icon/Comment.png" alt=""><div class="ni-text"><span class="ni-en">SIGNAL</span><span class="ni-zh">留言板</span></div></a>
+    <a class="ni" href="#"><img class="ni-icon" src="assets/icon/LittleWorld.png" alt=""><div class="ni-text"><span class="ni-en">CURIO</span><span class="ni-zh">奇物陣列</span></div></a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-footer-text">WUYAN's ARCHIVE · 2024–2025<br/>API · BACKEND · AUTOMATION</div>
+  </div>
+</div>
+
+<nav id="page-nav"></nav>
+
+<!-- ── Shell ── -->
+<div id="shell">
+  <div id="topbar">
+    <div class="topbar-crumb">
+      <a href="homepage_final.html">HOME</a>
+      <span class="sep">/</span>
+      <a href="works_v3.html">ARCHIVE</a>
+      <span class="sep">/</span>
+      <span class="here">API · SDK</span>
+    </div>
+    <div class="tb-brand">WUYAN'S · <span>ARCHIVE</span></div>
+    <div class="topbar-tag">WORKS · 03</div>
+  </div>
+  <div id="root"></div>
+</div>
+
+<!-- ── React + Babel ── -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+<script type="text/babel">
+const { useState, useRef } = React;
+
+/* ─── Syntax Highlighter ─── */
+const KW = {
+  python: /\b(def|class|return|import|from|as|if|elif|else|for|while|in|not|and|or|with|try|except|finally|raise|yield|lambda|async|await|pass|True|False|None|self)\b/g,
+  csharp: /\b(public|private|protected|internal|class|interface|namespace|using|return|if|else|for|foreach|while|new|var|static|readonly|async|await|task|void|string|int|bool|true|false|null|this|override|virtual|abstract|sealed|switch|case|break|throw|try|catch|finally|in|out|ref)\b/g,
+  js:     /\b(const|let|var|function|return|if|else|for|while|class|extends|new|async|await|import|from|export|default|true|false|null|undefined|this|try|catch|finally|throw)\b/g,
+};
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function highlight(code, lang){
+  if (lang === 'http' || lang === 'json'){
+    let s = escapeHtml(code);
+    s = s.replace(/"([^"\\]|\\.)*"/g, m => `<span class="str">${m}</span>`);
+    s = s.replace(/\b(\d+\.?\d*)\b/g, '<span class="num">$1</span>');
+    if (lang === 'http'){
+      s = s.replace(/^(GET|POST|PUT|PATCH|DELETE)\b/gm, '<span class="kw">$1</span>');
+      s = s.replace(/^([A-Za-z-]+):/gm, '<span class="fn">$1</span>:');
+    }
+    return s;
+  }
+  let s = escapeHtml(code);
+  if (lang === 'python') s = s.replace(/(#[^\n]*)/g, '<span class="com">$1</span>');
+  else {
+    s = s.replace(/(\/\/[^\n]*)/g, '<span class="com">$1</span>');
+    s = s.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="com">$1</span>');
+  }
+  s = s.replace(/("([^"\\]|\\.)*")|('([^'\\]|\\.)*')|(`([^`\\]|\\.)*`)/g, m => {
+    if (m.includes('class="com"')) return m;
+    return `<span class="str">${m}</span>`;
+  });
+  if (lang === 'python') s = s.replace(/(^|\n)(\s*)(@\w+)/g, '$1$2<span class="dec">$3</span>');
+  if (lang === 'csharp') s = s.replace(/(\[[A-Za-z][\w.]*(\([^\)]*\))?\])/g, '<span class="dec">$1</span>');
+  const kw = KW[lang];
+  if (kw) s = s.replace(kw, m => `<span class="kw">${m}</span>`);
+  s = s.replace(/\b(\d+\.?\d*)\b/g, '<span class="num">$1</span>');
+  return s;
+}
+
+/* ─── CodeBlock ─── */
+function CodeBlock({ code, lang = 'python', file, showLineNumbers = false }){
+  const [copied, setCopied] = useState(false);
+  const trimmed = code.replace(/^\n/, '').replace(/\s+$/, '');
+  const html = highlight(trimmed, lang);
+  const lines = html.split('\n');
+  const onCopy = async () => {
+    try { await navigator.clipboard.writeText(trimmed); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch(e){}
+  };
+  return (
+    <div className="code">
+      <div className="code-head">
+        {file && <span className="file">{file}</span>}
+        <span className="lang">{lang}</span>
+        <button className={"copy-btn " + (copied ? "ok" : "")} onClick={onCopy}>{copied ? "✓ copied" : "copy"}</button>
+      </div>
+      <pre className="code-body"><code dangerouslySetInnerHTML={{ __html:
+        showLineNumbers
+          ? lines.map((l, i) => `<span class="ln">${String(i+1).padStart(2,' ')}</span>${l}`).join('\n')
+          : html
+      }}/></pre>
+    </div>
+  );
+}
+
+/* ─── Tabs ─── */
+function Tabs({ items, value, onChange }){
+  return (
+    <div className="tabs" role="tablist">
+      {items.map(it => (
+        <button key={it.value} role="tab" aria-selected={value === it.value}
+          className={value === it.value ? "on" : ""} onClick={() => onChange(it.value)}>
+          {it.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ─── SectionHeader ─── */
+function SectionHeader({ index, en, zh, summary, tags }){
+  return (
+    <header style={{ display:"grid", gap:16, marginBottom:32 }}>
+      <div style={{ display:"flex", alignItems:"baseline", gap:12, flexWrap:"wrap" }}>
+        <span className="eyebrow"><span className="dot"></span>PROJECT · {String(index).padStart(2,'0')}</span>
+        {tags && tags.map(t => <span key={t} className="tag">{t}</span>)}
+      </div>
+      <h2 className="h-sec">{en} <em>· {zh}</em></h2>
+      {summary && <p className="lead" style={{ marginTop:2 }}>{summary}</p>}
+    </header>
+  );
+}
+
+/* ════════════════════════════════
+   PROJECT X — Auto-Muse Tweet Bot
+   ════════════════════════════════ */
+
+function snowflakeToDate(id){
+  try { const ms = Number(BigInt(id) >> 22n) + 1288834974657; return new Date(ms); } catch(e){ return new Date(); }
+}
+function fmtTs(d){
+  const p = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}  ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+function Pipeline(){
+  const steps = [
+    { n:"01", k:"prompt",   en:"Prompt",         zh:"主題種子",  note:"從編號 txt 抽選詠唱咒語" },
+    { n:"02", k:"text",     en:"Gemini · Text",  zh:"生成文案",  note:"模型寫出 1–2 句推文" },
+    { n:"03", k:"image",    en:"Gemini · Image", zh:"生成圖片",  note:"用文案作為 prompt 產圖" },
+    { n:"04", k:"compose",  en:"Compose",        zh:"組裝推文",  note:"圖 + 文 + tag 打包" },
+    { n:"05", k:"schedule", en:"Schedule",       zh:"排程",      note:"每 6 小時跑一次" },
+    { n:"06", k:"post",     en:"Post → X",       zh:"自動發佈",  note:"X API v2 · OAuth1" },
+  ];
+  return (
+    <div className="pipeline">
+      {steps.map((s, i) => (
+        <React.Fragment key={s.k}>
+          <div className="step" data-k={s.k}>
+            <div className="step-num">{s.n}</div>
+            <div className="step-en">{s.en}</div>
+            <div className="step-zh">{s.zh}</div>
+            <div className="step-note">{s.note}</div>
+          </div>
+          {i < steps.length - 1 && (
+            <div className="step-arrow" aria-hidden="true">
+              <svg viewBox="0 0 40 12" width="36" height="12">
+                <path d="M0 6 H34 M28 1 L34 6 L28 11" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+              </svg>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function PostCard({ post }){
+  const { id, url, text, img, views, likes, accent } = post;
+  const ts = fmtTs(snowflakeToDate(id));
+  const [imgError, setImgError] = useState(false);
+  const frameRef = useRef(null);
+  const shimmerRef = useRef(null);
+
+  const onEnter = () => {
+    if (frameRef.current) frameRef.current.style.transition = 'box-shadow .3s,border-color .3s';
+  };
+  const onMove = (e) => {
+    const card = frameRef.current, shimmer = shimmerRef.current;
+    if (!card || !shimmer) return;
+    const rect = card.getBoundingClientRect();
+    const dx = (e.clientX - rect.left) / rect.width - 0.5;
+    const dy = (e.clientY - rect.top)  / rect.height - 0.5;
+    const px = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1);
+    const py = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
+    const ang = ((Math.atan2(e.clientY - (rect.top + rect.height/2), e.clientX - (rect.left + rect.width/2)) * 180 / Math.PI) + 360) % 360;
+    card.style.transform = `perspective(700px) rotateX(${(-dy*8).toFixed(2)}deg) rotateY(${(dx*12).toFixed(2)}deg) scale3d(1.02,1.02,1.02)`;
+    card.style.setProperty('--iris-angle', ang + 'deg');
+    shimmer.style.cssText = `opacity:1;background:radial-gradient(ellipse 65% 55% at ${px}% ${py}%,rgba(255,255,255,.18),rgba(210,170,255,.12) 30%,rgba(100,195,255,.07) 55%,transparent 78%)`;
+  };
+  const onLeave = () => {
+    const card = frameRef.current, shimmer = shimmerRef.current;
+    if (!card || !shimmer) return;
+    card.style.transition = 'transform .55s cubic-bezier(.23,1,.32,1),box-shadow .35s,border-color .25s';
+    card.style.transform = '';
+    card.style.removeProperty('--iris-angle');
+    shimmer.style.opacity = '0';
+  };
+
+  return (
+    <article className="post" style={{"--accent": accent}}>
+      <div className="post-frame" ref={frameRef} onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
+        <div className="card-shimmer" ref={shimmerRef}></div>
+        <header className="post-head">
+          <div className="post-orb"></div>
+          <div className="post-id">
+            <div className="post-name">wuyan4411 <span className="post-tail">❄</span></div>
+            <div className="post-meta">
+              <span>@wuyan4411</span>
+              <span className="dot-sep">·</span>
+              <span>{ts}</span>
+            </div>
+          </div>
+          <div className="post-badge"><span className="post-badge-dot"></span>AUTO</div>
+        </header>
+        <p className="post-text">{text}</p>
+        <div className="post-image" aria-label="AI generated image">
+          <div className="post-image-tag">gemini-2.0-flash</div>
+          {!imgError && img ? (
+            <img className="post-image-real" src={img} alt={text} onError={() => setImgError(true)} loading="lazy" />
+          ) : (
+            <div className="post-image-inner">
+              <div className="ph-stripes"></div>
+              <div className="ph-label">image · couldn't load</div>
+            </div>
+          )}
+        </div>
+        <footer className="post-stats">
+          <span className="post-numbers"><b>{views}</b> views <span className="dot-sep">·</span> <b>{likes}</b> likes</span>
+          <a className="post-view" href={url} target="_blank" rel="noreferrer">view on X ↗</a>
+        </footer>
+      </div>
+    </article>
+  );
+}
+
+function StatusStrip(){
+  return (
+    <div className="status-strip">
+      <div className="status-cell">
+        <div className="status-label">schedule</div>
+        <div className="status-value mono">every 6h</div>
+        <div className="status-sub">一日 4 推 · schedule lib</div>
+      </div>
+      <div className="status-cell">
+        <div className="status-label">prompts</div>
+        <div className="status-value mono">txt · 編號</div>
+        <div className="status-sub">詠唱咒語 · 可疊加</div>
+      </div>
+      <div className="status-cell">
+        <div className="status-label">cost</div>
+        <div className="status-value mono">free tier</div>
+        <div className="status-sub">壓在免費額度內運作</div>
+      </div>
+      <div className="status-cell">
+        <div className="status-label">stack</div>
+        <div className="status-value mono">3 files</div>
+        <div className="status-sub">main + 2 test scripts</div>
+      </div>
+    </div>
+  );
+}
+
+const X_CODE = `
+import json, schedule, time
+from generator import generate_text, generate_image
+from poster    import post_to_x
+
+with open("config.json", "r") as f:
+    cfg = json.load(f)
+
+# ✦ 每六小時跑一次:抽詠唱咒語 → Gemini 生文 → Gemini 生圖 → 發推
+def run_once():
+    spell = pick_spell()                       # 從編號 txt 抽選 prompt
+    text  = generate_text(spell, cfg)          # Gemini text
+    image = generate_image(text, cfg)          # Gemini image
+    post_to_x(text=text, image=image, cfg=cfg) # X API v2
+
+schedule.every(6).hours.do(run_once)
+while True:
+    schedule.run_pending()
+    time.sleep(30)
+`;
+
+const POSTS = [
+  { id:"1986010692282183939", url:"https://x.com/wuyan4411/status/1986010692282183939",
+    text:"自由的代價是選擇,而選擇的代價是遺憾。",
+    img:"https://pbs.twimg.com/media/G4-6MIhbAAAV5F8?format=jpg&name=small",
+    views:18, likes:0, accent:"rgba(240,135,195,0.95)" },
+  { id:"1985648330110878127", url:"https://x.com/wuyan4411/status/1985648330110878127",
+    text:"真理是一面鏡子,每個人只能看到自己想要的倒影。",
+    img:"https://pbs.twimg.com/media/G45wnvFbQAAvSNh?format=jpg&name=small",
+    views:26, likes:0, accent:"rgba(165,215,255,0.95)" },
+  { id:"1949409541176938801", url:"https://x.com/wuyan4411/status/1949409541176938801",
+    text:"知識的擴散速度,趕不上愚蠢的自我複製。",
+    img:"https://pbs.twimg.com/media/Gw2xoaWbkAEINex?format=jpg&name=small",
+    views:37, likes:2, accent:"rgba(196,181,253,0.95)" },
+  { id:"1949318920961450022", url:"https://x.com/wuyan4411/status/1949318920961450022",
+    text:"當愛意擴散成習慣,厭倦便開始萌芽。",
+    img:"https://pbs.twimg.com/media/Gw1fN6ZbcAA2yL_?format=jpg&name=small",
+    views:38, likes:1, accent:"rgba(212,168,78,0.95)" },
+  { id:"1948594177123778608", url:"https://x.com/wuyan4411/status/1948594177123778608",
+    text:"宇宙在膨脹,我的絕望也在等比級數地擴散。",
+    img:"https://pbs.twimg.com/media/GwrMENEaoAAO-Mf?format=jpg&name=small",
+    views:27, likes:0, accent:"rgba(130,210,255,0.95)" },
+  { id:"1940712208708915373", url:"https://x.com/wuyan4411/status/1940712208708915373",
+    text:"世界末日那天,我終於可以不用回覆那些沒完沒了的群組訊息了。",
+    img:"https://pbs.twimg.com/media/Gu7LdTQXkAAOjLO?format=jpg&name=small",
+    views:32, likes:2, accent:"rgba(240,165,205,0.95)" },
+];
+
+const NOTES = [
+  { n:"01", t:"壓在免費額度內", d:"頻率設 6 小時 + 模型選 gemini-2.0-flash,單月 API 成本 = 0。" },
+  { n:"02", t:"詠唱咒語編號化", d:"prompt 切成編號 txt,可以自由疊加組合,內容不會重複又能維持風格。" },
+  { n:"03", t:"圖文一致性",     d:"先生文,再把同一段文字餵給生圖模型 — 比兩邊各自亂跑穩很多。" },
+];
+
+function ProjectX(){
+  return (
+    <section className="project project-x">
+      <SectionHeader index={1} en="Auto-Muse · X Tweet Bot" zh="自動推文機器人"
+        summary="一支 Python 小程式串接 Gemini 的文字 / 圖片 API:先讓 Gemini 寫出一句文案,再把同一段文字餵給生圖模型,組成圖文後透過 X API v2 自動發送,並用 schedule 每 6 小時跑一次。所有 prompt 都用編號 txt 切割,寫成「詠唱咒語」可以自由疊加。"
+        tags={["Python", "Gemini API", "X API v2", "schedule", "OAuth1", "config.json"]}
+      />
+      <div className="repo-link-row">
+        <a className="repo-link" href="https://github.com/abc1-2-3/Auto_X_Post" target="_blank" rel="noreferrer">
+          <span className="repo-mark">↗</span>
+          <span className="repo-path">github.com/abc1-2-3/<b>Auto_X_Post</b></span>
+          <span className="repo-meta">Python · 5 commits · public</span>
+        </a>
+      </div>
+      <Pipeline/>
+      <StatusStrip/>
+      <div className="post-wall-head">
+        <h3 className="px-h3">Selected Runs <span className="px-h3-em">· 6 則自動推文 · ❄ via gemini-2.0-flash</span></h3>
+        <span className="px-hint">點 view on X ↗ 看原推文</span>
+      </div>
+      <div className="post-wall">
+        {POSTS.map(p => <PostCard key={p.id} post={p}/>)}
+      </div>
+      <div className="notes-wrap">
+        <div className="notes-head">
+          <span className="eyebrow"><span className="dot"></span>NOTES · 三件學到的事</span>
+        </div>
+        <div className="notes-grid">
+          {NOTES.map(n => (
+            <div key={n.n} className="note-card">
+              <div className="note-num">{n.n}</div>
+              <div className="note-t">{n.t}</div>
+              <div className="note-d">{n.d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="px-code-wrap">
+        <div className="px-code-head">
+          <span className="eyebrow"><span className="dot"></span>ORCHESTRATION</span>
+          <span className="px-code-sub">把整條 pipeline 串起來的入口</span>
+        </div>
+        <CodeBlock code={X_CODE} lang="python" file="main.py" showLineNumbers={true}/>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   PROJECT MVC — Split & Test
+   ════════════════════════════════ */
+
+function ArchDiagram(){
+  return (
+    <div className="arch">
+      <div className="arch-side arch-before">
+        <div className="arch-label">BEFORE</div>
+        <div className="arch-monolith">
+          <div className="arch-mono-head">ASP.NET MVC App</div>
+          <div className="arch-mono-stack">
+            <div>Views (.cshtml)</div>
+            <div>Controllers</div>
+            <div>Models · DbContext</div>
+          </div>
+          <div className="arch-mono-tag">一份專案 · 全部混在一起</div>
+        </div>
+      </div>
+      <div className="arch-arrow">
+        <svg viewBox="0 0 60 16" width="56" height="16">
+          <path d="M0 8 H52 M46 2 L52 8 L46 14" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div className="arch-side arch-after">
+        <div className="arch-label">AFTER · 拆成 3 個專案</div>
+        <div className="arch-three">
+          <div className="arch-box" data-k="web">
+            <div className="arch-box-head">Web · 前端</div>
+            <div className="arch-box-sub">Razor Pages / SPA</div>
+            <ul><li>畫面與表單</li><li>呼叫 API</li></ul>
+          </div>
+          <div className="arch-box" data-k="api">
+            <div className="arch-box-head">API · 後端</div>
+            <div className="arch-box-sub">Web API · Controllers</div>
+            <ul><li>路由 + DTO</li><li>Service / Repository</li></ul>
+          </div>
+          <div className="arch-box" data-k="test">
+            <div className="arch-box-head">Tests · 測試</div>
+            <div className="arch-box-sub">xUnit · Moq</div>
+            <ul><li>Service 單元測試</li><li>Controller 整合測試</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const MVC_SAMPLES = [
+  { key:"controller", label:"01 · Controller", zh:"瘦身後的 Controller",
+    file:"OrderApi/Controllers/OrdersController.cs", lang:"csharp",
+    note:"原本塞滿了驗證 + DbContext 操作 + view model 組裝。拆完之後 Controller 只剩路由 + 呼叫 Service,真正能被測試的邏輯都搬走了。",
+    code:`
+[ApiController]
+[Route("api/[controller]")]
+public class OrdersController : ControllerBase
+{
+    private readonly IOrderService _orders;
+    public OrdersController(IOrderService orders) => _orders = orders;
+
+    // GET api/orders/123
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<OrderDto>> GetAsync(int id)
+    {
+        var order = await _orders.GetByIdAsync(id);
+        return order is null ? NotFound() : Ok(order);
+    }
+
+    // POST api/orders
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<OrderDto>> CreateAsync(CreateOrderRequest req)
+    {
+        var created = await _orders.CreateAsync(req, User.GetUserId());
+        return CreatedAtAction(nameof(GetAsync), new { id = created.Id }, created);
+    }
+}
+    `},
+  { key:"service", label:"02 · Service", zh:"商業邏輯抽出來",
+    file:"OrderApi/Services/OrderService.cs", lang:"csharp",
+    note:"這層只接介面、不直接綁 DbContext;測試時可以用 Mock 把 IOrderRepository 換掉。",
+    code:`
+public class OrderService : IOrderService
+{
+    private readonly IOrderRepository _repo;
+    private readonly IUnitOfWork _uow;
+
+    public OrderService(IOrderRepository repo, IUnitOfWork uow)
+    {
+        _repo = repo;
+        _uow  = uow;
+    }
+
+    public async Task<OrderDto> CreateAsync(CreateOrderRequest req, int userId)
+    {
+        // 1. 驗證商業規則
+        if (req.Items.Count == 0)
+            throw new DomainException("訂單至少要有一個品項");
+
+        // 2. 組成領域物件
+        var order = Order.NewFromRequest(req, userId);
+
+        // 3. 持久化 + 交易
+        await _repo.AddAsync(order);
+        await _uow.SaveChangesAsync();
+
+        return OrderDto.From(order);
+    }
+}
+    `},
+  { key:"interface", label:"03 · Interface", zh:"用介面切開耦合",
+    file:"OrderApi/Abstractions/IOrderRepository.cs", lang:"csharp",
+    note:"專案之間只認介面。Web 不依賴 API 的實作、API 也不直接依賴 EF Core 的細節。",
+    code:`
+public interface IOrderRepository
+{
+    Task<Order?> FindByIdAsync(int id);
+    Task<IReadOnlyList<Order>> ListByUserAsync(int userId);
+    Task AddAsync(Order order);
+}
+
+public interface IOrderService
+{
+    Task<OrderDto?> GetByIdAsync(int id);
+    Task<OrderDto>  CreateAsync(CreateOrderRequest req, int userId);
+}
+    `},
+  { key:"test", label:"04 · Tests", zh:"終於能寫單元測試了",
+    file:"OrderApi.Tests/OrderServiceTests.cs", lang:"csharp",
+    note:"拆完最大的收穫 — Service 可以脫離 DbContext 跑得飛快,Controller 也能用 WebApplicationFactory 做整合測試。",
+    code:`
+public class OrderServiceTests
+{
+    [Fact]
+    public async Task CreateAsync_EmptyItems_Throws()
+    {
+        var repo = new Mock<IOrderRepository>();
+        var uow  = new Mock<IUnitOfWork>();
+        var sut  = new OrderService(repo.Object, uow.Object);
+
+        var req  = new CreateOrderRequest { Items = new() };
+
+        await Assert.ThrowsAsync<DomainException>(
+            () => sut.CreateAsync(req, userId: 1));
+    }
+
+    [Fact]
+    public async Task CreateAsync_Valid_PersistsAndReturnsDto()
+    {
+        // arrange ... act ... assert
+        // 完整測試見 repo
+    }
+}
+    `},
+];
+
+const STEPS = [
+  { k:"a", t:"抽出介面",  d:"先把 Repository / Service / UnitOfWork 介面寫好,讓 Controller 只依賴 abstraction。" },
+  { k:"b", t:"搬出邏輯",  d:"把 Controller 裡的驗證 + 商業規則整段搬到 Service;EF 操作落到 Repository。" },
+  { k:"c", t:"切出專案",  d:"在 solution 裡新增 Web / Api / Tests 三個 csproj,設定專案參照關係。" },
+  { k:"d", t:"補上測試",  d:"用 xUnit + Moq 蓋住 Service;Controller 用 WebApplicationFactory 做端到端測試。" },
+];
+
+function ProjectMvc(){
+  const [tab, setTab] = useState("controller");
+  const current = MVC_SAMPLES.find(s => s.key === tab);
+  return (
+    <section className="project project-mvc">
+      <SectionHeader index={2} en="MVC · Split & Test" zh="把 MVC 架構拆成前後端 + 測試三個專案"
+        summary="一份示範性的教學 demo — 從一坨混在一起的 ASP.NET MVC 開始,拆出 Web、API、Tests 三個 csproj,並引入介面 + 依賴注入,讓商業邏輯真的能被單元測試蓋到。重點不在功能,而是「怎麼拆」。"
+        tags={["C#", "ASP.NET Core", ".NET 8", "xUnit", "Moq", "Clean Architecture"]}
+      />
+      <div className="repo-link-row">
+        <span className="repo-link as-note">
+          <span className="repo-mark mark-note">·</span>
+          <span className="repo-path">local-only demo · 沒推上 GitHub</span>
+          <span className="repo-meta">概念示範 · 沒有功能性</span>
+        </span>
+      </div>
+      <ArchDiagram/>
+      <div className="mvc-grid">
+        <aside className="mvc-steps">
+          <div className="mvc-steps-head">
+            <span className="eyebrow"><span className="dot"></span>4 STEPS</span>
+            <div className="mvc-steps-title">重構順序</div>
+          </div>
+          <ol className="mvc-step-list">
+            {STEPS.map((s, i) => (
+              <li key={s.k}>
+                <span className="mvc-step-num">{String(i+1).padStart(2,'0')}</span>
+                <div>
+                  <div className="mvc-step-t">{s.t}</div>
+                  <div className="mvc-step-d">{s.d}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </aside>
+        <div className="mvc-code-col">
+          <div className="mvc-code-top">
+            <Tabs items={MVC_SAMPLES.map(s => ({ value:s.key, label:s.label }))} value={tab} onChange={setTab}/>
+            <div className="mvc-zh">{current.zh}</div>
+          </div>
+          <p className="mvc-note">{current.note}</p>
+          <CodeBlock code={current.code} lang={current.lang} file={current.file} showLineNumbers={true}/>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   PROJECT SDK — Ordering Playground
+   ════════════════════════════════ */
+
+const ENDPOINTS = [
+  { id:"login",  method:"POST", path:"/api/auth/login",  group:"Auth",  title:"登入取得 JWT",
+    zh:"用帳號密碼換 access token + refresh token", auth:false,
+    req:`{\n  "username": "alice",\n  "password": "p@ssw0rd!"\n}`,
+    res:`{\n  "access_token": "eyJhbGciOiJI...gQfL",\n  "refresh_token": "rt_8f3a...",\n  "expires_in": 3600,\n  "token_type": "Bearer"\n}`,
+    curl:`curl -X POST https://api.example.com/api/auth/login \\\n  -H "Content-Type: application/json" \\\n  -d '{"username":"alice","password":"p@ssw0rd!"}'`},
+  { id:"me",     method:"GET",  path:"/api/auth/me",     group:"Auth",  title:"驗證 token + 取得使用者",
+    zh:"middleware 解 JWT,失敗回 401", auth:true,
+    req:`(無 body) — Header:\nAuthorization: Bearer <access_token>`,
+    res:`{\n  "user_id": 42,\n  "username": "alice",\n  "role": "member",\n  "issued_at": 1737000000\n}`,
+    curl:`curl https://api.example.com/api/auth/me \\\n  -H "Authorization: Bearer $TOKEN"`},
+  { id:"upload", method:"POST", path:"/api/files",       group:"Files", title:"上傳檔案到公共空間",
+    zh:"multipart/form-data;回傳可直接取用的 url", auth:true,
+    req:`Content-Type: multipart/form-data\n\nfield "file":   (binary)\nfield "folder": "menu-photos"`,
+    res:`{\n  "file_id": "f_29a1b3",\n  "url": "https://cdn.example.com/menu-photos/29a1b3.jpg",\n  "size": 184320,\n  "mime": "image/jpeg"\n}`,
+    curl:`curl -X POST https://api.example.com/api/files \\\n  -H "Authorization: Bearer $TOKEN" \\\n  -F "folder=menu-photos" \\\n  -F "file=@./latte.jpg"`},
+  { id:"menu",   method:"GET",  path:"/api/menu",        group:"Menu",  title:"取得菜單 · 多種排序",
+    zh:"支援 sort=price | popularity | newest", auth:false,
+    req:`Query:\n  ?sort=popularity\n  &category=drink\n  &page=1\n  &size=20`,
+    res:`{\n  "items": [\n    { "id": "m_01", "name": "玫瑰拿鐵", "price": 160, "popularity": 412 },\n    { "id": "m_02", "name": "雲朵奶茶", "price": 140, "popularity": 388 }\n  ],\n  "page": 1,\n  "total": 56\n}`,
+    curl:`curl "https://api.example.com/api/menu?sort=popularity&category=drink"`},
+  { id:"create-order", method:"POST", path:"/api/orders", group:"Order", title:"建立新訂單",
+    zh:"驗證 JWT;檢查庫存後落單,回傳訂單編號", auth:true,
+    req:`{\n  "items": [\n    { "menu_id": "m_01", "qty": 2, "notes": "少冰" },\n    { "menu_id": "m_05", "qty": 1 }\n  ],\n  "pickup_at": "2025-11-20T15:30:00+08:00"\n}`,
+    res:`{\n  "order_id": "o_7c2a91",\n  "status": "pending",\n  "total": 460,\n  "created_at": "2025-11-20T11:02:18+08:00"\n}`,
+    curl:`curl -X POST https://api.example.com/api/orders \\\n  -H "Authorization: Bearer $TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d @order.json`},
+  { id:"list-orders",  method:"GET",  path:"/api/orders", group:"Order", title:"查詢自己的訂單",
+    zh:"依登入者 user_id 篩選;支援狀態過濾", auth:true,
+    req:`Query:\n  ?status=pending\n  &sort=created_desc`,
+    res:`{\n  "orders": [\n    { "order_id": "o_7c2a91", "status": "pending", "total": 460 },\n    { "order_id": "o_7b88e0", "status": "done",    "total": 220 }\n  ]\n}`,
+    curl:`curl "https://api.example.com/api/orders?status=pending" \\\n  -H "Authorization: Bearer $TOKEN"`},
+];
+
+function MethodBadge({ method }){
+  return <span className={"mb mb-" + method.toLowerCase()}>{method}</span>;
+}
+
+function JwtFlow(){
+  const nodes = [
+    { k:"client", t:"Client",        d:"前端 / SDK" },
+    { k:"login",  t:"POST /login",   d:"傳帳密" },
+    { k:"server", t:"Auth Service",  d:"驗證 + 簽發 token" },
+    { k:"token",  t:"JWT",           d:"access + refresh" },
+    { k:"api",    t:"Protected API", d:"middleware 驗 token" },
+  ];
+  return (
+    <div className="jwt-flow">
+      {nodes.map((n, i) => (
+        <React.Fragment key={n.k}>
+          <div className={"jwt-node n-" + n.k}>
+            <div className="jwt-t">{n.t}</div>
+            <div className="jwt-d">{n.d}</div>
+          </div>
+          {i < nodes.length - 1 && (
+            <div className="jwt-arrow" aria-hidden="true">
+              <svg viewBox="0 0 30 10" width="28" height="10">
+                <path d="M0 5 H24 M20 1 L24 5 L20 9" stroke="currentColor" strokeWidth="1" fill="none"/>
+              </svg>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function ProjectSdk(){
+  const [selId, setSelId] = useState(ENDPOINTS[0].id);
+  const [tab, setTab] = useState("req");
+  const sel = ENDPOINTS.find(e => e.id === selId);
+  return (
+    <section className="project project-sdk">
+      <SectionHeader index={3} en="Ordering · SDK Playground" zh="點餐系統練習 SDK"
+        summary="練習一支完整的點餐後端 SDK:帳號密碼登入 → 換發 JWT,帶 token 操作上傳、菜單查詢、訂單建立等保護端點;點下方任一 endpoint 看 request / response / cURL 範例。"
+        tags={[".NET", "Web API", "JWT", "Swagger", "multipart upload", "Refresh Token"]}
+      />
+      <div className="repo-link-row">
+        <a className="repo-link" href="https://github.com/abc1-2-3/Meals" target="_blank" rel="noreferrer">
+          <span className="repo-mark">↗</span>
+          <span className="repo-path">github.com/abc1-2-3/<b>Meals</b></span>
+          <span className="repo-meta">C# · Meals + TestMeals · 6 commits · public</span>
+        </a>
+      </div>
+      <JwtFlow/>
+      <div className="sdk-grid">
+        <aside className="sdk-list">
+          <div className="sdk-list-head">
+            <span className="eyebrow"><span className="dot"></span>ENDPOINTS · {ENDPOINTS.length}</span>
+          </div>
+          {["Auth","Files","Menu","Order"].map(group => (
+            <div key={group} className="sdk-group">
+              <div className="sdk-group-h">{group}</div>
+              {ENDPOINTS.filter(e => e.group === group).map(e => (
+                <button key={e.id} className={"sdk-row " + (selId === e.id ? "on" : "")}
+                  onClick={() => { setSelId(e.id); setTab("req"); }}>
+                  <MethodBadge method={e.method}/>
+                  <span className="sdk-path">{e.path}</span>
+                  {e.auth && <span className="sdk-lock" title="需要 JWT">🔒</span>}
+                </button>
+              ))}
+            </div>
+          ))}
+        </aside>
+        <div className="sdk-detail">
+          <div className="sdk-detail-head">
+            <div className="sdk-detail-row">
+              <MethodBadge method={sel.method}/>
+              <span className="sdk-detail-path">{sel.path}</span>
+              {sel.auth && <span className="tag glow">JWT required</span>}
+            </div>
+            <h3 className="sdk-detail-title">{sel.title}</h3>
+            <p className="sdk-detail-zh">{sel.zh}</p>
+          </div>
+          <div className="sdk-detail-tabs">
+            <Tabs items={[{ value:"req", label:"Request" },{ value:"res", label:"Response" },{ value:"curl", label:"cURL" }]}
+              value={tab} onChange={setTab}/>
+          </div>
+          {tab === "req"  && <CodeBlock code={sel.req}  lang={sel.method === "GET" ? "http" : "json"} file="request"/>}
+          {tab === "res"  && <CodeBlock code={sel.res}  lang="json" file="200 OK"/>}
+          {tab === "curl" && <CodeBlock code={sel.curl} lang="js"   file="shell"/>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Hero ─── */
+function Hero(){
+  return (
+    <header className="hero" id="top">
+      <div className="hero-mark">
+        <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 1 L13.6 10.4 L23 12 L13.6 13.6 L12 23 L10.4 13.6 L1 12 L10.4 10.4 Z"
+                fill="url(#hg)"/>
+          <defs>
+            <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="rgba(165,215,255,0.9)"/>
+              <stop offset="100%" stopColor="rgba(240,165,205,0.9)"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div className="hero-eyebrow">
+        <span className="eyebrow"><span className="dot"></span>WORKS · COLLECTION 03</span>
+        <span className="hero-crumbs">
+          <a href="homepage_final.html">portfolio</a>
+          <span className="sep">/</span>
+          <a href="works_v3.html">works</a>
+          <span className="sep">/</span>
+          <span className="here">api &amp; sdk</span>
+        </span>
+      </div>
+      <h1 className="h-display">
+        Things without a face <em>·</em><br/>
+        <span className="hero-zh">沒有畫面 的作品 們</span>
+      </h1>
+      <p className="hero-lead">
+        三個跟後端 · <em>API / SDK</em> 有關的小作品。沒有漂亮的介面可以截圖,
+        所以我把<span className="emp">流程、結構、程式碼</span>當作主角拿出來展示。
+      </p>
+      <div className="hero-meta">
+        <div className="hero-meta-cell">
+          <div className="meta-label">stack</div>
+          <div className="meta-val">Python · C# · .NET</div>
+        </div>
+        <div className="hero-meta-cell">
+          <div className="meta-label">type</div>
+          <div className="meta-val">backend · automation</div>
+        </div>
+        <div className="hero-meta-cell">
+          <div className="meta-label">period</div>
+          <div className="meta-val">2024 — 2025</div>
+        </div>
+        <div className="hero-meta-cell">
+          <div className="meta-label">code</div>
+          <div className="meta-val">github · 私有 repo</div>
+        </div>
+      </div>
+      <nav className="hero-nav">
+        <a href="#x"><span className="num">01</span><span>Auto-Muse · X Tweet Bot</span></a>
+        <a href="#mvc"><span className="num">02</span><span>MVC · Split &amp; Test</span></a>
+        <a href="#sdk"><span className="num">03</span><span>Ordering · SDK Playground</span></a>
+      </nav>
+    </header>
+  );
+}
+
+/* ─── Footer ─── */
+function Foot(){
+  return (
+    <footer className="foot">
+      <div className="foot-mark">✦</div>
+      <div className="foot-text"><em>End of works · </em>thank you for scrolling all the way down.</div>
+      <div className="foot-nav">
+        <a href="#top">↑ back to top</a>
+        <span>·</span>
+        <a href="works_v3.html">← all works</a>
+      </div>
+    </footer>
+  );
+}
+
+/* ─── App ─── */
+function App(){
+  return (
+    <main className="page">
+      <Hero/>
+      <div className="divider" id="x"></div>
+      <ProjectX/>
+      <div className="divider" id="mvc"></div>
+      <ProjectMvc/>
+      <div className="divider" id="sdk"></div>
+      <ProjectSdk/>
+      <Foot/>
+    </main>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+<!-- ── Cursor + Stars ── -->
+<script>
+(function(){
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    dot.style.left  = e.clientX + 'px'; dot.style.top  = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+  });
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('a,button,.sdk-row,.copy-btn')) document.body.classList.add('hov');
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('a,button,.sdk-row,.copy-btn')) document.body.classList.remove('hov');
+  });
+
+  const container = document.getElementById('stars');
+  const colors = ['#ffffff','rgba(255,185,215,1)','rgba(165,215,255,1)','rgba(255,220,140,1)'];
+  for (let i = 0; i < 130; i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() < 0.75 ? 1 : 1.5;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*4)]};--d:${2+Math.random()*4}s;--dl:${Math.random()*5}s;--a:${.2+Math.random()*.55}`;
+    container.appendChild(s);
+  }
+})();
+</script>
+<script>
+/* ── Page section dot nav ── */
+(function(){
+  var secs=[
+    {id:'top',en:'OVERVIEW'},{id:'x',en:'AUTO-MUSE'},
+    {id:'mvc',en:'MVC'},{id:'sdk',en:'SDK'}
+  ];
+  setTimeout(function(){
+    var nav=document.getElementById('page-nav');if(!nav)return;
+    var items=[];
+    secs.forEach(function(s){
+      var el=document.getElementById(s.id);if(!el)return;
+      var a=document.createElement('a');a.className='pn-item';a.href='#'+s.id;
+      a.innerHTML='<span class="pn-label">'+s.en+'</span><div class="pn-node"></div>';
+      a.addEventListener('click',function(e){e.preventDefault();el.scrollIntoView({behavior:'smooth'})});
+      nav.appendChild(a);items.push({el:el,a:a});
+    });
+    if(!items.length)return;
+    var cur=null;
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        var it=items.find(function(i){return i.el===e.target});
+        if(!it||!e.isIntersecting)return;
+        if(cur)cur.classList.remove('act');cur=it.a;cur.classList.add('act');
+      });
+    },{rootMargin:'-5% 0px -60% 0px'});
+    items.forEach(function(i){io.observe(i.el)});
+  },250);
+})();
+</script>
+</body>
+</html>

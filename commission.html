@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commission Chamber — WUYAN's ARCHIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+TC:wght@200;300;700&family=Noto+Sans+TC:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   VARS + RESET
+═══════════════════════════════════════════ */
+:root {
+  --bg-0:#03010c; --bg-1:#090418; --bg-2:#100726;
+  --ink-hi:#f5eeff; --ink:#ddd0f8; --ink-mid:#b09ed0; --ink-low:#6a5890;
+  --line:rgba(167,139,250,.22); --line-s:rgba(183,148,246,.5);
+  --violet:#b794f6; --magenta:#ec4899; --rose:#f472b6;
+  --azure:#60a5fa; --cyan:#67e8f9;
+  --gold-1:#d4a84e; --gold-2:#e8c880; --gold-3:#c09030;
+  --grad-gold:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);
+  --grad-neb:linear-gradient(135deg,#d8b4fe 0%,#818cf8 48%,#67e8f9 100%);
+  --ff-d:'Cinzel','Noto Serif TC',serif;
+  --ff-rune:'Cinzel Decorative','Cinzel',serif;
+  --ff-s:'Noto Serif TC',Georgia,serif;
+  --ff-m:'JetBrains Mono','Courier New',monospace;
+  --ff-b:'Noto Sans TC',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg-0);color:var(--ink);font-family:var(--ff-b);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+*{cursor:none!important}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(236,72,153,.38);color:#fff}
+
+/* ═══════════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════════ */
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,box-shadow .15s}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
+
+/* ═══════════════════════════════════════════
+   STARS CANVAS
+═══════════════════════════════════════════ */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ═══════════════════════════════════════════
+   BACKGROUND NEBULA
+═══════════════════════════════════════════ */
+.bg-neb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-neb::before{content:'';position:absolute;inset:-10%;background:
+  radial-gradient(60% 50% at 15% 10%,rgba(192,132,252,.25),transparent 70%),
+  radial-gradient(50% 40% at 88% 25%,rgba(129,140,248,.15),transparent 70%),
+  radial-gradient(70% 60% at 50% 105%,rgba(96,165,250,.2),transparent 70%);
+  filter:blur(2px)}
+/* commission background image layer */
+.bg-commission{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-commission img{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.08;filter:blur(1px) saturate(1.4)}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════ */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;display:flex;flex-direction:column;border-right:1px solid rgba(167,139,250,.22);height:100vh;overflow:hidden;z-index:50;background:linear-gradient(to bottom,rgba(12,5,32,.80) 0%,rgba(14,6,40,.72) 48%,rgba(28,10,55,.55) 70%,rgba(28,10,55,.28) 88%,rgba(28,10,55,.06) 100%);backdrop-filter:blur(20px);transform:translateX(calc(-100% + 16px));transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s}
+#sidebar:hover{transform:translateX(0);box-shadow:4px 0 44px rgba(0,0,0,.75),0 0 0 1px rgba(167,139,250,.1)}
+#sidebar::before{content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.72) 40%,rgba(165,215,255,.58) 60%,transparent);border-radius:1px;transition:opacity .25s;pointer-events:none;z-index:2}
+#sidebar:hover::before{opacity:0}
+#sidebar::after{content:'';position:absolute;left:36px;top:85px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);border-radius:2px;box-shadow:0 0 6px rgba(167,139,250,.28)}
+.sb-head{padding:20px 14px 16px 18px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid rgba(167,139,250,.15);flex-shrink:0}
+.sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(5,10,30,.6);flex-shrink:0;box-shadow:0 0 12px rgba(167,139,250,.22)}
+.sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
+.sb-info{flex:1;min-width:0}
+.sb-title{font:700 12px var(--ff-m);letter-spacing:2px;color:rgba(218,185,255,.88);text-transform:uppercase}
+.sb-sub{font:400 10px var(--ff-m);color:rgba(175,135,190,.52);letter-spacing:1px;margin-top:3px}
+nav.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
+.ni{display:flex;align-items:center;gap:9px;padding:12px 14px 12px 50px;position:relative;transition:all .28s cubic-bezier(.25,.46,.45,.94);margin-bottom:4px;text-decoration:none;color:inherit}
+.ni::before{content:'';position:absolute;left:29px;top:50%;width:9px;height:9px;transform:translate(-50%,-50%) rotate(45deg);border:1px solid rgba(167,139,250,.4);background:transparent;transition:all .28s ease}
+.ni:hover::before{border-color:rgba(196,181,253,.88);box-shadow:0 0 8px rgba(196,181,253,.5)}
+.ni.act::before{background:rgba(167,139,250,.18);border-color:rgba(196,181,253,.92);box-shadow:0 0 10px rgba(196,181,253,.6)}
+.ni::after{content:'';position:absolute;left:29px;top:50%;width:4px;height:4px;transform:translate(-50%,-50%);border-radius:50%;background:transparent;transition:all .28s ease;pointer-events:none}
+.ni:hover::after{background:rgba(196,181,253,.82);box-shadow:0 0 5px rgba(196,181,253,.6)}
+.ni.act::after{background:rgba(255,255,255,.88);box-shadow:0 0 6px rgba(196,181,253,.8)}
+.ni:hover,.ni.act{background:rgba(100,50,180,.1)}
+.ni:hover{transform:translateY(-1px)}
+.ni.act{border-right:2px solid rgba(167,139,250,.68)}
+.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.55;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
+.ni-text{display:flex;flex-direction:column}
+.ni-en{font:400 12px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(140,110,180,.55);transition:color .22s}
+.ni-zh{font:400 11px var(--ff-m);color:rgba(140,126,170,.48);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(196,181,253,.94)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(138,126,170,.9)}
+
+/* ── Page section nav (right side dots) ── */
+#page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+#page-nav::before{content:'';position:absolute;right:3px;top:14px;bottom:14px;width:1px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.2) 20%,rgba(167,139,250,.2) 80%,transparent);pointer-events:none}
+.pn-item{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;text-decoration:none}
+.pn-label{font:400 11px var(--ff-m);letter-spacing:.15em;text-transform:uppercase;color:rgba(196,181,253,.15);transform:translateX(6px);transition:color .2s,transform .2s;white-space:nowrap;user-select:none}
+.pn-item:hover .pn-label{color:rgba(196,181,253,.85);transform:translateX(0)}
+.pn-item.act .pn-label{color:rgba(196,181,253,.68);transform:translateX(0)}
+.pn-node{width:7px;height:7px;transform:rotate(45deg);border:1px solid rgba(167,139,250,.28);background:transparent;transition:all .25s;flex-shrink:0}
+.pn-item:hover .pn-node{border-color:rgba(196,181,253,.82);background:rgba(167,139,250,.35);box-shadow:0 0 8px rgba(167,139,250,.45)}
+.pn-item.act .pn-node{border-color:rgba(196,181,253,.9);background:rgba(167,139,250,.72);box-shadow:0 0 10px rgba(196,181,253,.65),0 0 22px rgba(167,139,250,.3)}
+
+/* ═══════════════════════════════════════════
+   SHELL + MAIN
+═══════════════════════════════════════════ */
+#shell{display:grid;grid-template-columns:1fr;position:relative;z-index:1}
+#main{grid-column:1;min-height:100vh;overflow-x:hidden}
+
+/* ═══════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════ */
+#topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:52px;background:rgba(4,2,14,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(240,165,205,.12);box-shadow:0 1px 24px rgba(0,0,0,.5)}
+.tb-brand{font:400 12px var(--ff-rune);letter-spacing:3px;color:rgba(218,185,255,.82);text-transform:uppercase}
+.tb-brand span{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tb-links{display:flex;gap:24px;align-items:center}
+.tb-links a{font:400 10px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(160,142,192,.55);transition:color .2s}
+.tb-links a:hover,.tb-links a.act{color:rgba(218,185,255,.9)}
+.tb-dot{width:4px;height:4px;border-radius:50%;background:rgba(240,165,205,.45)}
+
+/* ═══════════════════════════════════════════
+   SECTION BASE + UTILITIES
+═══════════════════════════════════════════ */
+.sec{position:relative;padding:100px max(clamp(24px,5vw,60px),calc((100% - 1240px)/2))}
+.sec.tight{padding-top:64px;padding-bottom:64px}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:10px;font:600 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);text-transform:uppercase;padding:5px 14px;border:.5px solid var(--line-s);border-radius:999px;background:rgba(20,10,40,.45)}
+.sec-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--grad-gold);box-shadow:0 0 10px var(--gold-1)}
+h2.sec-title{font-family:var(--ff-s);font-weight:200;font-size:clamp(32px,5vw,60px);line-height:1.1;letter-spacing:.04em;margin:16px 0 12px;color:var(--ink-hi)}
+h2.sec-title .acc{background:var(--grad-neb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+h2.sec-title .gold{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sec-sub{color:var(--ink-mid);font-size:14px;max-width:58ch;line-height:1.8}
+
+/* rune divider */
+.rune-div{display:flex;align-items:center;gap:20px;padding:0 max(clamp(24px,5vw,60px),calc((100% - 1240px)/2));margin:0;color:var(--ink-low);font-family:var(--ff-d);letter-spacing:.4em;font-size:11px}
+.rune-div::before,.rune-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line-s),transparent)}
+
+/* glass card */
+.glass{position:relative;background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.02) 50%,rgba(255,255,255,.07));backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(255,255,255,.06),0 24px 50px -16px rgba(0,0,0,.55);isolation:isolate;overflow:hidden}
+.glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.5px;
+  background:conic-gradient(from calc(var(--iris-angle,135deg) - 30deg),
+    #f472b6 0%,#c084fc 20%,#60a5fa 40%,#67e8f9 55%,#fde68a 70%,#f0abfc 85%,#f472b6 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  filter:drop-shadow(0 0 6px rgba(244,114,182,.5)) drop-shadow(0 0 14px rgba(192,132,252,.4));
+  transition:filter .3s,opacity .3s;opacity:.55}
+.glass:hover::before{opacity:1;filter:drop-shadow(0 0 10px rgba(244,114,182,.75)) drop-shadow(0 0 22px rgba(192,132,252,.65)) drop-shadow(0 0 36px rgba(96,165,250,.5))}
+
+/* shimmer highlight that follows cursor */
+.card-shimmer{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;opacity:0;transition:opacity .3s;mix-blend-mode:screen}
+/* transform-style for 3D tilt */
+.srv-card,.price-card{transform-style:preserve-3d;will-change:transform}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#hero{min-height:100vh;display:flex;align-items:center;padding:120px max(clamp(24px,5vw,60px),calc((100% - 1240px)/2)) 80px;position:relative;overflow:hidden}
+/* dark gradient overlay: solid left → transparent right so char shows */
+#hero::before{content:'';position:absolute;inset:0;z-index:1;background:
+  linear-gradient(90deg,rgba(3,1,12,.92) 0%,rgba(3,1,12,.82) 38%,rgba(3,1,12,.55) 58%,rgba(3,1,12,.18) 78%,transparent 100%),
+  linear-gradient(to bottom,rgba(3,1,12,.35) 0%,transparent 25%,transparent 80%,rgba(3,1,12,.5) 100%);
+  pointer-events:none}
+.hero-bg-img{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg-img img{width:100%;height:100%;object-fit:contain;object-position:center center}
+.hero-left{position:relative;z-index:2;max-width:600px}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font:600 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);text-transform:uppercase;padding:5px 14px;border:.5px solid var(--line-s);border-radius:999px;background:rgba(20,10,40,.45);margin-bottom:28px}
+.hero-tag .pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3;transform:scale(.7)}}
+.hero-title{font-family:var(--ff-rune);font-weight:400;font-size:clamp(38px,6.5vw,82px);line-height:1;letter-spacing:.04em;color:var(--ink-hi);margin-bottom:8px}
+.hero-title .sub-word{display:block;font-family:var(--ff-d);font-size:.3em;font-weight:400;letter-spacing:.4em;color:var(--ink-mid);margin-bottom:14px}
+.hero-title .neb{background:var(--grad-neb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font:200 16px/1.8 var(--ff-s);color:var(--ink);max-width:50ch;margin:24px 0 36px}
+.hero-desc em{font-style:normal;color:var(--ink-mid);font-size:13px;display:block;margin-top:6px}
+/* Contact Me — glass rectangle */
+.btn-cta{
+  display:inline-flex;align-items:center;gap:16px;
+  padding:16px 32px 16px 28px;
+  font:400 11px var(--ff-rune);letter-spacing:.35em;text-transform:uppercase;
+  color:var(--ink-hi);
+  background:rgba(129,140,248,.1);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(129,140,248,.45);
+  border-radius:3px;
+  box-shadow:0 0 0 1px rgba(129,140,248,.12) inset,inset 0 1px 0 rgba(255,255,255,.1);
+  position:relative;overflow:hidden;
+  transition:background .3s,border-color .3s,box-shadow .3s;
+  text-decoration:none;
+}
+.btn-cta::before{
+  content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(129,140,248,.8),rgba(103,232,249,.8),transparent);
+}
+.btn-cta .btn-arrow{
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid rgba(129,140,248,.5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;
+  transition:transform .25s,border-color .25s;
+  flex-shrink:0;
+}
+.btn-cta:hover{
+  background:rgba(129,140,248,.18);
+  border-color:rgba(129,140,248,.75);
+  box-shadow:0 0 32px rgba(129,140,248,.25),0 0 0 1px rgba(129,140,248,.18) inset,inset 0 1px 0 rgba(255,255,255,.14);
+}
+.btn-cta:hover .btn-arrow{transform:translateX(4px);border-color:rgba(103,232,249,.8)}
+
+/* hero right — character image */
+.hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:center}
+.hero-char-wrap{position:relative;width:clamp(260px,34vw,440px)}
+.hero-char-wrap::before{content:'';position:absolute;inset:-40px;background:radial-gradient(circle,rgba(129,140,248,.22),transparent 65%);pointer-events:none;z-index:0}
+.hero-char{display:block;width:100%;height:auto;object-fit:contain;object-position:center bottom;position:relative;z-index:1;filter:drop-shadow(0 0 28px rgba(167,139,250,.55)) drop-shadow(0 8px 40px rgba(0,0,0,.6))}
+
+/* ═══════════════════════════════════════════
+   SERVICE CATEGORIES
+═══════════════════════════════════════════ */
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.srv-card{padding:28px 24px;border-radius:16px;background:rgba(255,255,255,.045);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:.5px solid var(--line);transition:box-shadow .3s,border-color .3s;position:relative;overflow:hidden}
+.srv-card:hover{border-color:var(--line-s);box-shadow:0 16px 40px rgba(0,0,0,.4),0 0 28px rgba(129,140,248,.15)}
+.srv-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,rgba(183,148,246,.18),rgba(236,72,153,.12));border:.5px solid var(--line-s);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px}
+.srv-num{font:600 10px var(--ff-d);letter-spacing:.3em;color:var(--ink-low);text-transform:uppercase;margin-bottom:8px}
+.srv-name{font:700 16px var(--ff-s);color:var(--ink-hi);margin-bottom:3px}
+.srv-en{font:500 9px var(--ff-d);letter-spacing:.3em;color:var(--ink-low);text-transform:uppercase;margin-bottom:12px}
+.srv-tags{display:flex;flex-wrap:wrap;gap:5px}
+.srv-tag{font:400 10px var(--ff-m);padding:3px 8px;border-radius:4px;background:rgba(7,4,26,.5);border:.5px solid var(--line);color:var(--ink-mid)}
+.srv-note{font:400 12px var(--ff-b);color:var(--ink-low);margin-top:10px;font-style:italic}
+
+/* ═══════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════ */
+.price-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:48px}
+.price-card{padding:24px 18px;border-radius:14px;background:rgba(255,255,255,.04);border:.5px solid var(--line);text-align:center;transition:box-shadow .3s,border-color .3s;position:relative;overflow:hidden}
+.price-card:hover{border-color:var(--line-s);box-shadow:0 14px 36px rgba(0,0,0,.4),0 0 24px rgba(129,140,248,.12)}
+.pc-label{font:600 11px var(--ff-d);letter-spacing:.25em;color:var(--ink-low);text-transform:uppercase;margin-bottom:6px}
+.pc-ch{font:700 18px var(--ff-s);color:var(--ink-hi);margin-bottom:4px}
+.pc-en{font:400 9px var(--ff-d);letter-spacing:.22em;color:var(--ink-low);text-transform:uppercase;margin-bottom:14px}
+.pc-price{font:600 16px var(--ff-m);background:linear-gradient(135deg,#f472b6,#c084fc 50%,#60a5fa);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
+.pc-note{font:400 11px var(--ff-b);color:var(--ink-low);line-height:1.6}
+.pc-note li{list-style:none;padding-left:14px;position:relative;margin-bottom:3px}
+.pc-note li::before{content:'·';position:absolute;left:4px;color:var(--violet)}
+.pc-days{margin-top:14px;font:600 9px var(--ff-d);letter-spacing:.22em;text-transform:uppercase;color:var(--ink-mid);padding:4px 10px;border:.5px solid var(--line);border-radius:999px;display:inline-block}
+
+/* ═══════════════════════════════════════════
+   WORKFLOW TIMELINE
+═══════════════════════════════════════════ */
+.flow-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-top:48px;position:relative}
+.flow-grid::before{content:'';position:absolute;top:36px;left:calc(100%/14);right:calc(100%/14);height:1px;background:linear-gradient(90deg,transparent,var(--line-s) 10%,var(--line-s) 90%,transparent);z-index:0}
+.flow-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6px;position:relative;z-index:1}
+.flow-num{width:52px;height:52px;border-radius:50%;border:.5px solid var(--line-s);background:rgba(12,6,28,.8);display:flex;align-items:center;justify-content:center;font:600 10px var(--ff-d);letter-spacing:.15em;color:var(--ink-mid);margin-bottom:14px;transition:all .3s;position:relative}
+.flow-num::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:.5px solid rgba(192,132,252,.15);transition:border-color .3s}
+.flow-step:hover .flow-num{border-color:rgba(192,132,252,.6);color:var(--violet);box-shadow:0 0 18px rgba(192,132,252,.25)}
+.flow-step:hover .flow-num::after{border-color:rgba(192,132,252,.3)}
+.flow-title{font:700 12px var(--ff-s);color:var(--ink-hi);margin-bottom:3px}
+.flow-en{font:400 9px var(--ff-d);letter-spacing:.2em;color:var(--ink-low);text-transform:uppercase}
+
+/* ═══════════════════════════════════════════
+   RULES & NOTES
+═══════════════════════════════════════════ */
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+.rules-panel{padding:28px;border-radius:16px;border:.5px solid var(--line)}
+.rules-panel.will{background:linear-gradient(135deg,rgba(96,165,250,.06),rgba(103,232,249,.04));border-color:rgba(96,165,250,.25)}
+.rules-panel.wont{background:linear-gradient(135deg,rgba(236,72,153,.06),rgba(244,114,182,.04));border-color:rgba(236,72,153,.25)}
+.rules-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.rules-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.rules-panel.will .rules-icon{background:rgba(96,165,250,.12)}
+.rules-panel.wont .rules-icon{background:rgba(236,72,153,.12)}
+.rules-head-text .ht{font:700 13px var(--ff-s);color:var(--ink-hi)}
+.rules-head-text .he{font:500 9px var(--ff-d);letter-spacing:.25em;color:var(--ink-low);text-transform:uppercase}
+.rules-list{display:flex;flex-direction:column;gap:8px}
+.rules-item{display:flex;align-items:baseline;gap:10px;font:400 13px var(--ff-b);color:var(--ink-mid);line-height:1.55}
+.rules-item::before{content:'✦';font-size:8px;flex-shrink:0}
+.rules-panel.will .rules-item::before{color:var(--azure)}
+.rules-panel.wont .rules-item::before{color:var(--magenta)}
+.rules-note{margin-top:18px;padding:10px 14px;border-radius:8px;font:400 11px var(--ff-m);color:var(--ink-low);border:.5px dashed var(--line);line-height:1.7}
+
+/* ═══════════════════════════════════════════
+   ABOUT ME
+═══════════════════════════════════════════ */
+.about-grid{display:grid;grid-template-columns:1fr 2fr;gap:48px;align-items:start;margin-top:48px}
+.about-portrait{position:relative}
+.portrait-frame{width:100%;aspect-ratio:3/4;max-width:260px;border-radius:12px;background:rgba(8,4,20,.6);border:.5px solid var(--line-s);overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.55),0 0 40px rgba(129,140,248,.18)}
+.portrait-img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.about-content h3{font:200 32px/1.15 var(--ff-s);color:var(--ink-hi);margin-bottom:18px}
+.about-content h3 span{background:var(--grad-neb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.about-content p{font:400 14px/1.85 var(--ff-b);color:var(--ink-mid);margin-bottom:20px;max-width:55ch}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.stat-card{padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(20,10,46,.7),rgba(10,5,28,.5));border:.5px solid var(--line)}
+.stat-k{font:600 9px var(--ff-d);letter-spacing:.25em;color:var(--ink-low);text-transform:uppercase;margin-bottom:10px}
+.stat-v{font:700 22px var(--ff-s);color:var(--ink-hi);margin-bottom:4px}
+.stat-v .acc{background:var(--grad-neb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat-d{font:400 11px var(--ff-b);color:var(--ink-low)}
+
+/* ═══════════════════════════════════════════
+   SKILL CODEX
+═══════════════════════════════════════════ */
+.codex{margin-top:48px;display:grid;grid-template-columns:260px 1fr;gap:0;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,rgba(16,8,36,.55),rgba(8,4,20,.4));border:.5px solid var(--line-s);box-shadow:0 24px 50px -16px rgba(0,0,0,.5);position:relative}
+.codex::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(244,114,182,.45),rgba(192,132,252,.35),rgba(96,165,250,.45),rgba(103,232,249,.35));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.codex-spine{padding:24px 0;border-right:.5px dashed var(--line);background:linear-gradient(180deg,rgba(4,2,14,.4),rgba(4,2,14,.1))}
+.spine-ttl{padding:0 24px 16px;font:600 10px var(--ff-d);letter-spacing:.3em;color:var(--ink-low);text-transform:uppercase}
+.chapter{display:flex;align-items:center;gap:12px;padding:12px 24px;cursor:pointer;transition:all .2s;border-left:2px solid transparent}
+.chapter:hover{background:rgba(183,148,246,.06)}
+.chapter.active{background:linear-gradient(90deg,rgba(183,148,246,.14),transparent 70%);border-left-color:var(--chap-c,var(--violet))}
+.ch-glyph{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font:600 13px var(--ff-d);color:var(--chap-c,var(--violet));background:rgba(4,2,14,.5);border:.5px solid var(--chap-c,var(--violet));box-shadow:0 0 0 3px rgba(4,2,14,.6),0 0 10px var(--chap-c,var(--violet));flex-shrink:0;transition:transform .2s}
+.chapter:hover .ch-glyph{transform:scale(1.06)}
+.ch-meta{min-width:0}
+.ch-cname{font:600 13px/1.2 var(--ff-s);color:var(--ink-hi);margin-bottom:1px}
+.ch-en{font:500 9px var(--ff-d);letter-spacing:.2em;color:var(--ink-mid);text-transform:uppercase}
+.ch-arr{margin-left:auto;font-size:12px;color:var(--ink-low);transition:transform .2s,color .2s}
+.chapter.active .ch-arr{color:var(--chap-c);transform:translateX(3px)}
+.codex-page{padding:36px 40px;position:relative;min-height:480px}
+.codex-page::before{content:'';position:absolute;inset:0;background:radial-gradient(40% 50% at 20% 0%,var(--chap-glow,rgba(183,148,246,.16)),transparent 70%);pointer-events:none;opacity:.8}
+.page-num{position:absolute;top:24px;right:32px;font:600 10px var(--ff-d);letter-spacing:.25em;color:var(--ink-low);text-transform:uppercase}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 10px var(--ff-d);letter-spacing:.25em;color:var(--chap-c);text-transform:uppercase;margin-bottom:12px;position:relative}
+.page-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--chap-c);box-shadow:0 0 8px var(--chap-c)}
+.codex-page h3{font:700 28px var(--ff-s);color:var(--ink-hi);margin-bottom:8px;position:relative}
+.ch-desc{color:var(--ink-mid);font-size:13px;line-height:1.75;margin:0 0 24px;max-width:58ch;position:relative}
+.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;position:relative}
+.skill-row{padding:14px 16px;border-radius:10px;background:rgba(4,2,14,.45);border:.5px solid var(--line);cursor:pointer;transition:all .22s}
+.skill-row:hover{border-color:var(--chap-c,var(--violet));background:rgba(16,8,36,.6);transform:translateY(-1px);box-shadow:0 4px 14px -4px var(--chap-c,var(--violet))}
+.skill-row.expanded{grid-column:span 2;background:rgba(16,8,36,.6);border-color:var(--chap-c);box-shadow:0 6px 20px -6px var(--chap-c)}
+.sr-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
+.sr-name{font:600 13px var(--ff-s);color:var(--ink-hi)}
+.sr-en{font:500 9px var(--ff-d);letter-spacing:.2em;color:var(--ink-low);text-transform:uppercase;white-space:nowrap}
+.sr-bar{height:4px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-bottom:5px}
+.sr-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--chap-c,var(--violet)),rgba(255,255,255,.8));box-shadow:0 0 10px var(--chap-c,var(--violet));border-radius:inherit}
+.sr-foot{display:flex;justify-content:space-between;font:500 9.5px var(--ff-d);letter-spacing:.18em;color:var(--ink-mid);text-transform:uppercase}
+.sr-tier{color:var(--ink-hi);font-weight:600}
+.sr-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.sr-tag{font:500 9px var(--ff-m);padding:3px 6px;border-radius:4px;color:var(--chap-c,var(--violet));background:rgba(4,2,14,.55);border:.5px solid var(--line)}
+.sr-desc{margin-top:8px;font-size:12px;color:var(--ink-mid);line-height:1.6;display:none}
+.skill-row.expanded .sr-desc{display:block}
+
+/* ═══════════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════════ */
+.send-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;margin-top:48px;align-items:start}
+.send-form{padding:28px;border-radius:18px;background:rgba(10,5,26,.72);border:.5px solid var(--line-s);backdrop-filter:blur(16px);position:relative}
+.send-form::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,#f472b6 0%,#c084fc 35%,#60a5fa 70%,#67e8f9 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.4;pointer-events:none}
+.form-row{margin-bottom:16px;position:relative;z-index:1}
+.form-row.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row label{display:block;margin-bottom:7px;font:600 10px var(--ff-d);letter-spacing:.22em;color:var(--ink-mid);text-transform:uppercase}
+.form-row label .req{color:var(--rose);margin-left:4px}
+.field{width:100%;padding:11px 13px;background:rgba(4,2,14,.7);border:.5px solid var(--line);border-radius:9px;color:var(--ink-hi);font:400 13px/1.5 var(--ff-b);transition:border-color .2s,box-shadow .2s;box-sizing:border-box}
+.field:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(183,148,246,.15);background:rgba(16,8,36,.8)}
+textarea.field{resize:vertical;min-height:120px;font-family:var(--ff-b)}
+select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23a08ec0' d='M0 0h10L5 6z'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.honeypot{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0}
+.runes-row{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:9px}
+.rune-btn{aspect-ratio:1/1;border:.5px solid var(--line-s);border-radius:10px;background:rgba(16,8,36,.5);color:var(--ink-mid);font:600 20px var(--ff-d);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.rune-btn:hover{color:var(--gold-2);border-color:rgba(232,200,128,.35);background:rgba(16,8,36,.8)}
+.rune-btn.picked{color:var(--gold-2);border-color:var(--gold-1);background:linear-gradient(135deg,rgba(212,168,78,.15),rgba(192,144,48,.05));box-shadow:0 0 16px rgba(212,168,78,.25)}
+.rune-btn.wrong{color:var(--rose);border-color:var(--magenta);animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.submit-row{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.submit-row .hint{font:500 10px var(--ff-m);color:var(--ink-mid);text-align:center;letter-spacing:.04em}
+/* 送出咒文 button — full-width glass */
+.btn-submit{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:14px;
+  padding:15px 28px;
+  font:400 11px var(--ff-rune);letter-spacing:.35em;text-transform:uppercase;
+  color:var(--ink-hi);
+  background:rgba(129,140,248,.1);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(129,140,248,.4);
+  border-radius:3px;
+  cursor:pointer;
+  position:relative;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+  transition:background .3s,border-color .3s,box-shadow .3s;
+}
+.btn-submit::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(129,140,248,.8) 30%,rgba(103,232,249,.8) 70%,transparent);
+}
+.btn-submit .submit-glyph{
+  font-family:var(--ff-d);font-size:14px;letter-spacing:0;
+  opacity:.7;transition:opacity .25s;
+}
+.btn-submit:hover:not(:disabled){
+  background:rgba(129,140,248,.2);
+  border-color:rgba(129,140,248,.7);
+  box-shadow:0 0 28px rgba(129,140,248,.3),inset 0 1px 0 rgba(255,255,255,.14);
+}
+.btn-submit:hover:not(:disabled) .submit-glyph{opacity:1}
+.btn-submit:disabled{opacity:.32;pointer-events:none}
+.send-aside{padding:22px;border-radius:18px;background:rgba(10,5,26,.5);border:.5px solid var(--line)}
+.send-aside h4{font:700 18px var(--ff-s);color:var(--ink-hi);margin-bottom:4px}
+.send-aside h4 small{display:block;font:500 9px var(--ff-d);letter-spacing:.22em;color:var(--ink-mid);margin-top:5px;text-transform:uppercase;font-weight:400}
+.ch-items{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.ch-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:rgba(16,8,36,.5);border:.5px solid var(--line);cursor:pointer;transition:all .2s}
+.ch-item:hover{border-color:var(--line-s);transform:translateX(2px)}
+.ch-ico{width:36px;height:36px;border-radius:9px;background:var(--grad-neb);display:flex;align-items:center;justify-content:center;font:700 12px var(--ff-d);color:#fff;flex-shrink:0}
+.ch-name-l{font:600 11px var(--ff-d);letter-spacing:.14em;color:var(--ink-hi);text-transform:uppercase;margin-bottom:3px}
+.ch-val-l{font:500 11.5px var(--ff-m);color:var(--ink-mid)}
+.ch-copy{margin-left:auto;font:500 9px var(--ff-d);letter-spacing:.18em;color:var(--ink-low);text-transform:uppercase;transition:color .2s}
+.ch-item:hover .ch-copy{color:var(--gold-2)}
+.spam-note{margin-top:16px;padding:12px 14px;border-radius:8px;border:.5px dashed var(--line-s);background:rgba(16,8,36,.3);font:400 12px var(--ff-m);color:var(--ink-mid);line-height:1.8}
+.spam-note .sn-ttl{display:block;font:700 10px var(--ff-d);letter-spacing:.22em;color:var(--gold-2);margin-bottom:8px;text-transform:uppercase}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{padding:50px clamp(28px,6vw,80px);border-top:.5px solid var(--line);text-align:center;color:var(--ink-low);font:400 10px/1.6 var(--ff-m)}
+footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);margin-bottom:6px;text-transform:uppercase}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);padding:13px 22px;background:linear-gradient(135deg,#b794f6,#ec4899 60%,#60a5fa);color:#fff;border-radius:999px;font:600 11px var(--ff-d);letter-spacing:.14em;text-transform:uppercase;box-shadow:0 16px 40px rgba(183,148,246,.4),inset 0 0 0 1px rgba(255,255,255,.16);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:200}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:1100px){
+  .price-grid{grid-template-columns:repeat(3,1fr)}
+  .flow-grid{grid-template-columns:repeat(4,1fr);gap:20px}
+  .flow-grid::before{display:none}
+}
+@media(max-width:820px){
+  #hero{grid-template-columns:1fr;gap:40px;padding-top:100px}
+  .hero-right{justify-content:flex-start}
+  .service-grid{grid-template-columns:repeat(2,1fr)}
+  .price-grid{grid-template-columns:repeat(2,1fr)}
+  .flow-grid{grid-template-columns:repeat(3,1fr)}
+  .rules-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .codex{grid-template-columns:1fr}
+  .codex-spine{display:flex;overflow-x:auto;padding:12px;gap:6px;border-right:0;border-bottom:.5px dashed var(--line)}
+  .spine-ttl{display:none}
+  .chapter{padding:9px 12px;border-left:0;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0}
+  .chapter.active{background:rgba(183,148,246,.1);border-bottom-color:var(--chap-c)}
+  .send-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .service-grid{grid-template-columns:1fr}
+  .price-grid{grid-template-columns:1fr}
+  .flow-grid{grid-template-columns:repeat(2,1fr)}
+  .about-stats{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:1fr}
+  .skill-row.expanded{grid-column:span 1}
+  .form-row.two{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<canvas id="stars"></canvas>
+<div class="bg-commission" aria-hidden="true">
+  <img src="assets/comission/commissionbg.webp" alt="">
+</div>
+<div class="bg-neb" aria-hidden="true"></div>
+
+<!-- ── Sidebar ── -->
+<div id="sidebar">
+  <div class="sb-head">
+    <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
+    <div class="sb-info">
+      <div class="sb-title">WUYAN</div>
+      <div class="sb-sub">ARCHIVE · COMMISSION</div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <a class="ni" href="homepage_final.html"><img class="ni-icon" src="assets/icon/Home.png" alt=""><div class="ni-text"><span class="ni-en">HOME</span><span class="ni-zh">首頁</span></div></a>
+    <a class="ni" href="works_v3.html"><img class="ni-icon" src="assets/icon/File.png" alt=""><div class="ni-text"><span class="ni-en">ARCHIVE</span><span class="ni-zh">作品集</span></div></a>
+    <a class="ni act" href="commission.html"><img class="ni-icon" src="assets/icon/Pay.png" alt=""><div class="ni-text"><span class="ni-en">COMMISSION</span><span class="ni-zh">委託</span></div></a>
+    <a class="ni" href="#"><img class="ni-icon" src="assets/icon/Comment.png" alt=""><div class="ni-text"><span class="ni-en">SIGNAL</span><span class="ni-zh">留言板</span></div></a>
+    <a class="ni" href="#"><img class="ni-icon" src="assets/icon/LittleWorld.png" alt=""><div class="ni-text"><span class="ni-en">CURIO</span><span class="ni-zh">奇物陣列</span></div></a>
+  </nav>
+</div>
+
+<nav id="page-nav"></nav>
+
+<!-- ── Shell ── -->
+<div id="shell">
+<main id="main">
+
+  <!-- ── Topbar ── -->
+  <header id="topbar">
+    <div class="tb-brand">WUYAN'S · <span>ARCHIVE</span></div>
+    <nav class="tb-links">
+      <a href="#services">委託項目</a>
+      <span class="tb-dot"></span>
+      <a href="#pricing">價格</a>
+      <span class="tb-dot"></span>
+      <a href="#workflow">流程</a>
+      <span class="tb-dot"></span>
+      <a href="#about">關於我</a>
+      <span class="tb-dot"></span>
+      <a href="#contact" class="act">聯絡</a>
+    </nav>
+  </header>
+
+  <!-- ══════════════════════════════
+       HERO
+  ══════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg-img" aria-hidden="true">
+      <img src="assets/comission/hero.webp" alt="">
+    </div>
+    <div class="hero-left reveal">
+      <div class="hero-tag">
+        Commission · Open <span class="pulse-dot"></span>
+      </div>
+      <h1 class="hero-title">
+        <span class="sub-word">· WUYAN'S ·</span>
+        <span class="neb">Commission</span><br>Chamber
+      </h1>
+      <p class="hero-desc">
+        星之契約的，專屬於你的創作。<br>
+        插畫・Live2D・程式・網頁，一個人全包。
+        <em>願僱表交付前，讓靈魂與作者親密對話。</em>
+      </p>
+      <a href="#contact" class="btn-cta">
+        <span class="btn-label">Contact Me</span>
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="rune-div">ᚠ · SERVICES · ᛉ</div>
+
+  <!-- ══════════════════════════════
+       COMMISSION CATEGORIES
+  ══════════════════════════════ -->
+  <section id="services" class="sec tight">
+    <div class="reveal">
+      <span class="sec-eyebrow">Services · 委託項目</span>
+      <h2 class="sec-title">可委託的<span class="acc">項目</span></h2>
+      <p class="sec-sub">插畫・Live2D・網頁・自動化，每個委託都是一次鍊成。</p>
+    </div>
+    <div class="service-grid">
+      <div class="srv-card glass reveal">
+        <div class="srv-icon">🎨</div>
+        <div class="srv-num">01</div>
+        <div class="srv-name">插畫</div>
+        <div class="srv-en">ILLUSTRATION</div>
+        <div class="srv-tags">
+          <span class="srv-tag">頭像</span><span class="srv-tag">半身</span><span class="srv-tag">立繪</span><span class="srv-tag">線稿</span><span class="srv-tag">上色</span>
+        </div>
+        <div class="srv-note">二次元・Q版・寫實程度討論</div>
+      </div>
+      <div class="srv-card glass reveal" style="transition-delay:.06s">
+        <div class="srv-icon">✨</div>
+        <div class="srv-num">02</div>
+        <div class="srv-name">Live2D 建模</div>
+        <div class="srv-en">LIVE2D MODELLING</div>
+        <div class="srv-tags">
+          <span class="srv-tag">建模</span><span class="srv-tag">物理</span><span class="srv-tag">表情</span><span class="srv-tag">moc3 輸出</span>
+        </div>
+        <div class="srv-note">基礎→進階，可一條龍搭配立繪</div>
+      </div>
+      <div class="srv-card glass reveal" style="transition-delay:.12s">
+        <div class="srv-icon">💻</div>
+        <div class="srv-num">03</div>
+        <div class="srv-name">網頁設計</div>
+        <div class="srv-en">WEB DESIGN</div>
+        <div class="srv-tags">
+          <span class="srv-tag">Landing Page</span><span class="srv-tag">互動設計</span><span class="srv-tag">RWD</span>
+        </div>
+        <div class="srv-note">小型專案・有實際案例可看</div>
+      </div>
+      <div class="srv-card glass reveal" style="transition-delay:.18s">
+        <div class="srv-icon">⚙️</div>
+        <div class="srv-num">04</div>
+        <div class="srv-name">後端 / API</div>
+        <div class="srv-en">BACKEND · CODE</div>
+        <div class="srv-tags">
+          <span class="srv-tag">C# ASP.NET</span><span class="srv-tag">REST API</span><span class="srv-tag">資料庫</span><span class="srv-tag">串接</span>
+        </div>
+        <div class="srv-note">本業。也接自動化腳本・AI 串接</div>
+      </div>
+      <div class="srv-card glass reveal" style="transition-delay:.24s">
+        <div class="srv-icon">📺</div>
+        <div class="srv-num">05</div>
+        <div class="srv-name">直播素材</div>
+        <div class="srv-en">STREAM ASSETS</div>
+        <div class="srv-tags">
+          <span class="srv-tag">等待畫面</span><span class="srv-tag">結束畫面</span><span class="srv-tag">橫幅</span><span class="srv-tag">開場</span>
+        </div>
+        <div class="srv-note">VTuber 頻道整套可議</div>
+      </div>
+      <div class="srv-card glass reveal" style="transition-delay:.30s">
+        <div class="srv-icon">🤖</div>
+        <div class="srv-num">06</div>
+        <div class="srv-name">自由命題</div>
+        <div class="srv-en">CUSTOM</div>
+        <div class="srv-tags">
+          <span class="srv-tag">Discord Bot</span><span class="srv-tag">小工具</span><span class="srv-tag">腳本</span>
+        </div>
+        <div class="srv-note">說說你的需求，接不接都誠實告知</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="rune-div">ᛒ · PRICING · ᚺ</div>
+
+  <!-- ══════════════════════════════
+       PRICING
+  ══════════════════════════════ -->
+  <section id="pricing" class="sec tight">
+    <div class="reveal">
+      <span class="sec-eyebrow">Pricing · 委託價格</span>
+      <h2 class="sec-title">委託<span class="gold">價格</span></h2>
+      <p class="sec-sub">以下皆為起跳價・含原始檔交付・不含商業授權（可加購）・依複雜度最終報價。</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <div class="pc-label">01</div>
+        <div class="pc-ch">頭像</div>
+        <div class="pc-en">ICONS</div>
+        <div class="pc-price">NT$ 1,200 起</div>
+        <ul class="pc-note">
+          <li>1000×1000px 以上</li>
+          <li>透明背景</li>
+          <li>含光影潤色</li>
+        </ul>
+        <div class="pc-days">3 – 7 天</div>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.07s">
+        <div class="pc-label">02</div>
+        <div class="pc-ch">半身</div>
+        <div class="pc-en">HALF BODY</div>
+        <div class="pc-price">NT$ 3,000 起</div>
+        <ul class="pc-note">
+          <li>1500×2000px 以上</li>
+          <li>含簡易背景</li>
+          <li>含修改 1 次</li>
+        </ul>
+        <div class="pc-days">5 – 14 天</div>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.14s">
+        <div class="pc-label">03</div>
+        <div class="pc-ch">全身</div>
+        <div class="pc-en">FULL BODY</div>
+        <div class="pc-price">NT$ 5,500 起</div>
+        <ul class="pc-note">
+          <li>2000×3000px 以上</li>
+          <li>含完整背景</li>
+          <li>含修改 2 次</li>
+        </ul>
+        <div class="pc-days">7 – 21 天</div>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.21s">
+        <div class="pc-label">04</div>
+        <div class="pc-ch">Live2D</div>
+        <div class="pc-en">LIVE2D MODEL</div>
+        <div class="pc-price">NT$ 20,000 起</div>
+        <ul class="pc-note">
+          <li>立繪拆檔</li>
+          <li>物理 + 表情</li>
+          <li>moc3 格式輸出</li>
+        </ul>
+        <div class="pc-days">30 – 60 天</div>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.28s">
+        <div class="pc-label">05</div>
+        <div class="pc-ch">網頁互動</div>
+        <div class="pc-en">WEB DESIGN</div>
+        <div class="pc-price">NT$ 8,000 起</div>
+        <ul class="pc-note">
+          <li>RWD 響應式</li>
+          <li>動態特效設計</li>
+          <li>含部署協助</li>
+        </ul>
+        <div class="pc-days">14 – 30 天</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="rune-div">ᚷ · WORKFLOW · ᛏ</div>
+
+  <!-- ══════════════════════════════
+       WORKFLOW
+  ══════════════════════════════ -->
+  <section id="workflow" class="sec tight">
+    <div class="reveal">
+      <span class="sec-eyebrow">Workflow · 委託流程</span>
+      <h2 class="sec-title">委託<span class="acc">流程</span></h2>
+      <p class="sec-sub">大多數委託可以線上全程完成，時間依複雜度而定。</p>
+    </div>
+    <div class="flow-grid reveal">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-title">聯繫討論</div>
+        <div class="flow-en">Contact</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-title">討論需求</div>
+        <div class="flow-en">Discuss</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-title">報價確認</div>
+        <div class="flow-en">Quote</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-title">支付訂金</div>
+        <div class="flow-en">Deposit</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-title">製作進行</div>
+        <div class="flow-en">Working</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">06</div>
+        <div class="flow-title">修改確認</div>
+        <div class="flow-en">Revision</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">07</div>
+        <div class="flow-title">完成交付</div>
+        <div class="flow-en">Delivery</div>
+      </div>
+    </div>
+    <p class="reveal" style="margin-top:28px;font:400 12px var(--ff-m);color:var(--ink-low);text-align:center;transition-delay:.2s">
+      ※ 訂金確認後才開始製作 · 尾款交件前支付 · 可分期議
+    </p>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="rune-div">ᛚ · RULES · ᛟ</div>
+
+  <!-- ══════════════════════════════
+       RULES & NOTES
+  ══════════════════════════════ -->
+  <section id="rules" class="sec tight">
+    <div class="reveal">
+      <span class="sec-eyebrow">Rules & Notes · 注意事項</span>
+      <h2 class="sec-title">委託<span class="acc">注意事項</span></h2>
+    </div>
+    <div class="rules-grid">
+      <div class="rules-panel will reveal">
+        <div class="rules-head">
+          <div class="rules-icon">✓</div>
+          <div class="rules-head-text">
+            <div class="ht">我可以接的</div>
+            <div class="he">WILL DO</div>
+          </div>
+        </div>
+        <div class="rules-list">
+          <div class="rules-item">獸耳娘 / 人外 / 奇幻種族</div>
+          <div class="rules-item">二次元・Q版風格（寫實程度可討論）</div>
+          <div class="rules-item">VTuber 插圖 / 頻道整套素材</div>
+          <div class="rules-item">CP 向（需標明關係，BL/GL 皆可）</div>
+          <div class="rules-item">輕度奇幻 / 科幻 / 日系風格</div>
+          <div class="rules-item">自創角色 / 二創（請告知原著）</div>
+        </div>
+        <div class="rules-note">草圖確認後再進線稿，完稿後僅修小細節。</div>
+      </div>
+      <div class="rules-panel wont reveal" style="transition-delay:.1s">
+        <div class="rules-head">
+          <div class="rules-icon">✕</div>
+          <div class="rules-head-text">
+            <div class="ht">我無法接的</div>
+            <div class="he">WON'T DO</div>
+          </div>
+        </div>
+        <div class="rules-list">
+          <div class="rules-item">色情 / 露骨成人內容（R18+）</div>
+          <div class="rules-item">帶有強烈政治傾向的作品</div>
+          <div class="rules-item">真人同人（侵犯隱私類）</div>
+          <div class="rules-item">過於寫實的恐怖 / 血腥元素</div>
+          <div class="rules-item">超出我技術能力的委託（我會誠實說）</div>
+        </div>
+        <div class="rules-note">如有疑問先問，不確定能接也會誠實告知並協助轉介。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="rune-div">ᚺ · ABOUT · ᚷ</div>
+
+  <!-- ══════════════════════════════
+       ABOUT ME
+  ══════════════════════════════ -->
+  <section id="about" class="sec tight">
+    <div class="reveal">
+      <span class="sec-eyebrow">About Me · 關於我</span>
+    </div>
+    <div class="about-grid">
+      <div class="about-portrait reveal">
+        <div class="portrait-frame">
+          <img class="portrait-img" src="assets/comission/aboutme.webp" alt="吳言">
+        </div>
+      </div>
+      <div class="about-content reveal" style="transition-delay:.12s">
+        <h3>在<span>程式</span>與<span>繪畫</span>之間流浪</h3>
+        <p>以前是後端工程師，後來才開始畫圖、學 Live2D、開個人勢。現在的我大概是 60% 程式 / 30% 繪畫 / 10% 在試 AI 新工具。</p>
+        <p>喜歡那種「需求很模糊但要做出來」的雜事，也喜歡把一張線稿綁成會動的角色 — 兩者其實很像，都是把混亂組成秩序。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="rune-div">ᛉ · SKILL CODEX · ᚠ</div>
+
+  <!-- ══════════════════════════════
+       SKILL CODEX
+  ══════════════════════════════ -->
+  <section id="skills" class="sec tight">
+    <div class="reveal">
+      <span class="sec-eyebrow">Skill Set · 我的技能</span>
+      <h2 class="sec-title">我<span class="acc">會的東西</span></h2>
+      <p class="sec-sub">點左側分類切換・點技能卡展開說明。等級反映實際接案信心，弱項我也誠實標出。</p>
+    </div>
+    <div class="codex reveal" id="codex">
+      <div class="codex-spine" id="codex-spine"></div>
+      <div class="codex-page" id="codex-page"></div>
+    </div>
+  </section>
+
+  <!-- ── Divider ── -->
+  <div class="rune-div">ᛞ · CONTACT · ᛒ</div>
+
+  <!-- ══════════════════════════════
+       CONTACT
+  ══════════════════════════════ -->
+  <section id="contact" class="sec tight">
+    <div class="reveal">
+      <span class="sec-eyebrow">Contact · 聯絡方式</span>
+      <h2 class="sec-title">傳個<span class="acc">訊息</span>給我</h2>
+      <p class="sec-sub">填表單或直接複製右側聯絡帳號。表單已內建反濫寄保護，安心填寫。</p>
+    </div>
+    <div class="send-grid reveal">
+      <form class="send-form" id="contact-form" autocomplete="off">
+        <div class="form-row two">
+          <div>
+            <label>稱呼 <span class="req">*</span></label>
+            <input class="field" name="name" required placeholder="想被怎麼稱呼">
+          </div>
+          <div>
+            <label>聯絡方式 <span class="req">*</span></label>
+            <input class="field" name="contact" required placeholder="Email / Discord / X">
+          </div>
+        </div>
+        <div class="form-row two">
+          <div>
+            <label>委託類型</label>
+            <select class="field" name="type">
+              <option value="illust">插畫（頭像 / 半身 / 立繪）</option>
+              <option value="live2d">Live2D 建模</option>
+              <option value="vtuber">VTuber 一條龍</option>
+              <option value="stream">直播素材</option>
+              <option value="backend">後端 / API / 資料庫</option>
+              <option value="web">網頁設計</option>
+              <option value="other">其他 / 自由命題</option>
+              <option value="chat">先聊聊看</option>
+            </select>
+          </div>
+          <div>
+            <label>預算</label>
+            <select class="field" name="budget">
+              <option value="">不確定 / 想聽建議</option>
+              <option value="lt5">NT$ 5,000 以下</option>
+              <option value="5to15">NT$ 5,000 – 15,000</option>
+              <option value="15to30">NT$ 15,000 – 30,000</option>
+              <option value="gt30">NT$ 30,000 以上</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>需求 / 想像 <span class="req">*</span></label>
+          <textarea class="field" name="message" required
+            placeholder="盡量描述：用途、風格、規格、期望完成日、有沒有參考圖…&#10;越仔細越能準確估價，模糊的部分也可以一起討論。"></textarea>
+        </div>
+        <!-- honeypot — 人類看不見，bot 會填 -->
+        <input class="honeypot" name="website" tabindex="-1" autocomplete="off">
+        <div class="form-row">
+          <label id="rune-label">符文驗證 <span class="req">*</span> &nbsp;
+            <span id="rune-hint" style="color:var(--ink-low);font-weight:400;letter-spacing:.04em;text-transform:none;font-family:var(--ff-m);font-size:11px"></span>
+          </label>
+          <div class="runes-row" id="runes-row"></div>
+        </div>
+        <div class="submit-row">
+          <span class="hint" id="submit-hint">※ 通過符文驗證才能送出</span>
+          <button type="submit" class="btn-submit" id="btn-submit" disabled>
+            <span class="submit-glyph">✦</span>
+            <span>送出咒文</span>
+            <span class="submit-glyph">✦</span>
+          </button>
+        </div>
+      </form>
+
+      <aside class="send-aside">
+        <h4>不想填表也可以<small>Alternate Channels</small></h4>
+        <div class="ch-items">
+          <div class="ch-item" data-copy="wuyan.archives@example.com">
+            <div class="ch-ico">@</div>
+            <div>
+              <div class="ch-name-l">Email</div>
+              <div class="ch-val-l">wuyan.archives@example.com</div>
+            </div>
+            <div class="ch-copy">複製</div>
+          </div>
+          <div class="ch-item" data-copy="@Wuyan_Archive">
+            <div class="ch-ico">𝕏</div>
+            <div>
+              <div class="ch-name-l">X / Twitter</div>
+              <div class="ch-val-l">@Wuyan_Archive</div>
+            </div>
+            <div class="ch-copy">複製</div>
+          </div>
+          <div class="ch-item" data-copy="wuyan_archive">
+            <div class="ch-ico">DC</div>
+            <div>
+              <div class="ch-name-l">Discord</div>
+              <div class="ch-val-l">wuyan_archive</div>
+            </div>
+            <div class="ch-copy">複製</div>
+          </div>
+        </div>
+        <div class="spam-note">
+          <span class="sn-ttl">⌬ Anti-Spam · 反濫寄說明</span>
+          表單內建 4 層客戶端保護：<br>
+          · 蜜罐隱藏欄位（bot 會填，人類不會）<br>
+          · 符文驗證（4 選 1，每次重新洗牌）<br>
+          · 最短停留 3 秒才能送出<br>
+          · 送出後 30 秒冷卻<br><br>
+          串到後端時建議另加 IP rate limit + SPF/DKIM 設定。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <div class="sig">✦ Crafted in moonlight ✦</div>
+    <div>© 2025 吳言 · Wu Yan · Indie Alchemist VTuber</div>
+    <div style="margin-top:5px;color:var(--ink-low)">Web by 吳言 · Powered by long nights and stronger coffee</div>
+  </footer>
+
+</main>
+</div>
+
+<div id="toast">✦ 信件已封入水晶瓶 · 即將送達</div>
+
+<script>
+/* ═══════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════ */
+(function(){
+  var dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+  document.addEventListener('mousemove',function(e){
+    dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
+    ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
+  });
+  document.querySelectorAll('a,button,.chapter,.skill-row,.price-card,.flow-step,.ch-item,.rune-btn').forEach(function(el){
+    el.addEventListener('mouseenter',function(){document.body.classList.add('hov')});
+    el.addEventListener('mouseleave',function(){document.body.classList.remove('hov')});
+  });
+})();
+
+/* ═══════════════════════════════════════
+   STARS CANVAS (ported from particles.jsx)
+═══════════════════════════════════════ */
+(function(){
+  var canvas=document.getElementById('stars');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var W=0,H=0,dpr=Math.min(2,window.devicePixelRatio||1);
+  var stars=[],dust=[],shooters=[],lastShooter=0;
+
+  function resize(){
+    W=window.innerWidth;
+    H=Math.max(window.innerHeight,document.body.scrollHeight);
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+    canvas.width=W*dpr;canvas.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    seed();
+  }
+  function seed(){
+    stars.length=0;dust.length=0;
+    var sc=Math.floor(W*H/7000),dc=100;
+    var cols=['#ffffff','rgba(255,185,215,1)','rgba(165,215,255,1)','rgba(255,220,140,1)'];
+    for(var i=0;i<sc;i++){
+      stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.2,
+        a:Math.random()*.55+.18,tw:Math.random()*.018+.004,phase:Math.random()*Math.PI*2,
+        c:cols[Math.floor(Math.random()*cols.length)]});
+    }
+    for(var j=0;j<dc;j++){
+      dust.push({x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.14,vy:-Math.random()*.22-.04,
+        r:Math.random()*1.6+.5,a:Math.random()*.45+.12,life:Math.random()*100,
+        c:Math.random()<.4?'#ec4899':Math.random()<.6?'#60a5fa':Math.random()<.8?'#b794f6':'#fbbf24'});
+    }
+  }
+  function spawnShooter(){
+    var fl=Math.random()<.5,y=Math.random()*H*.55;
+    shooters.push({x:fl?-50:W+50,y:y,vx:(fl?1:-1)*(5+Math.random()*4),vy:1.5+Math.random()*1.5,life:0,maxLife:55+Math.random()*30});
+  }
+  function tick(t){
+    ctx.clearRect(0,0,W,H);
+    for(var s of stars){
+      s.phase+=s.tw;
+      var a=s.a*(.55+.45*Math.sin(s.phase));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=s.c;ctx.globalAlpha=a;ctx.fill();
+      if(s.r>1){ctx.beginPath();ctx.arc(s.x,s.y,s.r*3,0,Math.PI*2);ctx.fillStyle=s.c;ctx.globalAlpha=a*.1;ctx.fill()}
+    }
+    for(var d of dust){
+      d.x+=d.vx;d.y+=d.vy;d.life+=1;
+      if(d.y<-10||d.x<-10||d.x>W+10){d.y=H+10;d.x=Math.random()*W;d.life=0}
+      var da=d.a*(.5+.5*Math.sin(d.life*.02));
+      ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle=d.c;ctx.globalAlpha=da;ctx.fill();
+      ctx.beginPath();ctx.arc(d.x,d.y,d.r*4,0,Math.PI*2);ctx.fillStyle=d.c;ctx.globalAlpha=da*.12;ctx.fill();
+    }
+    if(t-lastShooter>5000+Math.random()*4000&&shooters.length<2){spawnShooter();lastShooter=t}
+    for(var i=shooters.length-1;i>=0;i--){
+      var sh=shooters[i];sh.x+=sh.vx;sh.y+=sh.vy;sh.life+=1;
+      for(var j=0;j<12;j++){
+        var fade=(1-j/12)*(1-sh.life/sh.maxLife);
+        ctx.beginPath();ctx.arc(sh.x-sh.vx*j,sh.y-sh.vy*j,1.4*fade+.15,0,Math.PI*2);
+        ctx.fillStyle='#fde68a';ctx.globalAlpha=fade;ctx.fill();
+      }
+      if(sh.life>sh.maxLife)shooters.splice(i,1);
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener('resize',resize);
+  resize();
+  requestAnimationFrame(tick);
+})();
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in')});
+  },{threshold:.08});
+  els.forEach(function(el){io.observe(el)});
+})();
+
+/* ═══════════════════════════════════════
+   SKILL CODEX (ported from skill-tree.jsx)
+═══════════════════════════════════════ */
+(function(){
+  var CHAPTERS=[
+    {id:'backend',name:'後端魔法',en:'Backend Magic',glyph:'⌬',
+     color:'#b794f6',glow:'rgba(183,148,246,.22)',
+     desc:'主修場域。把混亂的業務邏輯煉成可維護的服務 — 從 API 設計、權限與交易處理，到部署都能一條龍。',
+     skills:[
+       {name:'C# / ASP.NET Core',en:'Backend Core',lv:88,tier:'Mastery · 主修',
+        tags:['Web API','DI','Auth','Middleware'],
+        desc:'商業邏輯的主場。能從零搭多層架構、設計 API 契約、處理交易與權限。最常拿來鍊成各種後台與內部工具。'},
+       {name:'API 串接',en:'Integrations',lv:92,tier:'Mastery · 主修',
+        tags:['REST','OAuth','Webhook','GraphQL'],
+        desc:'看 API 文件像看食譜。串第三方、串 AI、串支付、串到自己快變一個轉接頭。'},
+       {name:'EF Core',en:'ORM',lv:78,tier:'Adept · 嫻熟',
+        tags:['Migrations','Linq','DbContext'],
+        desc:'日常存取層。寫得乾淨、能 debug 出意外的 N+1，也熟悉 raw SQL 落地。'},
+       {name:'Docker',en:'Container',lv:58,tier:'Initiate · 入門',
+        tags:['Dockerfile','compose','Vercel','Railway'],
+        desc:'能寫 Dockerfile、本機跑測試環境，也部署過 Vercel / Railway 上的小型服務。'},
+     ]},
+    {id:'db',name:'資料庫秘術',en:'Database Arts',glyph:'◊',
+     color:'#67e8f9',glow:'rgba(103,232,249,.22)',
+     desc:'主力戰場。從設計 schema 到調 Index、寫 Stored Procedure，都還能聊上很久。',
+     skills:[
+       {name:'SQL Server',en:'SSMS · T-SQL',lv:80,tier:'Adept · 嫻熟',
+        tags:['SSMS','Stored Proc','Index','View'],
+        desc:'長年作戰夥伴。寫 Stored Procedure、調 Index、查執行計畫都還能談。'},
+       {name:'PostgreSQL',en:'Postgres',lv:70,tier:'Adept · 嫻熟',
+        tags:['psql','JSONB','Migration'],
+        desc:'近期主力資料庫。能設計 schema、寫遷移腳本、跑相對複雜的查詢。'},
+     ]},
+    {id:'auto',name:'自動化煉成',en:'Automation',glyph:'⊕',
+     color:'#60a5fa',glow:'rgba(96,165,250,.22)',
+     desc:'雜事鍊金 — Python、爬蟲、OCR、AI 串接。工具腳本沒問題，複雜系統架構會勸退。',
+     skills:[
+       {name:'Python',en:'Scripts',lv:60,tier:'Initiate · 入門',
+        tags:['爬蟲','OCR','Pandas'],
+        desc:'寫得不快但能寫。爬蟲、OCR 辨識、AI 串接 — 工具腳本沒問題，架構複雜的會勸退。'},
+       {name:'AI 串接',en:'LLM API',lv:75,tier:'Adept · 嫻熟',
+        tags:['OpenAI','Claude','Embedding','RAG'],
+        desc:'能串接大模型 API、做基礎 RAG / 工具呼叫、配合既有系統做 AI 強化。'},
+     ]},
+    {id:'frontend',name:'前端低語',en:'Frontend',glyph:'◉',
+     color:'#f472b6',glow:'rgba(244,114,182,.22)',
+     desc:'老實說 — 副技能。有作品但都是和 AI 一起寫的。畫面怎麼長我會說，從零手寫 SPA 會卡。',
+     skills:[
+       {name:'React / Next.js',en:'Framework',lv:38,tier:'Apprentice · 學徒',
+        tags:['TypeScript','Tailwind','App Router'],
+        desc:'老實說：有作品，但都是和 AI 一起寫出來的。負責「畫面要長這樣」我會講，從零手寫一個 SPA 我會卡。'},
+       {name:'AI-Assisted Dev',en:'Co-Pilot',lv:70,tier:'Adept · 嫻熟',
+        tags:['Cursor','Claude Code'],
+        desc:'反正最後寫出來會動，而且我看得懂。'},
+     ]},
+    {id:'visual',name:'視覺鍊金',en:'Visual Alchemy',glyph:'✦',
+     color:'#ec4899',glow:'rgba(236,72,153,.22)',
+     desc:'主要繪圖工具 CSP。質感請看作品集 — 一張圖比千字描述更直接。',
+     skills:[
+       {name:'Clip Studio Paint',en:'CSP · Illust',lv:85,tier:'Adept · 嫻熟',
+        tags:['頭像','半身','立繪','線稿'],
+        desc:'主要繪圖工具。質感請看作品集。去背、液化、潤色也都在 CSP 裡完成。'},
+       {name:'Photoshop',en:'PS · Retouch',lv:42,tier:'Apprentice · 學徒',
+        tags:['修圖','去背','液化'],
+        desc:'能做基本後製。太高階的合成 / 動態筆刷不會 — 這類請另尋高人。'},
+       {name:'Illustrator',en:'AI · Vector',lv:36,tier:'Apprentice · 學徒',
+        tags:['證照','基礎向量'],
+        desc:'有證照。基本向量可以畫，但不是日常工具。'},
+     ]},
+    {id:'summon',name:'召喚術',en:'Live2D · VTuber',glyph:'☾',
+     color:'#c084fc',glow:'rgba(192,132,252,.22)',
+     desc:'能完整建出一隻 VTuber：拆檔、綁定、表情、物理、輸出到後台一條龍。實機請看作品頁。',
+     skills:[
+       {name:'Live2D Cubism',en:'Vtuber Rig',lv:76,tier:'Adept · 嫻熟',
+        tags:['建模','物理','參數','nizima LIVE'],
+        desc:'能完整建出一隻 Vtuber：拆檔、綁定、表情、物理、輸出到後台。可以連到作品頁看實機動態。'},
+     ]},
+  ];
+
+  var activeChapter=CHAPTERS[0].id;
+  var openSkill=null;
+  var spine=document.getElementById('codex-spine');
+  var page=document.getElementById('codex-page');
+  if(!spine||!page)return;
+
+  function renderSpine(){
+    spine.innerHTML='<div class="spine-ttl">技能目錄</div>';
+    CHAPTERS.forEach(function(c,idx){
+      var el=document.createElement('div');
+      el.className='chapter'+(c.id===activeChapter?' active':'');
+      el.style.setProperty('--chap-c',c.color);
+      el.innerHTML='<div class="ch-glyph">'+c.glyph+'</div>'
+        +'<div class="ch-meta"><div class="ch-cname">'+c.name+'</div><div class="ch-en">'+c.en+'</div></div>'
+        +'<div class="ch-arr">→</div>';
+      el.addEventListener('click',function(){
+        activeChapter=c.id;openSkill=null;renderSpine();renderPage();
+      });
+      spine.appendChild(el);
+    });
+  }
+
+  function renderPage(){
+    var c=CHAPTERS.find(function(x){return x.id===activeChapter})||CHAPTERS[0];
+    var idx=CHAPTERS.indexOf(c);
+    page.style.setProperty('--chap-c',c.color);
+    page.style.setProperty('--chap-glow',c.glow);
+
+    var skillsHTML=c.skills.map(function(sk){
+      var exp=openSkill===sk.name;
+      var tagsHTML=sk.tags.map(function(t){return'<span class="sr-tag">'+t+'</span>'}).join('');
+      return'<div class="skill-row'+(exp?' expanded':'')+'" data-skill="'+sk.name+'">'
+        +'<div class="sr-head"><div class="sr-name">'+sk.name+'</div><div class="sr-en">'+sk.en+'</div></div>'
+        +'<div class="sr-bar"><i style="width:'+sk.lv+'%"></i></div>'
+        +'<div class="sr-foot"><span class="sr-tier">'+sk.tier+'</span><span>Lv '+Math.round(sk.lv/10)+' / 10</span></div>'
+        +'<div class="sr-tags">'+tagsHTML+'</div>'
+        +'<div class="sr-desc">'+sk.desc+'</div>'
+        +'</div>';
+    }).join('');
+
+    page.innerHTML='<div class="page-num">'
+      +String(idx+1).padStart(2,'0')+' / '+String(CHAPTERS.length).padStart(2,'0')
+      +'</div>'
+      +'<div class="page-eyebrow">'+c.en+'</div>'
+      +'<h3>'+c.name+'</h3>'
+      +'<p class="ch-desc">'+c.desc+'</p>'
+      +'<div class="skills-grid">'+skillsHTML+'</div>';
+
+    page.querySelectorAll('.skill-row').forEach(function(row){
+      row.addEventListener('click',function(){
+        var name=row.getAttribute('data-skill');
+        openSkill=(openSkill===name?null:name);
+        renderPage();
+      });
+    });
+  }
+
+  renderSpine();
+  renderPage();
+})();
+
+/* ═══════════════════════════════════════
+   CONTACT FORM — anti-spam
+   (ported from contact.jsx)
+═══════════════════════════════════════ */
+(function(){
+  var RUNES=['ᚠ','ᚱ','ᛉ','ᛟ','ᛞ','ᛚ','ᛒ','ᚺ','ᛏ','ᚷ'];
+  var RUNE_NAME={
+    'ᚠ':'Fehu (財富)','ᚱ':'Raidho (旅程)','ᛉ':'Algiz (守護)',
+    'ᛟ':'Othala (家鄉)','ᛞ':'Dagaz (黎明)','ᛚ':'Laguz (流水)',
+    'ᛒ':'Berkana (新生)','ᚺ':'Hagalaz (冰雹)','ᛏ':'Tiwaz (勇氣)',
+    'ᚷ':'Gebo (贈與)'
+  };
+
+  function pickRunes(){
+    var shuffled=[].concat(RUNES).sort(function(){return Math.random()-.5}).slice(0,4);
+    var target=shuffled[Math.floor(Math.random()*4)];
+    return{options:shuffled,target:target};
+  }
+
+  var rune=pickRunes();
+  var picked=null;
+  var cooldown=0;
+  var cooldownTimer=null;
+  var mountedAt=Date.now();
+
+  var runesRow=document.getElementById('runes-row');
+  var runeHint=document.getElementById('rune-hint');
+  var submitBtn=document.getElementById('btn-submit');
+  var submitHint=document.getElementById('submit-hint');
+  var form=document.getElementById('contact-form');
+  if(!form)return;
+
+  function renderRunes(){
+    if(!runesRow)return;
+    runeHint.textContent='請點選「'+rune.target+'」· '+RUNE_NAME[rune.target];
+    runesRow.innerHTML='';
+    rune.options.forEach(function(r){
+      var btn=document.createElement('button');
+      btn.type='button';
+      btn.className='rune-btn'+(picked===r&&r===rune.target?' picked':'');
+      btn.textContent=r;
+      btn.setAttribute('aria-label',RUNE_NAME[r]||r);
+      btn.addEventListener('click',function(){pickRune(r)});
+      runesRow.appendChild(btn);
+    });
+    updateSubmitState();
+  }
+
+  function pickRune(r){
+    picked=r;
+    if(r!==rune.target){
+      var btn=runesRow.querySelector('.rune-btn.wrong');
+      renderRunes();
+      var btns=runesRow.querySelectorAll('.rune-btn');
+      btns.forEach(function(b){if(b.textContent===r)b.classList.add('wrong')});
+      setTimeout(function(){renderRunes()},350);
+    } else {
+      renderRunes();
+    }
+  }
+
+  function updateSubmitState(){
+    var ok=picked===rune.target;
+    var disabled=!ok||cooldown>0;
+    submitBtn.disabled=disabled;
+    if(cooldown>0) submitHint.textContent='⌛ 冷卻中 · '+cooldown+'s 後可再次寄送';
+    else if(!ok) submitHint.textContent='※ 通過符文驗證才能送出';
+    else submitHint.textContent='✓ 準備好了 · 信件將被封入水晶瓶';
+  }
+
+  function startCooldown(){
+    cooldown=30;
+    updateSubmitState();
+    cooldownTimer=setInterval(function(){
+      cooldown--;
+      updateSubmitState();
+      if(cooldown<=0){clearInterval(cooldownTimer);cooldownTimer=null}
+    },1000);
+  }
+
+  function showToast(){
+    var el=document.getElementById('toast');
+    if(!el)return;
+    el.classList.add('show');
+    setTimeout(function(){el.classList.remove('show')},2400);
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var data=new FormData(form);
+    // honeypot
+    if(data.get('website')){console.warn('[antispam] honeypot');return}
+    // time check
+    if(Date.now()-mountedAt<3000){console.warn('[antispam] too fast');return}
+    // rune check
+    if(picked!==rune.target){renderRunes();return}
+    // ok — wire to real backend here
+    console.log('[contact] submit',Object.fromEntries(data));
+    showToast();
+    form.reset();
+    rune=pickRunes();
+    picked=null;
+    renderRunes();
+    startCooldown();
+  });
+
+  // copy-to-clipboard for aside channels
+  document.querySelectorAll('.ch-item[data-copy]').forEach(function(item){
+    item.addEventListener('click',function(){
+      var val=item.getAttribute('data-copy');
+      var copyEl=item.querySelector('.ch-copy');
+      navigator.clipboard&&navigator.clipboard.writeText(val);
+      if(copyEl){copyEl.textContent='✓ 已複製';setTimeout(function(){copyEl.textContent='複製'},1400)}
+    });
+  });
+
+  renderRunes();
+})();
+
+/* ═══════════════════════════════════════
+   CARD TILT + IRIDESCENT HOVER
+   - perspective 3D tilt follows cursor
+   - conic-gradient border rotates to mouse angle (--iris-angle)
+   - radial shimmer highlight follows cursor position
+═══════════════════════════════════════ */
+(function(){
+  var cards=document.querySelectorAll('.srv-card,.price-card');
+  cards.forEach(function(card){
+    var shimmer=document.createElement('div');
+    shimmer.className='card-shimmer';
+    card.appendChild(shimmer);
+
+    var leaveTimer=null;
+
+    card.addEventListener('mousemove',function(e){
+      if(leaveTimer){clearTimeout(leaveTimer);leaveTimer=null}
+      var rect=card.getBoundingClientRect();
+      var cx=rect.left+rect.width/2;
+      var cy=rect.top+rect.height/2;
+      var dx=(e.clientX-cx)/(rect.width/2);
+      var dy=(e.clientY-cy)/(rect.height/2);
+
+      // fast response while moving — no transition on transform
+      card.style.transition='box-shadow .3s,border-color .3s';
+      card.style.transform='perspective(700px) rotateX('+(-dy*10)+'deg) rotateY('+(dx*14)+'deg) scale3d(1.025,1.025,1.025)';
+
+      // angle for conic-gradient border rotation
+      var ang=Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI;
+      card.style.setProperty('--iris-angle',ang+'deg');
+
+      // specular shimmer position
+      var px=(e.clientX-rect.left)/rect.width*100;
+      var py=(e.clientY-rect.top)/rect.height*100;
+      shimmer.style.cssText='opacity:1;background:radial-gradient(ellipse 65% 55% at '+px+'% '+py+'%,rgba(255,255,255,.22),rgba(210,170,255,.14) 30%,rgba(100,195,255,.09) 55%,transparent 78%)';
+    });
+
+    card.addEventListener('mouseleave',function(){
+      // smooth spring-back on leave
+      card.style.transition='transform .55s cubic-bezier(.23,1,.32,1),box-shadow .35s,border-color .25s';
+      card.style.transform='';
+      card.style.removeProperty('--iris-angle');
+      shimmer.style.opacity='0';
+    });
+  });
+})();
+
+/* ── Page-nav scrollspy ── */
+(function(){
+  const nav=document.getElementById('page-nav');
+  const SECS=[
+    {id:'hero',en:'HERO'},
+    {id:'services',en:'SERVICES'},
+    {id:'pricing',en:'PRICING'},
+    {id:'workflow',en:'WORKFLOW'},
+    {id:'about',en:'ABOUT'},
+    {id:'contact',en:'CONTACT'},
+  ];
+  SECS.forEach(s=>{
+    const a=document.createElement('a');
+    a.className='pn-item';a.href='#'+s.id;
+    a.innerHTML='<span class="pn-label">'+s.en+'</span><div class="pn-node"></div>';
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      const el=document.getElementById(s.id);
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+    nav.appendChild(a);
+  });
+  const items=nav.querySelectorAll('.pn-item');
+  const targets=SECS.map(s=>document.getElementById(s.id)).filter(Boolean);
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const idx=targets.indexOf(entry.target);
+        items.forEach((it,i)=>it.classList.toggle('act',i===idx));
+      }
+    });
+  },{root:null,rootMargin:'-5% 0px -60% 0px',threshold:0});
+  targets.forEach(t=>obs.observe(t));
+})();
+</script>
+</body>
+</html>

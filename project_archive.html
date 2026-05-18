@@ -6,7 +6,7 @@
 <title>WUYAN's ARCHIVE・作品集網站 | WUYAN's ARCHIVE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400&family=Cinzel:wght@400&family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;color:#cec8f0;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
@@ -22,47 +22,53 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 .star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
 @keyframes twinkle{0%,100%{opacity:var(--a,.3)}50%{opacity:1}}
 
-#shell{display:grid;grid-template-columns:1fr;height:100vh;position:relative;z-index:1}
+#shell{display:grid;grid-template-columns:1fr;height:100vh;position:relative;z-index:1;overflow-x:hidden;max-width:100%}
 
 /* ── Sidebar ── */
-#sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;display:flex;flex-direction:column;border-right:1px solid rgba(167,139,250,.22);height:100vh;overflow:hidden;z-index:50;background:rgba(7,5,15,.97);backdrop-filter:blur(20px);transform:translateX(calc(-100% + 16px));transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s}
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;display:flex;flex-direction:column;border-right:1px solid rgba(167,139,250,.22);height:100vh;overflow:hidden;z-index:50;background:linear-gradient(to bottom,rgba(12,5,32,.80) 0%,rgba(14,6,40,.72) 48%,rgba(28,10,55,.55) 70%,rgba(28,10,55,.28) 88%,rgba(28,10,55,.06) 100%);backdrop-filter:blur(20px);transform:translateX(calc(-100% + 16px));transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s}
 #sidebar:hover{transform:translateX(0);box-shadow:4px 0 44px rgba(0,0,0,.75),0 0 0 1px rgba(167,139,250,.1)}
 #sidebar::before{content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.72) 40%,rgba(165,215,255,.58) 60%,transparent);border-radius:1px;transition:opacity .25s;pointer-events:none;z-index:2}
 #sidebar:hover::before{opacity:0}
 #sidebar::after{content:'';position:absolute;left:36px;top:80px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);box-shadow:0 0 6px rgba(167,139,250,.28)}
-.sb-head{padding:16px 14px 12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(167,139,250,.15);flex-shrink:0}
+.sb-head{padding:22px 14px 16px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(167,139,250,.15);flex-shrink:0}
 .sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(5,10,30,.6);flex-shrink:0}
 .sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
 .sb-info{flex:1;min-width:0}
-.sb-title{font:700 10px monospace;letter-spacing:2px;color:rgba(196,181,253,.88);text-transform:uppercase}
-.sb-sub{font:400 8px monospace;color:rgba(167,139,250,.52);letter-spacing:1px;margin-top:2px}
-.sb-pulse{display:flex;align-items:center;gap:5px;margin-top:4px}
+.sb-title{font:700 12px monospace;letter-spacing:2px;color:rgba(196,181,253,.88);text-transform:uppercase}
+.sb-sub{font:400 10px monospace;color:rgba(167,139,250,.52);letter-spacing:1px;margin-top:3px}
+.sb-pulse{display:flex;align-items:center;gap:5px;margin-top:6px}
 .sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:sbpulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
 @keyframes sbpulse{0%,100%{opacity:.6}50%{opacity:1}}
-.sb-online{font:400 8px monospace;letter-spacing:2px;color:rgba(80,255,120,.58)}
-nav{flex:1;padding:8px 0;overflow-y:auto}
-.ni{display:flex;flex-direction:column;padding:9px 14px 9px 62px;position:relative;transition:all .22s;margin-bottom:1px}
-.ni-icon{position:absolute;left:40px;top:50%;transform:translateY(-50%);width:18px;height:18px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.42;transition:opacity .22s;object-fit:contain}
-.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
-.ni::before{content:'';position:absolute;left:28px;top:50%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;border:1px solid rgba(167,139,250,.35);background:transparent;transition:all .22s}
-.ni:hover::before,.ni.act::before{background:rgba(196,181,253,.85);border-color:rgba(196,181,253,.8);box-shadow:0 0 5px rgba(167,139,250,.6)}
-.ni:hover,.ni.act{background:rgba(40,25,80,.18)}
+.sb-online{font:400 10px monospace;letter-spacing:2px;color:rgba(80,255,120,.58)}
+nav{flex:1;padding:10px 0;overflow-y:auto}
+.ni{display:flex;align-items:center;gap:9px;padding:12px 14px 12px 50px;position:relative;transition:all .28s cubic-bezier(.25,.46,.45,.94);margin-bottom:4px;text-decoration:none;color:inherit}
+.ni::before{content:'';position:absolute;left:29px;top:50%;width:9px;height:9px;transform:translate(-50%,-50%) rotate(45deg);border:1px solid rgba(167,139,250,.4);background:transparent;transition:all .28s ease}
+.ni:hover::before{border-color:rgba(196,181,253,.88);box-shadow:0 0 8px rgba(196,181,253,.5)}
+.ni.act::before{background:rgba(167,139,250,.18);border-color:rgba(196,181,253,.92);box-shadow:0 0 10px rgba(196,181,253,.6)}
+.ni::after{content:'';position:absolute;left:29px;top:50%;width:4px;height:4px;transform:translate(-50%,-50%);border-radius:50%;background:transparent;transition:all .28s ease;pointer-events:none}
+.ni:hover::after{background:rgba(196,181,253,.82);box-shadow:0 0 5px rgba(196,181,253,.6)}
+.ni.act::after{background:rgba(255,255,255,.88);box-shadow:0 0 6px rgba(196,181,253,.8)}
+.ni:hover,.ni.act{background:rgba(100,50,180,.1)}
+.ni:hover{transform:translateY(-1px)}
 .ni.act{border-right:2px solid rgba(167,139,250,.68)}
-.ni-en{font:700 10px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(167,139,250,.55);transition:color .22s}
-.ni-zh{font:400 8px monospace;color:rgba(139,92,246,.42);letter-spacing:1px;margin-top:2px;transition:color .22s}
-.ni:hover .ni-en,.ni.act .ni-en{color:rgba(221,214,254,.94)}
-.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(196,181,253,.68)}
-.sb-music{padding:10px 14px;border-top:1px solid rgba(167,139,250,.22);background:rgba(4,2,14,.62);flex-shrink:0}
-.sb-mus-label{font:400 7px monospace;letter-spacing:3px;color:rgba(167,139,250,.55);text-transform:uppercase;margin-bottom:5px}
-.sb-mus-title{font:600 9px monospace;color:rgba(221,214,254,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sb-mus-artist{font:400 8px monospace;color:rgba(167,139,250,.58);margin-top:1px;margin-bottom:6px}
-.sb-mus-wave{display:flex;align-items:flex-end;gap:2px;height:16px;margin-bottom:7px}
-.sb-mus-wave span{width:3px;background:rgba(167,139,250,.48);border-radius:1px;animation:waveAnim var(--spd,.6s) ease-in-out infinite alternate var(--dl,0s)}
-@keyframes waveAnim{from{height:3px}to{height:var(--h,12px)}}
-.sb-mus-ctrl{display:flex;gap:7px;align-items:center}
-.sb-btn{width:22px;height:22px;border-radius:50%;border:1px solid rgba(167,139,250,.38);background:rgba(5,10,30,.72);color:rgba(196,181,253,.72);display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .2s}
-.sb-btn:hover{border-color:rgba(221,214,254,.68);color:rgba(233,231,255,.96)}
-.sb-btn.play{width:28px;height:28px;font-size:11px;background:rgba(40,20,80,.52);border-color:rgba(167,139,250,.52)}
+.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.55;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
+.ni-text{display:flex;flex-direction:column}
+.ni-en{font:400 12px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(140,110,180,.55);transition:color .22s}
+.ni-zh{font:400 11px monospace;color:rgba(140,126,170,.48);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(196,181,253,.94)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(138,126,170,.9)}
+
+/* ── Page section nav (right side dots) ── */
+#page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+#page-nav::before{content:'';position:absolute;right:3px;top:14px;bottom:14px;width:1px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.2) 20%,rgba(167,139,250,.2) 80%,transparent);pointer-events:none}
+.pn-item{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;text-decoration:none}
+.pn-label{font:400 11px monospace;letter-spacing:.15em;text-transform:uppercase;color:rgba(196,181,253,.15);transform:translateX(6px);transition:color .2s,transform .2s;white-space:nowrap;user-select:none}
+.pn-item:hover .pn-label{color:rgba(196,181,253,.85);transform:translateX(0)}
+.pn-item.act .pn-label{color:rgba(196,181,253,.68);transform:translateX(0)}
+.pn-node{width:7px;height:7px;transform:rotate(45deg);border:1px solid rgba(167,139,250,.28);background:transparent;transition:all .25s;flex-shrink:0}
+.pn-item:hover .pn-node{border-color:rgba(196,181,253,.82);background:rgba(167,139,250,.35);box-shadow:0 0 8px rgba(167,139,250,.45)}
+.pn-item.act .pn-node{border-color:rgba(196,181,253,.9);background:rgba(167,139,250,.72);box-shadow:0 0 10px rgba(196,181,253,.65),0 0 22px rgba(167,139,250,.3)}
 
 /* ── Main ── */
 #main{grid-column:1;height:100vh;overflow-y:auto;overflow-x:hidden}
@@ -70,8 +76,10 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 #main::-webkit-scrollbar-thumb{background:rgba(240,165,205,.3);border-radius:2px}
 
 /* ── Topbar ── */
-#topbar{padding:11px 22px;border-bottom:1px solid rgba(240,165,205,.18);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
-.tb-bc{display:flex;align-items:center;gap:6px;font:400 9px monospace;letter-spacing:1px;color:rgba(240,165,205,.52)}
+#topbar{padding:11px 22px;border-bottom:1px solid rgba(167,139,250,.18);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+.tb-brand{font:400 12px 'Cinzel Decorative','Cinzel',serif;letter-spacing:3px;color:rgba(218,185,255,.82);text-transform:uppercase}
+.tb-brand span{background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tb-bc{display:flex;align-items:center;gap:6px;font:400 9px monospace;letter-spacing:1px;color:rgba(196,181,253,.45)}
 .tb-bc a{color:rgba(240,165,205,.65);text-decoration:none;transition:color .2s}
 .tb-bc a:hover{color:rgba(255,200,230,.92)}
 .tb-bc .sep{color:rgba(215,120,170,.38)}
@@ -351,6 +359,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
 <div id="stars"></div>
+<nav id="page-nav"></nav>
 
 <div id="shell">
   <aside id="sidebar">
@@ -363,29 +372,15 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
       </div>
     </div>
     <nav id="nav"></nav>
-    <div class="sb-music">
-      <div class="sb-mus-label">NOW PLAYING</div>
-      <div class="sb-mus-title">Starlight Room</div>
-      <div class="sb-mus-artist">by Wuyan</div>
-      <div class="sb-mus-wave">
-        <span style="--spd:.5s;--dl:0s;--h:14px"></span><span style="--spd:.7s;--dl:.1s;--h:10px"></span>
-        <span style="--spd:.4s;--dl:.2s;--h:16px"></span><span style="--spd:.6s;--dl:.05s;--h:8px"></span>
-        <span style="--spd:.5s;--dl:.15s;--h:13px"></span><span style="--spd:.8s;--dl:.3s;--h:11px"></span>
-        <span style="--spd:.4s;--dl:.1s;--h:15px"></span><span style="--spd:.6s;--dl:.25s;--h:9px"></span>
-      </div>
-      <div class="sb-mus-ctrl">
-        <div class="sb-btn">⏮</div><div class="sb-btn play">⏸</div><div class="sb-btn">⏭</div>
-      </div>
-    </div>
   </aside>
 
   <main id="main">
     <div id="topbar">
       <div class="tb-bc">
-        <img src="assets/icon/Home.png" style="width:12px;height:12px;filter:invert(1) sepia(1) saturate(2) hue-rotate(285deg);opacity:.55" alt="">
-        <a href="#">ARCHIVE</a><span class="sep">›</span><span class="cur">PROJECT DETAIL</span>
+        <img src="assets/icon/Home.png" style="width:12px;height:12px;filter:brightness(0) invert(1);opacity:.38" alt="">
+        <a href="homepage_final.html">HOME</a><span class="sep">›</span><a href="works_v3.html">ARCHIVE</a><span class="sep">›</span><span class="cur">PROJECT DETAIL</span>
       </div>
-      <div class="tb-gem"><img src="assets/icon/Star.png" alt=""></div>
+      <div class="tb-brand">WUYAN'S · <span>ARCHIVE</span></div>
       <div class="tb-right">MEMORY CORE : <span class="stable">STABLE</span>
         <div class="tb-icons">
           <img class="tb-icon-img" src="assets/icon/Multi-faceteddice.png" alt="">
@@ -430,7 +425,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 
     <!-- ② OVERVIEW -->
     <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
-    <div class="sec">
+    <div class="sec" id="sec-overview">
       <div class="sec-label"><span>PROJECT OVERVIEW</span><span class="sec-zh">專案概覽</span></div>
       <div class="stats-row">
         <div class="stat-box"><span class="stat-num" data-target="15" data-suffix="+">0+</span><span class="stat-lbl">Interactive Elements</span></div>
@@ -478,7 +473,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 
     <!-- ③ INTERACTIVE DEMO -->
     <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
-    <div class="sec">
+    <div class="sec" id="sec-interactive">
       <div class="sec-label"><span>互動設計</span><span class="sec-zh">INTERACTIVE DEMO</span></div>
       <div class="scene-frame" id="sceneFrame">
         <img class="sf-bg" src="assets/fullBGwebp/bg_room_dark_webp.webp" alt="暗室背景">
@@ -557,7 +552,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 
     <!-- ④ SCROLL SCENE -->
     <div class="sec-divider"><img src="assets/Dividers/Divider3.png" alt=""></div>
-    <div class="sec">
+    <div class="sec" id="sec-scroll">
       <div class="sec-label"><span>記憶空間</span><span class="sec-zh">SCROLL SCENE</span></div>
       <p style="font:400 12px/2.1 monospace;color:rgba(196,181,253,.72);margin-bottom:22px">捲動離開首頁，螢幕飛走，房間迎來片刻寂靜。靠近圖像中央，浮現隱藏的詩句。趴睡的人物點擊後會驚醒。也可以在右側輸入自己的詩句來體驗。</p>
       <div class="scroll-scene-layout">
@@ -605,7 +600,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 
     <!-- ⑤ INSPIRATION -->
     <div class="sec-divider"><img src="assets/Dividers/Divider4.png" alt=""></div>
-    <div class="sec">
+    <div class="sec" id="sec-inspiration">
       <div class="sec-label"><span>創作發想</span><span class="sec-zh">INSPIRATION</span></div>
       <div class="l2">
         <div>
@@ -642,7 +637,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 
     <!-- ⑥ DESIGN SYSTEM -->
     <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
-    <div class="sec">
+    <div class="sec" id="sec-design">
       <div class="sec-label"><span>設計系統</span><span class="sec-zh">DESIGN SYSTEM</span></div>
       <div class="l3">
         <div class="s-block">
@@ -701,7 +696,7 @@ nav{flex:1;padding:8px 0;overflow-y:auto}
 
     <!-- ⑦ TECHNICAL CHALLENGES -->
     <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
-    <div class="sec">
+    <div class="sec" id="sec-tech">
       <div class="sec-label"><span>技術挑戰</span><span class="sec-zh">TECHNICAL CHALLENGES</span></div>
       <div class="challenge-list">
         <div class="challenge-card">
@@ -881,22 +876,19 @@ document.querySelectorAll('.ni,.fn-btn,.cta-box,.link-row,.hotspot,.feat-box,.pt
 
 /* ── Sidebar Nav ── */
 const NAVS=[
-  {en:'HOME',zh:'首頁',icon:'assets/icon/Home.png'},
-  {en:'PROFILE',zh:'個人檔案',icon:'assets/icon/OverView.png'},
-  {en:'ARCHIVE',zh:'作品總覽',icon:'assets/icon/File.png'},
-  {en:'PROJECT',zh:'作品詳情',icon:'assets/icon/Detail.png',act:true},
-  {en:'COMMISSION',zh:'委託',icon:'assets/icon/Pay.png'},
-  {en:'SIGNAL',zh:'留言板',icon:'assets/icon/Comment.png'},
-  {en:'LAB',zh:'實驗室',icon:'assets/icon/Experiment.png'},
-  {en:'OTHERS',zh:'其他',icon:'assets/icon/Dot3.png'}
+  {en:'HOME',zh:'首頁',icon:'assets/icon/Home.png',href:'homepage_final.html'},
+  {en:'ARCHIVE',zh:'作品集',icon:'assets/icon/File.png',href:'works_v3.html',act:true},
+  {en:'COMMISSION',zh:'委託',icon:'assets/icon/Pay.png',href:'commission.html'},
+  {en:'SIGNAL',zh:'留言板',icon:'assets/icon/Comment.png',href:'#'},
+  {en:'CURIO',zh:'奇物陣列',icon:'assets/icon/LittleWorld.png',href:'#'},
 ];
 const navEl=document.getElementById('nav');
 NAVS.forEach(n=>{
-  const d=document.createElement('div');d.className='ni'+(n.act?' act':'');
-  d.innerHTML=`<img class="ni-icon" src="${n.icon}" alt=""><div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div>`;
-  d.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-  d.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-  navEl.appendChild(d);
+  const a=document.createElement('a');a.className='ni'+(n.act?' act':'');a.href=n.href||'#';
+  a.innerHTML=`<img class="ni-icon" src="${n.icon}" alt=""><div class="ni-text"><span class="ni-en">${n.en}</span><span class="ni-zh">${n.zh}</span></div>`;
+  a.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  a.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+  navEl.appendChild(a);
 });
 
 /* ── Hero title letter reveal ── */
@@ -1270,6 +1262,37 @@ document.querySelectorAll('.swatch').forEach(sw=>{
       applyPoem(DEFAULT_POEM);
     });
   }
+})();
+</script>
+<script>
+/* ── Page section dot nav ── */
+(function(){
+  var secs=[
+    {id:'heroSection',en:'HERO'},{id:'sec-overview',en:'OVERVIEW'},
+    {id:'sec-interactive',en:'INTERACTIVE'},{id:'sec-scroll',en:'SCENE'},
+    {id:'sec-inspiration',en:'INSPIRATION'},{id:'sec-design',en:'DESIGN'},
+    {id:'sec-tech',en:'TECHNICAL'}
+  ];
+  var mainEl=document.getElementById('main');
+  var nav=document.getElementById('page-nav');if(!nav||!mainEl)return;
+  var items=[];
+  secs.forEach(function(s){
+    var el=document.getElementById(s.id);if(!el)return;
+    var a=document.createElement('a');a.className='pn-item';a.href='#'+s.id;
+    a.innerHTML='<span class="pn-label">'+s.en+'</span><div class="pn-node"></div>';
+    a.addEventListener('click',function(e){e.preventDefault();el.scrollIntoView({behavior:'smooth'})});
+    nav.appendChild(a);items.push({el:el,a:a});
+  });
+  if(!items.length)return;
+  var cur=null;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var it=items.find(function(i){return i.el===e.target});
+      if(!it||!e.isIntersecting)return;
+      if(cur)cur.classList.remove('act');cur=it.a;cur.classList.add('act');
+    });
+  },{root:mainEl,rootMargin:'-5% 0px -60% 0px'});
+  items.forEach(function(i){io.observe(i.el)});
 })();
 </script>
 </body>

@@ -119,7 +119,7 @@ body.hov #cursor-ring {
 #sidebar {
   position: fixed; left: 0; top: 0; bottom: 0; width: 220px;
   display: flex; flex-direction: column;
-  background: rgba(7,5,15,.97);
+  background: linear-gradient(to bottom, rgba(12,5,32,.80) 0%, rgba(14,6,40,.72) 48%, rgba(28,10,55,.55) 70%, rgba(28,10,55,.28) 88%, rgba(28,10,55,.06) 100%);
   backdrop-filter: blur(20px);
   border-right: 1px solid var(--line);
   z-index: 50;
@@ -141,33 +141,48 @@ body.hov #cursor-ring {
   background: linear-gradient(to bottom, transparent, rgba(167,139,250,.5) 20%, rgba(196,181,253,.85) 50%, rgba(167,139,250,.5) 80%, transparent);
   border-radius: 2px; box-shadow: 0 0 6px rgba(167,139,250,.28);
 }
-.sb-head { padding: 22px 16px 16px 36px; margin-bottom: 4px; }
-.sb-title { font: 700 10px var(--font-mono); letter-spacing: 3px; color: rgba(196,181,253,.88); text-transform: uppercase; }
-.sb-sub { font: 400 8px var(--font-mono); color: var(--ink-3); letter-spacing: 2px; margin-top: 2px; }
-.sb-pulse { display: flex; align-items: center; gap: 5px; margin-top: 6px; }
+.sb-head { padding: 20px 14px 16px 18px; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+.sb-cat { width: 34px; height: 34px; border: 1px solid rgba(167,139,250,.42); border-radius: 6px; display: flex; align-items: center; justify-content: center; background: rgba(5,10,30,.6); flex-shrink: 0; box-shadow: 0 0 12px rgba(167,139,250,.22); }
+.sb-cat img { width: 22px; height: 22px; filter: invert(1) sepia(1) saturate(3) hue-rotate(245deg); opacity: .85; }
+.sb-info { flex: 1; min-width: 0; }
+.sb-title { font: 700 12px var(--font-mono); letter-spacing: 3px; color: rgba(196,181,253,.88); text-transform: uppercase; }
+.sb-sub { font: 400 10px var(--font-mono); color: var(--ink-3); letter-spacing: 2px; margin-top: 3px; }
+.sb-pulse { display: flex; align-items: center; gap: 5px; margin-top: 8px; }
 .sb-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(80,255,120,.7); animation: pulse-dot 2s ease-in-out infinite; box-shadow: 0 0 5px rgba(80,255,120,.4); }
 @keyframes pulse-dot { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
-.sb-online { font: 400 8px var(--font-mono); letter-spacing: 2px; color: rgba(80,255,120,.58); }
-#sidebar nav { flex: 1; padding: 8px 0; }
+.sb-online { font: 400 10px var(--font-mono); letter-spacing: 2px; color: rgba(80,255,120,.58); }
+#sidebar nav { flex: 1; padding: 10px 0; }
 .ni {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px 10px 50px;
-  position: relative; transition: all .22s; margin-bottom: 2px;
+  padding: 12px 14px 12px 50px;
+  position: relative; transition: all .28s cubic-bezier(.25,.46,.45,.94); margin-bottom: 4px;
   text-decoration: none; color: inherit;
 }
 .ni::before {
-  content: '○'; position: absolute; left: 29px; top: 50%;
-  transform: translate(-50%,-50%); font-size: 6px;
-  color: rgba(167,139,250,.35); transition: all .22s; z-index: 1;
+  content: ''; position: absolute; left: 29px; top: 50%;
+  width: 9px; height: 9px;
+  transform: translate(-50%,-50%) rotate(45deg);
+  border: 1px solid rgba(167,139,250,.4); background: transparent;
+  transition: all .28s ease;
 }
-.ni:hover::before, .ni.act::before { content: '◆'; color: rgba(196,181,253,.95); font-size: 7px; text-shadow: 0 0 5px rgba(167,139,250,.82); }
+.ni:hover::before { border-color: rgba(196,181,253,.88); box-shadow: 0 0 8px rgba(196,181,253,.5); }
+.ni.act::before { background: rgba(167,139,250,.18); border-color: rgba(196,181,253,.92); box-shadow: 0 0 10px rgba(196,181,253,.6); }
+.ni::after {
+  content: ''; position: absolute; left: 29px; top: 50%;
+  width: 4px; height: 4px;
+  transform: translate(-50%,-50%); border-radius: 50%;
+  background: transparent; transition: all .28s ease; pointer-events: none;
+}
+.ni:hover::after { background: rgba(196,181,253,.82); box-shadow: 0 0 5px rgba(196,181,253,.6); }
+.ni.act::after { background: rgba(255,255,255,.88); box-shadow: 0 0 6px rgba(196,181,253,.8); }
 .ni:hover, .ni.act { background: rgba(100,50,180,.1); }
+.ni:hover { transform: translateY(-1px); }
 .ni.act { border-right: 2px solid rgba(167,139,250,.68); }
-.ni-icon { width: 14px; height: 14px; object-fit: contain; opacity: .42; filter: brightness(0) invert(1); transition: opacity .22s; flex-shrink: 0; }
-.ni:hover .ni-icon, .ni.act .ni-icon { opacity: .82; }
+.ni-icon { width: 15px; height: 15px; object-fit: contain; opacity: .55; filter: brightness(0) invert(1); transition: opacity .22s; flex-shrink: 0; }
+.ni:hover .ni-icon, .ni.act .ni-icon { opacity: .88; }
 .ni-text { display: flex; flex-direction: column; }
-.ni-en { font: 700 11px var(--font-mono); letter-spacing: 2px; text-transform: uppercase; color: rgba(140,110,180,.55); transition: color .22s; }
-.ni-zh { font: 400 8px var(--font-mono); color: var(--ink-3); letter-spacing: 1px; margin-top: 2px; transition: color .22s; }
+.ni-en { font: 400 12px var(--font-mono); letter-spacing: 2px; text-transform: uppercase; color: rgba(140,110,180,.55); transition: color .22s; }
+.ni-zh { font: 400 11px var(--font-mono); color: rgba(140,126,170,.48); letter-spacing: 1px; margin-top: 2px; transition: color .22s; }
 .ni:hover .ni-en, .ni.act .ni-en { color: rgba(196,181,253,.94); }
 .ni:hover .ni-zh, .ni.act .ni-zh { color: var(--ink-2); }
 
@@ -212,7 +227,7 @@ body.hov #cursor-ring {
 
 /* ── Main grid ── */
 .main {
-  display: grid; grid-template-columns: 196px 1fr 216px;
+  display: grid; grid-template-columns: 210px 1fr 216px;
   gap: 18px; padding-top: 16px; min-height: 0;
   align-items: start;
 }
@@ -282,9 +297,9 @@ body.hov #cursor-ring {
 .nav-item.active .num, .nav-item:hover .num { color: var(--violet); }
 .nav-item .label { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
 .nav-item .label .en {
-  font-size: 10px; letter-spacing: .2em; text-transform: uppercase; font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-family: var(--font-mono); white-space: nowrap;
 }
-.nav-item .label .zh { font-size: 9px; color: var(--ink-2); margin-top: 2px; letter-spacing: .08em; }
+.nav-item .label .zh { font-size: 10px; color: var(--ink-2); margin-top: 2px; letter-spacing: .08em; }
 .nav-item.active .label .zh, .nav-item:hover .label .zh { color: var(--ink-1); }
 .rail-footer {
   margin-top: 24px; padding-left: 4px;
@@ -579,6 +594,42 @@ body.hov #cursor-ring {
 .mini-cube-face.mt { transform: rotateX(90deg) translateZ(20px); }
 .mini-cube-face.mbot { transform: rotateX(-90deg) translateZ(20px); }
 
+/* ── API card ── */
+.api-wrap {
+  width: 100%; height: 100%; position: relative; overflow: hidden;
+  background: #04020e;
+}
+.api-code {
+  position: absolute; top: 50%; left: 65%;
+  transform: translate(-50%, -54%);
+  z-index: 2; pointer-events: none; width: 62%;
+}
+.api-pre {
+  font-family: 'Courier New', monospace; font-size: 7.8px; line-height: 1.62;
+  margin: 0; white-space: pre; color: #94a3b8;
+}
+.ac-k  { color: #a78bfa; }
+.ac-fn { color: #67e8f9; }
+.ac-s  { color: #4ade80; }
+.ac-n  { color: #fb923c; }
+.ac-c  { color: #475569; font-style: italic; }
+.api-sparks { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.api-spark {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0; animation: none;
+}
+.card:hover .api-spark {
+  animation: api-spark-on 0.6s linear infinite;
+}
+@keyframes api-spark-on {
+  0%    { opacity: 0; }
+  1%    { opacity: 1; }
+  16%   { opacity: 1; }
+  17%   { opacity: 0; }
+  100%  { opacity: 0; }
+}
+
 /* ── Click hint ── */
 .click-hint {
   position: absolute; bottom: 250px; right: 6px;
@@ -810,9 +861,12 @@ body.hov #cursor-ring {
 <!-- Fixed sidebar -->
 <div id="sidebar">
   <div class="sb-head">
-    <div class="sb-title">WUYAN'S ARCHIVE</div>
-    <div class="sb-sub">v2.1.0</div>
-    <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
+    <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
+    <div class="sb-info">
+      <div class="sb-title">WUYAN'S ARCHIVE</div>
+      <div class="sb-sub">v2.1.0</div>
+      <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
+    </div>
   </div>
   <nav id="sb-nav"></nav>
 </div>
@@ -957,7 +1011,7 @@ body.hov #cursor-ring {
 const WORKS = [
   { id:'vtuber-model',  tag:'VTUBER / LIVE2D',    title:'VTUBER MODEL',    titleZh:'自製 Live2D 模型',   subtitle:'Full Body Live2D Showcase',        art:'vtuber',      color:'#a78bfa', href:'project_vtuber.html' },
   { id:'ecpay-web',     tag:'WEB / PAYMENTS',      title:'ECPAY GATEWAY',   titleZh:'緣界金流串接',       subtitle:'Donation & Checkout Integration',  art:'ecpay',       color:'#22d3ee', href:'project_bookroom.html' },
-  { id:'auto-poster',   tag:'AI / AUTOMATION',     title:'AUTO POSTER',     titleZh:'自動發文 API',       subtitle:'Cross-platform Schedule Bot',      art:'auto',        color:'#d946ef', href:'#' },
+  { id:'auto-poster',   tag:'AI / AUTOMATION',     title:'AUTO POSTER',     titleZh:'自動發文 API',       subtitle:'Cross-platform Schedule Bot',      art:'api',         color:'#67e8f9', href:'#' },
   { id:'portfolio',     tag:'WEB / SYSTEM',        title:'THIS ARCHIVE',    titleZh:'本作品集網站',       subtitle:'Personal Portfolio System',        art:'portfolio',   color:'#67e8f9', href:'#' },
   { id:'interactive',   tag:'WEB / INTERACTIVE',   title:'INTERACTIVE WEB', titleZh:'網頁互動實驗',       subtitle:'Motion · Particles · Shaders',     art:'interactive', color:'#c4b5fd', href:'#' },
   { id:'tweet-bot',     tag:'AI / GENERATIVE',     title:'TWEET BOT',       titleZh:'AI 推文機器人',      subtitle:'Content Generation Pipeline',      art:'tweet',       color:'#fcd34d', href:'#' },
@@ -974,12 +1028,11 @@ const CATEGORIES = [
 ];
 
 const NAVS = [
-  { en:'PROFILE',    zh:'個人檔案', icon:'assets/icon/OverView.png',  href:'homepage_final.html' },
-  { en:'ARCHIVE',    zh:'作品總覽', icon:'assets/icon/File.png',       href:'works_v3.html', act:true },
-  { en:'COMMISSION', zh:'委託',     icon:'assets/icon/Pay.png',        href:'#' },
-  { en:'SIGNAL',     zh:'留言板',   icon:'assets/icon/Comment.png',    href:'#' },
-  { en:'LAB',        zh:'雜七雜八', icon:'assets/icon/Experiment.png', href:'#' },
-  { en:'OTHERS',     zh:'其他',     icon:'assets/icon/Dot3.png',       href:'#' },
+  { en:'HOME',       zh:'首頁',     icon:'assets/icon/Home.png',        href:'homepage_final.html' },
+  { en:'ARCHIVE',    zh:'作品集',   icon:'assets/icon/File.png',        href:'works_v3.html', act:true },
+  { en:'COMMISSION', zh:'委託',     icon:'assets/icon/Pay.png',         href:'commission.html' },
+  { en:'SIGNAL',     zh:'留言板',   icon:'assets/icon/Comment.png',     href:'#' },
+  { en:'CURIO',      zh:'奇物陣列', icon:'assets/icon/LittleWorld.png', href:'#' },
 ];
 
 /* ── CURSOR ─────────────────────────────────────────────────── */
@@ -1072,6 +1125,7 @@ const CARD_ART = {
   vtuber:      { back:'assets/workV3/card_vtuber/cardback.png', backLighten:'assets/workV3/card_vtuber/cardback_s_lighten.png', backColorDodge:'assets/workV3/card_vtuber/cardback_s_colordodge.png', mid:'assets/workV3/card_vtuber/Vtuber.png', mid2:'assets/workV3/card_vtuber/Vtuber2.png', front:'assets/workV3/card_vtuber/cardfront.png' },
   ecpay:       { frameBot:'assets/workV3/card_ecpay/cardbuttom.png', bg:'assets/workV3/card_ecpay/ecpayBGpicture.png', pen:'assets/workV3/card_ecpay/pen.png', frameTop:'assets/workV3/card_ecpay/cardtop.png', paper:'assets/workV3/card_ecpay/papper.png' },
   portfolio:   { full:'assets/workV3/card_web/card.png' },
+  api:         { api: true, bg: 'assets/workV3/card_api/cardbg.png' },
   auto:        { cube: true, cubeColor: '#d946ef', cubeLabel: 'AUTO · BOT',    frameBot: 'assets/workV3/card_other/cardbuttom.png', cardFront: 'assets/workV3/card_other/cardfront.png' },
   interactive: { cube: true, cubeColor: '#c4b5fd', cubeLabel: 'INTERACTIVE',  frameBot: 'assets/workV3/card_other/cardbuttom.png', cardFront: 'assets/workV3/card_other/cardfront.png' },
   tweet:       { cube: true, cubeColor: '#fcd34d', cubeLabel: 'AI · GEN',     frameBot: 'assets/workV3/card_other/cardbuttom.png', cardFront: 'assets/workV3/card_other/cardfront.png' },
@@ -1093,6 +1147,29 @@ function buildThumb(a) {
       </div></div>
       <div class="cube-label" style="--cc:${cc}">${label}</div>
       ${frontImg}
+    </div>`;
+  }
+  if (a.api) {
+    const sparkNums = ['0004','0005','0006','0014','0015','0016'];
+    const sparksHtml = sparkNums.map((n, i) =>
+      `<img class="api-spark" src="assets/workV3/card_api/Spark_012_${n}.png" style="animation-delay:${(i * 0.1).toFixed(1)}s" alt="">`
+    ).join('');
+    return `<div class="api-wrap">
+      <img class="art-layer" src="${a.bg}" style="object-fit:cover" alt="">
+      <div class="api-code"><pre class="api-pre"><span class="ac-k">const</span> api = <span class="ac-k">new</span> <span class="ac-fn">PostAPI</span>({
+  endpoint: <span class="ac-s">'/v1/dispatch'</span>,
+  auth: Bearer \${token},
+  retry: <span class="ac-n">3</span>
+});
+<span class="ac-c">// cross-platform post</span>
+<span class="ac-k">await</span> api.<span class="ac-fn">schedule</span>({
+  cron: <span class="ac-s">'0 9 * * *'</span>,
+  targets: [
+    <span class="ac-s">'twitter'</span>,
+    <span class="ac-s">'threads'</span>
+  ]
+});</pre></div>
+      <div class="api-sparks">${sparksHtml}</div>
     </div>`;
   }
   if (a.full) return `<img class="art-layer" src="${a.full}" style="object-fit:cover" alt="">`;

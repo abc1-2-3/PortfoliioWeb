@@ -11,7 +11,11 @@
       "Bash(Select-String -Path \"d:\\\\GitLab\\\\PortfoliioWeb\\\\project_bookroom.html\" -Pattern \"penEl|penScene|unlockEgg|escBtn|rune.*click|rs\\\\.addEventListener\")",
       "Bash(Select-Object LineNumber, Line)",
       "Bash(Format-Table -AutoSize)",
-      "PowerShell(\\(Get-Content \"d:\\\\GitLab\\\\PortfoliioWeb\\\\project_vtuber.html\" | Measure-Object -Line\\).Lines)"
+      "PowerShell(\\(Get-Content \"d:\\\\GitLab\\\\PortfoliioWeb\\\\project_vtuber.html\" | Measure-Object -Line\\).Lines)",
+      "Bash(Get-ChildItem \"d:\\\\GitHub\\\\PortfoliioWeb\\\\assets\\\\vtuber\\\\paint\")",
+      "Bash(Select-Object Name, Length)",
+      "PowerShell(Get-ChildItem \"d:\\\\GitHub\\\\PortfoliioWeb\\\\assets\\\\vtuber\\\\paint\" -Recurse | ForEach-Object { \"$\\($_.FullName\\) \\($\\($_.Length\\) bytes\\)\" })",
+      "Bash(Get-ChildItem \"d:\\\\GitHub\\\\PortfoliioWeb\\\\assets\\\\vtuber\\\\highlights\")"
     ]
   }
 }

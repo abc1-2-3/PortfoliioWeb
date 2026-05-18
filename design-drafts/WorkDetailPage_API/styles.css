@@ -1,0 +1,303 @@
+/* ===== tokens ===== */
+:root{
+  --bg:         oklch(0.14 0.06 300);
+  --bg-deep:    oklch(0.10 0.05 300);
+  --bg-card:    oklch(0.20 0.07 300);
+  --bg-card-2:  oklch(0.24 0.08 295);
+  --line:       oklch(0.35 0.08 295 / 0.6);
+  --line-soft:  oklch(0.35 0.08 295 / 0.3);
+
+  --ink:        oklch(0.97 0.012 290);
+  --ink-mute:   oklch(0.78 0.04 290);
+  --ink-dim:    oklch(0.60 0.05 290);
+
+  --violet:     oklch(0.70 0.18 305);
+  --violet-deep:oklch(0.50 0.20 300);
+  --powder:     oklch(0.86 0.09 230);
+  --powder-deep:oklch(0.70 0.13 235);
+  --magic:      oklch(0.78 0.16 340);
+  --gold:       oklch(0.88 0.13 95);
+
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 22px;
+
+  --display: "Instrument Serif", "Noto Serif TC", serif;
+  --sans: "Space Grotesk", "Noto Sans TC", system-ui, sans-serif;
+  --body: "Noto Sans TC", "Space Grotesk", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+[data-theme="aurora"]{
+  --bg:         oklch(0.16 0.05 250);
+  --bg-deep:    oklch(0.11 0.04 250);
+  --bg-card:    oklch(0.22 0.06 250);
+  --bg-card-2:  oklch(0.26 0.07 245);
+  --violet:     oklch(0.78 0.14 200);
+  --violet-deep:oklch(0.55 0.16 210);
+  --powder:     oklch(0.88 0.11 175);
+  --magic:      oklch(0.80 0.13 320);
+}
+[data-theme="dusk"]{
+  --bg:         oklch(0.15 0.04 30);
+  --bg-deep:    oklch(0.10 0.03 30);
+  --bg-card:    oklch(0.22 0.05 25);
+  --bg-card-2:  oklch(0.27 0.07 20);
+  --violet:     oklch(0.75 0.15 25);
+  --violet-deep:oklch(0.55 0.17 20);
+  --powder:     oklch(0.88 0.08 80);
+  --magic:      oklch(0.82 0.14 340);
+}
+
+/* ===== base ===== */
+*{ box-sizing: border-box; }
+html, body{ margin: 0; padding: 0; }
+body{
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(1200px 700px at 85% -10%, oklch(0.40 0.18 305 / 0.45), transparent 60%),
+    radial-gradient(900px  600px at -10% 30%, oklch(0.55 0.18 235 / 0.30), transparent 60%),
+    radial-gradient(700px  500px at 50% 110%, oklch(0.55 0.20 340 / 0.18), transparent 60%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* twinkle stars */
+body::before{
+  content:"";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, white 50%, transparent 51%),
+    radial-gradient(1px 1px at 38% 72%, white 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 67% 24%, white 50%, transparent 51%),
+    radial-gradient(1px 1px at 85% 60%, white 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 88%, white 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 12%, white 50%, transparent 51%),
+    radial-gradient(1px 1px at 54% 44%, white 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 56%, white 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 76% 88%, white 50%, transparent 51%);
+  background-size: 100% 100%;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+/* ===== layout ===== */
+.page{
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 56px 40px 120px;
+}
+[data-density="cozy"] .page{ padding: 80px 56px 140px; }
+[data-density="tight"] .page{ padding: 40px 28px 100px; }
+
+.eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--powder);
+}
+.eyebrow .dot{
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--powder);
+  box-shadow: 0 0 12px var(--powder);
+}
+
+.h-display{
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(56px, 8vw, 112px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.h-display em{
+  font-style: italic;
+  color: var(--magic);
+}
+.h-sec{
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(28px, 3.4vw, 46px);
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  margin: 0;
+}
+.h-sec em{
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 500;
+  color: var(--magic);
+  font-size: 0.7em;
+  letter-spacing: 0;
+}
+.lead{
+  font-size: 17px;
+  color: var(--ink-mute);
+  max-width: 60ch;
+}
+
+/* ===== shared bits ===== */
+.tag{
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  background: oklch(0.20 0.06 300 / 0.5);
+  backdrop-filter: blur(4px);
+}
+.tag.glow{
+  border-color: var(--powder-deep);
+  color: var(--powder);
+  box-shadow: inset 0 0 0 1px oklch(0.86 0.09 230 / 0.2);
+}
+
+.card{
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-card-2));
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  position: relative;
+  overflow: hidden;
+}
+.card::before{
+  content:"";
+  position: absolute; inset: 0;
+  background: radial-gradient(600px 200px at 0% 0%, oklch(0.78 0.16 340 / 0.10), transparent 60%);
+  pointer-events: none;
+}
+
+.divider{
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+  margin: 88px 0;
+}
+
+/* ===== code block ===== */
+.code{
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 13px;
+  position: relative;
+}
+.code-head{
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line-soft);
+  background: oklch(0.16 0.05 300);
+  font-size: 11px;
+  color: var(--ink-dim);
+}
+.code-head .lang{
+  font-family: var(--mono);
+  color: var(--powder);
+  margin-left: auto;
+}
+.code-head .file{ color: var(--ink-mute); }
+.code-body{
+  padding: 14px 18px;
+  overflow: auto;
+  max-height: 480px;
+  line-height: 1.65;
+  color: var(--ink);
+  white-space: pre;
+}
+.code-body .kw  { color: var(--magic); }
+.code-body .str { color: var(--powder); }
+.code-body .num { color: var(--gold); }
+.code-body .com { color: var(--ink-dim); font-style: italic; }
+.code-body .fn  { color: oklch(0.85 0.12 195); }
+.code-body .dec { color: var(--violet); }
+.code-body .ln  {
+  display: inline-block; width: 28px;
+  color: var(--ink-dim);
+  user-select: none;
+}
+
+.copy-btn{
+  appearance: none;
+  background: oklch(0.25 0.06 300 / 0.7);
+  border: 1px solid var(--line);
+  color: var(--ink-mute);
+  padding: 4px 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.copy-btn:hover{ color: var(--ink); border-color: var(--powder-deep); }
+.copy-btn.ok{ color: var(--powder); border-color: var(--powder); }
+
+/* ===== tabs ===== */
+.tabs{
+  display: inline-flex;
+  gap: 6px;
+  padding: 5px;
+  background: oklch(0.16 0.05 300);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.tabs button{
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--ink-mute);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.tabs button:hover{ color: var(--ink); }
+.tabs button.on{
+  background: linear-gradient(135deg, var(--violet-deep), var(--magic));
+  color: white;
+  box-shadow: 0 6px 22px oklch(0.50 0.20 300 / 0.4);
+}
+
+/* hide scrollbars in code */
+.code-body::-webkit-scrollbar{ height: 8px; width: 8px; }
+.code-body::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 99px; }
+
+/* ===== Chinese non-italic override =====
+   Instrument Serif italic looks great on Latin but weird on CJK,
+   so any class that mixes Chinese gets a normal-weight sans treatment
+   while keeping the magic color. */
+.h-sec em,
+.hero-zh,
+.step-zh,
+.arch-mono-tag,
+.mvc-zh,
+.mvc-steps-title,
+.sdk-detail-zh,
+.px-h3-em,
+.px-code-sub,
+.hero-lead .emp {
+  font-style: normal;
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.hero-zh{ font-weight: 600; letter-spacing: 0.04em; }

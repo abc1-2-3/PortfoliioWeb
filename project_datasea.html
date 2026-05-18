@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>數據之海 · DATA SEA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  width: 100%; height: 100%;
+  background: #04061a;
+  color: #cfdcf5;
+  font-family: 'Noto Sans TC', 'Space Grotesk', sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#ocean {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+/* ── Top Navigation ── */
+#topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 48px;
+  z-index: 100;
+  background: rgba(6, 8, 24, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(120, 160, 255, 0.14);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+}
+
+.tnav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.tnav-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(180, 200, 240, 0.58);
+  text-decoration: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.tnav-back:hover {
+  color: #cfdcf5;
+  background: rgba(120, 160, 255, 0.08);
+  border-color: rgba(120, 160, 255, 0.15);
+}
+
+.tnav-sep {
+  width: 1px; height: 22px;
+  background: rgba(120, 160, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.tnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.tnav-brand-icon { filter: drop-shadow(0 0 8px rgba(140, 180, 255, 0.4)); flex-shrink: 0; }
+.tnav-brand-en {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.28em; color: #e0ecff; line-height: 1.2;
+}
+.tnav-brand-zh {
+  font-size: 9px; letter-spacing: 0.42em;
+  color: rgba(180, 200, 240, 0.42); line-height: 1; margin-top: 2px;
+}
+
+.tnav-center {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2px;
+}
+
+.tnav-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 4px 11px;
+  text-decoration: none;
+  color: rgba(180, 200, 240, 0.5);
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer; transition: all 0.2s; line-height: 1.2;
+}
+.tnav-item:hover { color: #cfdcf5; background: rgba(120, 160, 255, 0.07); }
+.tnav-item.active {
+  color: #e8f0ff;
+  background: linear-gradient(135deg, rgba(120,160,255,0.18), rgba(167,139,250,0.1));
+  border-color: rgba(120, 160, 255, 0.22);
+}
+.tnav-item .item-zh { font-size: 11px; font-weight: 500; }
+.tnav-item .item-en {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 8px; letter-spacing: 0.18em;
+  color: rgba(160, 180, 220, 0.38); margin-top: 1px;
+}
+.tnav-item.active .item-en { color: rgba(160, 180, 220, 0.58); }
+
+/* Equal-width wrapper */
+.tnav-item-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 108px;
+  display: flex;
+  align-items: stretch;
+}
+.tnav-item-wrap .tnav-item { flex: 1; justify-content: center; }
+/* Transparent bridge to prevent hover gap between button and dropdown */
+.tnav-item-wrap::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: -8px; right: -8px;
+  height: 12px;
+  z-index: 199;
+}
+
+/* Dropdown panel */
+.tnav-dropdown {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-5px);
+  min-width: 172px;
+  background: rgba(5, 7, 20, 0.97);
+  border: 1px solid rgba(120, 160, 255, 0.16);
+  border-radius: 10px;
+  padding: 6px 0;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(120, 160, 255, 0.04);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 200;
+}
+.tnav-item-wrap:hover .tnav-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.tnav-item-wrap:first-child .tnav-dropdown {
+  left: 0; transform: translateY(-5px);
+}
+.tnav-item-wrap:first-child:hover .tnav-dropdown { transform: translateY(0); }
+.tnav-item-wrap:last-child .tnav-dropdown {
+  left: auto; right: 0; transform: translateY(-5px);
+}
+.tnav-item-wrap:last-child:hover .tnav-dropdown { transform: translateY(0); }
+
+.tnav-dd-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  text-decoration: none;
+  color: rgba(180, 200, 240, 0.6);
+  transition: all 0.14s;
+  white-space: nowrap;
+}
+.tnav-dd-item:hover { color: #e8f0ff; background: rgba(120, 160, 255, 0.07); }
+.tnav-dd-item.active { color: #a8c4ff; }
+.tnav-dd-item .dd-zh { font-size: 12px; font-weight: 500; }
+.tnav-dd-item .dd-en {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px; letter-spacing: 0.18em;
+  color: rgba(160, 180, 220, 0.38); margin-top: 1px;
+}
+.tnav-dd-item.active .dd-en { color: rgba(168, 196, 255, 0.6); }
+.dd-soon {
+  margin-left: auto;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 8px; letter-spacing: 0.14em;
+  color: rgba(160, 180, 220, 0.26);
+}
+.tnav-dd-sep {
+  height: 1px;
+  background: rgba(120, 160, 255, 0.09);
+  margin: 5px 12px;
+}
+
+
+/* ── App Grid (no sidebar) ── */
+.app {
+  position: relative;
+  z-index: 1;
+  width: 100%; height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 296px;
+  grid-template-rows: auto 1fr auto;
+  pointer-events: none;
+  overflow: hidden;
+  padding-top: 48px;
+  padding-bottom: 24px;
+}
+.app > * { pointer-events: auto; }
+
+/* ── Header ── */
+.header {
+  grid-column: 1 / 3; grid-row: 1;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 28px 36px 0 88px;
+  pointer-events: none;
+}
+.header > * { pointer-events: auto; }
+.page-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 10px; }
+.page-title .zh {
+  font-size: 22px; font-weight: 500; color: #f0f6ff;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 20px rgba(140,180,255,0.3);
+}
+.page-title .en {
+  font-family: 'Space Grotesk'; font-size: 13px; letter-spacing: 0.32em;
+  color: rgba(180,200,240,0.55);
+}
+.page-subtitle {
+  font-size: 11px; line-height: 1.6;
+  color: rgba(180,200,240,0.6);
+  letter-spacing: 0.05em; max-width: 280px;
+}
+
+.time-pill {
+  background: rgba(8,10,32,0.6);
+  border: 1px solid rgba(120,160,255,0.12);
+  border-radius: 10px; padding: 8px 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 14px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  align-items: center; min-width: 240px;
+}
+.time-row {
+  display: flex; align-items: center; gap: 14px;
+  font-family: 'JetBrains Mono'; font-size: 11px; color: #cfdcf5; letter-spacing: 0.08em;
+}
+.time-row.sub { font-family: 'Space Grotesk'; }
+.time-row .env { color: rgba(180,200,240,0.5); font-size: 9px; letter-spacing: 0.32em; }
+.lock-btn {
+  background: rgba(120,160,255,0.08);
+  border: 1px solid rgba(120,160,255,0.2);
+  color: #cfdcf5; border-radius: 12px; padding: 3px 10px; font-size: 10px;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Noto Sans TC';
+}
+.lock-btn .dot { width: 6px; height: 6px; border-radius: 50%; background: #a78bfa; box-shadow: 0 0 8px #a78bfa; }
+.lock-btn.on .dot { background: #6cffaf; box-shadow: 0 0 8px #6cffaf; }
+.compass-wrap { grid-column: 2; grid-row: 1 / 3; }
+
+/* ── Right Stack ── */
+.right-stack {
+  grid-column: 2; grid-row: 2;
+  display: flex; flex-direction: column;
+  gap: 10px; padding: 8px 20px 8px 6px;
+  min-height: 0; overflow: auto;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(12,16,42,0.78), rgba(8,10,32,0.7));
+  border: 1px solid rgba(120,160,255,0.12);
+  border-radius: 10px; padding: 11px 14px;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+  flex-shrink: 0;
+}
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.card-title-zh { font-size: 14px; color: #e0ecff; font-weight: 500; letter-spacing: 0.08em; }
+.card-title-en { font-family: 'Space Grotesk'; font-size: 9px; letter-spacing: 0.32em; color: rgba(160,180,220,0.55); margin-top: 3px; }
+
+.lunar-body { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; }
+.lunar-num .big {
+  font-family: 'Space Grotesk'; font-weight: 300; font-size: 28px; color: #e8f0ff;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.lunar-num .big span { font-size: 16px; color: rgba(180,200,240,0.6); margin-left: 4px; }
+.lunar-num .small { font-size: 11px; color: rgba(180,200,240,0.55); margin-top: 4px; letter-spacing: 0.08em; }
+.lunar-bars { margin-top: 6px; }
+
+.sliders { display: flex; flex-direction: column; gap: 9px; margin-top: 2px; }
+.slider-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.slider-label { display: flex; flex-direction: column; }
+.slider-label .zh { font-size: 12px; color: #cfdcf5; }
+.slider-label .en { font-family: 'Space Grotesk'; font-size: 9px; letter-spacing: 0.24em; color: rgba(160,180,220,0.5); margin-top: 1px; }
+.slider-value { font-family: 'JetBrains Mono'; font-size: 13px; color: #e8f0ff; }
+.slider-track {
+  position: relative; height: 4px;
+  background: rgba(120,160,255,0.1); border-radius: 2px;
+}
+.slider-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: linear-gradient(90deg, #6c8fff, #a78bfa);
+  border-radius: 2px; box-shadow: 0 0 8px rgba(167,139,250,0.5);
+}
+.slider-thumb {
+  position: absolute; top: 50%;
+  width: 12px; height: 12px; background: #e8f0ff; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(167,139,250,0.8), inset 0 0 0 2px #a78bfa;
+  pointer-events: none;
+}
+.slider-track input[type=range] {
+  position: absolute; inset: -8px 0;
+  width: 100%; height: 20px; opacity: 0; cursor: pointer;
+}
+
+.day-night-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 10px; padding: 8px 0 4px;
+  border-top: 1px solid rgba(120,160,255,0.08);
+}
+.dn-label { display: flex; flex-direction: column; }
+.dn-label .zh { font-size: 12px; color: #cfdcf5; }
+.dn-label .en { font-family: 'Space Grotesk'; font-size: 9px; letter-spacing: 0.24em; color: rgba(160,180,220,0.5); margin-top: 1px; }
+.dn-controls { display: flex; gap: 4px; }
+.pill-btn {
+  background: rgba(120,160,255,0.06);
+  border: 1px solid rgba(120,160,255,0.15);
+  color: rgba(200,220,255,0.7); font-size: 11px; padding: 4px 10px;
+  border-radius: 12px; cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.pill-btn:hover { background: rgba(120,160,255,0.12); }
+.pill-btn.on {
+  background: linear-gradient(90deg, rgba(108,143,255,0.3), rgba(167,139,250,0.3));
+  border-color: rgba(167,139,250,0.5); color: #fff;
+}
+
+.reset-btn {
+  width: 100%; margin-top: 6px; padding: 7px;
+  background: linear-gradient(90deg, rgba(108,143,255,0.18), rgba(167,139,250,0.18));
+  border: 1px solid rgba(167,139,250,0.3); border-radius: 8px; color: #e8f0ff;
+  cursor: pointer; font-family: inherit;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; transition: all 0.2s;
+}
+.reset-btn:hover { background: linear-gradient(90deg, rgba(108,143,255,0.28), rgba(167,139,250,0.28)); }
+.reset-btn .zh { font-size: 13px; }
+.reset-btn .en { font-family: 'Space Grotesk'; font-size: 9px; letter-spacing: 0.32em; color: rgba(180,200,240,0.6); }
+
+/* ── Metrics ── */
+.metrics {
+  grid-column: 1 / 3; grid-row: 3;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+  gap: 8px; padding: 8px 32px 18px 88px;
+}
+.metric {
+  background: linear-gradient(180deg, rgba(12,16,42,0.7), rgba(8,10,32,0.65));
+  border: 1px solid rgba(120,160,255,0.1);
+  border-radius: 8px; padding: 8px 12px;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.metric-head { display: flex; justify-content: space-between; align-items: flex-start; }
+.metric-zh { font-size: 12px; color: #cfdcf5; letter-spacing: 0.04em; }
+.metric-en { font-family: 'Space Grotesk'; font-size: 9px; letter-spacing: 0.24em; color: rgba(160,180,220,0.5); margin-top: 2px; }
+.metric-now { font-family: 'JetBrains Mono'; font-size: 12px; color: #a8c4ff; }
+.metric-chart { flex: 1; margin-top: 6px; }
+.metric-chart.small { margin-top: 4px; }
+.metric-axis { display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 9px; color: rgba(160,180,220,0.4); margin-top: 2px; }
+
+.big-stat {
+  font-family: 'Space Grotesk'; font-weight: 300;
+  font-size: 22px; color: #e8f0ff; letter-spacing: -0.02em; margin-top: 4px; line-height: 1;
+}
+.big-stat span { font-size: 12px; color: rgba(180,200,240,0.55); margin-left: 6px; letter-spacing: 0.05em; }
+
+@media (max-width: 1280px) {
+  .app { grid-template-columns: 1fr 280px; }
+}
+@media (max-height: 700px) {
+  .header { padding-top: 10px; }
+  .page-title .zh { font-size: 18px; }
+  .page-subtitle { display: none; }
+  .big-stat { font-size: 18px; }
+  .lunar-num .big { font-size: 22px; }
+  .metric { padding: 6px 10px; }
+  .metrics { padding: 4px 14px 8px 10px; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="ocean"></canvas>
+
+<nav id="topnav">
+  <div class="tnav-left">
+    <a href="works_v3.html" class="tnav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+      <span>ARCHIVE</span>
+    </a>
+    <div class="tnav-sep"></div>
+    <div class="tnav-brand">
+      <svg class="tnav-brand-icon" viewBox="-30 -30 60 60" width="26" height="26">
+        <defs>
+          <radialGradient id="bm-top" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#a8c8ff" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#5b8cff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle r="22" fill="url(#bm-top)"/>
+        <line x1="0" y1="-24" x2="0" y2="24" stroke="#a8c8ff" stroke-width="0.5" opacity="0.5"/>
+        <line x1="-24" y1="0" x2="24" y2="0" stroke="#a8c8ff" stroke-width="0.5" opacity="0.5"/>
+        <polygon points="0,-14 12,0 0,14 -12,0" fill="none" stroke="#cfe0ff" stroke-width="0.8"/>
+        <polygon points="0,-7 6,0 0,7 -6,0" fill="#cfe0ff"/>
+        <circle r="2" fill="#fff"/>
+      </svg>
+      <div>
+        <div class="tnav-brand-en">DATA SEA</div>
+        <div class="tnav-brand-zh">數據之海</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tnav-center">
+
+    <div class="tnav-item-wrap">
+      <a class="tnav-item" href="homepage_final.html">
+        <div class="item-zh">個人檔案</div>
+        <div class="item-en">PROFILE</div>
+      </a>
+      <div class="tnav-dropdown">
+        <a class="tnav-dd-item" href="homepage_final.html">
+          <div><div class="dd-zh">關於我</div><div class="dd-en">ABOUT ME</div></div>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">技能樹</div><div class="dd-en">SKILLS</div></div>
+          <span class="dd-soon">soon</span>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">聯絡</div><div class="dd-en">CONTACT</div></div>
+          <span class="dd-soon">soon</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="tnav-item-wrap">
+      <a class="tnav-item" href="works_v3.html">
+        <div class="item-zh">作品總覽</div>
+        <div class="item-en">ARCHIVE</div>
+      </a>
+      <div class="tnav-dropdown">
+        <a class="tnav-dd-item" href="works_v3.html">
+          <div><div class="dd-zh">全部作品</div><div class="dd-en">ALL WORKS</div></div>
+        </a>
+        <div class="tnav-dd-sep"></div>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">Vtuber</div><div class="dd-en">VTUBER</div></div>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">網頁系統</div><div class="dd-en">WEB</div></div>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">金流整合</div><div class="dd-en">PAYMENT</div></div>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">AI · Bot</div><div class="dd-en">AI</div></div>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">插畫</div><div class="dd-en">ILLUST</div></div>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">奇物陳列</div><div class="dd-en">ODDITIES</div></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="tnav-item-wrap">
+      <a class="tnav-item" href="#">
+        <div class="item-zh">委託</div>
+        <div class="item-en">COMMISSION</div>
+      </a>
+    </div>
+
+    <div class="tnav-item-wrap">
+      <a class="tnav-item" href="#">
+        <div class="item-zh">留言板</div>
+        <div class="item-en">SIGNAL</div>
+      </a>
+    </div>
+
+    <div class="tnav-item-wrap">
+      <a class="tnav-item" href="#">
+        <div class="item-zh">雜七雜八</div>
+        <div class="item-en">LAB</div>
+      </a>
+    </div>
+
+    <div class="tnav-item-wrap">
+      <a class="tnav-item active" href="#">
+        <div class="item-zh">奇物陳列</div>
+        <div class="item-en">ODDITIES</div>
+      </a>
+      <div class="tnav-dropdown">
+        <a class="tnav-dd-item active" href="project_datasea.html">
+          <div><div class="dd-zh">數據之海</div><div class="dd-en">DATA SEA</div></div>
+        </a>
+        <div class="tnav-dd-sep"></div>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">閃卡製造機</div><div class="dd-en">FLASH CARDS</div></div>
+          <span class="dd-soon">soon</span>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">塔羅抽卡</div><div class="dd-en">TAROT</div></div>
+          <span class="dd-soon">soon</span>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">運勢抽籤</div><div class="dd-en">FORTUNE</div></div>
+          <span class="dd-soon">soon</span>
+        </a>
+        <a class="tnav-dd-item" href="#">
+          <div><div class="dd-zh">抽獎轉盤</div><div class="dd-en">SPINNER</div></div>
+          <span class="dd-soon">soon</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<div id="root"></div>
+
+<script>
+/* ── Waves Canvas ── */
+(function () {
+  const canvas = document.getElementById('ocean');
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+
+  const ripples = [];
+  canvas.addEventListener('mousemove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    if (Math.random() < 0.45) ripples.push({ x, y, t: 0, life: 1.6, amp: 18 + Math.random() * 14 });
+    if (ripples.length > 60) ripples.shift();
+  });
+  canvas.addEventListener('click', (e) => {
+    const r = canvas.getBoundingClientRect();
+    ripples.push({ x: e.clientX - r.left, y: e.clientY - r.top, t: 0, life: 2.4, amp: 60 });
+  });
+
+  const stars = [];
+  function buildStars() {
+    stars.length = 0;
+    for (let i = 0; i < 220; i++) {
+      stars.push({ x: Math.random(), y: Math.random() * 0.55, r: Math.random() * 1.2 + 0.2, tw: Math.random() * Math.PI * 2, sp: 0.6 + Math.random() * 1.6 });
+    }
+  }
+  buildStars();
+
+  const shooters = [];
+  function maybeShoot() {
+    if (Math.random() < 0.0025 && shooters.length < 2) {
+      shooters.push({ x: Math.random() * W * 0.7, y: Math.random() * H * 0.25 + 20, vx: 6 + Math.random() * 4, vy: 1.5 + Math.random() * 1.2, life: 1, age: 0 });
+    }
+  }
+
+  const labels = [];
+  function spawnLabel() {
+    if (labels.length > 14) return;
+    labels.push({ x: Math.random() * W, band: Math.floor(Math.random() * 8), v: (0.18 + Math.random() * 0.22).toFixed(2), age: 0, life: 4 + Math.random() * 2.5 });
+  }
+
+  let last = performance.now(), t = 0;
+
+  function getParams() {
+    return window.__DataSea?.params || { lunar: 0.72, wind: 1.38, freq: 2.45, density: 0.89, dayNight: 0 };
+  }
+
+  function hexToRgb(h) { const n = parseInt(h.slice(1), 16); return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 }; }
+  function mix(a, b, k) {
+    const ca = hexToRgb(a), cb = hexToRgb(b);
+    return `rgb(${Math.round(ca.r+(cb.r-ca.r)*k)},${Math.round(ca.g+(cb.g-ca.g)*k)},${Math.round(ca.b+(cb.b-ca.b)*k)})`;
+  }
+
+  function bgGradient(dn) {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    if (dn < 0.5) {
+      const k = dn * 2;
+      g.addColorStop(0, mix('#05071a', '#1a1240', k));
+      g.addColorStop(0.55, mix('#0a0e2e', '#3b2466', k));
+      g.addColorStop(1, mix('#0a0a24', '#5a2a5e', k));
+    } else {
+      const k = (dn - 0.5) * 2;
+      g.addColorStop(0, mix('#1a1240', '#1d4d8a', k));
+      g.addColorStop(0.55, mix('#3b2466', '#4a8fc7', k));
+      g.addColorStop(1, mix('#5a2a5e', '#a8c8dc', k));
+    }
+    return g;
+  }
+
+  function drawStars(dn) {
+    const alpha = Math.max(0, 1 - dn * 1.6);
+    if (alpha <= 0) return;
+    for (const s of stars) {
+      const x = s.x * W, y = s.y * H * 0.7;
+      const tw = 0.5 + 0.5 * Math.sin(s.tw + t * s.sp);
+      ctx.globalAlpha = alpha * (0.3 + tw * 0.7);
+      ctx.fillStyle = '#cfe6ff';
+      ctx.beginPath(); ctx.arc(x, y, s.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawShooters(dn) {
+    const alpha = Math.max(0, 1 - dn * 1.5);
+    for (let i = shooters.length - 1; i >= 0; i--) {
+      const s = shooters[i];
+      s.age += 0.016; s.x += s.vx; s.y += s.vy;
+      const k = s.age / 1.2;
+      if (k >= 1) { shooters.splice(i, 1); continue; }
+      const g = ctx.createLinearGradient(s.x, s.y, s.x - 80, s.y - 30);
+      g.addColorStop(0, `rgba(220,235,255,${alpha * (1 - k)})`);
+      g.addColorStop(1, 'rgba(220,235,255,0)');
+      ctx.strokeStyle = g; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.x - 80, s.y - 30); ctx.stroke();
+    }
+  }
+
+  function drawMoon(dn, lunar) {
+    const cx = W * 0.62, cy = H * 0.18, r = 46;
+    const moonAlpha = Math.max(0, 1 - dn * 1.4);
+    const sunAlpha = Math.max(0, dn - 0.2) * 1.25;
+    if (moonAlpha > 0) {
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 5);
+      grd.addColorStop(0, `rgba(180,200,255,${0.18 * moonAlpha * (0.6 + lunar * 0.6)})`);
+      grd.addColorStop(1, 'rgba(180,200,255,0)');
+      ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(cx, cy, r * 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(220,225,240,${moonAlpha})`; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(8,10,28,${moonAlpha * 0.92})`; ctx.beginPath(); ctx.arc(cx + r * 0.35, cy - r * 0.05, r * 0.92, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(170,180,210,${moonAlpha * 0.5})`;
+      [[-12,-8,5],[-22,10,3],[-5,16,4]].forEach(c => { ctx.beginPath(); ctx.arc(cx+c[0], cy+c[1], c[2], 0, Math.PI * 2); ctx.fill(); });
+    }
+    if (sunAlpha > 0) {
+      const sx = W * 0.74, sy = H * 0.22;
+      const grd = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 6);
+      grd.addColorStop(0, `rgba(255,220,170,${0.35 * sunAlpha})`); grd.addColorStop(1, 'rgba(255,220,170,0)');
+      ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(sx, sy, r * 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(255,235,200,${sunAlpha})`; ctx.beginPath(); ctx.arc(sx, sy, r * 0.95, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  function waveY(x, baseY, lineIdx, totalLines, p, time) {
+    const wind = p.wind, freq = p.freq, lunar = p.lunar;
+    const depthK = lineIdx / totalLines;
+    const amp = (10 + 36 * lunar + 18 * wind) * (0.4 + depthK * 1.2);
+    const phase = time * (0.6 + wind * 0.4);
+    let y = baseY;
+    y += Math.sin(x * freq * 0.006 + phase + lineIdx * 0.5) * amp * 0.55;
+    y += Math.sin(x * freq * 0.011 - phase * 1.3 + lineIdx * 0.3) * amp * 0.3;
+    y += Math.sin(x * freq * 0.003 + phase * 0.5) * amp * 0.5;
+    y += Math.sin(x * 0.004 + phase * 0.8) * wind * 6;
+    for (const rp of ripples) {
+      const dx = x - rp.x, dy = baseY - rp.y;
+      const d = Math.sqrt(dx * dx + dy * dy), k = rp.t / rp.life;
+      if (k >= 1) continue;
+      const radius = k * 380, band = Math.exp(-Math.abs(d - radius) * 0.04), decay = 1 - k;
+      y += Math.sin((d - radius) * 0.08) * band * decay * rp.amp;
+    }
+    return y;
+  }
+
+  function lerpColor(a, b, k) { return [a[0]+(b[0]-a[0])*k, a[1]+(b[1]-a[1])*k, a[2]+(b[2]-a[2])*k]; }
+
+  function drawWaves(p, dn) {
+    const totalLines = Math.floor(36 * (0.55 + p.density * 0.6));
+    const topY = H * 0.42, bottomY = H * 0.98;
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < totalLines; i++) {
+      const k = i / (totalLines - 1), depthK = k;
+      const baseY = topY + (bottomY - topY) * k;
+      const c1 = lerpColor([120,200,255], [170,130,255], depthK);
+      const c2 = lerpColor(c1, [220,230,255], dn * 0.5);
+      const baseAlpha = 0.18 + 0.55 * Math.pow(1 - Math.abs(depthK - 0.5) * 1.4, 1.5);
+      ctx.strokeStyle = `rgba(${c2[0]|0},${c2[1]|0},${c2[2]|0},${baseAlpha})`;
+      ctx.lineWidth = 0.8 + depthK * 1.2;
+      ctx.beginPath();
+      for (let x = -6; x <= W + 6; x += 6) {
+        const y = waveY(x, baseY, i, totalLines, p, t);
+        if (x === -6) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      if (i % 3 === 0 && depthK > 0.15) {
+        const count = Math.floor(8 + p.density * 14);
+        for (let s = 0; s < count; s++) {
+          const xx = (s / count) * W + Math.sin(t * 0.5 + i + s) * 30 + (t * 20 * p.wind) % (W / count);
+          const yy = waveY(xx, baseY, i, totalLines, p, t);
+          const sp = 0.5 + 0.5 * Math.sin(t * 3 + s * 1.7 + i);
+          ctx.fillStyle = `rgba(180,220,255,${baseAlpha * (0.6 + sp * 0.6)})`;
+          ctx.beginPath(); ctx.arc(xx, yy, 0.8 + sp * 1.2, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function drawLabels(p) {
+    ctx.font = '11px "JetBrains Mono", monospace';
+    for (let i = labels.length - 1; i >= 0; i--) {
+      const L = labels[i]; L.age += 0.016;
+      const k = L.age / L.life;
+      if (k >= 1) { labels.splice(i, 1); continue; }
+      const fade = k < 0.15 ? k / 0.15 : (k > 0.85 ? (1 - k) / 0.15 : 1);
+      const baseY = H * 0.42 + (L.band / 8) * (H * 0.45);
+      const y = waveY(L.x, baseY, L.band * 4, 36, p, t);
+      ctx.strokeStyle = `rgba(160,200,255,${0.4 * fade})`; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(L.x, y); ctx.lineTo(L.x, y - 22); ctx.stroke();
+      ctx.fillStyle = `rgba(200,225,255,${0.9 * fade})`; ctx.fillText(L.v, L.x - 10, y - 26);
+      ctx.fillStyle = `rgba(180,220,255,${fade})`; ctx.beginPath(); ctx.arc(L.x, y, 1.6, 0, Math.PI * 2); ctx.fill();
+    }
+    if (Math.random() < 0.04) spawnLabel();
+  }
+
+  function tick(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
+    const p = getParams();
+    if (!p.paused) {
+      window.__DataSea.params.dayNight =
+        (Math.sin(t * 0.05 * p.cycleSpeed) + 1) / 2 * (p.autoDayNight ? 1 : 0) +
+        (p.autoDayNight ? 0 : p.dayNight);
+    }
+    const dn = Math.max(0, Math.min(1, p.dayNight));
+    ctx.fillStyle = bgGradient(dn); ctx.fillRect(0, 0, W, H);
+    drawStars(dn); maybeShoot(); drawShooters(dn); drawMoon(dn, p.lunar);
+    for (let i = ripples.length - 1; i >= 0; i--) { ripples[i].t += dt; if (ripples[i].t > ripples[i].life) ripples.splice(i, 1); }
+    drawWaves(p, dn); drawLabels(p);
+    const vg = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*0.3, W/2, H/2, Math.max(W,H)*0.75);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.55)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+    requestAnimationFrame(tick);
+  }
+
+  resize();
+  window.__DataSea = window.__DataSea || {};
+  window.__DataSea.params = window.__DataSea.params || {
+    lunar: 0.72, wind: 1.38, freq: 2.45, density: 0.89,
+    dayNight: 0.0, autoDayNight: false, cycleSpeed: 1, paused: false,
+  };
+  requestAnimationFrame(tick);
+})();
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+function useNow() {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
+  return now;
+}
+function fmtDate(d) { const p = n => String(n).padStart(2,'0'); return `${d.getFullYear()} / ${p(d.getMonth()+1)} / ${p(d.getDate())}`; }
+function fmtTime(d) { const p = n => String(n).padStart(2,'0'); return `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`; }
+
+function Slider({ label, sub, value, min, max, step, onChange, fmt }) {
+  return (
+    <div className="slider">
+      <div className="slider-head">
+        <div className="slider-label">
+          <div className="zh">{label}</div>
+          <div className="en">{sub}</div>
+        </div>
+        <div className="slider-value">{fmt ? fmt(value) : value}</div>
+      </div>
+      <div className="slider-track">
+        <div className="slider-fill" style={{ width: `${((value-min)/(max-min))*100}%` }}></div>
+        <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(parseFloat(e.target.value))} />
+        <div className="slider-thumb" style={{ left: `${((value-min)/(max-min))*100}%` }}></div>
+      </div>
+    </div>
+  );
+}
+
+function Sparkline({ data, color = '#7da8ff', fill = true, height = 44 }) {
+  const w = 180, h = height;
+  if (!data.length) return null;
+  const min = Math.min(...data), max = Math.max(...data), span = Math.max(0.001, max - min);
+  const pts = data.map((v, i) => [(i / (data.length - 1)) * w, h - ((v - min) / span) * (h - 6) - 3]);
+  const d = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ width: '100%', height: h }}>
+      <defs>
+        <linearGradient id="spk-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.45"/>
+          <stop offset="100%" stopColor={color} stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+      {fill && <path d={d + ` L${w},${h} L0,${h} Z`} fill="url(#spk-fill)"/>}
+      <path d={d} fill="none" stroke={color} strokeWidth="1.4"/>
+      <circle cx={pts[pts.length-1][0]} cy={pts[pts.length-1][1]} r="2.5" fill={color}/>
+      <circle cx={pts[pts.length-1][0]} cy={pts[pts.length-1][1]} r="6" fill={color} opacity="0.25"/>
+    </svg>
+  );
+}
+
+function Bars({ data, color = '#a78bfa', height = 44 }) {
+  const w = 180, h = height, max = Math.max(...data), bw = w / data.length;
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ width: '100%', height: h }}>
+      {data.map((v, i) => {
+        const bh = (v / max) * (h - 4);
+        return <rect key={i} x={i*bw+0.6} y={h-bh} width={bw-1.2} height={bh} rx="0.8" fill={color} opacity={0.35+(v/max)*0.6}/>;
+      })}
+    </svg>
+  );
+}
+
+function MoonPhase({ phase }) {
+  const r = 36, offset = (phase - 0.5) * r * 2;
+  return (
+    <svg width="80" height="80" viewBox="-50 -50 100 100">
+      <defs>
+        <radialGradient id="mglow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#cfd8ff" stopOpacity="0.6"/>
+          <stop offset="100%" stopColor="#cfd8ff" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle r="48" fill="url(#mglow)"/>
+      <circle r={r} fill="#d6dbef"/>
+      <circle r={r} cx={offset} fill="#0d1330"/>
+      <circle r="2" cx="-10" cy="-6" fill="#a8b2d0" opacity="0.5"/>
+      <circle r="1.4" cx="-18" cy="8" fill="#a8b2d0" opacity="0.4"/>
+      <circle r="1.6" cx="-4" cy="14" fill="#a8b2d0" opacity="0.45"/>
+    </svg>
+  );
+}
+
+function Compass({ angle = 38 }) {
+  return (
+    <svg width="56" height="56" viewBox="-30 -30 60 60">
+      <circle r="26" fill="none" stroke="rgba(180,200,255,0.25)"/>
+      <circle r="20" fill="none" stroke="rgba(180,200,255,0.15)"/>
+      {[0,90,180,270].map((a,i) => (
+        <line key={i}
+          x1={Math.cos((a-90)*Math.PI/180)*22} y1={Math.sin((a-90)*Math.PI/180)*22}
+          x2={Math.cos((a-90)*Math.PI/180)*26} y2={Math.sin((a-90)*Math.PI/180)*26}
+          stroke="rgba(180,200,255,0.5)"/>
+      ))}
+      <g transform={`rotate(${angle})`}>
+        <path d="M0,-22 L4,0 L0,4 L-4,0 Z" fill="#a8c4ff"/>
+        <path d="M0,22 L3,0 L0,-2 L-3,0 Z" fill="rgba(160,180,220,0.4)"/>
+      </g>
+      <text textAnchor="middle" y="-9" fill="rgba(200,220,255,0.7)" fontSize="7" fontFamily="JetBrains Mono">N</text>
+    </svg>
+  );
+}
+
+const TWEAK_DEFAULTS = { lunar: 0.72, wind: 1.38, freq: 2.45, density: 0.89, autoDayNight: false, dayNight: 0, locked: false };
+
+function App() {
+  const [params, setParams] = useState({ ...TWEAK_DEFAULTS, cycleSpeed: 1, paused: false });
+  const now = useNow();
+
+  useEffect(() => {
+    window.__DataSea = window.__DataSea || {};
+    window.__DataSea.params = params;
+  }, [params]);
+
+  const [streamData, setStreamData] = useState(() => Array.from({ length: 36 }, (_, i) => 0.3 + Math.sin(i * 0.4) * 0.15 + Math.random() * 0.1));
+  const [waveBars] = useState(() => Array.from({ length: 28 }, () => 0.3 + Math.random() * 0.6));
+  const [anomalyBars, setAnomalyBars] = useState(() => Array.from({ length: 20 }, () => 0.2 + Math.random() * 0.7));
+  const [nodeBars, setNodeBars] = useState(() => Array.from({ length: 30 }, () => 0.3 + Math.random() * 0.6));
+  const [lunarBars, setLunarBars] = useState(() => Array.from({ length: 14 }, (_, i) => 0.3 + Math.sin(i * 0.5) * 0.3 + Math.random() * 0.2));
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStreamData(prev => {
+        const next = [...prev.slice(1)];
+        const last = prev[prev.length - 1];
+        const target = 0.4 + params.wind * 0.18 + params.lunar * 0.12;
+        next.push(Math.max(0.05, Math.min(0.95, last + (target - last) * 0.15 + (Math.random() - 0.5) * 0.18)));
+        return next;
+      });
+      setAnomalyBars(prev => prev.map(v => Math.max(0.05, Math.min(1, v + (Math.random() - 0.5) * 0.25))));
+      setNodeBars(prev => prev.map(v => Math.max(0.1, Math.min(1, v + (Math.random() - 0.5) * 0.15))));
+      setLunarBars(prev => prev.map(v => Math.max(0.1, Math.min(1, v + (Math.random() - 0.5) * 0.18))));
+    }, 700);
+    return () => clearInterval(id);
+  }, [params.wind, params.lunar]);
+
+  const flowRate = useMemo(() => (1.4 + params.wind * 0.6 + params.density * 0.4).toFixed(2), [params.wind, params.density, now]);
+  const waveIntensity = useMemo(() => (0.4 + params.lunar * 0.4 + params.wind * 0.08).toFixed(2), [params.lunar, params.wind]);
+  const nodeCount = useMemo(() => Math.round(6800 + params.density * 2400 + params.freq * 200), [params.density, params.freq]);
+  const anomalies = useMemo(() => Math.max(0, Math.round(params.wind * 1.4 + params.freq * 0.4 - 1)), [params.wind, params.freq]);
+
+  function update(key, val) { setParams(p => ({ ...p, [key]: val })); }
+  function reset() { setParams(p => ({ ...p, ...TWEAK_DEFAULTS, cycleSpeed: 1, paused: false })); }
+
+  return (
+    <div className="app">
+      <header className="header">
+        <div className="header-left">
+          <h1 className="page-title">
+            <span className="zh">總覽</span>
+            <span className="en">OVERVIEW</span>
+          </h1>
+          <p className="page-subtitle">
+            每一道波紋,都是數據的呼吸;<br />
+            在無盡的運算中,尋找潛藏的規律。
+          </p>
+        </div>
+        <div className="header-right">
+          <div className="time-pill">
+            <div className="time-row">
+              <span className="date">{fmtDate(now)}</span>
+              <span className="time">{fmtTime(now)}</span>
+            </div>
+            <div className="time-row sub">
+              <span className="env">ENVIRONMENT</span>
+              <button className={`lock-btn ${params.locked ? 'on' : ''}`} onClick={() => update('locked', !params.locked)}>
+                <span className="dot"></span>
+                {params.locked ? '已鎖定' : '穩定'}
+              </button>
+            </div>
+            <div className="compass-wrap"><Compass angle={params.wind * 22}/></div>
+          </div>
+        </div>
+      </header>
+
+      <div className="right-stack">
+        <section className="card lunar-card">
+          <div className="card-head">
+            <div>
+              <div className="card-title-zh">月亮影響</div>
+              <div className="card-title-en">LUNAR INFLUENCE</div>
+            </div>
+          </div>
+          <div className="lunar-body">
+            <MoonPhase phase={params.lunar}/>
+            <div className="lunar-num">
+              <div className="big">{Math.round(params.lunar * 100)}<span>%</span></div>
+              <div className="small">影響強度</div>
+            </div>
+          </div>
+          <div className="lunar-bars"><Bars data={lunarBars} color="#a78bfa" height={36}/></div>
+        </section>
+
+        <section className="card panel-card">
+          <div className="card-head">
+            <div>
+              <div className="card-title-zh">環境參數</div>
+              <div className="card-title-en">ENVIRONMENT PARAMETERS</div>
+            </div>
+          </div>
+          <div className="sliders">
+            <Slider label="月亮影響" sub="LUNAR INFLUENCE" value={params.lunar} min={0} max={1} step={0.01} fmt={v => `${Math.round(v*100)}%`} onChange={v => update('lunar', v)}/>
+            <Slider label="風速" sub="WIND SPEED" value={params.wind} min={0} max={3} step={0.01} fmt={v => `${v.toFixed(2)}x`} onChange={v => update('wind', v)}/>
+            <Slider label="波動頻率" sub="FREQUENCY" value={params.freq} min={0.5} max={5} step={0.01} fmt={v => `${v.toFixed(2)}x`} onChange={v => update('freq', v)}/>
+            <Slider label="數據密度" sub="DATA DENSITY" value={params.density} min={0.2} max={1} step={0.01} fmt={v => `${Math.round(v*100)}%`} onChange={v => update('density', v)}/>
+          </div>
+          <div className="day-night-row">
+            <div className="dn-label">
+              <span className="zh">日夜更替</span>
+              <span className="en">DAY · NIGHT</span>
+            </div>
+            <div className="dn-controls">
+              <button className={`pill-btn ${!params.autoDayNight && params.dayNight < 0.5 ? 'on' : ''}`} onClick={() => setParams(p => ({ ...p, autoDayNight: false, dayNight: 0 }))}>夜</button>
+              <button className={`pill-btn ${!params.autoDayNight && params.dayNight >= 0.5 ? 'on' : ''}`} onClick={() => setParams(p => ({ ...p, autoDayNight: false, dayNight: 1 }))}>日</button>
+              <button className={`pill-btn ${params.autoDayNight ? 'on' : ''}`} onClick={() => setParams(p => ({ ...p, autoDayNight: !p.autoDayNight }))}>自動</button>
+            </div>
+          </div>
+          <button className="reset-btn" onClick={reset}>
+            <span className="zh">重置參數</span>
+            <span className="en">RESET</span>
+          </button>
+        </section>
+      </div>
+
+      <footer className="metrics">
+        <div className="metric">
+          <div className="metric-head">
+            <div><div className="metric-zh">即時數據流</div><div className="metric-en">REAL-TIME DATA STREAM</div></div>
+            <div className="metric-now">{streamData[streamData.length-1].toFixed(2)}</div>
+          </div>
+          <div className="metric-chart"><Sparkline data={streamData} color="#7da8ff"/></div>
+          <div className="metric-axis">
+            {[-8,-6,-4,-2,0].map(offset => (
+              <span key={offset}>{fmtTime(new Date(now.getTime() + offset * 60000)).slice(0,5)}</span>
+            ))}
+          </div>
+        </div>
+        <div className="metric metric-stat">
+          <div className="metric-head"><div><div className="metric-zh">數據流速</div><div className="metric-en">DATA FLOW RATE</div></div></div>
+          <div className="big-stat">{flowRate}<span>TB/s</span></div>
+          <div className="metric-chart small"><Sparkline data={streamData.slice(-16)} color="#7da8ff" height={28}/></div>
+        </div>
+        <div className="metric metric-stat">
+          <div className="metric-head"><div><div className="metric-zh">波動強度</div><div className="metric-en">WAVE INTENSITY</div></div></div>
+          <div className="big-stat">{waveIntensity}</div>
+          <div className="metric-chart small"><Sparkline data={streamData.slice(-16)} color="#a78bfa" height={28}/></div>
+        </div>
+        <div className="metric metric-stat">
+          <div className="metric-head"><div><div className="metric-zh">節點數量</div><div className="metric-en">NODE COUNT</div></div></div>
+          <div className="big-stat">{nodeCount.toLocaleString()}</div>
+          <div className="metric-chart small"><Bars data={nodeBars} color="#a78bfa" height={28}/></div>
+        </div>
+        <div className="metric metric-stat">
+          <div className="metric-head"><div><div className="metric-zh">異常偵測</div><div className="metric-en">ANOMALY DETECTION</div></div></div>
+          <div className="big-stat">{anomalies}<span>件</span></div>
+          <div className="metric-chart small"><Bars data={anomalyBars} color="#ff7da8" height={28}/></div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
