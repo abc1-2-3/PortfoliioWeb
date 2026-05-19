@@ -128,7 +128,7 @@ nav.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
 h2.sec-title{font-family:var(--ff-s);font-weight:200;font-size:clamp(32px,5vw,60px);line-height:1.1;letter-spacing:.04em;margin:16px 0 12px;color:var(--ink-hi)}
 h2.sec-title .acc{background:var(--grad-neb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 h2.sec-title .gold{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.sec-sub{color:var(--ink-mid);font-size:14px;max-width:58ch;line-height:1.8}
+.sec-sub{color:var(--ink-mid);font-size:14px;max-width:80ch;line-height:1.8;text-wrap:balance}
 
 /* rune divider */
 .rune-div{display:flex;align-items:center;gap:20px;padding:0 max(clamp(24px,5vw,60px),calc((100% - 1240px)/2));margin:0;color:var(--ink-low);font-family:var(--ff-d);letter-spacing:.4em;font-size:11px}
@@ -285,7 +285,7 @@ h2.sec-title .gold{background:var(--grad-gold);-webkit-background-clip:text;back
 .portrait-img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
 .about-content h3{font:200 32px/1.15 var(--ff-s);color:var(--ink-hi);margin-bottom:18px}
 .about-content h3 span{background:var(--grad-neb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.about-content p{font:400 14px/1.85 var(--ff-b);color:var(--ink-mid);margin-bottom:20px;max-width:55ch}
+.about-content p{font:400 14px/1.85 var(--ff-b);color:var(--ink-mid);margin-bottom:20px;max-width:72ch;text-wrap:balance}
 .about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
 .stat-card{padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(20,10,46,.7),rgba(10,5,28,.5));border:.5px solid var(--line)}
 .stat-k{font:600 9px var(--ff-d);letter-spacing:.25em;color:var(--ink-low);text-transform:uppercase;margin-bottom:10px}
@@ -316,7 +316,7 @@ h2.sec-title .gold{background:var(--grad-gold);-webkit-background-clip:text;back
 .page-eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 10px var(--ff-d);letter-spacing:.25em;color:var(--chap-c);text-transform:uppercase;margin-bottom:12px;position:relative}
 .page-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--chap-c);box-shadow:0 0 8px var(--chap-c)}
 .codex-page h3{font:700 28px var(--ff-s);color:var(--ink-hi);margin-bottom:8px;position:relative}
-.ch-desc{color:var(--ink-mid);font-size:13px;line-height:1.75;margin:0 0 24px;max-width:58ch;position:relative}
+.ch-desc{color:var(--ink-mid);font-size:13px;line-height:1.75;margin:0 0 24px;max-width:80ch;text-wrap:balance;position:relative}
 .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;position:relative}
 .skill-row{padding:14px 16px;border-radius:10px;background:rgba(4,2,14,.45);border:.5px solid var(--line);cursor:pointer;transition:all .22s}
 .skill-row:hover{border-color:var(--chap-c,var(--violet));background:rgba(16,8,36,.6);transform:translateY(-1px);box-shadow:0 4px 14px -4px var(--chap-c,var(--violet))}
@@ -739,10 +739,9 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
           </div>
         </div>
         <div class="rules-list">
-          <div class="rules-item">獸耳娘 / 人外 / 奇幻種族</div>
-          <div class="rules-item">二次元・Q版風格（寫實程度可討論）</div>
-          <div class="rules-item">VTuber 插圖 / 頻道整套素材</div>
-          <div class="rules-item">CP 向（需標明關係，BL/GL 皆可）</div>
+          <div class="rules-item">二次元・Q版風格</div>
+          <div class="rules-item">VTuber 插圖</div>
+          <div class="rules-item">CP 向（需標明關係）</div>
           <div class="rules-item">輕度奇幻 / 科幻 / 日系風格</div>
           <div class="rules-item">自創角色 / 二創（請告知原著）</div>
         </div>
@@ -760,8 +759,8 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
           <div class="rules-item">色情 / 露骨成人內容（R18+）</div>
           <div class="rules-item">帶有強烈政治傾向的作品</div>
           <div class="rules-item">真人同人（侵犯隱私類）</div>
-          <div class="rules-item">過於寫實的恐怖 / 血腥元素</div>
-          <div class="rules-item">超出我技術能力的委託（我會誠實說）</div>
+          <div class="rules-item">過於寫實的恐怖</div>
+          <div class="rules-item">超出我技術能力的委託</div>
         </div>
         <div class="rules-note">如有疑問先問，不確定能接也會誠實告知並協助轉介。</div>
       </div>
@@ -785,9 +784,9 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         </div>
       </div>
       <div class="about-content reveal" style="transition-delay:.12s">
-        <h3>在<span>程式</span>與<span>繪畫</span>之間流浪</h3>
-        <p>以前是後端工程師，後來才開始畫圖、學 Live2D、開個人勢。現在的我大概是 60% 程式 / 30% 繪畫 / 10% 在試 AI 新工具。</p>
-        <p>喜歡那種「需求很模糊但要做出來」的雜事，也喜歡把一張線稿綁成會動的角色 — 兩者其實很像，都是把混亂組成秩序。</p>
+        <h3>後端是本業，<span>畫圖</span>從沒停過</h3>
+        <p>不是轉行，也沒有什麼「後來才」。寫後端跟在課本上塗鴉，其實是同一個時期開始的 — 把腦子裡的東西做成看得見的形狀，只是工具不同。</p>
+        <p>覺得幻想是正經的事，AI 讓它更容易落地。現在大概是 60% 程式 / 30% 繪畫 / 10% 在試怎麼讓兩件事跑更快。</p>
       </div>
     </div>
   </section>
@@ -1038,13 +1037,13 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
 ═══════════════════════════════════════ */
 (function(){
   var CHAPTERS=[
-    {id:'backend',name:'後端魔法',en:'Backend Magic',glyph:'⌬',
+    {id:'backend',name:'後端開發',en:'Backend',glyph:'⌬',
      color:'#b794f6',glow:'rgba(183,148,246,.22)',
-     desc:'主修場域。把混亂的業務邏輯煉成可維護的服務 — 從 API 設計、權限與交易處理，到部署都能一條龍。',
+     desc:'主修領域。把複雜的業務邏輯整理成可維護的服務 — 從 API 設計、權限與交易處理，到部署都能一條龍。',
      skills:[
        {name:'C# / ASP.NET Core',en:'Backend Core',lv:88,tier:'Mastery · 主修',
         tags:['Web API','DI','Auth','Middleware'],
-        desc:'商業邏輯的主場。能從零搭多層架構、設計 API 契約、處理交易與權限。最常拿來鍊成各種後台與內部工具。'},
+        desc:'商業邏輯的主場。能從零搭多層架構、設計 API 契約、處理交易與權限。最常用來開發各種後台與內部工具。'},
        {name:'API 串接',en:'Integrations',lv:92,tier:'Mastery · 主修',
         tags:['REST','OAuth','Webhook','GraphQL'],
         desc:'看 API 文件像看食譜。串第三方、串 AI、串支付、串到自己快變一個轉接頭。'},
@@ -1055,7 +1054,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         tags:['Dockerfile','compose','Vercel','Railway'],
         desc:'能寫 Dockerfile、本機跑測試環境，也部署過 Vercel / Railway 上的小型服務。'},
      ]},
-    {id:'db',name:'資料庫秘術',en:'Database Arts',glyph:'◊',
+    {id:'db',name:'資料庫',en:'Database',glyph:'◊',
      color:'#67e8f9',glow:'rgba(103,232,249,.22)',
      desc:'主力戰場。從設計 schema 到調 Index、寫 Stored Procedure，都還能聊上很久。',
      skills:[
@@ -1066,9 +1065,9 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         tags:['psql','JSONB','Migration'],
         desc:'近期主力資料庫。能設計 schema、寫遷移腳本、跑相對複雜的查詢。'},
      ]},
-    {id:'auto',name:'自動化煉成',en:'Automation',glyph:'⊕',
+    {id:'auto',name:'自動化',en:'Automation',glyph:'⊕',
      color:'#60a5fa',glow:'rgba(96,165,250,.22)',
-     desc:'雜事鍊金 — Python、爬蟲、OCR、AI 串接。工具腳本沒問題，複雜系統架構會勸退。',
+     desc:'雜事自動化 — Python、爬蟲、OCR、AI 串接。工具腳本沒問題，複雜系統架構會勸退。',
      skills:[
        {name:'Python',en:'Scripts',lv:60,tier:'Initiate · 入門',
         tags:['爬蟲','OCR','Pandas'],
@@ -1077,7 +1076,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         tags:['OpenAI','Claude','Embedding','RAG'],
         desc:'能串接大模型 API、做基礎 RAG / 工具呼叫、配合既有系統做 AI 強化。'},
      ]},
-    {id:'frontend',name:'前端低語',en:'Frontend',glyph:'◉',
+    {id:'frontend',name:'前端',en:'Frontend',glyph:'◉',
      color:'#f472b6',glow:'rgba(244,114,182,.22)',
      desc:'老實說 — 副技能。有作品但都是和 AI 一起寫的。畫面怎麼長我會說，從零手寫 SPA 會卡。',
      skills:[
@@ -1088,7 +1087,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         tags:['Cursor','Claude Code'],
         desc:'反正最後寫出來會動，而且我看得懂。'},
      ]},
-    {id:'visual',name:'視覺鍊金',en:'Visual Alchemy',glyph:'✦',
+    {id:'visual',name:'視覺工具',en:'Visual',glyph:'✦',
      color:'#ec4899',glow:'rgba(236,72,153,.22)',
      desc:'主要繪圖工具 CSP。質感請看作品集 — 一張圖比千字描述更直接。',
      skills:[
@@ -1102,7 +1101,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         tags:['證照','基礎向量'],
         desc:'有證照。基本向量可以畫，但不是日常工具。'},
      ]},
-    {id:'summon',name:'召喚術',en:'Live2D · VTuber',glyph:'☾',
+    {id:'summon',name:'Live2D 建模',en:'Live2D · VTuber',glyph:'☾',
      color:'#c084fc',glow:'rgba(192,132,252,.22)',
      desc:'能完整建出一隻 VTuber：拆檔、綁定、表情、物理、輸出到後台一條龍。實機請看作品頁。',
      skills:[

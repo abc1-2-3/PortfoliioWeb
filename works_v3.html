@@ -189,6 +189,7 @@ body.hov #cursor-ring {
 /* ── App shell ── */
 .app {
   position: relative; z-index: 1; height: 100vh; width: 100%;
+  max-width: 1760px; margin: 0 auto;
   display: grid; grid-template-rows: auto 1fr auto;
   padding: 22px 32px 20px;
   overflow: hidden;
@@ -1222,10 +1223,13 @@ function miniThumb(a) {
     const cx   = wrapCx();
     const baseX = cx - CARD_W / 2;
     const baseY = WRAP_H / 2 - CARD_H / 2;
+    const S1 = Math.max(390, cx * 0.75);
+    const S2 = Math.max(700, cx * 1.34);
+    const S3 = Math.max(920, cx * 1.77);
     if (abs === 0) return { x: baseX,               y: baseY,      scale: 1,    opacity: 1,    z: 10 };
-    if (abs === 1) return { x: baseX + signed * 390, y: baseY + 28, scale: 0.74, opacity: 0.50, z: 5  };
-    if (abs === 2) return { x: baseX + signed * 700, y: baseY + 56, scale: 0.58, opacity: 0.20, z: 3  };
-    return               { x: baseX + signed * 920, y: baseY + 84, scale: 0.46, opacity: 0,    z: 1  };
+    if (abs === 1) return { x: baseX + signed * S1,  y: baseY + 28, scale: 0.74, opacity: 0.50, z: 5  };
+    if (abs === 2) return { x: baseX + signed * S2,  y: baseY + 56, scale: 0.58, opacity: 0.20, z: 3  };
+    return               { x: baseX + signed * S3,  y: baseY + 84, scale: 0.46, opacity: 0,    z: 1  };
   }
 
   // Build cards
