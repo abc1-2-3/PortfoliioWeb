@@ -79,16 +79,16 @@ nav.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
 .ni::after{content:'';position:absolute;left:29px;top:50%;width:4px;height:4px;transform:translate(-50%,-50%);border-radius:50%;background:transparent;transition:all .28s ease;pointer-events:none}
 .ni:hover::after{background:rgba(196,181,253,.82);box-shadow:0 0 5px rgba(196,181,253,.6)}
 .ni.act::after{background:rgba(255,255,255,.88);box-shadow:0 0 6px rgba(196,181,253,.8)}
-.ni:hover,.ni.act{background:rgba(100,50,180,.1)}
-.ni:hover{transform:translateY(-1px)}
+.ni:hover,.ni.act{background:rgba(110,55,195,.14)}
+.ni:hover{transform:translateX(4px)}
 .ni.act{border-right:2px solid rgba(167,139,250,.68)}
-.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.55;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
-.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
+.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.70;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.95}
 .ni-text{display:flex;flex-direction:column}
-.ni-en{font:400 12px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(140,110,180,.55);transition:color .22s}
-.ni-zh{font:400 11px var(--ff-m);color:rgba(140,126,170,.48);letter-spacing:1px;margin-top:2px;transition:color .22s}
-.ni:hover .ni-en,.ni.act .ni-en{color:rgba(196,181,253,.94)}
-.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(138,126,170,.9)}
+.ni-en{font:400 12px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
+.ni-zh{font:400 11px var(--ff-m);color:rgba(160,142,205,.65);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(232,224,255,.97)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(210,200,240,.88)}
 
 /* ── Page section nav (right side dots) ── */
 #page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0}
@@ -445,6 +445,9 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
   .form-row.two{grid-template-columns:1fr}
 }
 </style>
+<link rel="stylesheet" href="sidebar.css">
+<script>window.SIDEBAR_PAGE='commission';</script>
+<script src="sidebar.js" defer></script>
 </head>
 <body>
 
@@ -457,22 +460,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
 <div class="bg-neb" aria-hidden="true"></div>
 
 <!-- ── Sidebar ── -->
-<div id="sidebar">
-  <div class="sb-head">
-    <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
-    <div class="sb-info">
-      <div class="sb-title">WUYAN</div>
-      <div class="sb-sub">ARCHIVE · COMMISSION</div>
-    </div>
-  </div>
-  <nav class="sb-nav">
-    <a class="ni" href="homepage_final.html"><img class="ni-icon" src="assets/icon/Home.png" alt=""><div class="ni-text"><span class="ni-en">HOME</span><span class="ni-zh">首頁</span></div></a>
-    <a class="ni" href="works_v3.html"><img class="ni-icon" src="assets/icon/File.png" alt=""><div class="ni-text"><span class="ni-en">ARCHIVE</span><span class="ni-zh">作品集</span></div></a>
-    <a class="ni act" href="commission.html"><img class="ni-icon" src="assets/icon/Pay.png" alt=""><div class="ni-text"><span class="ni-en">COMMISSION</span><span class="ni-zh">委託</span></div></a>
-    <a class="ni" href="#"><img class="ni-icon" src="assets/icon/Comment.png" alt=""><div class="ni-text"><span class="ni-en">SIGNAL</span><span class="ni-zh">留言板</span></div></a>
-    <a class="ni" href="#"><img class="ni-icon" src="assets/icon/LittleWorld.png" alt=""><div class="ni-text"><span class="ni-en">CURIO</span><span class="ni-zh">奇物陣列</span></div></a>
-  </nav>
-</div>
+<div id="sidebar"></div>
 
 <nav id="page-nav"></nav>
 

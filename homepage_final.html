@@ -42,25 +42,25 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 .sc-wrap:hover .screen-glitch{background:transparent}
 .tt-arrow{position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:rgba(160,140,255,.4)}
 /* Error windows */
-.err-win{position:absolute;width:clamp(220px,26vw,320px);background:rgba(6,3,18,.72);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(180,50,50,.45);border-radius:8px;box-shadow:0 0 0 1px rgba(255,60,60,.08),0 12px 40px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,120,120,.06);font-family:'Courier New',monospace;animation:err-pop .15s ease;z-index:250}
+.err-win{position:absolute;width:clamp(220px,26vw,320px);background:rgba(8,3,16,.85);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(240,130,190,.42);border-radius:8px;box-shadow:0 0 0 1px rgba(255,140,200,.06),0 12px 40px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,180,220,.07);font-family:'Courier New',monospace;animation:err-pop .15s ease;z-index:250}
 @keyframes err-pop{from{transform:scale(.82) translateY(-10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.err-tb{display:flex;align-items:center;gap:8px;padding:8px 12px;background:linear-gradient(to right,rgba(130,18,18,.55),rgba(75,10,45,.45));border-bottom:1px solid rgba(200,50,50,.22);border-radius:7px 7px 0 0}
-.err-ic{font-size:12px;color:rgba(255,150,50,.9)}.err-tt{flex:1;font:700 9px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(255,170,170,.9)}
-.err-x{width:15px;height:15px;border-radius:50%;background:rgba(200,50,50,.35);border:1px solid rgba(255,80,80,.25);color:rgba(255,170,170,.75);font-size:8px;display:flex;align-items:center;justify-content:center;transition:background .2s}.err-x:hover{background:rgba(255,55,55,.6)}
-.err-bd{padding:13px 14px 11px}.err-cd{font:700 9px monospace;letter-spacing:2px;color:rgba(255,70,70,.55);margin-bottom:8px}
-.err-ms{font:400 10px/1.8 monospace;color:rgba(160,220,160,.75);min-height:60px}
-.err-cursor{color:rgba(160,220,160,.9);font-size:11px}.err-cursor.blink{animation:blink .9s step-end infinite}
+.err-tb{display:flex;align-items:center;gap:8px;padding:8px 12px;background:linear-gradient(to right,rgba(130,22,80,.68),rgba(80,12,55,.52));border-bottom:1px solid rgba(240,120,180,.2);border-radius:7px 7px 0 0}
+.err-ic{font-size:12px;color:rgba(255,170,200,.95)}.err-tt{flex:1;font:700 9px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(255,198,225,.92)}
+.err-x{width:15px;height:15px;border-radius:50%;background:rgba(210,55,120,.35);border:1px solid rgba(255,120,175,.28);color:rgba(255,185,215,.82);font-size:8px;display:flex;align-items:center;justify-content:center;transition:background .2s}.err-x:hover{background:rgba(230,55,130,.62)}
+.err-bd{padding:13px 14px 11px}.err-cd{font:700 9px monospace;letter-spacing:2px;color:rgba(245,130,170,.65);margin-bottom:8px}
+.err-ms{font:400 10px/1.8 monospace;color:rgba(165,215,255,.78);min-height:60px}
+.err-cursor{color:rgba(165,215,255,.9);font-size:11px}.err-cursor.blink{animation:blink .9s step-end infinite}
 .err-bs{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
-.err-b{font:600 9px monospace;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:4px;background:rgba(20,10,45,.6);border:1px solid rgba(120,85,185,.35);color:rgba(165,145,205,.85);transition:all .2s}
-.err-b:hover{background:rgba(60,38,130,.5);border-color:rgba(165,125,240,.65);color:#fff}
-.err-bm{border-color:rgba(180,40,40,.35);color:rgba(205,135,135,.75)}.err-bm:hover{background:rgba(130,18,18,.45);border-color:rgba(240,70,70,.55);color:#fff}
+.err-b{font:600 9px monospace;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:4px;background:rgba(20,8,38,.6);border:1px solid rgba(230,120,175,.32);color:rgba(245,175,210,.85);transition:all .2s}
+.err-b:hover{background:rgba(120,25,70,.5);border-color:rgba(255,140,190,.65);color:#fff}
+.err-bm{border-color:rgba(165,215,255,.32);color:rgba(165,215,255,.72)}.err-bm:hover{background:rgba(20,55,120,.5);border-color:rgba(165,215,255,.65);color:#fff}
 #char-click-zone{position:absolute;left:38%;top:58%;width:24%;height:20%;z-index:61}
 #terminal{position:absolute;bottom:14px;left:16px;z-index:80;font:11px/1.9 monospace;color:rgba(130,170,255,.56);letter-spacing:1px;pointer-events:none}
 .blink{animation:blink 1s infinite}
 @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.1}}
 #bio{transition:opacity .9s}
-#scroll-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:80;font:10px monospace;letter-spacing:3px;color:rgba(140,120,220,.33);pointer-events:none;animation:hint-pulse 3s ease-in-out infinite}
-@keyframes hint-pulse{0%,100%{opacity:.33;translate:0 0}50%{opacity:.6;translate:0 4px}}
+#scroll-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:80;font:10px 'Courier New',monospace;letter-spacing:4px;color:rgba(165,215,255,.55);pointer-events:none;animation:hint-pulse 3.2s ease-in-out infinite;white-space:nowrap;text-shadow:0 0 10px rgba(165,215,255,.25)}
+@keyframes hint-pulse{0%,100%{opacity:.38;translate:0 0}50%{opacity:.72;translate:0 5px}}
 /* Sec2 */
 #sec2{background:#060612}
 .s2-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.88}
@@ -71,11 +71,13 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 .ht-empty{height:1.1em}
 .hw{display:inline-block;opacity:0;color:rgba(200,185,255,.9);text-shadow:0 0 8px rgba(160,140,220,.55);transition:opacity var(--d,.3s) ease,filter var(--d,.3s) ease;filter:blur(3px);cursor:default}
 .s2-bottom{position:absolute;bottom:0;left:0;right:0;padding:clamp(12px,2.5vh,24px) clamp(18px,4vw,50px);background:linear-gradient(to top,rgba(4,4,16,.92) 60%,transparent 100%);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
-.s2-name{font:900 clamp(20px,3.8vw,38px)/1 'Courier New',monospace;letter-spacing:5px;text-transform:uppercase;background:linear-gradient(135deg,#c084fc,#67e8f9,#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.s2-name{font:200 clamp(22px,4.2vw,44px)/1.15 'Noto Serif TC',Georgia,serif;letter-spacing:8px;background:linear-gradient(135deg,#dbb4fc 0%,#a5d7ff 40%,#f9c8e4 75%,#dbb4fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .s2-sub{font:400 clamp(8px,1.1vw,11px) monospace;color:rgba(170,155,210,.6);letter-spacing:4px;text-transform:uppercase;margin-top:6px}
 .s2-links{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
-.s2-link{font:600 9px monospace;letter-spacing:3px;text-transform:uppercase;padding:7px 15px;border-radius:4px;border:1px solid rgba(140,120,230,.35);background:rgba(14,7,38,.65);color:rgba(165,150,235,.8);transition:all .25s;backdrop-filter:blur(4px)}
+.s2-link{display:flex;align-items:center;gap:6px;font:600 9px monospace;letter-spacing:3px;text-transform:uppercase;padding:7px 14px;border-radius:4px;border:1px solid rgba(140,120,230,.35);background:rgba(14,7,38,.65);color:rgba(165,150,235,.8);transition:all .25s;backdrop-filter:blur(4px)}
 .s2-link:hover{border-color:rgba(200,185,255,.7);color:rgba(220,210,255,.97);box-shadow:0 0 12px rgba(140,120,255,.28);background:rgba(50,35,105,.55)}
+.s2-li{width:11px;height:11px;flex-shrink:0;filter:invert(1);opacity:.55;transition:opacity .25s}
+.s2-link:hover .s2-li{opacity:.85}
 .s2-scroll-up{font:10px monospace;color:rgba(140,120,220,.38);letter-spacing:3px;padding:6px;animation:hint-pulse 3s ease-in-out infinite;align-self:center}
 /* Sec3 About */
 #sec3{background:#030108;overflow:hidden}
@@ -165,7 +167,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 <div class="ht-line"><span class="hw" style="--d:0.10s">我是創作者</span></div>
 <div class="ht-line"><span class="hw" style="--d:0.10s">也是開發者</span></div>
 <div class="ht-line"><span class="hw" style="--d:0.10s">更是一個</span></div>
-<div class="ht-line"><span class="hw" style="--d:0.10s">永遠好奇的人</span></div></div><div class="s2-bottom"><div><div class="s2-name">Your Name</div><div class="s2-sub">Artist · Developer · VTuber · Creative Coder</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px"><div class="s2-links"><div class="s2-link" onclick="navTo('works.html')">🎨 Works</div><div class="s2-link" onclick="navTo('live2d.html')">🎭 Live2D</div><div class="s2-link" onclick="navTo('commission.html')">💌 Commission</div><div class="s2-link" onclick="navTo('guestbook.html')">💬 Guestbook</div></div><div class="s2-scroll-up" onclick="navTo('about.html')" style="pointer-events:all">→ About Me</div></div></div></div><div id="sec3"><img class="s3-cosmos" src="assets/fullBGwebp/wave_bg_webp.webp" alt=""><canvas id="ocean-cv" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="s3-vignette"></div>
+<div class="ht-line"><span class="hw" style="--d:0.10s">永遠好奇的人</span></div></div><div class="s2-bottom"><div><div class="s2-name" id="s2-name-el"></div><div class="s2-sub" id="s2-title-el"></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px"><div class="s2-links"><div class="s2-link" onclick="navTo('works_v3.html')"><img class="s2-li" src="assets/icon/File.png" alt="">ARCHIVE</div><div class="s2-link" onclick="navTo('project.html')"><img class="s2-li" src="assets/icon/Detail.png" alt="">PROJECT</div><div class="s2-link" onclick="navTo('commission.html')"><img class="s2-li" src="assets/icon/Pay.png" alt="">COMMISSION</div><div class="s2-link" onclick="navTo('signal.html')"><img class="s2-li" src="assets/icon/Comment.png" alt="">SIGNAL</div><div class="s2-link" onclick="navTo('lab.html')"><img class="s2-li" src="assets/icon/Experiment.png" alt="">LAB</div></div><div class="s2-scroll-up" onclick="goTo(0)" style="pointer-events:all">↑ scroll up ↑</div></div></div></div><div id="sec3"><img class="s3-cosmos" src="assets/fullBGwebp/wave_bg_webp.webp" alt=""><canvas id="ocean-cv" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="s3-vignette"></div>
 <div id="s3-header" style="position:absolute;top:26px;left:28px;z-index:8;pointer-events:none">
   <svg width="68" height="68" viewBox="0 0 52 52" style="display:block;margin-bottom:12px;filter:drop-shadow(0 0 10px rgba(140,170,255,0.6))">
     <defs>
@@ -221,6 +223,10 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 </div>
 <div class="ab-scroll-up" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:all" onclick="goTo(1)">↑ scroll up ↑</div>
 </div><div id="cursor-dot"></div><script>
+// ── 作者設定（改名字改這裡）──
+const PERSONA = { zh: '吳言', en: 'WUYAN', title: 'Vtuber · 後端工程師' };
+(()=>{const n=document.getElementById('s2-name-el'),t=document.getElementById('s2-title-el');if(n)n.textContent=PERSONA.zh+' '+PERSONA.en;if(t)t.textContent=PERSONA.title;})();
+
 // ── Core state ──
 const scene=document.getElementById('scene');
 const darkCv=document.getElementById('darkCv');const dctx=darkCv.getContext('2d');
@@ -331,7 +337,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const nameEl=document.getElementById('ab-name');
   const curEl=document.getElementById('ab-cur');
   if(nameEl){
-    const name='YourName';let i=0;
+    const name=PERSONA.en;let i=0;
     const iv=setInterval(()=>{if(i<name.length){nameEl.textContent+=name[i++];}else{clearInterval(iv);if(curEl)curEl.style.display='none';}},90);
   }
 });
@@ -377,42 +383,16 @@ document.addEventListener('DOMContentLoaded',()=>{
 // ── Bio 幽靈文字 ──
 (function(){
   const bio=document.getElementById('bio');if(!bio)return;
-  const st=document.createElement('style');
-  st.textContent='@keyframes bio-q{0%,100%{transform:translate(0,0)}20%{transform:translate(-1.3px,.9px)}40%{transform:translate(1.1px,-.7px)}60%{transform:translate(-.7px,1.3px)}80%{transform:translate(1.5px,-.5px)}}.bio-ch{display:inline-block;transition:transform .15s cubic-bezier(.15,.75,.2,1)}.bio-on .bio-ch{animation:bio-q 2.6s ease-in-out infinite}';
-  document.head.appendChild(st);
   const LINES=[
-    {t:'我 是 吳 言',c:'rgba(230,220,255,.95)',sz:'18px',ff:"'Noto Serif TC',Georgia,serif",fw:'200',lsp:'5px',mb:'10px'},
-    {t:'Vtuber · 後端工程師',c:'rgba(200,188,240,.72)',sz:'12px',ff:"'Courier New',monospace",fw:'400',lsp:'3px',mb:'4px'},
+    {t:'我 是 '+PERSONA.zh.split('').join(' '),c:'rgba(230,220,255,.95)',sz:'18px',ff:"'Noto Serif TC',Georgia,serif",fw:'200',lsp:'5px',mb:'10px'},
+    {t:PERSONA.title,c:'rgba(200,188,240,.72)',sz:'12px',ff:"'Courier New',monospace",fw:'400',lsp:'3px',mb:'4px'},
     {t:'這裡是我的作品集 · 隨便看看',c:'rgba(170,158,215,.52)',sz:'10.5px',ff:"'Courier New',monospace",fw:'400',lsp:'2px',mb:'3px'},
   ];
-  const chars=[];
-  LINES.forEach((ln,li)=>{
+  LINES.forEach(ln=>{
     const div=document.createElement('div');
     div.style.cssText=`color:${ln.c};margin-bottom:${ln.mb||'3px'};font-size:${ln.sz};font-family:${ln.ff};font-weight:${ln.fw};letter-spacing:${ln.lsp}`;
-    [...ln.t].forEach((ch,ci)=>{
-      const sp=document.createElement('span');
-      sp.className='bio-ch';sp.textContent=ch===' '?' ':ch;
-      sp.style.animationDelay=`${((li*.5+ci*.09)%2.6).toFixed(2)}s`;
-      sp.style.animationDuration=`${(2.2+Math.random()*.9).toFixed(2)}s`;
-      div.appendChild(sp);chars.push(sp);
-    });
+    div.textContent=ln.t;
     bio.appendChild(div);
-  });
-  document.addEventListener('mousemove',e=>{
-    if(lampOn)return;
-    const r=bio.getBoundingClientRect();
-    if(!r.width)return;
-    const bx=r.left+r.width/2,by=r.top+r.height/2;
-    if(Math.hypot(e.clientX-bx,e.clientY-by)>300){chars.forEach(ch=>{ch.style.transform='';ch.style.animationPlayState='';});return;}
-    chars.forEach(ch=>{
-      const cr=ch.getBoundingClientRect();
-      const dx=cr.left+cr.width/2-e.clientX,dy=cr.top+cr.height/2-e.clientY;
-      const d=Math.max(1,Math.hypot(dx,dy));
-      if(d>150){ch.style.transform='';ch.style.animationPlayState='';return;}
-      const f=Math.min(75,3500/d);
-      ch.style.animationPlayState='paused';
-      ch.style.transform=`translate(${(dx/d*f).toFixed(1)}px,${(dy/d*f).toFixed(1)}px)`;
-    });
   });
 })();
 

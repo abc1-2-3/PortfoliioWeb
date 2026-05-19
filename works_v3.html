@@ -36,14 +36,14 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { background: var(--bg-0); overflow-x: hidden; }
-html, body { min-height: 100%; }
+html { background: var(--bg-0); overflow: hidden; height: 100%; }
+html, body { height: 100%; }
 
 body {
   color: var(--ink-0);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow: hidden;
   cursor: none;
 }
 * { cursor: none !important; }
@@ -175,22 +175,23 @@ body.hov #cursor-ring {
 }
 .ni:hover::after { background: rgba(196,181,253,.82); box-shadow: 0 0 5px rgba(196,181,253,.6); }
 .ni.act::after { background: rgba(255,255,255,.88); box-shadow: 0 0 6px rgba(196,181,253,.8); }
-.ni:hover, .ni.act { background: rgba(100,50,180,.1); }
-.ni:hover { transform: translateY(-1px); }
+.ni:hover, .ni.act { background: rgba(110,55,195,.14); }
+.ni:hover { transform: translateX(4px); }
 .ni.act { border-right: 2px solid rgba(167,139,250,.68); }
-.ni-icon { width: 15px; height: 15px; object-fit: contain; opacity: .55; filter: brightness(0) invert(1); transition: opacity .22s; flex-shrink: 0; }
-.ni:hover .ni-icon, .ni.act .ni-icon { opacity: .88; }
+.ni-icon { width: 15px; height: 15px; object-fit: contain; opacity: .70; filter: brightness(0) invert(1); transition: opacity .22s; flex-shrink: 0; }
+.ni:hover .ni-icon, .ni.act .ni-icon { opacity: .95; }
 .ni-text { display: flex; flex-direction: column; }
-.ni-en { font: 400 12px var(--font-mono); letter-spacing: 2px; text-transform: uppercase; color: rgba(140,110,180,.55); transition: color .22s; }
-.ni-zh { font: 400 11px var(--font-mono); color: rgba(140,126,170,.48); letter-spacing: 1px; margin-top: 2px; transition: color .22s; }
-.ni:hover .ni-en, .ni.act .ni-en { color: rgba(196,181,253,.94); }
-.ni:hover .ni-zh, .ni.act .ni-zh { color: var(--ink-2); }
+.ni-en { font: 400 12px var(--font-mono); letter-spacing: 2px; text-transform: uppercase; color: rgba(175,150,220,.78); transition: color .22s; }
+.ni-zh { font: 400 11px var(--font-mono); color: rgba(160,142,205,.65); letter-spacing: 1px; margin-top: 2px; transition: color .22s; }
+.ni:hover .ni-en, .ni.act .ni-en { color: rgba(232,224,255,.97); }
+.ni:hover .ni-zh, .ni.act .ni-zh { color: rgba(210,200,240,.88); }
 
 /* ── App shell ── */
 .app {
-  position: relative; z-index: 1; min-height: 100vh; width: 100%;
+  position: relative; z-index: 1; height: 100vh; width: 100%;
   display: grid; grid-template-rows: auto 1fr auto;
   padding: 22px 32px 20px;
+  overflow: hidden;
 }
 
 /* ── Topbar ── */
@@ -230,11 +231,22 @@ body.hov #cursor-ring {
   display: grid; grid-template-columns: 210px 1fr 216px;
   gap: 18px; padding-top: 16px; min-height: 0;
   align-items: start;
+  position: relative;
+}
+.main::before {
+  content: '';
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  transform: translateX(-50%);
+  width: 100vw;
+  background: rgba(10, 4, 24, 0.52);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Left rail (category nav) ── */
 .rail {
-  position: relative; padding: 20px 0 20px 28px;
+  position: relative; z-index: 3; padding: 20px 0 20px 28px;
   background: rgba(5,3,14,0.42); backdrop-filter: blur(14px);
   border-radius: 4px; border: 1px solid rgba(167,139,250,0.10);
 }
@@ -310,7 +322,7 @@ body.hov #cursor-ring {
 
 /* ── Center stage ── */
 .stage {
-  position: relative; display: flex; flex-direction: column;
+  position: relative; z-index: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   padding: 0 8px; align-self: stretch;
 }
@@ -322,7 +334,7 @@ body.hov #cursor-ring {
 
 /* ── Carousel ── */
 .carousel-wrap {
-  position: relative; width: 100%; height: 760px;
+  position: relative; width: 100%; height: 620px;
   margin: 0 auto; overflow: visible;
   user-select: none; touch-action: pan-y;
 }
@@ -597,7 +609,7 @@ body.hov #cursor-ring {
 /* ── API card ── */
 .api-wrap {
   width: 100%; height: 100%; position: relative; overflow: hidden;
-  background: #04020e;
+  background: transparent;
 }
 .api-code {
   position: absolute; top: 50%; left: 65%;
@@ -657,7 +669,7 @@ body.hov #cursor-ring {
 
 
 /* ── Right column ── */
-.right-col { display: flex; flex-direction: column; gap: 12px; }
+.right-col { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; }
 .panel {
   border: 1px solid rgba(167,139,250,0.18);
   background: rgba(5,3,14,0.52);
@@ -940,16 +952,16 @@ body.hov #cursor-ring {
         <div class="panel-title">System Status</div>
         <div class="kv"><span class="k">MEMORY CORE</span><span class="v accent">STABLE</span></div>
         <div class="kv"><span class="k">CONNECTION</span><span class="v cyan">SECURE</span></div>
-        <div class="kv"><span class="k">USER</span><span class="v">WUYAN</span></div>
+        <div class="kv"><span class="k">USER</span><span class="v">STRANGER</span></div>
         <div class="kv"><span class="k">LAST UPDATE</span><span class="v">2026/05/08</span></div>
         <div class="kv"><span class="k">FOCUS</span><span class="v accent" id="focus-label">—</span></div>
       </div>
       <div class="panel">
-        <div class="panel-title">Now Playing</div>
+        <div class="panel-title">BROADCAST</div>
         <div class="np-row">
           <div class="np-info">
-            <div class="np-title">Nebula Drift</div>
-            <div class="np-by">by Wuyan</div>
+            <div class="np-title" id="bc-status">◈ STANDBY</div>
+            <div class="np-by" id="bc-sub">signal awaiting...</div>
           </div>
         </div>
         <div class="np-bars" id="np-bars"></div>
@@ -962,25 +974,6 @@ body.hov #cursor-ring {
 
   </main>
 
-  <!-- Bottom: divider + recent memories -->
-  <footer class="bottom-section">
-    <img class="divider-img" src="assets/Dividers/Divider1.png" alt="">
-    <div class="bottom">
-      <div class="bottom-label">
-        Recent Memories
-        <span class="zh">最近的記憶</span>
-      </div>
-      <div class="recent-rail" id="recent-rail"></div>
-      <div class="bottom-label" style="text-align:right">
-        Memory Fragment
-        <span class="zh">#0421 · #0422 · #0423</span>
-      </div>
-    </div>
-    <div class="scroll-hint">
-      SCROLL TO EXPLORE
-      <span class="arrow">↓</span>
-    </div>
-  </footer>
 
 </div><!-- .app -->
 
@@ -1115,6 +1108,7 @@ updateClock(); setInterval(updateClock, 1000);
       activeCat = cat.en;
       items.forEach(el => el.classList.remove('active'));
       div.classList.add('active');
+      if (window.jumpToCat) window.jumpToCat(cat.en);
     });
     addHov(div); list.appendChild(div); items.push(div);
   });
@@ -1212,7 +1206,7 @@ function miniThumb(a) {
 (function() {
   let activeIdx = 0;
   const total = WORKS.length;
-  const CARD_W = 370, CARD_H = 560, WRAP_H = 760;
+  const CARD_W = 370, CARD_H = 560, WRAP_H = 620;
 
   const carouselEl = document.getElementById('carousel');
   const wrapEl    = document.getElementById('carousel-wrap');
@@ -1378,6 +1372,26 @@ function miniThumb(a) {
   }, { passive: false });
 
   updateActiveStyle();
+
+  // 暴露給 category rail 呼叫
+  window.jumpToCat = function(catEn) {
+    let idx = 0;
+    if (catEn !== 'ALL') {
+      const found = WORKS.findIndex(w => {
+        const t = w.tag.toUpperCase();
+        if (catEn === 'VTUBER')    return t.includes('VTUBER');
+        if (catEn === 'PAYMENT')   return t.includes('PAY');
+        if (catEn === 'WEB')       return t.startsWith('WEB') && !t.includes('PAY');
+        if (catEn === 'AI · BOT')  return t.includes('AI') || t.includes('AUTO');
+        if (catEn === 'ILLUST')    return t.includes('ILLUST');
+        return false;
+      });
+      if (found < 0) return;
+      idx = found;
+    }
+    activeIdx = idx;
+    updateActiveStyle();
+  };
 })();
 
 /* ── RECENT RAIL ─────────────────────────────────────────────── */
@@ -1419,6 +1433,30 @@ function miniThumb(a) {
     s.style.animationDelay = `${(i * 0.07).toFixed(2)}s`;
     bars.appendChild(s);
   }
+})();
+
+/* ── BROADCAST STATUS ─────────────────────────────────────────── */
+(function() {
+  const states = [
+    { title: '◈ STANDBY',    sub: 'signal awaiting...' },
+    { title: '◉ ON AIR',     sub: 'broadcast active' },
+    { title: '◌ SCHEDULED',  sub: 'next session TBD' },
+  ];
+  const titleEl = document.getElementById('bc-status');
+  const subEl   = document.getElementById('bc-sub');
+  if (!titleEl || !subEl) return;
+  let cur = 0;
+  function cycle() {
+    titleEl.style.opacity = '0'; subEl.style.opacity = '0';
+    setTimeout(() => {
+      cur = (cur + 1) % states.length;
+      titleEl.textContent = states[cur].title;
+      subEl.textContent   = states[cur].sub;
+      titleEl.style.opacity = '1'; subEl.style.opacity = '1';
+    }, 350);
+  }
+  titleEl.style.transition = subEl.style.transition = 'opacity .35s';
+  setInterval(cycle, 5000);
 })();
 
 /* ── STAGE BASE AMBIENT (orbital rings, no black hole) ─────── */

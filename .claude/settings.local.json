@@ -15,7 +15,8 @@
       "Bash(Get-ChildItem \"d:\\\\GitHub\\\\PortfoliioWeb\\\\assets\\\\vtuber\\\\paint\")",
       "Bash(Select-Object Name, Length)",
       "PowerShell(Get-ChildItem \"d:\\\\GitHub\\\\PortfoliioWeb\\\\assets\\\\vtuber\\\\paint\" -Recurse | ForEach-Object { \"$\\($_.FullName\\) \\($\\($_.Length\\) bytes\\)\" })",
-      "Bash(Get-ChildItem \"d:\\\\GitHub\\\\PortfoliioWeb\\\\assets\\\\vtuber\\\\highlights\")"
+      "Bash(Get-ChildItem \"d:\\\\GitHub\\\\PortfoliioWeb\\\\assets\\\\vtuber\\\\highlights\")",
+      "Bash(Get-ChildItem \"d:\\\\GitLab\\\\PortfoliioWeb\\\\assets\" -Name)"
     ]
   }
 }

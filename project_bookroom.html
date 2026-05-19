@@ -56,16 +56,16 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .ni::after{content:'';position:absolute;left:29px;top:50%;width:4px;height:4px;transform:translate(-50%,-50%);border-radius:50%;background:transparent;transition:all .28s ease;pointer-events:none}
 .ni:hover::after{background:rgba(196,181,253,.82);box-shadow:0 0 5px rgba(196,181,253,.6)}
 .ni.act::after{background:rgba(255,255,255,.88);box-shadow:0 0 6px rgba(196,181,253,.8)}
-.ni:hover,.ni.act{background:rgba(100,50,180,.1)}
-.ni:hover{transform:translateY(-1px)}
+.ni:hover,.ni.act{background:rgba(110,55,195,.14)}
+.ni:hover{transform:translateX(4px)}
 .ni.act{border-right:2px solid rgba(167,139,250,.68)}
-.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.55;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
-.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.88}
+.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.70;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.95}
 .ni-text{display:flex;flex-direction:column}
-.ni-en{font:400 12px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(140,110,180,.55);transition:color .22s}
-.ni-zh{font:400 11px monospace;color:rgba(140,126,170,.48);letter-spacing:1px;margin-top:2px;transition:color .22s}
-.ni:hover .ni-en,.ni.act .ni-en{color:rgba(196,181,253,.94)}
-.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(138,126,170,.9)}
+.ni-en{font:400 12px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
+.ni-zh{font:400 11px monospace;color:rgba(160,142,205,.65);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(232,224,255,.97)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(210,200,240,.88)}
 .sb-music{padding:12px 14px 16px;border-top:none;background:transparent;flex-shrink:0}
 .sb-mus-label{font:400 9px monospace;letter-spacing:3px;color:rgba(167,139,250,.55);text-transform:uppercase;margin-bottom:6px}
 .sb-mus-title{font:600 10px monospace;color:rgba(196,181,253,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -79,7 +79,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .sb-btn.play{width:28px;height:28px;font-size:11px;background:rgba(100,50,180,.4);border-color:rgba(167,139,250,.55)}
 
 /* ── Page section nav (right side dots) ── */
-#page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+#page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0;overflow:hidden}
 #page-nav::before{content:'';position:absolute;right:3px;top:14px;bottom:14px;width:1px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.2) 20%,rgba(167,139,250,.2) 80%,transparent);pointer-events:none}
 .pn-item{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;text-decoration:none}
 .pn-label{font:400 11px monospace;letter-spacing:.15em;text-transform:uppercase;color:rgba(196,181,253,.15);transform:translateX(6px);transition:color .2s,transform .2s;white-space:nowrap;user-select:none}
@@ -307,7 +307,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .hud-corner.bl{bottom:0;left:0;border-width:0 0 2px 2px}
 .hud-corner.br{bottom:0;right:0;border-width:0 2px 2px 0}
 .hud-label{font:700 7px monospace;letter-spacing:5px;color:rgba(212,168,78,.38);text-transform:uppercase;margin-bottom:12px}
-.arch-row{display:flex;align-items:center;overflow-x:auto;gap:0;padding-bottom:4px}
+.arch-row{display:flex;align-items:center;overflow-x:auto;gap:0;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none}.arch-row::-webkit-scrollbar{display:none}
 .an{flex:1;min-width:100px;border:1px solid rgba(201,168,76,.18);padding:16px 12px;text-align:center;background:rgba(10,4,24,.72);border-radius:3px;display:flex;flex-direction:column;align-items:center;gap:8px}
 .an+.an{margin-left:-1px}
 .an.hl{border-color:rgba(155,111,206,.38);background:rgba(155,111,206,.07)}
@@ -318,9 +318,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .an-arr{color:rgba(195,162,105,.45);font-size:16px;padding:0 5px;flex-shrink:0;display:flex;align-items:center}
 
 /* ── Flow ── */
-.flow-wrap{overflow-x:auto;padding-bottom:12px}
-.flow-wrap::-webkit-scrollbar{height:2px}
-.flow-wrap::-webkit-scrollbar-thumb{background:rgba(210,108,158,.32)}
+.flow-wrap{overflow-x:auto;padding-bottom:12px;scrollbar-width:none;-ms-overflow-style:none}.flow-wrap::-webkit-scrollbar{display:none}
 .flow-box{min-width:600px;background:rgba(10,4,24,.5);border:1px solid rgba(201,168,76,.15);border-radius:6px;padding:28px;margin-top:20px}
 .flow-row{display:flex;align-items:stretch;justify-content:center}
 .fb{flex:1;min-width:100px;max-width:140px;border:1px solid rgba(201,168,76,.18);border-radius:4px;padding:14px 10px;text-align:center;font:400 10px/1.6 monospace;color:rgba(222,208,248,.9);background:rgba(201,168,76,.04);display:flex;flex-direction:column;align-items:center;gap:6px}
@@ -358,7 +356,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 @keyframes badgePop{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
 
 /* ── Sequence diagram ── */
-.seq-diag{background:rgba(10,4,24,.5);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:24px;margin-top:20px;overflow-x:auto}
+.seq-diag{background:rgba(10,4,24,.5);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:24px;margin-top:20px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}.seq-diag::-webkit-scrollbar{display:none}
 .seq-actors{display:flex;gap:8px;margin-bottom:14px;min-width:500px}
 .seq-actor{flex:1;text-align:center;padding:10px 6px;border-radius:6px;font:700 9px monospace;letter-spacing:2px;display:flex;flex-direction:column;align-items:center;gap:5px}
 .seq-actor span{font-size:18px}
@@ -390,6 +388,9 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .fn-gem{font-size:14px;color:rgba(228,148,190,.62);animation:gemglow 3s ease-in-out infinite}
 .fn-gem:nth-child(3){animation-delay:-1.5s}
 </style>
+<link rel="stylesheet" href="sidebar.css">
+<script>window.SIDEBAR_PAGE='archive';</script>
+<script src="sidebar.js" defer></script>
 </head>
 <body>
 <div id="prog"></div>
@@ -401,15 +402,6 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 
 <div id="shell">
   <aside id="sidebar">
-    <div class="sb-head">
-      <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
-      <div class="sb-info">
-        <div class="sb-title">WUYAN'S ARCHIVE</div>
-        <div class="sb-sub">探索記憶・創造未來</div>
-        <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
-      </div>
-    </div>
-    <nav id="nav"></nav>
   </aside>
 
   <main id="main">
@@ -669,15 +661,15 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
         <div class="hud-corner bl"></div><div class="hud-corner br"></div>
         <div class="hud-label">SYSTEM ARCHITECTURE</div>
         <div class="arch-row">
-          <div class="an"><img class="an-icon-img" src="assets/icon/Frontend.png" alt=""><div class="an-name">Next.js</div><div class="an-desc">React 18 · App Router</div></div>
+          <div class="an"><img class="an-icon-img" src="assets/icon/consumer.png" alt=""><div class="an-name">訪客</div><div class="an-desc">捐款者 · 使用者</div></div>
           <div class="an-arr">→</div>
-          <div class="an hl"><img class="an-icon-img" src="assets/icon/Code.png" alt=""><div class="an-name">Canvas API</div><div class="an-desc">粒子 · 符文 · 彩蛋</div></div>
+          <div class="an hl"><img class="an-icon-img" src="assets/icon/shop_backend.png" alt=""><div class="an-name">書房前台</div><div class="an-desc">Next.js · App Router</div></div>
           <div class="an-arr">→</div>
-          <div class="an"><img class="an-icon-img" src="assets/icon/Backend.png" alt=""><div class="an-name">API Routes</div><div class="an-desc">訂單 · SHA256</div></div>
+          <div class="an"><img class="an-icon-img" src="assets/icon/Backend.png" alt=""><div class="an-name">API 處理</div><div class="an-desc">訂單 · SHA256</div></div>
           <div class="an-arr">→</div>
-          <div class="an hl"><img class="an-icon-img" src="assets/icon/Pay.png" alt=""><div class="an-name">ECPay</div><div class="an-desc">綠界金流</div></div>
+          <div class="an hl"><img class="an-icon-img" src="assets/icon/creditcard.png" alt=""><div class="an-name">ECPay 金流</div><div class="an-desc">綠界金流付款</div></div>
           <div class="an-arr">→</div>
-          <div class="an"><img class="an-icon-img" src="assets/icon/Rocket.png" alt=""><div class="an-name">Callback</div><div class="an-desc">確認 · 感謝頁</div></div>
+          <div class="an"><img class="an-icon-img" src="assets/icon/bank.png" alt=""><div class="an-name">銀行入帳</div><div class="an-desc">確認 · 感謝頁</div></div>
         </div>
       </div>
       <div class="g3">

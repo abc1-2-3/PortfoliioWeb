@@ -1,0 +1,93 @@
+/* ── Shared Sidebar Component ── sidebar.css ──────────────────────
+   改顏色、改項目：只需改這一個檔案
+   使用方式：<link rel="stylesheet" href="sidebar.css"> (在 </head> 前)
+   ──────────────────────────────────────────────────────────────── */
+
+#sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 220px;
+  display: flex; flex-direction: column;
+  background: rgba(7,5,15,.97);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(167,139,250,.22);
+  z-index: 50;
+  transform: translateX(calc(-100% + 16px));
+  transition: transform .38s cubic-bezier(.25,.46,.45,.94), box-shadow .38s;
+}
+#sidebar:hover {
+  transform: translateX(0);
+  box-shadow: 4px 0 44px rgba(0,0,0,.75), 0 0 0 1px rgba(167,139,250,.1);
+}
+/* 收縮提示光條 */
+#sidebar::before {
+  content: ''; position: absolute; right: 0; top: 22%; bottom: 22%; width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(167,139,250,.72) 40%, rgba(165,215,255,.58) 60%, transparent);
+  border-radius: 1px; transition: opacity .25s; pointer-events: none; z-index: 2;
+}
+#sidebar:hover::before { opacity: 0; }
+/* 展開後的軌跡線 */
+#sidebar::after {
+  content: ''; position: absolute; left: 36px; top: 80px; bottom: 80px; width: 1.5px;
+  background: linear-gradient(to bottom, transparent, rgba(167,139,250,.5) 20%, rgba(196,181,253,.85) 50%, rgba(167,139,250,.5) 80%, transparent);
+  border-radius: 2px; box-shadow: 0 0 6px rgba(167,139,250,.28);
+}
+
+/* ── Head ── */
+.sb-head {
+  padding: 20px 14px 16px 18px; display: flex; align-items: flex-start;
+  gap: 10px; border-bottom: 1px solid rgba(167,139,250,.12); flex-shrink: 0;
+}
+.sb-cat {
+  width: 34px; height: 34px; border: 1px solid rgba(167,139,250,.42);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  background: rgba(5,10,30,.6); flex-shrink: 0; box-shadow: 0 0 12px rgba(167,139,250,.22);
+}
+.sb-cat img { width: 22px; height: 22px; filter: invert(1) sepia(1) saturate(3) hue-rotate(245deg); opacity: .85; }
+.sb-info { flex: 1; min-width: 0; }
+.sb-title { font: 700 12px 'Courier New',monospace; letter-spacing: 3px; color: rgba(196,181,253,.88); text-transform: uppercase; }
+.sb-sub   { font: 400 10px 'Courier New',monospace; color: rgba(100,85,165,.65); letter-spacing: 2px; margin-top: 3px; }
+.sb-pulse { display: flex; align-items: center; gap: 5px; margin-top: 8px; }
+.sb-dot   { width: 5px; height: 5px; border-radius: 50%; background: rgba(80,255,120,.7); animation: sb-dot-pulse 2s ease-in-out infinite; box-shadow: 0 0 5px rgba(80,255,120,.4); }
+@keyframes sb-dot-pulse { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+.sb-online { font: 400 10px 'Courier New',monospace; letter-spacing: 2px; color: rgba(80,255,120,.58); }
+
+/* ── Nav items ── */
+#sidebar nav { flex: 1; padding: 10px 0; }
+.ni {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px 12px 50px;
+  position: relative; transition: all .28s cubic-bezier(.25,.46,.45,.94);
+  margin-bottom: 4px; text-decoration: none; color: inherit; cursor: pointer;
+}
+/* 菱形裝飾節點 */
+.ni::before {
+  content: ''; position: absolute; left: 29px; top: 50%;
+  width: 9px; height: 9px; transform: translate(-50%,-50%) rotate(45deg);
+  border: 1px solid rgba(167,139,250,.4); background: transparent; transition: all .28s ease;
+}
+.ni:hover::before { border-color: rgba(196,181,253,.88); box-shadow: 0 0 8px rgba(196,181,253,.5); }
+.ni.act::before   { background: rgba(167,139,250,.18); border-color: rgba(196,181,253,.92); box-shadow: 0 0 10px rgba(196,181,253,.6); }
+/* 菱形中心點 */
+.ni::after {
+  content: ''; position: absolute; left: 29px; top: 50%;
+  width: 4px; height: 4px; transform: translate(-50%,-50%); border-radius: 50%;
+  background: transparent; transition: all .28s ease; pointer-events: none;
+}
+.ni:hover::after { background: rgba(196,181,253,.82); box-shadow: 0 0 5px rgba(196,181,253,.6); }
+.ni.act::after   { background: rgba(255,255,255,.88); box-shadow: 0 0 6px rgba(196,181,253,.8); }
+/* Hover / active 底色 & 彈鋼琴位移 */
+.ni:hover, .ni.act { background: rgba(110,55,195,.14); }
+.ni:hover { transform: translateX(4px); }
+.ni.act   { border-right: 2px solid rgba(167,139,250,.68); }
+/* Icon */
+.ni-icon { width: 15px; height: 15px; object-fit: contain; opacity: .70; filter: brightness(0) invert(1); transition: opacity .22s; flex-shrink: 0; }
+.ni:hover .ni-icon, .ni.act .ni-icon { opacity: .95; }
+/* Text */
+.ni-text { display: flex; flex-direction: column; }
+.ni-en { font: 400 12px 'Courier New',monospace; letter-spacing: 2px; text-transform: uppercase; color: rgba(175,150,220,.78); transition: color .22s; }
+.ni-zh { font: 400 11px 'Courier New',monospace; color: rgba(160,142,205,.65); letter-spacing: 1px; margin-top: 2px; transition: color .22s; }
+.ni:hover .ni-en, .ni.act .ni-en { color: rgba(232,224,255,.97); }
+.ni:hover .ni-zh, .ni.act .ni-zh { color: rgba(210,200,240,.88); }
+
+/* ── Footer ── */
+.sb-footer      { padding: 14px 18px 18px 22px; flex-shrink: 0; }
+.sb-footer-text { font: 400 10px 'Courier New',monospace; letter-spacing: 1px; color: rgba(120,90,150,.48); line-height: 1.6; }
