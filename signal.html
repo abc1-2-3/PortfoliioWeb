@@ -59,8 +59,9 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 /* ── Sidebar ── */
 #sidebar{
   position:fixed;left:0;top:0;bottom:0;width:220px;
-  background:rgba(7,5,15,.97);backdrop-filter:blur(20px);
-  border-right:1px solid rgba(167,139,250,.22);z-index:50;
+  background:linear-gradient(to bottom,rgba(16,10,32,.90) 0%,rgba(8,5,16,.95) 35%,rgba(4,3,10,.99) 100%);
+  backdrop-filter:blur(24px) saturate(1.3);
+  border-right:1px solid rgba(167,139,250,.18);overflow:hidden;z-index:50;
   transform:translateX(calc(-100% + 16px));
   transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s
 }
@@ -79,20 +80,20 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 .sb-head{display:flex;align-items:center;gap:12px;padding:20px 20px 16px;border-bottom:1px solid rgba(167,139,250,.12)}
 .sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(5,10,30,.6);flex-shrink:0;box-shadow:0 0 12px rgba(167,139,250,.22)}
 .sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
-.sb-title{font:700 12px var(--ff-m);letter-spacing:3px;color:rgba(196,181,253,.88);text-transform:uppercase}
-.sb-sub{font:400 10px var(--ff-m);color:var(--ink-3);letter-spacing:2px;margin-top:3px}
+.sb-title{font:800 15px var(--ff-m);letter-spacing:3.5px;color:rgba(210,196,255,.95);text-transform:uppercase;line-height:1.4}
+.sb-sub{font:400 9px var(--ff-m);color:var(--ink-3);letter-spacing:2.5px;margin-top:5px;opacity:.65}
 .sb-pulse{display:flex;align-items:center;gap:6px;margin-top:5px}
 .sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:pulse-dot 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
 .sb-online{font:400 10px var(--ff-m);letter-spacing:2px;color:rgba(80,255,120,.58)}
 @keyframes pulse-dot{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.5);opacity:1}}
 #sb-nav{padding:14px 0 20px}
-.ni{display:flex;align-items:center;gap:12px;padding:9px 20px;cursor:pointer;transition:background .22s,transform .22s;text-decoration:none}
-.ni:hover{background:rgba(167,139,250,.08);transform:translateX(4px)}
-.ni.act{background:rgba(167,139,250,.13)}
+.ni{display:flex;align-items:center;gap:12px;padding:11px 20px;cursor:pointer;transition:background .22s,transform .22s;text-decoration:none;margin-bottom:4px}
+.ni:hover{background:rgba(110,55,195,.10);transform:translateX(4px)}
+.ni.act{background:rgba(110,55,195,.08);box-shadow:inset 3px 0 0 rgba(196,181,253,.92),inset 10px 0 20px rgba(167,139,250,.10)}
 .ni-icon{width:15px;height:15px;object-fit:contain;opacity:.70;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
 .ni:hover .ni-icon,.ni.act .ni-icon{opacity:.95}
-.ni-en{font:400 12px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
-.ni-zh{font:400 11px var(--ff-m);color:rgba(160,142,205,.65);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni-en{font:400 13px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
+.ni-zh{font:400 10px var(--ff-m);color:rgba(155,135,200,.55);letter-spacing:1px;margin-top:3px;transition:color .22s}
 .ni:hover .ni-en,.ni.act .ni-en{color:rgba(232,224,255,.97)}
 .ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(210,200,240,.88)}
 
@@ -135,12 +136,16 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
   50%{translate:0 -9px}
 }
 
+/* star-dot: transparent hit area, glow via filter so it wraps fragments */
 .star-dot{
-  width:var(--ss,14px);height:var(--ss,14px);border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,#fff 0%,var(--sc) 55%,transparent 100%);
-  box-shadow:0 0 10px var(--sc),0 0 24px var(--sc-mid),0 0 44px var(--sc-dim);
+  width:var(--ss,14px);height:var(--ss,14px);
   cursor:pointer;position:relative;z-index:2;
-  transition:transform .22s,box-shadow .22s;
+  transition:transform .22s,filter .22s;
+  filter:drop-shadow(0 0 5px var(--sc)) drop-shadow(0 0 12px var(--sc-mid));
+}
+.star-node:hover .star-dot{
+  transform:scale(1.3);
+  filter:drop-shadow(0 0 10px var(--sc)) drop-shadow(0 0 24px var(--sc-mid)) drop-shadow(0 0 44px var(--sc-dim));
 }
 .star-dot::before{
   content:'';position:absolute;inset:-7px;border-radius:50%;
@@ -152,10 +157,96 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
   0%{transform:scale(1);opacity:.65}
   100%{transform:scale(2.6);opacity:0}
 }
-.star-node:hover .star-dot{
-  transform:scale(1.35);
-  box-shadow:0 0 18px var(--sc),0 0 36px var(--sc-mid),0 0 60px var(--sc-dim)
+
+/* Central glow core */
+.gs-core{
+  position:absolute;top:50%;left:50%;
+  width:3px;height:3px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(255,255,255,.96);
+  animation:gs-core-glow calc(var(--sf,4s)*.62) ease-in-out infinite;
+  animation-delay:var(--sd,0s)
 }
+@keyframes gs-core-glow{
+  0%,100%{box-shadow:0 0 4px var(--sc),0 0 10px var(--sc-mid)}
+  50%    {box-shadow:0 0 9px var(--sc),0 0 22px var(--sc-mid),0 0 40px var(--sc-dim)}
+}
+
+/* Geometric shards */
+.gs-f{
+  position:absolute;top:50%;left:50%;
+  width:5px;height:5px;
+  background:var(--sc);
+  clip-path:polygon(50% 0%,100% 100%,0% 100%)
+}
+
+/* ─ Variant A: upward fountain burst ─ */
+@keyframes ga-f1{
+  0%,22%,78%,100%{transform:translate(-50%,-50%) translate(-2px,-3px) rotate(0deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(-12px,-18px) rotate(240deg) scale(.4);opacity:.12}
+}
+@keyframes ga-f2{
+  0%,22%,78%,100%{transform:translate(-50%,-50%) translate(2px,-3px) rotate(60deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(12px,-18px) rotate(300deg) scale(.4);opacity:.12}
+}
+@keyframes ga-f3{
+  0%,22%,78%,100%{transform:translate(-50%,-50%) translate(0,4px) rotate(180deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(0,20px) rotate(0deg) scale(.4);opacity:.12}
+}
+.geo-a .gs-f1{animation:ga-f1 var(--sf,4.5s) ease-in-out infinite;animation-delay:var(--sd,0s)}
+.geo-a .gs-f2{animation:ga-f2 var(--sf,4.5s) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .14s)}
+.geo-a .gs-f3{animation:ga-f3 var(--sf,4.5s) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .28s)}
+
+/* ─ Variant B: spinning burst ─ */
+@keyframes gb-f1{
+  0%,20%,80%,100%{transform:translate(-50%,-50%) translate(0,-3px) rotate(0deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(0,-21px) rotate(720deg) scale(.35);opacity:.1}
+}
+@keyframes gb-f2{
+  0%,20%,80%,100%{transform:translate(-50%,-50%) translate(3px,2px) rotate(120deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(19px,11px) rotate(840deg) scale(.35);opacity:.1}
+}
+@keyframes gb-f3{
+  0%,20%,80%,100%{transform:translate(-50%,-50%) translate(-3px,2px) rotate(240deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(-19px,11px) rotate(960deg) scale(.35);opacity:.1}
+}
+.geo-b .gs-f1{animation:gb-f1 calc(var(--sf,4.5s)*1.2) ease-in-out infinite;animation-delay:var(--sd,0s)}
+.geo-b .gs-f2{animation:gb-f2 calc(var(--sf,4.5s)*1.2) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .18s)}
+.geo-b .gs-f3{animation:gb-f3 calc(var(--sf,4.5s)*1.2) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .36s)}
+
+/* ─ Variant C: side scatter ─ */
+@keyframes gc-f1{
+  0%,22%,78%,100%{transform:translate(-50%,-50%) translate(-3px,0) rotate(270deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(-21px,-4px) rotate(90deg) scale(.4);opacity:.12}
+}
+@keyframes gc-f2{
+  0%,22%,78%,100%{transform:translate(-50%,-50%) translate(3px,0) rotate(90deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(21px,-4px) rotate(270deg) scale(.4);opacity:.12}
+}
+@keyframes gc-f3{
+  0%,22%,78%,100%{transform:translate(-50%,-50%) translate(0,-3px) rotate(0deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(0,19px) rotate(180deg) scale(.4);opacity:.12}
+}
+.geo-c .gs-f1{animation:gc-f1 calc(var(--sf,4.5s)*.88) ease-in-out infinite;animation-delay:var(--sd,0s)}
+.geo-c .gs-f2{animation:gc-f2 calc(var(--sf,4.5s)*.88) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .12s)}
+.geo-c .gs-f3{animation:gc-f3 calc(var(--sf,4.5s)*.88) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .24s)}
+
+/* ─ Variant D: diagonal burst ─ */
+@keyframes gd-f1{
+  0%,20%,80%,100%{transform:translate(-50%,-50%) translate(-2px,-2px) rotate(315deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(-16px,-16px) rotate(675deg) scale(.35);opacity:.1}
+}
+@keyframes gd-f2{
+  0%,20%,80%,100%{transform:translate(-50%,-50%) translate(2px,-2px) rotate(45deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(16px,-16px) rotate(405deg) scale(.35);opacity:.1}
+}
+@keyframes gd-f3{
+  0%,20%,80%,100%{transform:translate(-50%,-50%) translate(0,4px) rotate(180deg);opacity:.9}
+  50%            {transform:translate(-50%,-50%) translate(0,21px) rotate(540deg) scale(.35);opacity:.1}
+}
+.geo-d .gs-f1{animation:gd-f1 calc(var(--sf,4.5s)*1.4) ease-in-out infinite;animation-delay:var(--sd,0s)}
+.geo-d .gs-f2{animation:gd-f2 calc(var(--sf,4.5s)*1.4) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .22s)}
+.geo-d .gs-f3{animation:gd-f3 calc(var(--sf,4.5s)*1.4) ease-in-out infinite;animation-delay:calc(var(--sd,0s) + .44s)}
 
 /* Star hover card */
 .star-card{
@@ -171,27 +262,46 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 .star-node.card-below:hover .star-card{transform:translateX(-50%) translateY(0)}
 
 .sc-inner{
+  position:relative;
   background:rgba(4,2,14,.93);
-  border:1px solid var(--sc-mid);
-  border-radius:12px;padding:14px 16px;
+  background-image:radial-gradient(circle,var(--sc-dim,rgba(200,200,200,.1)) 1px,transparent 1px);
+  background-size:7px 7px;
+  border:none;
+  border-radius:0;
+  padding:14px 16px;
   backdrop-filter:blur(22px);
-  box-shadow:0 8px 32px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.04)
+  box-shadow:0 8px 32px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.04);
+  overflow:visible
 }
-/* pointer triangle */
-.sc-inner::after{
-  content:'';position:absolute;bottom:-5px;left:50%;
-  transform:translateX(-50%) rotate(45deg);
-  width:8px;height:8px;
-  background:rgba(4,2,14,.93);
-  border-right:1px solid var(--sc-mid);
-  border-bottom:1px solid var(--sc-mid)
+/* COD-00 SVG border */
+.sc-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.sc-rect{fill:none;stroke:var(--sc-mid,rgba(200,200,200,.42));stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .5s cubic-bezier(.22,1,.36,1)}
+.star-node:hover .sc-rect{stroke-dashoffset:0}
+/* Corner brackets */
+.sc-corner{position:absolute;width:7px;height:7px;border-color:var(--sc,rgba(200,200,200,.7));border-style:solid}
+.sc-corner.tl{top:0;left:0;border-width:1px 0 0 1px;--cx:12px;--cy:12px}
+.sc-corner.tr{top:0;right:0;border-width:1px 1px 0 0;--cx:-12px;--cy:12px}
+.sc-corner.bl{bottom:0;left:0;border-width:0 0 1px 1px;--cx:12px;--cy:-12px}
+.sc-corner.br{bottom:0;right:0;border-width:0 1px 1px 0;--cx:-12px;--cy:-12px}
+/* Corner spring animation (over-shoot easing, cubic-bezier Y>1) */
+@keyframes cornerSpring{
+  0%{transform:translate(var(--cx),var(--cy));opacity:0}
+  100%{transform:translate(0,0);opacity:1}
 }
-.star-node.card-below .sc-inner::after{
-  bottom:auto;top:-5px;
-  border-right:none;border-bottom:none;
-  border-left:1px solid var(--sc-mid);
-  border-top:1px solid var(--sc-mid)
+.star-node:hover .sc-corner{animation:cornerSpring .52s cubic-bezier(.34,1.56,.64,1) both}
+.star-node:hover .sc-corner.tl{animation-delay:0s}
+.star-node:hover .sc-corner.tr{animation-delay:.04s}
+.star-node:hover .sc-corner.bl{animation-delay:.06s}
+.star-node:hover .sc-corner.br{animation-delay:.08s}
+/* Text stagger — appears after corners settle */
+@keyframes textIn{
+  from{opacity:0;transform:translateY(3px)}
+  to{opacity:1;transform:translateY(0)}
 }
+.sc-platform,.sc-desc,.sc-btn{opacity:0}
+.star-node:hover .sc-platform{animation:textIn .26s ease both;animation-delay:.30s}
+.star-node:hover .sc-desc{animation:textIn .26s ease both;animation-delay:.38s}
+.star-node:hover .sc-btn{animation:textIn .24s ease both;animation-delay:.46s}
 .sc-platform{font:600 10px var(--ff-m);letter-spacing:.25em;color:var(--sc);text-transform:uppercase;margin-bottom:4px}
 .sc-desc{font:400 11px var(--ff-m);color:var(--ink-2);letter-spacing:.06em;line-height:1.55;margin-bottom:10px}
 .sc-btn{
@@ -207,32 +317,32 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 /* ── Signal footer ── */
 .signal-footer{
   position:absolute;bottom:0;left:0;right:0;
-  padding:16px 40px 30px;
-  background:linear-gradient(to top,rgba(4,2,14,.88) 0%,rgba(4,2,14,.52) 55%,transparent 100%);
+  padding:32px 40px 48px;
+  background:linear-gradient(to top,rgba(4,2,14,.94) 0%,rgba(4,2,14,.80) 38%,rgba(4,2,14,.42) 68%,transparent 100%);
   z-index:10;
-  display:flex;flex-direction:column;align-items:center;gap:14px
+  display:flex;flex-direction:column;align-items:center;gap:20px
 }
 
 /* Visitor counter */
 .visitor-hud{
   display:flex;align-items:center;gap:10px;
-  font:400 10px var(--ff-m);letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase
+  font:400 11px var(--ff-m);letter-spacing:.28em;color:var(--ink-1);text-transform:uppercase
 }
 .vc-num{
-  font:600 20px var(--ff-m);letter-spacing:.05em;
+  font:600 24px var(--ff-m);letter-spacing:.05em;
   background:linear-gradient(135deg,var(--azure),var(--pink));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent
 }
 
 /* Emoji reactions */
 .reactions-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
-.reactions-label{font:400 10px var(--ff-m);letter-spacing:.3em;color:var(--ink-3);text-transform:uppercase;margin-right:4px}
+.reactions-label{font:400 11px var(--ff-m);letter-spacing:.3em;color:var(--ink-1);text-transform:uppercase;margin-right:4px}
 .emoji-btn{
   display:flex;align-items:center;gap:6px;
-  padding:7px 15px;border-radius:999px;
-  background:rgba(8,4,22,.68);border:1px solid rgba(167,139,250,.2);
+  padding:8px 16px;border-radius:999px;
+  background:rgba(8,4,22,.72);border:1px solid rgba(167,139,250,.28);
   backdrop-filter:blur(12px);cursor:pointer;
-  font:400 11px var(--ff-m);letter-spacing:.1em;color:var(--ink-2);
+  font:400 11px var(--ff-m);letter-spacing:.1em;color:var(--ink-1);
   transition:all .22s;user-select:none
 }
 .emoji-btn .ej{font-size:15px;line-height:1;transition:transform .22s}
@@ -417,8 +527,10 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 
   var container=document.getElementById('star-links');
 
-  LINKS.forEach(function(lk){
-    var isBelow=parseFloat(lk.sy)>34;
+  var GEO_VARIANTS=['geo-a','geo-b','geo-c','geo-d'];
+  LINKS.forEach(function(lk,idx){
+    /* top stars (sy<35%) → card goes below to avoid topbar clip */
+    var isBelow=parseFloat(lk.sy)<35;
     var div=document.createElement('div');
     div.className='star-node'+(isBelow?' card-below':'');
     div.style.cssText=[
@@ -429,11 +541,22 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
       '--sc-dim:rgba('+lk.sc+',.16)',
     ].join(';');
 
+    var geoClass=GEO_VARIANTS[idx%4];
     var isDiscord=lk.platform==='Discord';
     div.innerHTML=
-      '<div class="star-dot"></div>'+
+      '<div class="star-dot '+geoClass+'">'+
+        '<div class="gs-core"></div>'+
+        '<div class="gs-f gs-f1"></div>'+
+        '<div class="gs-f gs-f2"></div>'+
+        '<div class="gs-f gs-f3"></div>'+
+      '</div>'+
       '<div class="star-card">'+
         '<div class="sc-inner">'+
+          '<svg class="sc-svg" viewBox="0 0 1 1" preserveAspectRatio="none">'+
+            '<rect class="sc-rect" x=".008" y=".008" width=".984" height=".984" pathLength="1"/>'+
+          '</svg>'+
+          '<div class="sc-corner tl"></div><div class="sc-corner tr"></div>'+
+          '<div class="sc-corner bl"></div><div class="sc-corner br"></div>'+
           '<div class="sc-platform">'+lk.platform+'</div>'+
           '<div class="sc-desc">'+lk.desc+'</div>'+
           (isDiscord
@@ -487,27 +610,40 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
   });
 })();
 
-/* ── Visitor counter (localStorage — per device)
-   To share counts across all visitors, replace the body of this function
-   with a fetch() to a Cloudflare Worker endpoint that increments a KV value.
-   Example endpoint: POST /api/signal-visit → { count: 1247 }
+/* ── Visitor counter — Cloudflare Worker + KV ──
+   Worker URL: 部署完後把 WORKER_URL 換成你的 workers.dev 網址
+   Rate limit: 同一 IP 24h 只計一次（Worker 端用 KV TTL 控制）
+   Client: sessionStorage 防同一分頁多次送出
 ── */
 (function(){
-  var KEY='wuyan_signal_visits_v1';
-  var seen=localStorage.getItem(KEY);
-  /* Only count first visit per browser */
-  if(!seen){localStorage.setItem(KEY,'1');}
+  var WORKER_URL='https://signal-visitor.wuyan.workers.dev';
+  var SESSION_KEY='wuyan_signal_visited';
   var el=document.getElementById('vc-num');
-  /* Placeholder: show device visit flag. Swap with real API count. */
-  var stored=parseInt(localStorage.getItem('wuyan_vc_local')||'0')+1;
-  localStorage.setItem('wuyan_vc_local',stored);
-  var target=stored;
-  var n=0;
-  var iv=setInterval(function(){
-    n=Math.min(n+1,target);
-    el.textContent=n.toLocaleString();
-    if(n>=target)clearInterval(iv);
-  },60);
+
+  function animCount(target){
+    var n=0;
+    var step=Math.max(1,Math.floor(target/60));
+    var iv=setInterval(function(){
+      n=Math.min(n+step,target);
+      el.textContent=n.toLocaleString();
+      if(n>=target)clearInterval(iv);
+    },28);
+  }
+
+  /* GET 先拿目前總數顯示 */
+  fetch(WORKER_URL,{method:'GET'})
+    .then(function(r){return r.json();})
+    .then(function(d){animCount(d.count||0);})
+    .catch(function(){el.textContent='—';});
+
+  /* POST 送計次（每個 session 只送一次；IP 頻率由 Worker 控制）*/
+  if(!sessionStorage.getItem(SESSION_KEY)){
+    sessionStorage.setItem(SESSION_KEY,'1');
+    fetch(WORKER_URL,{method:'POST'})
+      .then(function(r){return r.json();})
+      .then(function(d){animCount(d.count||0);})
+      .catch(function(){});
+  }
 })();
 </script>
 </body>
