@@ -110,12 +110,11 @@ nav.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
 /* ═══════════════════════════════════════════
    TOPBAR
 ═══════════════════════════════════════════ */
-#topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:52px;background:rgba(4,2,14,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(240,165,205,.12);box-shadow:0 1px 24px rgba(0,0,0,.5)}
-.tb-brand{font:400 12px var(--ff-rune);letter-spacing:3px;color:rgba(218,185,255,.82);text-transform:uppercase}
-.tb-brand span{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:linear-gradient(180deg,rgba(4,2,14,.88) 0%,rgba(4,2,14,.52) 65%,transparent 100%);backdrop-filter:blur(14px)}
+.tb-brand{font:400 13px var(--ff-m);letter-spacing:.34em;color:rgba(240,165,205,.92)}
 .tb-links{display:flex;gap:24px;align-items:center}
 .tb-links a{font:400 10px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(160,142,192,.55);transition:color .2s}
-.tb-links a:hover,.tb-links a.act{color:rgba(218,185,255,.9)}
+.tb-links a:hover,.tb-links a.act{color:rgba(240,165,205,.92)}
 .tb-dot{width:4px;height:4px;border-radius:50%;background:rgba(240,165,205,.45)}
 
 /* ═══════════════════════════════════════════
@@ -444,6 +443,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
   .skill-row.expanded{grid-column:span 1}
   .form-row.two{grid-template-columns:1fr}
 }
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,rgba(192,132,252,.4),rgba(129,140,248,.85),rgba(96,165,250,.7));z-index:9000;pointer-events:none;transition:width .1s linear}
 </style>
 <link rel="stylesheet" href="sidebar.css">
 <script>window.SIDEBAR_PAGE='commission';</script>
@@ -453,6 +453,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
 
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
+<div id="prog"></div>
 <canvas id="stars"></canvas>
 <div class="bg-commission" aria-hidden="true">
   <img src="assets/comission/commissionbg.webp" alt="">
@@ -470,7 +471,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
 
   <!-- ── Topbar ── -->
   <header id="topbar">
-    <div class="tb-brand">WUYAN'S · <span>ARCHIVE</span></div>
+    <div class="tb-brand">✦ WUYAN · ARCHIVE</div>
     <nav class="tb-links">
       <a href="#services">委託項目</a>
       <span class="tb-dot"></span>
@@ -524,18 +525,28 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
     </div>
     <div class="service-grid">
       <div class="srv-card glass reveal">
-        <div class="srv-icon">🎨</div>
+        <div class="srv-icon"><img src="assets/icon/paint.png" style="width:22px;height:22px;filter:brightness(0) invert(1);opacity:.85" alt=""></div>
         <div class="srv-num">01</div>
         <div class="srv-name">插畫</div>
         <div class="srv-en">ILLUSTRATION</div>
         <div class="srv-tags">
-          <span class="srv-tag">頭像</span><span class="srv-tag">半身</span><span class="srv-tag">立繪</span><span class="srv-tag">線稿</span><span class="srv-tag">上色</span>
+          <span class="srv-tag">頭像</span><span class="srv-tag">Q版</span><span class="srv-tag">半身</span><span class="srv-tag">立繪</span><span class="srv-tag">線稿上色</span>
         </div>
         <div class="srv-note">二次元・Q版・寫實程度討論</div>
       </div>
       <div class="srv-card glass reveal" style="transition-delay:.06s">
-        <div class="srv-icon">✨</div>
+        <div class="srv-icon"><img src="assets/icon/Pen.png" style="width:22px;height:22px;filter:brightness(0) invert(1);opacity:.85" alt=""></div>
         <div class="srv-num">02</div>
+        <div class="srv-name">立繪拆件</div>
+        <div class="srv-en">LAYER SEPARATION</div>
+        <div class="srv-tags">
+          <span class="srv-tag">CSP 分層</span><span class="srv-tag">PSD 拆件</span><span class="srv-tag">命名整理</span><span class="srv-tag">Live2D 前置</span>
+        </div>
+        <div class="srv-note">建模前置作業，可搭配 Live2D 一條龍</div>
+      </div>
+      <div class="srv-card glass reveal" style="transition-delay:.12s">
+        <div class="srv-icon"><img src="assets/icon/live2d.png" style="width:22px;height:22px;filter:brightness(0) invert(1);opacity:.85" alt=""></div>
+        <div class="srv-num">03</div>
         <div class="srv-name">Live2D 建模</div>
         <div class="srv-en">LIVE2D MODELLING</div>
         <div class="srv-tags">
@@ -543,18 +554,8 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         </div>
         <div class="srv-note">基礎→進階，可一條龍搭配立繪</div>
       </div>
-      <div class="srv-card glass reveal" style="transition-delay:.12s">
-        <div class="srv-icon">💻</div>
-        <div class="srv-num">03</div>
-        <div class="srv-name">網頁設計</div>
-        <div class="srv-en">WEB DESIGN</div>
-        <div class="srv-tags">
-          <span class="srv-tag">Landing Page</span><span class="srv-tag">互動設計</span><span class="srv-tag">RWD</span>
-        </div>
-        <div class="srv-note">小型專案・有實際案例可看</div>
-      </div>
       <div class="srv-card glass reveal" style="transition-delay:.18s">
-        <div class="srv-icon">⚙️</div>
+        <div class="srv-icon"><img src="assets/icon/backendapi.png" style="width:22px;height:22px;filter:brightness(0) invert(1);opacity:.85" alt=""></div>
         <div class="srv-num">04</div>
         <div class="srv-name">後端 / API</div>
         <div class="srv-en">BACKEND · CODE</div>
@@ -564,17 +565,17 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
         <div class="srv-note">本業。也接自動化腳本・AI 串接</div>
       </div>
       <div class="srv-card glass reveal" style="transition-delay:.24s">
-        <div class="srv-icon">📺</div>
+        <div class="srv-icon"><img src="assets/icon/webdesign.png" style="width:22px;height:22px;filter:brightness(0) invert(1);opacity:.85" alt=""></div>
         <div class="srv-num">05</div>
-        <div class="srv-name">直播素材</div>
-        <div class="srv-en">STREAM ASSETS</div>
+        <div class="srv-name">網頁</div>
+        <div class="srv-en">WEB DESIGN</div>
         <div class="srv-tags">
-          <span class="srv-tag">等待畫面</span><span class="srv-tag">結束畫面</span><span class="srv-tag">橫幅</span><span class="srv-tag">開場</span>
+          <span class="srv-tag">Landing Page</span><span class="srv-tag">互動設計</span><span class="srv-tag">RWD</span>
         </div>
-        <div class="srv-note">VTuber 頻道整套可議</div>
+        <div class="srv-note">小型專案・有實際案例可看</div>
       </div>
       <div class="srv-card glass reveal" style="transition-delay:.30s">
-        <div class="srv-icon">🤖</div>
+        <div class="srv-icon"><img src="assets/icon/freetopic.png" style="width:22px;height:22px;filter:brightness(0) invert(1);opacity:.85" alt=""></div>
         <div class="srv-num">06</div>
         <div class="srv-name">自由命題</div>
         <div class="srv-en">CUSTOM</div>
@@ -596,68 +597,68 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
     <div class="reveal">
       <span class="sec-eyebrow">Pricing · 委託價格</span>
       <h2 class="sec-title">委託<span class="gold">價格</span></h2>
-      <p class="sec-sub">以下皆為起跳價・含原始檔交付・不含商業授權（可加購）・依複雜度最終報價。</p>
+      <p class="sec-sub">每個委託都不一樣，價格依細節・複雜度積極討論，歡迎先聊需求再估價。過程會一直保持溝通。</p>
     </div>
     <div class="price-grid">
       <div class="price-card reveal">
         <div class="pc-label">01</div>
         <div class="pc-ch">頭像</div>
-        <div class="pc-en">ICONS</div>
-        <div class="pc-price">NT$ 1,200 起</div>
+        <div class="pc-en">AVATAR</div>
+        <div class="pc-price">詳談</div>
         <ul class="pc-note">
-          <li>1000×1000px 以上</li>
-          <li>透明背景</li>
+          <li>透明背景可選</li>
           <li>含光影潤色</li>
+          <li>歡迎提供參考圖</li>
         </ul>
-        <div class="pc-days">3 – 7 天</div>
+        <div class="pc-days">詳談</div>
       </div>
       <div class="price-card reveal" style="transition-delay:.07s">
         <div class="pc-label">02</div>
-        <div class="pc-ch">半身</div>
-        <div class="pc-en">HALF BODY</div>
-        <div class="pc-price">NT$ 3,000 起</div>
+        <div class="pc-ch">Q版</div>
+        <div class="pc-en">CHIBI</div>
+        <div class="pc-price">詳談</div>
         <ul class="pc-note">
-          <li>1500×2000px 以上</li>
-          <li>含簡易背景</li>
-          <li>含修改 1 次</li>
+          <li>可愛迷你版角色</li>
+          <li>全身小人風格</li>
+          <li>歡迎討論尺寸用途</li>
         </ul>
-        <div class="pc-days">5 – 14 天</div>
+        <div class="pc-days">詳談</div>
       </div>
       <div class="price-card reveal" style="transition-delay:.14s">
         <div class="pc-label">03</div>
-        <div class="pc-ch">全身</div>
-        <div class="pc-en">FULL BODY</div>
-        <div class="pc-price">NT$ 5,500 起</div>
+        <div class="pc-ch">Vtuber 一條龍</div>
+        <div class="pc-en">VTUBER PACKAGE</div>
+        <div class="pc-price">詳談</div>
         <ul class="pc-note">
-          <li>2000×3000px 以上</li>
-          <li>含完整背景</li>
-          <li>含修改 2 次</li>
+          <li>立繪 + 拆件 + Live2D</li>
+          <li>物理、表情、moc3 輸出</li>
+          <li>全程積極討論</li>
         </ul>
-        <div class="pc-days">7 – 21 天</div>
+        <div class="pc-days">詳談</div>
       </div>
       <div class="price-card reveal" style="transition-delay:.21s">
         <div class="pc-label">04</div>
-        <div class="pc-ch">Live2D</div>
-        <div class="pc-en">LIVE2D MODEL</div>
-        <div class="pc-price">NT$ 20,000 起</div>
-        <ul class="pc-note">
-          <li>立繪拆檔</li>
-          <li>物理 + 表情</li>
-          <li>moc3 格式輸出</li>
-        </ul>
-        <div class="pc-days">30 – 60 天</div>
-      </div>
-      <div class="price-card reveal" style="transition-delay:.28s">
-        <div class="pc-label">05</div>
         <div class="pc-ch">網頁互動</div>
-        <div class="pc-en">WEB DESIGN</div>
-        <div class="pc-price">NT$ 8,000 起</div>
+        <div class="pc-en">WEB INTERACTIVE</div>
+        <div class="pc-price">詳談</div>
         <ul class="pc-note">
           <li>RWD 響應式</li>
           <li>動態特效設計</li>
-          <li>含部署協助</li>
+          <li>依功能複雜度議價</li>
         </ul>
-        <div class="pc-days">14 – 30 天</div>
+        <div class="pc-days">詳談</div>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.28s">
+        <div class="pc-label">05</div>
+        <div class="pc-ch">自訂義工具</div>
+        <div class="pc-en">CUSTOM TOOLS</div>
+        <div class="pc-price">詳談</div>
+        <ul class="pc-note">
+          <li>Bot / 腳本 / API</li>
+          <li>依需求評估範圍</li>
+          <li>歡迎先聊再估</li>
+        </ul>
+        <div class="pc-days">詳談</div>
       </div>
     </div>
   </section>
@@ -882,27 +883,19 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
       <aside class="send-aside">
         <h4>不想填表也可以<small>Alternate Channels</small></h4>
         <div class="ch-items">
-          <div class="ch-item" data-copy="wuyan.archives@example.com">
-            <div class="ch-ico">@</div>
-            <div>
-              <div class="ch-name-l">Email</div>
-              <div class="ch-val-l">wuyan.archives@example.com</div>
-            </div>
-            <div class="ch-copy">複製</div>
-          </div>
-          <div class="ch-item" data-copy="@Wuyan_Archive">
-            <div class="ch-ico">𝕏</div>
+          <a class="ch-item" href="https://x.com/wuyan4411" target="_blank" rel="noopener">
+            <div class="ch-ico"><img src="assets/icon/X.png" style="width:20px;height:20px;filter:brightness(0) invert(1);opacity:.85" alt="X"></div>
             <div>
               <div class="ch-name-l">X / Twitter</div>
-              <div class="ch-val-l">@Wuyan_Archive</div>
+              <div class="ch-val-l">@wuyan4411</div>
             </div>
-            <div class="ch-copy">複製</div>
-          </div>
-          <div class="ch-item" data-copy="wuyan_archive">
-            <div class="ch-ico">DC</div>
+            <div class="ch-copy">前往</div>
+          </a>
+          <div class="ch-item" data-copy="wuyan1234yyy@gmail.com">
+            <div class="ch-ico"><img src="assets/icon/mail.png" style="width:20px;height:20px;filter:brightness(0) invert(1);opacity:.85" alt="Email"></div>
             <div>
-              <div class="ch-name-l">Discord</div>
-              <div class="ch-val-l">wuyan_archive</div>
+              <div class="ch-name-l">Email</div>
+              <div class="ch-val-l">wuyan1234yyy@gmail.com</div>
             </div>
             <div class="ch-copy">複製</div>
           </div>
@@ -1369,6 +1362,14 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
     });
   },{root:null,rootMargin:'-5% 0px -60% 0px',threshold:0});
   targets.forEach(t=>obs.observe(t));
+})();
+(function(){
+  var prog=document.getElementById('prog');
+  if(!prog)return;
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(h>0?Math.round(window.scrollY/h*100):0)+'%';
+  },{passive:true});
 })();
 </script>
 </body>

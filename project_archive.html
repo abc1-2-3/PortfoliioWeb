@@ -54,8 +54,8 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .ni-icon{width:15px;height:15px;object-fit:contain;opacity:.70;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
 .ni:hover .ni-icon,.ni.act .ni-icon{opacity:.95}
 .ni-text{display:flex;flex-direction:column}
-.ni-en{font:400 12px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
-.ni-zh{font:400 11px monospace;color:rgba(160,142,205,.65);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni-en{font:400 13px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
+.ni-zh{font:400 12px monospace;color:rgba(160,142,205,.65);letter-spacing:1px;margin-top:2px;transition:color .22s}
 .ni:hover .ni-en,.ni.act .ni-en{color:rgba(232,224,255,.97)}
 .ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(210,200,240,.88)}
 
@@ -63,7 +63,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 #page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0;overflow:hidden}
 #page-nav::before{content:'';position:absolute;right:3px;top:14px;bottom:14px;width:1px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.2) 20%,rgba(167,139,250,.2) 80%,transparent);pointer-events:none}
 .pn-item{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;text-decoration:none}
-.pn-label{font:400 11px monospace;letter-spacing:.15em;text-transform:uppercase;color:rgba(196,181,253,.15);transform:translateX(6px);transition:color .2s,transform .2s;white-space:nowrap;user-select:none}
+.pn-label{font:400 12px monospace;letter-spacing:.15em;text-transform:uppercase;color:rgba(196,181,253,.15);transform:translateX(6px);transition:color .2s,transform .2s;white-space:nowrap;user-select:none}
 .pn-item:hover .pn-label{color:rgba(196,181,253,.85);transform:translateX(0)}
 .pn-item.act .pn-label{color:rgba(196,181,253,.68);transform:translateX(0)}
 .pn-node{width:7px;height:7px;transform:rotate(45deg);border:1px solid rgba(167,139,250,.28);background:transparent;transition:all .25s;flex-shrink:0}
@@ -76,10 +76,9 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 #main::-webkit-scrollbar-thumb{background:rgba(240,165,205,.3);border-radius:2px}
 
 /* ── Topbar ── */
-#topbar{padding:11px 22px;border-bottom:1px solid rgba(167,139,250,.18);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
-.tb-brand{font:400 12px 'Cinzel Decorative','Cinzel',serif;letter-spacing:3px;color:rgba(218,185,255,.82);text-transform:uppercase}
-.tb-brand span{background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.tb-bc{display:flex;align-items:center;gap:6px;font:400 9px monospace;letter-spacing:1px;color:rgba(196,181,253,.45)}
+#topbar{padding:14px 40px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:linear-gradient(180deg,rgba(4,2,14,.88) 0%,rgba(4,2,14,.52) 65%,transparent 100%);backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
+.tb-brand{font:400 14px 'Cinzel Decorative','Cinzel',serif;letter-spacing:.3em;color:rgba(240,165,205,.92)}
+.tb-bc{display:flex;align-items:center;gap:6px;font:400 11px monospace;letter-spacing:1px;color:rgba(196,181,253,.45)}
 .tb-bc a{color:rgba(240,165,205,.65);text-decoration:none;transition:color .2s}
 .tb-bc a:hover{color:rgba(255,200,230,.92)}
 .tb-bc .sep{color:rgba(215,120,170,.38)}
@@ -87,7 +86,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .tb-gem{animation:gemglow 3s ease-in-out infinite}
 .tb-gem img{width:20px;height:20px;filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg);opacity:.85}
 @keyframes gemglow{0%,100%{filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg) drop-shadow(0 0 5px rgba(240,165,205,.4))}50%{filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg) drop-shadow(0 0 14px rgba(240,165,205,.9))}}
-.tb-right{display:flex;align-items:center;gap:10px;font:400 8px monospace;letter-spacing:2px;color:rgba(240,165,205,.52)}
+.tb-right{display:flex;align-items:center;justify-content:flex-end;gap:10px;font:400 10px monospace;letter-spacing:2px;color:rgba(240,165,205,.52)}
 .tb-right .stable{color:rgba(240,165,205,.78)}
 .tb-icons{display:flex;gap:8px;align-items:center}
 .tb-icon-img{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(285deg);opacity:.55}
@@ -121,9 +120,9 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .proj-sub-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .proj-sub-line{width:36px;height:1px;background:linear-gradient(to right,transparent,rgba(240,165,205,.48))}
 .proj-sub-line.r{background:linear-gradient(to left,transparent,rgba(240,165,205,.48))}
-.proj-sub{font:400 10px monospace;letter-spacing:5px;color:rgba(240,165,205,.55);text-transform:uppercase}
+.proj-sub{font:400 11px monospace;letter-spacing:5px;color:rgba(240,165,205,.55);text-transform:uppercase}
 .proj-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
-.ptag{font:400 10px monospace;letter-spacing:2px;padding:5px 14px;border:1px solid rgba(240,165,205,.22);border-radius:20px;color:rgba(255,210,235,.80);background:rgba(38,5,18,.18);backdrop-filter:blur(10px);transition:all .25s;opacity:0;animation:tagLight .4s ease forwards}
+.ptag{font:400 11px monospace;letter-spacing:2px;padding:5px 14px;border:1px solid rgba(240,165,205,.22);border-radius:20px;color:rgba(255,210,235,.80);background:rgba(38,5,18,.18);backdrop-filter:blur(10px);transition:all .25s;opacity:0;animation:tagLight .4s ease forwards}
 @keyframes tagLight{to{opacity:1}}
 .ptag:hover{border-color:rgba(240,165,205,.65);color:rgba(255,228,242,.96);box-shadow:0 0 10px rgba(240,120,175,.18)}
 .hero-scroll-hint{display:flex;align-items:center;gap:10px;font:400 9px monospace;letter-spacing:4px;color:rgba(240,165,205,.38);text-transform:uppercase}
@@ -137,9 +136,9 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 
 /* ── Sections ── */
 .sec{padding:56px max(40px,calc((100% - 1280px)/2))}
-.sec-label{font:700 9px monospace;letter-spacing:4px;color:rgba(240,165,205,.68);text-transform:uppercase;margin-bottom:34px;display:flex;align-items:center;gap:14px}
+.sec-label{font:700 11px monospace;letter-spacing:4px;color:rgba(240,165,205,.68);text-transform:uppercase;margin-bottom:34px;display:flex;align-items:center;gap:14px}
 .sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(240,165,205,.22),transparent)}
-.sec-label .sec-zh{font:400 9px monospace;letter-spacing:2px;opacity:.7}
+.sec-label .sec-zh{font:400 10px monospace;letter-spacing:2px;opacity:.7}
 
 .l2{display:grid;grid-template-columns:1.3fr 1fr;gap:44px;align-items:start}
 .l3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -147,11 +146,11 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 
 .s-block{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:22px;transition:border-color .25s,box-shadow .25s}
 .s-block:hover{border-color:rgba(196,181,253,.38);box-shadow:0 0 22px rgba(167,139,250,.08)}
-.s-head{font:700 9px monospace;letter-spacing:3px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:5px}
+.s-head{font:700 11px monospace;letter-spacing:3px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:5px}
 .s-head::before{content:'+';color:rgba(196,181,253,.55)}
-.s-text{font:400 12px/2.1 monospace;color:rgba(200,220,248,.84)}
-.s-cat{font:700 8px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);text-transform:uppercase;margin:12px 0 5px}
-.s-item{font:400 11px monospace;color:rgba(205,225,252,.82);padding:3px 0;display:flex;align-items:center;gap:6px}
+.s-text{font:400 13px/2.1 monospace;color:rgba(200,220,248,.84)}
+.s-cat{font:700 10px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);text-transform:uppercase;margin:12px 0 5px}
+.s-item{font:400 12px monospace;color:rgba(205,225,252,.82);padding:3px 0;display:flex;align-items:center;gap:6px}
 .s-item::before{content:'›';color:rgba(196,181,253,.62)}
 
 /* Stats */
@@ -159,21 +158,27 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .stat-box{background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.2);border-radius:8px;padding:18px 12px;text-align:center;transition:all .28s}
 .stat-box:hover{border-color:rgba(240,165,205,.5);background:rgba(22,8,45,.7);box-shadow:0 0 20px rgba(167,139,250,.14);transform:translateY(-2px)}
 .stat-num{font:200 32px 'Noto Serif TC',serif;background:linear-gradient(135deg,#f5d0e8,#d090c0,#a070e0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1.1}
-.stat-lbl{font:400 8px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);text-transform:uppercase;margin-top:6px;display:block}
+.stat-lbl{font:400 10px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);text-transform:uppercase;margin-top:6px;display:block}
 
 /* Overview */
-.overview-text{font:400 12px/2.2 monospace;color:rgba(205,225,248,.86);margin-bottom:22px}
+.overview-text{font:400 13.5px/2.1 monospace;color:rgba(205,225,248,.86);margin-bottom:22px}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 .feat-box{background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.22);border-radius:7px;padding:14px 10px;text-align:center;transition:all .22s}
 .feat-box:hover{border-color:rgba(240,165,205,.55);background:rgba(30,10,60,.7);transform:translateY(-2px);box-shadow:0 4px 18px rgba(167,139,250,.14)}
 .feat-box .f-icon-img{width:30px;height:30px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;margin-bottom:8px;transition:opacity .22s;display:block;margin-left:auto;margin-right:auto}
 .feat-box:hover .f-icon-img{opacity:1}
-.feat-box .f-lbl{font:400 8px/1.5 monospace;color:rgba(196,181,253,.72)}
+.feat-box .f-lbl{font:400 10px/1.5 monospace;color:rgba(196,181,253,.72)}
 .links-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:0}
-.cta-box{display:flex;align-items:center;justify-content:space-between;background:rgba(40,10,70,.16);border:1px solid rgba(240,165,205,.25);border-radius:7px;padding:12px 16px;transition:all .25s;margin-bottom:16px;backdrop-filter:blur(10px)}
-.cta-box:hover{background:rgba(60,15,100,.52);border-color:rgba(255,185,225,.65);box-shadow:0 0 18px rgba(220,120,180,.15)}
-.cta-t1{font:700 11px monospace;color:rgba(255,220,240,.94);letter-spacing:1px;margin-bottom:3px}
-.cta-t2{font:400 9px monospace;color:rgba(196,181,253,.65)}
+.cta-box{display:flex;align-items:center;justify-content:space-between;background:rgba(40,10,70,.16);border:1px solid rgba(240,165,205,.25);border-radius:7px;padding:12px 16px;transition:all .25s;margin-bottom:16px;backdrop-filter:blur(10px);position:relative;overflow:hidden;text-decoration:none;color:inherit}
+.cta-box::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,180,220,.14) 50%,transparent 60%);transform:translateX(-100%);transition:transform .75s ease;pointer-events:none;z-index:1}
+.cta-box::after{content:'';position:absolute;bottom:0;left:12px;right:12px;height:1px;background:linear-gradient(to right,transparent,rgba(240,165,205,.6),transparent);opacity:0;transition:opacity .3s;pointer-events:none}
+.cta-box:hover{background:rgba(60,15,100,.52);border-color:rgba(255,185,225,.72);box-shadow:0 0 28px rgba(220,120,180,.22),inset 0 0 16px rgba(240,165,205,.05)}
+.cta-box:hover::before{transform:translateX(220%)}
+.cta-box:hover::after{opacity:1}
+.cta-arr{transition:transform .28s ease;position:relative;z-index:2}
+.cta-box:hover .cta-arr{transform:translateX(5px)}
+.cta-t1{font:700 13px monospace;color:rgba(255,220,240,.94);letter-spacing:1px;margin-bottom:3px}
+.cta-t2{font:400 11px monospace;color:rgba(196,181,253,.65)}
 .cta-arr{font-size:14px;color:rgba(240,165,205,.78)}
 .link-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid rgba(167,139,250,.15);transition:all .2s}
 .link-row:last-child{border-bottom:none}
@@ -209,9 +214,9 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 @keyframes hspulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.9;transform:scale(1.2)}}
 .hotspot:hover .hs-pin{border-color:rgba(255,200,230,.98);box-shadow:0 0 22px rgba(240,120,175,.55);background:rgba(30,5,40,.95)}
 .hs-label{background:rgba(4,2,18,.92);border:1px solid rgba(167,139,250,.32);border-radius:6px;padding:5px 9px;backdrop-filter:blur(10px);transition:all .25s}
-.hs-num{display:block;font:700 7px monospace;letter-spacing:2px;color:rgba(240,165,205,.75);margin-bottom:1px}
-.hs-text{font:600 11px monospace;color:rgba(255,220,240,.96);display:block}
-.hs-sub{font:400 9px monospace;color:rgba(196,181,253,.65);display:block;margin-top:1px}
+.hs-num{display:block;font:700 9px monospace;letter-spacing:2px;color:rgba(240,165,205,.75);margin-bottom:1px}
+.hs-text{font:600 13px monospace;color:rgba(255,220,240,.96);display:block}
+.hs-sub{font:400 11px monospace;color:rgba(196,181,253,.65);display:block;margin-top:1px}
 .hotspot:hover .hs-label,.hotspot.active .hs-label{border-color:rgba(240,165,205,.62);box-shadow:0 0 14px rgba(200,100,160,.22)}
 
 /* Hotspot tooltip */
@@ -237,8 +242,8 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .ic-card.lit{border-color:rgba(240,165,205,.7) !important;background:rgba(35,5,55,.7) !important;box-shadow:0 0 26px rgba(200,100,160,.22) !important}
 .ic-icon{width:28px;height:28px;margin-bottom:9px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;transition:opacity .22s;display:block}
 .ic-card:hover .ic-icon,.ic-card.lit .ic-icon{opacity:1}
-.ic-head{font:700 9px monospace;letter-spacing:2px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:7px}
-.ic-text{font:400 11px/1.95 monospace;color:rgba(205,220,248,.82)}
+.ic-head{font:700 11px monospace;letter-spacing:2px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:7px}
+.ic-text{font:400 13px/1.95 monospace;color:rgba(205,220,248,.82)}
 
 /* 創作發想 */
 .concept-text{font:400 12px/2.2 monospace;color:rgba(205,225,248,.86)}
@@ -270,10 +275,10 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .page-card:hover .page-thumb-icon{opacity:.85}
 .page-badge{position:absolute;top:6px;right:8px;font:400 7px monospace;letter-spacing:2px;color:rgba(196,181,253,.55);background:rgba(4,2,18,.78);padding:2px 7px;border-radius:2px;text-transform:uppercase}
 .page-info{padding:16px}
-.page-name{font:700 12px monospace;color:rgba(220,205,255,.92);letter-spacing:1px;margin-bottom:6px}
-.page-desc{font:400 10px/1.8 monospace;color:rgba(196,181,253,.72)}
+.page-name{font:700 13px monospace;color:rgba(220,205,255,.92);letter-spacing:1px;margin-bottom:6px}
+.page-desc{font:400 12px/1.85 monospace;color:rgba(196,181,253,.72)}
 .page-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-.page-tag{font:400 8px monospace;padding:2px 7px;border:1px solid rgba(167,139,250,.25);border-radius:2px;color:rgba(196,181,253,.62)}
+.page-tag{font:400 9px monospace;padding:2px 8px;border:1px solid rgba(167,139,250,.25);border-radius:2px;color:rgba(196,181,253,.62)}
 
 /* Technical Challenges */
 .challenge-list{display:flex;flex-direction:column;gap:16px}
@@ -333,9 +338,9 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 
 /* ── Footer nav ── */
 .footer-nav{padding:16px max(40px,calc((100% - 1280px)/2));border-top:1px solid rgba(167,139,250,.18);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,14,.72)}
-.fn-btn{display:flex;align-items:center;gap:8px;font:400 10px monospace;letter-spacing:3px;color:rgba(196,181,253,.62);text-transform:uppercase;transition:all .22s;padding:7px 12px;border:1px solid transparent;border-radius:4px}
+.fn-btn{display:flex;align-items:center;gap:8px;font:400 12px monospace;letter-spacing:3px;color:rgba(196,181,253,.62);text-transform:uppercase;transition:all .22s;padding:7px 12px;border:1px solid transparent;border-radius:4px}
 .fn-btn:hover{color:rgba(255,220,240,.94);border-color:rgba(240,165,205,.28);background:rgba(30,5,50,.18);backdrop-filter:blur(8px)}
-.fn-center{font:400 8px monospace;letter-spacing:4px;color:rgba(167,139,250,.45);display:flex;align-items:center;gap:8px}
+.fn-center{font:400 10px monospace;letter-spacing:4px;color:rgba(167,139,250,.45);display:flex;align-items:center;gap:8px}
 .fn-gem{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(295deg);opacity:.65;animation:gemglow 3s ease-in-out infinite}
 .fn-gem:nth-child(3){animation-delay:-1.5s}
 
@@ -343,16 +348,74 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .scroll-scene-layout{display:grid;grid-template-columns:1.65fr 1fr;gap:22px;align-items:stretch}
 /* ── Poem Editor ── */
 .poem-editor{background:rgba(7,4,20,.35);border:1px solid rgba(196,181,253,.18);border-radius:12px;padding:22px;backdrop-filter:blur(12px);display:flex;flex-direction:column}
-.pe-title{font:700 9px monospace;letter-spacing:3px;color:rgba(240,165,205,.72);text-transform:uppercase;margin-bottom:8px}
-.pe-hint{font:400 9px monospace;color:rgba(196,181,253,.52);letter-spacing:1px;margin-bottom:14px;line-height:1.7}
+.pe-title{font:700 11px monospace;letter-spacing:3px;color:rgba(240,165,205,.72);text-transform:uppercase;margin-bottom:8px}
+.pe-hint{font:400 11px monospace;color:rgba(196,181,253,.52);letter-spacing:1px;margin-bottom:14px;line-height:1.7}
 .pe-input{width:100%;background:rgba(4,2,14,.45);border:1px solid rgba(196,181,253,.18);border-radius:6px;padding:10px 12px;font:200 13px 'Noto Serif TC',serif;letter-spacing:4px;color:rgba(220,205,255,.90);outline:none;resize:none;flex:1;min-height:80px;margin-bottom:12px;transition:border-color .2s;caret-color:rgba(240,165,205,.9);line-height:2.1;display:block}
 .pe-input:focus{border-color:rgba(240,165,205,.38)}
 .pe-btn-row{display:flex;gap:8px;margin-bottom:10px}
-.pe-apply{font:400 8px monospace;letter-spacing:3px;color:rgba(196,181,253,.78);padding:7px 14px;border:1px solid rgba(196,181,253,.22);border-radius:4px;background:rgba(10,4,32,.28);backdrop-filter:blur(8px);text-transform:uppercase;transition:all .22s;flex:1;text-align:center;cursor:none}
+.pe-apply{font:400 10px monospace;letter-spacing:3px;color:rgba(196,181,253,.78);padding:7px 14px;border:1px solid rgba(196,181,253,.22);border-radius:4px;background:rgba(10,4,32,.28);backdrop-filter:blur(8px);text-transform:uppercase;transition:all .22s;flex:1;text-align:center;cursor:none}
 .pe-apply:hover{border-color:rgba(240,165,205,.45);color:rgba(255,215,235,.96);background:rgba(40,5,70,.32)}
-.pe-reset{font:400 8px monospace;letter-spacing:2px;color:rgba(167,139,250,.62);padding:7px 12px;border:1px solid rgba(167,139,250,.18);border-radius:4px;background:rgba(4,2,14,.28);backdrop-filter:blur(6px);text-transform:uppercase;transition:all .22s;white-space:nowrap;cursor:none}
+.pe-reset{font:400 10px monospace;letter-spacing:2px;color:rgba(167,139,250,.62);padding:7px 12px;border:1px solid rgba(167,139,250,.18);border-radius:4px;background:rgba(4,2,14,.28);backdrop-filter:blur(6px);text-transform:uppercase;transition:all .22s;white-space:nowrap;cursor:none}
 .pe-reset:hover{border-color:rgba(196,181,253,.42);color:rgba(220,205,255,.88)}
-.pe-note{font:400 8px monospace;color:rgba(167,139,250,.42);letter-spacing:1px;line-height:1.7}
+.pe-note{font:400 10px monospace;color:rgba(167,139,250,.42);letter-spacing:1px;line-height:1.7}
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,rgba(240,165,205,.35),rgba(240,165,205,.9),rgba(196,181,253,.7));z-index:9000;pointer-events:none;transition:width .1s linear}
+
+/* ── Quick nav ── */
+.qnav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.qnav-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.2);border-radius:8px;padding:16px 8px;text-decoration:none;transition:all .25s;text-align:center}
+.qnav-card:hover{border-color:rgba(240,165,205,.52);background:rgba(30,8,55,.7);transform:translateY(-3px);box-shadow:0 6px 24px rgba(167,139,250,.14)}
+.qnav-icon{width:24px;height:24px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;transition:opacity .22s}
+.qnav-card:hover .qnav-icon{opacity:1}
+.qnav-name{font:600 12px monospace;color:rgba(220,200,252,.82);letter-spacing:.5px}
+.qnav-hint{font:400 9px monospace;color:rgba(167,139,250,.5);letter-spacing:1px;text-transform:uppercase}
+
+/* ── Curtain spec ── */
+.curtain-spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.cspec{background:rgba(10,5,30,.7);border:1px solid rgba(255,220,130,.18);border-radius:8px;padding:16px;transition:border-color .25s}
+.cspec:hover{border-color:rgba(255,218,88,.45)}
+.cspec-key{font:700 10px monospace;letter-spacing:3px;color:rgba(255,218,88,.72);text-transform:uppercase;margin-bottom:6px}
+.cspec-val{font:400 13px/1.7 monospace;color:rgba(205,220,248,.84)}
+
+/* ── Asset gallery ── */
+.mat-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.mat-frame{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;overflow:hidden;transition:all .28s}
+.mat-frame:hover{border-color:rgba(240,165,205,.45);transform:translateY(-3px);box-shadow:0 6px 22px rgba(167,139,250,.12)}
+.mat-img{width:100%;height:170px;object-fit:contain;object-position:center;padding:18px;background:rgba(10,5,32,.5)}
+.mat-info{padding:12px 14px;border-top:1px solid rgba(167,139,250,.15)}
+.mat-name{font:700 12px monospace;color:rgba(220,200,252,.92);margin-bottom:4px}
+.mat-desc{font:400 11px/1.7 monospace;color:rgba(196,181,253,.72)}
+
+/* ── Cat gallery ── */
+.cat-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.cat-frame{background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.2);border-radius:8px;overflow:hidden;width:68px;height:68px;display:flex;align-items:center;justify-content:center;transition:all .25s;padding:6px;flex-shrink:0}
+.cat-frame:hover{border-color:rgba(240,165,205,.52);background:rgba(30,8,55,.7);transform:translateY(-3px) scale(1.08)}
+.cat-frame img{width:100%;height:100%;object-fit:contain}
+
+/* ── Screenshots ── */
+.screenshot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.screenshot-frame{background:rgba(7,4,20,.6);border:1px solid rgba(165,215,255,.2);border-radius:10px;overflow:hidden;transition:all .28s}
+.screenshot-frame:hover{border-color:rgba(165,215,255,.52);transform:translateY(-3px);box-shadow:0 6px 22px rgba(165,215,255,.1)}
+.screenshot-img{width:100%;height:180px;object-fit:cover;object-position:center top}
+.screenshot-label{padding:10px 12px;font:400 11px/1.7 monospace;color:rgba(196,181,253,.72)}
+
+/* ── Privacy note ── */
+.privacy-note{background:rgba(165,215,255,.06);border:1px solid rgba(165,215,255,.28);border-radius:8px;padding:14px 18px;font:400 12px monospace;color:rgba(165,215,255,.88);letter-spacing:.5px;margin-bottom:18px;display:flex;align-items:flex-start;gap:10px}
+.privacy-note::before{content:'※';color:rgba(165,215,255,.75);font-size:14px;flex-shrink:0;margin-top:1px}
+
+/* ── CTA link button ── */
+.cta-link-btn{display:inline-flex;align-items:center;gap:8px;font:700 12px monospace;letter-spacing:3px;color:rgba(255,220,240,.94);text-transform:uppercase;padding:12px 22px;border:1px solid rgba(240,165,205,.42);border-radius:6px;background:rgba(30,5,50,.45);backdrop-filter:blur(10px);text-decoration:none;transition:all .28s;position:relative;overflow:hidden}
+.cta-link-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,180,220,.14) 50%,transparent 60%);transform:translateX(-100%);transition:transform .75s ease;pointer-events:none}
+.cta-link-btn:hover{border-color:rgba(255,185,225,.75);background:rgba(60,10,90,.55);box-shadow:0 0 22px rgba(220,120,175,.22);transform:translateY(-2px)}
+.cta-link-btn:hover::before{transform:translateX(220%)}
+.cta-link-btn .arr{transition:transform .25s}
+.cta-link-btn:hover .arr{transform:translateX(4px)}
+
+/* ── Coming soon ── */
+.coming-soon-wrap{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:52px 40px;text-align:center;position:relative;overflow:hidden}
+.coming-soon-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(167,139,250,.07),transparent 65%);pointer-events:none}
+.cs-badge{display:inline-block;font:700 8px monospace;letter-spacing:4px;color:rgba(248,215,140,.72);border:1px solid rgba(248,215,140,.28);border-radius:3px;padding:3px 10px;text-transform:uppercase;margin-bottom:20px}
+.cs-title{font:200 28px 'Noto Serif TC',serif;letter-spacing:8px;background:linear-gradient(135deg,#f5d0e8,#c890d8,#a070e0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
+.cs-desc{font:400 13px/2.0 monospace;color:rgba(196,181,253,.72);max-width:480px;margin:0 auto}
 </style>
 <link rel="stylesheet" href="sidebar.css">
 <script>window.SIDEBAR_PAGE='archive';</script>
@@ -361,6 +424,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 <body>
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
+<div id="prog"></div>
 <div id="stars"></div>
 <nav id="page-nav"></nav>
 
@@ -374,7 +438,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
         <img src="assets/icon/Home.png" style="width:12px;height:12px;filter:brightness(0) invert(1);opacity:.38" alt="">
         <a href="homepage_final.html">HOME</a><span class="sep">›</span><a href="works_v3.html">ARCHIVE</a><span class="sep">›</span><span class="cur">PROJECT DETAIL</span>
       </div>
-      <div class="tb-brand">WUYAN'S · <span>ARCHIVE</span></div>
+      <div class="tb-brand">✦ WUYAN · ARCHIVE</div>
       <div class="tb-right">MEMORY CORE : <span class="stable">STABLE</span>
         <div class="tb-icons">
           <img class="tb-icon-img" src="assets/icon/Multi-faceteddice.png" alt="">
@@ -441,24 +505,26 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
         </div>
         <div>
           <div class="links-card">
-            <div class="cta-box">
-              <div><div class="cta-t1">↗ 進入首頁體驗</div><div class="cta-t2">前往 WUYAN's ARCHIVE</div></div>
+            <a class="cta-box" href="homepage_final.html">
+              <div style="position:relative;z-index:2"><div class="cta-t1">↗ 進入首頁體驗</div><div class="cta-t2">前往 WUYAN's ARCHIVE</div></div>
               <div class="cta-arr">↗</div>
-            </div>
-            <div class="link-row">
-              <div class="link-ic"><img src="assets/icon/Home.png" alt=""></div>
-              <div class="link-info"><span class="link-name">首頁</span><span class="link-url">homepage_final.html</span></div>
-              <span class="link-arr">↗</span>
-            </div>
-            <div class="link-row">
-              <div class="link-ic"><img src="assets/icon/File.png" alt=""></div>
-              <div class="link-info"><span class="link-name">作品導覽</span><span class="link-url">works_v3.html</span></div>
-              <span class="link-arr">↗</span>
-            </div>
-            <div class="link-row">
-              <div class="link-ic"><img src="assets/icon/Detail.png" alt=""></div>
-              <div class="link-info"><span class="link-name">作品詳情頁群</span><span class="link-url">project_*.html</span></div>
-              <span class="link-arr">↗</span>
+            </a>
+            <div class="qnav-grid">
+              <a class="qnav-card" href="homepage_final.html">
+                <img class="qnav-icon" src="assets/icon/Home.png" alt="">
+                <div class="qnav-name">首頁</div>
+                <div class="qnav-hint">HOMEPAGE</div>
+              </a>
+              <a class="qnav-card" href="works_v3.html">
+                <img class="qnav-icon" src="assets/icon/File.png" alt="">
+                <div class="qnav-name">作品導覽</div>
+                <div class="qnav-hint">WORKS V3</div>
+              </a>
+              <a class="qnav-card" href="signal.html">
+                <img class="qnav-icon" src="assets/icon/Comment.png" alt="">
+                <div class="qnav-name">訊號站</div>
+                <div class="qnav-hint">SIGNAL</div>
+              </a>
             </div>
           </div>
         </div>
@@ -473,8 +539,18 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
         <img class="sf-bg" src="assets/fullBGwebp/bg_room_dark_webp.webp" alt="暗室背景">
         <!-- lamp-on bright overlay (z-index:1 so lamp/char stay on top) -->
         <img class="sf-bright" id="sfBright" src="assets/fullBGwebp/bg_room_webp.webp" alt="">
+        <!-- Screen content layers (z-index:1, below bezels) -->
+        <img class="sf-layer" src="assets/fullBGwebp/screenpic/screen_mid.webp" alt="中央螢幕內容" style="z-index:1">
+        <img class="sf-layer" src="assets/fullBGwebp/screenpic/out_screen_L1.webp" alt="" style="z-index:1">
+        <img class="sf-layer" src="assets/fullBGwebp/screenpic/out_screen_L2.webp" alt="" style="z-index:1">
+        <img class="sf-layer" src="assets/fullBGwebp/screenpic/out_screen_R1.webp" alt="" style="z-index:1">
+        <img class="sf-layer" src="assets/fullBGwebp/screenpic/out_screen_R2.webp" alt="" style="z-index:1">
         <img class="sf-layer" src="assets/fullBGwebp/lamp_webp.webp" alt="吊燈" style="z-index:2">
-        <img class="sf-layer" src="assets/fullBGwebp/middlescreen_webp.webp" alt="中央螢幕" style="z-index:3">
+        <img class="sf-layer" src="assets/fullBGwebp/middlescreen_webp.webp" alt="中央螢幕框" style="z-index:3">
+        <img class="sf-layer" src="assets/fullBGwebp/screen_side_L1_webp.webp" alt="" style="z-index:3">
+        <img class="sf-layer" src="assets/fullBGwebp/screen_side_L2_webp.webp" alt="" style="z-index:3">
+        <img class="sf-layer" src="assets/fullBGwebp/screen_side_R1_webp.webp" alt="" style="z-index:3">
+        <img class="sf-layer" src="assets/fullBGwebp/screen_side_R2_webp.webp" alt="" style="z-index:3">
         <img class="sf-layer" src="assets/fullBGwebp/character_webp.webp" alt="人物" style="z-index:4">
         <!-- spotlight canvas inserted by JS at z-index 6 -->
         <div class="sf-scanline" style="z-index:8"></div>
@@ -592,128 +668,61 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
       </div>
     </div>
 
-    <!-- ⑤ INSPIRATION -->
+    <!-- ⑤ VERLET CURTAIN -->
     <div class="sec-divider"><img src="assets/Dividers/Divider4.png" alt=""></div>
-    <div class="sec" id="sec-inspiration">
-      <div class="sec-label"><span>創作發想</span><span class="sec-zh">INSPIRATION</span></div>
+    <div class="sec" id="sec-curtain">
+      <div class="sec-label"><span>互動窗簾</span><span class="sec-zh">VERLET CURTAIN</span></div>
       <div class="l2">
         <div>
-          <p class="concept-text">不想要普通的作品集。想要一個「進入了才能探索」的空間，像是打開了某人的房間門，而不是翻開一份履歷。</p>
-          <div class="concept-pull">昏暗的房間是<br>探索的邀請</div>
-          <p class="concept-text">聚光燈隨著滑鼠移動，第一秒就告訴訪客：這裡有些東西等著被發現。每個點擊、每個彩蛋，都是一層新的對話。</p>
+          <p class="overview-text">Hero 區域的金色珠幕使用 Verlet 積分法模擬繩索物理——22 × 16 格點陣列，每幀以 5 次約束迭代維持布料形態。不依賴任何物理函式庫，純靠重力、慣性與約束方程式實現。</p>
+          <p class="overview-text" style="margin-top:10px">滑鼠移近珠幕時，附近格點受到徑向斥力推開；快速滑動時沿移動方向施加風力，讓幕布隨手勢起伏搖曳。底部吊墜珍珠有呼吸式閃爍動畫，快速搖擺時產生爆閃光效。往回捲動至頁面頂端即可體驗。</p>
         </div>
-        <div class="s-block">
-          <div class="s-head">PROCESS</div>
-          <div class="flow-chain">
-            <div class="flow-step">
-              <div class="flow-ico"><img src="assets/icon/Idea.png" alt=""></div>
-              <div><div class="flow-t">概念發想</div><div class="flow-s">暗室・記憶・探索</div></div>
-            </div>
-            <div class="flow-arr">↓</div>
-            <div class="flow-step">
-              <div class="flow-ico"><img src="assets/icon/MagicWand.png" alt=""></div>
-              <div><div class="flow-t">視覺設計</div><div class="flow-s">配色・素材分層</div></div>
-            </div>
-            <div class="flow-arr">↓</div>
-            <div class="flow-step">
-              <div class="flow-ico"><img src="assets/icon/Code.png" alt=""></div>
-              <div><div class="flow-t">互動開發</div><div class="flow-s">彩蛋・動畫・轉場</div></div>
-            </div>
-            <div class="flow-arr">↓</div>
-            <div class="flow-step">
-              <div class="flow-ico"><img src="assets/icon/Rocket.png" alt=""></div>
-              <div><div class="flow-t">持續迭代</div><div class="flow-s">新頁面・新彩蛋</div></div>
-            </div>
-          </div>
+        <div class="curtain-spec-grid">
+          <div class="cspec"><div class="cspec-key">格點</div><div class="cspec-val">22 × 16<br>352 nodes</div></div>
+          <div class="cspec"><div class="cspec-key">積分法</div><div class="cspec-val">Verlet<br>Integration</div></div>
+          <div class="cspec"><div class="cspec-key">迭代</div><div class="cspec-val">5 passes<br>per frame</div></div>
+          <div class="cspec"><div class="cspec-key">互動</div><div class="cspec-val">斥力 + 風力<br>Mouse drag</div></div>
         </div>
       </div>
     </div>
 
-    <!-- ⑥ DESIGN SYSTEM -->
+    <!-- ⑥ ASSETS -->
     <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
-    <div class="sec" id="sec-design">
-      <div class="sec-label"><span>設計系統</span><span class="sec-zh">DESIGN SYSTEM</span></div>
-      <div class="l3">
-        <div class="s-block">
-          <div class="s-head">COLOR PALETTE</div>
-          <p class="s-text" style="margin-bottom:10px">極深紫黑底色，三色點綴系統</p>
-          <div class="s-cat">底色</div>
-          <div class="palette-row">
-            <div class="swatch" style="background:#04020e;border:1px solid rgba(255,255,255,.1)" data-hex="#04020e"><span class="swatch-lbl">#04020e</span><div class="swatch-copied">COPIED</div></div>
-            <div class="swatch" style="background:rgba(7,4,20,.97)" data-hex="#070414"><span class="swatch-lbl">Panel</span><div class="swatch-copied">COPIED</div></div>
-          </div>
-          <div class="s-cat">三色點綴</div>
-          <div class="palette-row">
-            <div class="swatch" style="background:rgba(240,165,205,1)" data-hex="#f0a5cd"><span class="swatch-lbl">粉</span><div class="swatch-copied">COPIED</div></div>
-            <div class="swatch" style="background:rgba(196,181,253,1)" data-hex="#c4b5fd"><span class="swatch-lbl">紫</span><div class="swatch-copied">COPIED</div></div>
-            <div class="swatch" style="background:rgba(165,215,255,1)" data-hex="#a5d7ff"><span class="swatch-lbl">藍</span><div class="swatch-copied">COPIED</div></div>
-          </div>
-          <div class="s-cat">星星</div>
-          <div class="palette-row">
-            <div class="swatch" style="background:#fff;border:1px solid rgba(255,255,255,.15)" data-hex="#ffffff"><span class="swatch-lbl" style="color:#000">白</span><div class="swatch-copied">COPIED</div></div>
-            <div class="swatch" style="background:rgba(255,185,215,1)" data-hex="#ffb9d7"><span class="swatch-lbl">粉</span><div class="swatch-copied">COPIED</div></div>
-            <div class="swatch" style="background:rgba(165,215,255,1)" data-hex="#a5d7ff"><span class="swatch-lbl">藍</span><div class="swatch-copied">COPIED</div></div>
-            <div class="swatch" style="background:rgba(255,220,140,1)" data-hex="#ffdc8c"><span class="swatch-lbl">金</span><div class="swatch-copied">COPIED</div></div>
+    <div class="sec" id="sec-materials">
+      <div class="sec-label"><span>素材展示</span><span class="sec-zh">ASSETS</span></div>
+      <div class="l2">
+        <div>
+          <p style="font:700 9px monospace;letter-spacing:3px;color:rgba(240,165,205,.68);text-transform:uppercase;margin-bottom:16px">人物正面差分</p>
+          <div class="mat-gallery">
+            <div class="mat-frame">
+              <img class="mat-img" src="assets/project_archive/thisproject/4524588.png" alt="人物正面差分 A">
+              <div class="mat-info"><div class="mat-name">正面差分 A</div><div class="mat-desc">作品集代表角色正面圖，用於詳情頁展示</div></div>
+            </div>
+            <div class="mat-frame">
+              <img class="mat-img" src="assets/project_archive/thisproject/45245889.png" alt="人物正面差分 B">
+              <div class="mat-info"><div class="mat-name">正面差分 B</div><div class="mat-desc">表情差分版本，不同情境切換使用</div></div>
+            </div>
           </div>
         </div>
-        <div class="s-block">
-          <div class="s-head">TYPOGRAPHY</div>
-          <div class="s-cat">字體預覽（可輸入）</div>
-          <div class="font-preview-hint">↓ CLICK TO EDIT</div>
-          <input class="font-preview" type="text" value="標題示範" spellcheck="false" autocomplete="off">
-          <div class="s-cat">字體</div>
-          <div class="s-item">Courier New — UI / 標籤 / 內文</div>
-          <div class="s-item">Noto Serif TC 200 — 大標題</div>
-          <div class="s-cat">字重</div>
-          <div class="s-item">700 — 區塊標題</div>
-          <div class="s-item">600 — 卡片標題</div>
-          <div class="s-item">400 — 內文說明</div>
-          <div class="s-item">200 — 大標（Noto Serif TC）</div>
-        </div>
-        <div class="s-block">
-          <div class="s-head">INTERACTIONS</div>
-          <div class="s-cat">Sidebar</div>
-          <div class="s-item">16px strip 收縮提示</div>
-          <div class="s-item">hover 展開 220px</div>
-          <div class="s-item">紫→藍光條提示</div>
-          <div class="s-item">0.38s cubic-bezier 動畫</div>
-          <div class="s-cat">游標</div>
-          <div class="s-item">自訂 dot + ring</div>
-          <div class="s-item">hover 時 ring 放大</div>
-          <div class="s-cat">Scene 互動區</div>
-          <div class="s-item">聚光燈跟隨滑鼠</div>
-          <div class="s-item">HUD 框線裝飾</div>
-          <div class="s-item">吊燈點擊切換亮暗</div>
+        <div>
+          <p style="font:700 9px monospace;letter-spacing:3px;color:rgba(240,165,205,.68);text-transform:uppercase;margin-bottom:12px">吉祥物貓貓素材</p>
+          <p style="font:400 11px/1.9 monospace;color:rgba(196,181,253,.72);margin-bottom:14px">首頁暗室趴睡的貓咪、Works V3 左下角的彩蛋貓貓，均使用以下 7 款表情素材：</p>
+          <div class="cat-row">
+            <div class="cat-frame"><img src="assets/mascotcat/stand-meow.png" alt="站立喵"></div>
+            <div class="cat-frame"><img src="assets/mascotcat/happy.png" alt="開心"></div>
+            <div class="cat-frame"><img src="assets/mascotcat/like.png" alt="喜歡"></div>
+            <div class="cat-frame"><img src="assets/mascotcat/shiny.png" alt="閃亮"></div>
+            <div class="cat-frame"><img src="assets/mascotcat/meow.png" alt="喵"></div>
+            <div class="cat-frame"><img src="assets/mascotcat/sleeping.png" alt="睡覺"></div>
+            <div class="cat-frame"><img src="assets/mascotcat/hideinthebox.png" alt="箱中貓"></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ⑦ TECHNICAL CHALLENGES -->
+    <!-- ⑦ WORLD MAP -->
     <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
-    <div class="sec" id="sec-tech">
-      <div class="sec-label"><span>技術挑戰</span><span class="sec-zh">TECHNICAL CHALLENGES</span></div>
-      <div class="challenge-list">
-        <div class="challenge-card">
-          <div class="ch-part ch-bg-c"><div class="ch-label ch-label-c">Challenge</div><p class="ch-text">Carousel 在不同螢幕尺寸下容易錯位，卡片之間出現間距不一致的問題。</p></div>
-          <div class="ch-part ch-bg-s"><div class="ch-label ch-label-s">Solution</div><p class="ch-text">改用 clamp() 搭配 CSS transform 重新計算卡片寬度與位移量，不依賴固定像素。</p></div>
-          <div class="ch-part ch-bg-r"><div class="ch-label ch-label-r">Result</div><p class="ch-text">桌機與手機皆穩定顯示，無需媒體查詢即可自適應。</p></div>
-        </div>
-        <div class="challenge-card">
-          <div class="ch-part ch-bg-c"><div class="ch-label ch-label-c">Challenge</div><p class="ch-text">分層透明 webp 圖片在不同瀏覽器的渲染順序與合成效果有差異。</p></div>
-          <div class="ch-part ch-bg-s"><div class="ch-label ch-label-s">Solution</div><p class="ch-text">統一使用 position:absolute + z-index 管理每一圖層，確保合成行為一致。</p></div>
-          <div class="ch-part ch-bg-r"><div class="ch-label ch-label-r">Result</div><p class="ch-text">跨瀏覽器場景渲染一致，吊燈・人物・螢幕各層正確疊合。</p></div>
-        </div>
-        <div class="challenge-card">
-          <div class="ch-part ch-bg-c"><div class="ch-label ch-label-c">Challenge</div><p class="ch-text">純靜態 HTML 無框架，難以在多頁面間共享 Sidebar、游標等元件。</p></div>
-          <div class="ch-part ch-bg-s"><div class="ch-label ch-label-s">Solution</div><p class="ch-text">每頁內嵌完整 CSS + JS，維持一個 .html 一個完整世界的原則。</p></div>
-          <div class="ch-part ch-bg-r"><div class="ch-label ch-label-r">Result</div><p class="ch-text">部署零配置，任意靜態空間皆可上線，維護成本低。</p></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⑧ WORLD MAP -->
-    <div class="sec-divider"><img src="assets/Dividers/Divider3.png" alt=""></div>
-    <div class="sec">
+    <div class="sec" id="sec-worldmap">
       <div class="sec-label"><span>頁面地圖</span><span class="sec-zh">WORLD MAP</span></div>
       <div class="l3">
         <div class="page-card">
@@ -749,92 +758,96 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
       </div>
     </div>
 
-    <!-- ⑨ EASTER EGGS -->
-    <div class="sec-divider"><img src="assets/Dividers/Divider4.png" alt=""></div>
-    <div class="sec">
-      <div class="sec-label"><span>彩蛋探索</span><span class="sec-zh">EASTER EGGS</span></div>
-      <p class="egg-hint">首頁共有 7 個隱藏互動彩蛋 — 你找到了幾個？</p>
-      <div class="l4">
-        <div class="egg-card">
-          <div class="egg-icon-ph"><img src="assets/icon/Lamp.png" alt=""></div>
-          <span class="egg-trigger">HOVER</span>
-          <div class="egg-title">聚光燈跟隨</div>
-          <div class="egg-desc">進入首頁，房間昏暗，聚光燈隨滑鼠移動照亮局部區域。</div>
-        </div>
-        <div class="egg-card">
-          <div class="egg-icon-ph"><img src="assets/icon/Frontend.png" alt=""></div>
-          <span class="egg-trigger">CLICK</span>
-          <div class="egg-title">點擊螢幕轉場</div>
-          <div class="egg-desc">點擊房間螢幕，觸發轉場動畫並跳轉至對應頁面。</div>
-        </div>
-        <div class="egg-card">
-          <div class="egg-icon-ph"><img src="assets/icon/CircleExclamationMark.png" alt=""></div>
-          <span class="egg-trigger">HOVER × 8s</span>
-          <div class="egg-title">聚光燈照人物</div>
-          <div class="egg-desc">將聚光燈停在人物身上持續 8 秒，彈出錯誤訊息小窗。</div>
-          <div class="egg-note">與直接點擊人物效果相同</div>
-        </div>
-        <div class="egg-card">
-          <div class="egg-icon-ph"><img src="assets/icon/Cat.png" alt=""></div>
-          <span class="egg-trigger">CLICK</span>
-          <div class="egg-title">點擊人物</div>
-          <div class="egg-desc">直接點擊人物角色，觸發隱藏的錯誤訊息彈窗互動。</div>
-        </div>
-        <div class="egg-card">
-          <div class="egg-icon-ph"><img src="assets/icon/Sun.png" alt=""></div>
-          <span class="egg-trigger">CLICK</span>
-          <div class="egg-title">點擊吊燈</div>
-          <div class="egg-desc">點擊吊燈，整個房間亮起，窗外出現星辰紫雲與都市夜景。</div>
-        </div>
-        <div class="egg-card">
-          <div class="egg-icon-ph"><img src="assets/icon/PaperAirplane.png" alt=""></div>
-          <span class="egg-trigger">SCROLL</span>
-          <div class="egg-title">螢幕飛走・自介</div>
-          <div class="egg-desc">往下捲動，螢幕飛走，出現透明自介文字，滑鼠靠近才顯現。</div>
-        </div>
-        <div class="egg-card">
-          <div class="egg-icon-ph"><img src="assets/icon/CrackedEgg.png" alt=""></div>
-          <span class="egg-trigger">CLICK</span>
-          <div class="egg-title">喚醒趴睡人物</div>
-          <div class="egg-desc">捲動後人物趴在桌上，點擊他，人物被驚醒。</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⑩ REFLECTION -->
-    <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
-    <div class="sec">
-      <div class="sec-label"><span>反思與回顧</span><span class="sec-zh">REFLECTION</span></div>
-      <div class="reflect-wrap">
-          <div class="reflect-quote">做這個網站<br>讓我明白「體驗」<br>比「展示」更重要</div>
-          <p class="reflect-body">從一開始只是想要一個放作品的地方，到後來開始思考「訪客的第一秒會感受到什麼」——這個轉變讓整個設計方向完全改變了。</p>
-          <div class="reflect-list">
-            <div class="reflect-item">
-              <img src="assets/icon/Idea.png" alt="">
-              <div>
-                <div class="reflect-item-t">學到了什麼</div>
-                <div class="reflect-item-s">純靜態 HTML 的極限與可能性，以及「少即是多」的互動設計哲學。不需要框架也能做出讓人印象深刻的體驗。</div>
-              </div>
-            </div>
-            <div class="reflect-item">
-              <img src="assets/icon/Rocket.png" alt="">
-              <div>
-                <div class="reflect-item-t">未來想優化的方向</div>
-                <div class="reflect-item-s">考慮升級至 Vite + React 以支援元件共享；加入更多跨頁面的連貫敘事，讓整個網站感覺像一個完整的故事。</div>
-              </div>
-            </div>
-            <div class="reflect-item">
-              <img src="assets/icon/MagicWand.png" alt="">
-              <div>
-                <div class="reflect-item-t">最滿意的部分</div>
-                <div class="reflect-item-s">聚光燈系統。簡單的 Canvas radial-gradient 跟隨滑鼠，卻能製造出強烈的「探索感」，是成本最低、回報最高的設計決策。</div>
-              </div>
-            </div>
+    <!-- ⑧ WORKS V3 -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider3.png" alt=""></div>
+    <div class="sec" id="sec-works">
+      <div class="sec-label"><span>作品集導覽</span><span class="sec-zh">WORKS V3</span></div>
+      <div class="l2">
+        <div>
+          <p class="overview-text">作品集總集頁以三個旋轉 Portal 入口（WEB・VTUBER・AI BOT）為核心，每個 Portal hover 時展開對應作品卡片。卡片搭載閃光漸層與視差翻轉效果，帶有強烈立體感。</p>
+          <p class="overview-text" style="margin-top:10px">左下角藏有貓貓彩蛋：一隻貓咪固定駐守角落，游標靠近時她會輕輕浮起並切換表情。是全站最受歡迎的隱藏互動之一。</p>
+          <div style="margin-top:20px">
+            <a class="cta-link-btn" href="works_v3.html">前往作品集導覽 <span class="arr">↗</span></a>
           </div>
+        </div>
+        <div class="s-block">
+          <div class="s-head">FEATURES</div>
+          <div class="s-cat">Portal 入口卡片</div>
+          <div class="s-item">三個旋轉 Portal 入口</div>
+          <div class="s-item">hover 展開作品清單</div>
+          <div class="s-item">卡片閃光漸層 hover 效果</div>
+          <div class="s-cat">左下角貓咪彩蛋</div>
+          <div class="s-item">固定駐守角落的貓貓</div>
+          <div class="s-item">游標靠近時浮起</div>
+          <div class="s-item">多款表情素材隨機切換</div>
+        </div>
       </div>
     </div>
 
-    <!-- ⑪ FOOTER -->
+    <!-- ⑨ SIGNAL -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider4.png" alt=""></div>
+    <div class="sec" id="sec-signal">
+      <div class="sec-label"><span>訊號站</span><span class="sec-zh">SIGNAL</span></div>
+      <div class="l2">
+        <div>
+          <p class="overview-text">Signal 頁原本構想為留言板，考量到管理不易與垃圾訊息問題，最後改為「到此一遊・留下足跡」形式：訪客點擊後留下到訪記錄，透過 Cloudflare Workers 統計累積次數，不儲存任何個人資訊。</p>
+          <p class="overview-text" style="margin-top:10px">介面延續全站暗室美學，以星空動畫與粒子效果烘托「宇宙訊號」氛圍。每次到訪都如同在星際中留下微弱的電波痕跡。</p>
+          <div style="margin-top:20px">
+            <a class="cta-link-btn" href="signal.html">前往 SIGNAL 留下足跡 <span class="arr">↗</span></a>
+          </div>
+        </div>
+        <div class="s-block">
+          <div class="s-head">DESIGN</div>
+          <div class="s-cat">互動機制</div>
+          <div class="s-item">點擊留下「到此一遊」</div>
+          <div class="s-item">Cloudflare Workers 計總次</div>
+          <div class="s-item">不儲存任何個人資訊</div>
+          <div class="s-cat">視覺</div>
+          <div class="s-item">星空粒子動畫背景</div>
+          <div class="s-item">電波波紋互動效果</div>
+          <div class="s-item">訊號發送動畫反饋</div>
+          <div class="s-cat">技術</div>
+          <div class="s-item">Cloudflare Workers API</div>
+          <div class="s-item">純靜態前端無後端</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑩ VTUBER -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
+    <div class="sec" id="sec-vtuber">
+      <div class="sec-label"><span>虛擬主播</span><span class="sec-zh">VTUBER</span></div>
+      <div class="screenshot-grid">
+        <div class="screenshot-frame">
+          <img class="screenshot-img" src="assets/project_archive/vtuber_intro/live2dsetting.png" alt="Live2D 建模拆建">
+          <div class="screenshot-label">Live2D 建模拆建截圖<br>角色分層素材結構</div>
+        </div>
+        <div class="screenshot-frame">
+          <img class="screenshot-img" src="assets/project_archive/vtuber_intro/googlecam.png" alt="攝影機設定">
+          <div class="screenshot-label">攝影機參數設置<br>動態捕捉校正介面</div>
+        </div>
+        <div class="screenshot-frame">
+          <img class="screenshot-img" src="assets/project_archive/vtuber_intro/item.png" alt="模型參數調整體驗">
+          <div class="screenshot-label">可互動的模型參數<br>即時體驗調整預覽</div>
+        </div>
+      </div>
+      <div class="privacy-note">隱私聲明：影像僅在本機處理，不會上傳任何伺服器。你的臉，只有你的螢幕知道。</div>
+      <p class="overview-text" style="margin-bottom:20px">透過 MediaPipe 臉部偵測將真實表情即時對應到 Live2D 模型，無需安裝任何軟體，純瀏覽器體驗。建模流程從分層拆建、攝影機校正到模型參數微調全程展示，支援訪客自行體驗動態捕捉。</p>
+      <a class="cta-link-btn" href="project_vtuber.html">前往 VTUBER 頁面體驗動態捕捉 <span class="arr">↗</span></a>
+    </div>
+
+    <!-- ⑪ COMING SOON -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
+    <div class="sec" id="sec-coming">
+      <div class="sec-label"><span>奇物陣列</span><span class="sec-zh">COMING SOON</span></div>
+      <div class="coming-soon-wrap">
+        <div class="cs-badge">IN DEVELOPMENT</div>
+        <div class="cs-title">奇物陣列</div>
+        <p class="cs-desc">一個由奇異物件與實驗性互動組成的神秘展示空間。尚在構築之中，靜候開張。</p>
+      </div>
+    </div>
+
+    <!-- ⑫ FOOTER -->
     <div class="footer-nav">
       <div class="fn-btn"><span>←</span> PREV PROJECT</div>
       <div class="fn-center">
@@ -851,7 +864,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 /* ── Cursor ── */
 const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
 document.addEventListener('mousemove',e=>{dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
-document.querySelectorAll('.ni,.fn-btn,.cta-box,.link-row,.hotspot,.feat-box,.ptag,.egg-card,.page-card,.swatch,.ic-card,.stat-box,.sb-btn,.font-preview,.reflect-item,.sew-btn,.ss-char,.pe-apply,.pe-reset').forEach(el=>{
+document.querySelectorAll('.ni,.fn-btn,.cta-box,.qnav-card,.cta-link-btn,.hotspot,.feat-box,.ptag,.page-card,.ic-card,.stat-box,.sew-btn,.ss-char,.pe-apply,.pe-reset,.cspec,.mat-frame,.cat-frame,.screenshot-frame').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
@@ -1248,8 +1261,10 @@ document.querySelectorAll('.swatch').forEach(sw=>{
   var secs=[
     {id:'heroSection',en:'HERO'},{id:'sec-overview',en:'OVERVIEW'},
     {id:'sec-interactive',en:'INTERACTIVE'},{id:'sec-scroll',en:'SCENE'},
-    {id:'sec-inspiration',en:'INSPIRATION'},{id:'sec-design',en:'DESIGN'},
-    {id:'sec-tech',en:'TECHNICAL'}
+    {id:'sec-curtain',en:'CURTAIN'},{id:'sec-materials',en:'ASSETS'},
+    {id:'sec-worldmap',en:'MAP'},{id:'sec-works',en:'WORKS'},
+    {id:'sec-signal',en:'SIGNAL'},{id:'sec-vtuber',en:'VTUBER'},
+    {id:'sec-coming',en:'COMING'}
   ];
   var mainEl=document.getElementById('main');
   var nav=document.getElementById('page-nav');if(!nav||!mainEl)return;
@@ -1271,6 +1286,15 @@ document.querySelectorAll('.swatch').forEach(sw=>{
     });
   },{root:mainEl,rootMargin:'-5% 0px -60% 0px'});
   items.forEach(function(i){io.observe(i.el)});
+})();
+(function(){
+  var prog=document.getElementById('prog');
+  var mainEl=document.getElementById('main');
+  if(!prog||!mainEl)return;
+  mainEl.addEventListener('scroll',function(){
+    var h=mainEl.scrollHeight-mainEl.clientHeight;
+    prog.style.width=(h>0?Math.round(mainEl.scrollTop/h*100):0)+'%';
+  },{passive:true});
 })();
 </script>
 </body>

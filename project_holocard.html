@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>全息撲克牌 · Holo Deck Studio</title>
+<link rel="stylesheet" href="holocard/styles.css" />
+<style>
+/* ── Topbar (datasea format) ── */
+#topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 48px;
+  z-index: 1000;
+  background: rgba(14, 10, 26, 0.93);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.16);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 0;
+}
+
+.tnav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.tnav-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(196, 181, 253, 0.55);
+  text-decoration: none;
+  font-family: 'Manrope', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.tnav-back:hover {
+  color: #e8e0f8;
+  background: rgba(167, 139, 250, 0.09);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+.tnav-sep {
+  width: 1px; height: 22px;
+  background: rgba(167, 139, 250, 0.16);
+  flex-shrink: 0;
+}
+
+.tnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.tnav-brand-mark {
+  font-size: 15px;
+  color: var(--accent, #d4a84e);
+  filter: drop-shadow(0 0 7px rgba(212, 168, 78, 0.55));
+  line-height: 1;
+}
+
+.tnav-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.tnav-brand-en {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: #ece8f8;
+  line-height: 1.2;
+}
+
+.tnav-brand-zh {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: rgba(196, 181, 253, 0.4);
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* Push content below fixed topbar */
+html, body { padding-top: 0; }
+body { padding-top: 48px !important; }
+#root { min-height: calc(100vh - 48px) !important; }
+</style>
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="tnav-left">
+    <a href="works_v3.html" class="tnav-back">← ARCHIVE</a>
+    <div class="tnav-sep"></div>
+    <div class="tnav-brand">
+      <span class="tnav-brand-mark">◆</span>
+      <div class="tnav-brand-text">
+        <div class="tnav-brand-en">HOLO DECK STUDIO</div>
+        <div class="tnav-brand-zh">全息撲克牌</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="holocard/card.jsx"></script>
+<script type="text/babel" src="holocard/holo-card.jsx"></script>
+<script type="text/babel" src="holocard/app.jsx"></script>
+
+</body>
+</html>

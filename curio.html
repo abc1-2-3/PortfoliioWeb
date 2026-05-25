@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>奇物陣列：觀測庫 | WUYAN's ARCHIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sidebar.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;color:#c4bce0;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
+body{background:#04020e}
+*{cursor:none!important}
+
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
+
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes twinkle{0%,100%{opacity:var(--a,.3)}50%{opacity:1}}
+
+/* ── Background ── */
+#bg{position:fixed;inset:0;z-index:0}
+#bg img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(.65) saturate(.8)}
+#bg-grad{position:absolute;inset:0;background:linear-gradient(160deg,rgba(4,2,14,.12) 0%,rgba(4,2,14,.25) 45%,rgba(4,2,14,.68) 78%,rgba(4,2,14,.92) 100%)}
+#bg-vign{position:absolute;inset:0;background:radial-gradient(ellipse 130% 100% at 40% 0%,transparent 30%,rgba(4,2,14,.5) 100%)}
+
+/* ── Lamp (lamp.webp) ── 燈具本體，screen blend */
+#lamp{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  z-index:30;pointer-events:none;
+  mix-blend-mode:screen
+}
+#light2{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  z-index:31;pointer-events:none;
+  mix-blend-mode:screen;
+  opacity:1;transition:opacity .04s
+}
+
+/* ── Shell ── */
+#shell{display:grid;grid-template-columns:1fr;height:100vh;position:relative;z-index:2;overflow:hidden}
+
+
+/* ── Main ── */
+#main{grid-column:1;height:100vh;overflow:hidden;position:relative}
+
+/* ── Header (top-left) ── */
+#hdr{
+  position:absolute;top:0;left:0;z-index:10;
+  padding:clamp(22px,3.5vh,44px) 48px 0;
+  max-width:600px;pointer-events:none
+}
+.hdr-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(167,139,250,.28);background:rgba(7,4,20,.72);backdrop-filter:blur(12px);padding:4px 12px 4px 8px;border-radius:3px;margin-bottom:14px}
+.hdr-badge img{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(280deg);opacity:.72}
+.hdr-badge-text{font:400 9px monospace;letter-spacing:4px;color:rgba(196,181,253,.62);text-transform:uppercase}
+.hdr-title{font:200 clamp(22px,2.8vw,44px)/1.2 'Noto Serif TC','Georgia',serif;letter-spacing:10px;color:rgba(235,228,255,.94);filter:drop-shadow(0 0 22px rgba(180,150,255,.36));margin-bottom:7px;opacity:0;animation:fadeUp .9s ease forwards .2s}
+.hdr-en{font:400 9px monospace;letter-spacing:8px;color:rgba(196,181,253,.38);text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fadeUp .8s ease forwards .4s}
+.hdr-desc{font:400 11px/2 monospace;color:rgba(185,170,225,.52);margin-bottom:18px;opacity:0;animation:fadeUp .8s ease forwards .6s}
+.hdr-stats{display:flex;align-items:center;gap:18px;opacity:0;animation:fadeUp .8s ease forwards .8s}
+.stat-item{font:400 11px monospace;letter-spacing:1px;color:rgba(180,162,220,.62)}
+.stat-item b{color:rgba(220,205,255,.90);font-weight:400;font-size:13px}
+.stat-sep{color:rgba(130,110,170,.35)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Gallery wrapper ──
+   Rail at ~55-62% from top (middle-lower).
+   Card row sits above rail (overlapping via negative margin). */
+#gallery{
+  position:fixed;
+  top:43%;
+  left:0;right:0;
+  z-index:20
+}
+
+/* Card row */
+.card-row{
+  display:flex;align-items:flex-end;
+  gap:clamp(22px,2.8vw,40px);
+  padding:0 clamp(48px,5vw,80px) 36px;
+  overflow-x:auto;scroll-behavior:smooth;
+  position:relative;z-index:4;
+  scrollbar-width:none
+}
+.card-row::-webkit-scrollbar{display:none}
+
+/* Rail — 固定比例高度，中大視窗一致對齊卡片 */
+#rail{
+  position:fixed;
+  top:43%;
+  left:0;
+  width:100%;
+  height:1002px;
+  min-height:420px;
+  object-fit:cover;
+  object-position:center center;
+  transform:translateY(-50%);
+  z-index:1;pointer-events:none
+}
+
+/* ── Individual Card ── arc via CSS variables ── */
+.c-card{
+  --rot:0deg;--ty:0px;
+  flex-shrink:0;
+  width:clamp(165px,13vw,210px);
+  position:relative;
+  transform:rotate(var(--rot)) translateY(var(--ty));
+  transform-origin:bottom center;
+  transition:transform .38s cubic-bezier(.22,.68,0,1.2);
+  cursor:pointer
+}
+.c-card:hover{transform:rotate(calc(var(--rot)*.1)) translateY(-22px) scale(1.05)}
+/* arc offsets per card */
+.card-row .c-card:nth-child(1){--rot:-2.7deg;--ty:16px}
+.card-row .c-card:nth-child(2){--rot:-1.8deg;--ty:7px}
+.card-row .c-card:nth-child(3){--rot:-0.9deg;--ty:2px}
+.card-row .c-card:nth-child(4){--rot:0deg;--ty:0px}
+.card-row .c-card:nth-child(5){--rot:0.9deg;--ty:2px}
+.card-row .c-card:nth-child(6){--rot:1.8deg;--ty:7px}
+.card-row .c-card:nth-child(7){--rot:2.7deg;--ty:16px}
+
+.c-frame{
+  background:linear-gradient(168deg,rgba(22,14,44,.94) 0%,rgba(8,5,22,.97) 100%);
+  border:1px solid rgba(167,139,250,.32);border-radius:7px;
+  overflow:hidden;position:relative;
+  box-shadow:0 10px 36px rgba(0,0,0,.62)
+}
+.c-frame::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(180,160,255,.05) 0%,transparent 35%);z-index:2;pointer-events:none}
+
+.c-id{
+  position:absolute;top:8px;left:9px;z-index:8;
+  font:700 9px monospace;letter-spacing:2px;
+  color:rgba(196,181,253,.68);background:rgba(4,2,14,.78);
+  padding:2px 8px;border-radius:2px;border:1px solid rgba(167,139,250,.25)
+}
+
+/* Image area */
+.c-img-wrap{width:100%;aspect-ratio:2/3;overflow:hidden;position:relative;background:rgba(8,5,20,.9)}
+.c-img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(.82) saturate(.88);transition:filter .35s}
+.c-card:hover .c-img{filter:brightness(1) saturate(1.05)}
+
+/* ── Sticker — flies in from outside, lands with bounce ── */
+.c-label{
+  position:absolute;bottom:-12px;left:-4px;right:-4px;
+  background:url('assets/Curio/cardsticker.png') center/cover no-repeat;
+  padding:10px 11px 14px;
+  z-index:8;min-height:72px;
+  opacity:0;
+  transform-origin:center;
+  transition:transform .48s cubic-bezier(.22,.68,0,1.3),opacity .12s
+}
+/* per-slot: sticker starting position (varies by DOM position) */
+.card-row .c-card:nth-child(1) .c-label{transform:translate(55px,-175%) rotate(38deg) scale(.62)}
+.card-row .c-card:nth-child(2) .c-label{transform:translate(-52px,-165%) rotate(-32deg) scale(.6)}
+.card-row .c-card:nth-child(3) .c-label{transform:translate(60px,-158%) rotate(44deg) scale(.62)}
+.card-row .c-card:nth-child(4) .c-label{transform:translate(-42px,-195%) rotate(-28deg) scale(.58)}
+.card-row .c-card:nth-child(5) .c-label{transform:translate(50px,-170%) rotate(36deg) scale(.63)}
+.card-row .c-card:nth-child(6) .c-label{transform:translate(-56px,-162%) rotate(-41deg) scale(.6)}
+.card-row .c-card:nth-child(7) .c-label{transform:translate(46px,-182%) rotate(30deg) scale(.65)}
+/* landing: sticker sticks with slight tilt per slot */
+.card-row .c-card:nth-child(1):hover .c-label{transform:translateY(3px) rotate(-2.2deg);opacity:1}
+.card-row .c-card:nth-child(2):hover .c-label{transform:translateY(1px) rotate(1.5deg);opacity:1}
+.card-row .c-card:nth-child(3):hover .c-label{transform:translateY(4px) rotate(-1deg);opacity:1}
+.card-row .c-card:nth-child(4):hover .c-label{transform:translateY(2px) rotate(2deg);opacity:1}
+.card-row .c-card:nth-child(5):hover .c-label{transform:translateY(3px) rotate(-1.8deg);opacity:1}
+.card-row .c-card:nth-child(6):hover .c-label{transform:translateY(1px) rotate(1.2deg);opacity:1}
+.card-row .c-card:nth-child(7):hover .c-label{transform:translateY(2px) rotate(-2.5deg);opacity:1}
+
+.c-name{font:400 12px/1.4 'Noto Serif TC','Georgia',serif;color:rgba(45,32,15,.9);letter-spacing:2px;margin-bottom:3px}
+.c-sub{font:400 8.5px monospace;color:rgba(65,48,22,.72);letter-spacing:.5px;line-height:1.5;margin-bottom:6px;min-height:2em}
+.c-date{font:400 8px monospace;color:rgba(80,60,28,.68);letter-spacing:.5px}
+.c-date span{color:rgba(90,68,30,.52)}
+
+/* ── Status stamp — hidden, fades in on hover ── */
+.c-stamp{
+  position:absolute;bottom:80px;right:8px;z-index:9;
+  font:700 8px monospace;letter-spacing:1.5px;
+  padding:3px 8px;border-radius:3px;text-transform:uppercase;
+  opacity:0;
+  transform:rotate(-11deg) scale(.7) translateY(6px);
+  transition:opacity .28s .18s, transform .32s .18s ease-out
+}
+.c-card:hover .c-stamp{opacity:1;transform:rotate(-11deg) scale(1) translateY(0)}
+.stamp-ok{color:rgba(75,215,125,.9);border:2px solid rgba(75,215,125,.72);background:rgba(4,2,14,.78);box-shadow:0 0 8px rgba(75,215,125,.22)}
+.stamp-unk{color:rgba(195,175,110,.78);border:2px solid rgba(195,175,110,.52);background:rgba(4,2,14,.78)}
+
+/* ── Breach card ── */
+.c-card.breach .c-frame{border-color:rgba(200,75,75,.42);box-shadow:0 10px 36px rgba(0,0,0,.62),0 0 22px rgba(180,40,40,.14)}
+.c-card.breach .c-id{color:rgba(255,100,100,.65);border-color:rgba(200,80,80,.3)}
+.breach-over{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(4,2,14,.82)}
+.breach-rule{width:72%;height:1px;background:rgba(255,60,60,.45);margin:6px 0}
+.breach-main{font:700 14px monospace;letter-spacing:.5px;color:rgba(255,80,80,.9);text-align:center;line-height:1.55}
+.breach-en{font:400 7px monospace;letter-spacing:3px;color:rgba(255,120,100,.52);text-transform:uppercase;margin-top:4px}
+.crack{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
+.crack::before{content:'';position:absolute;top:8%;left:38%;width:1.5px;height:52%;background:linear-gradient(180deg,transparent,rgba(110,60,200,.5) 35%,rgba(70,35,140,.3) 70%,transparent);transform:rotate(13deg);filter:blur(.4px)}
+.crack::after{content:'';position:absolute;top:4%;left:57%;width:1px;height:40%;background:linear-gradient(180deg,transparent,rgba(90,45,170,.4),transparent);transform:rotate(-18deg);filter:blur(.4px)}
+
+/* ── Unknown cards — no border, card_empty.png shows as torn film ── */
+.c-card.unk .c-frame{border:none;background:transparent;box-shadow:none}
+.c-card.unk .c-frame::before{display:none}
+.c-card.unk .c-img{opacity:.65;filter:brightness(.55) saturate(.2)}
+.c-card.unk .c-id{background:rgba(4,2,14,.52);border-color:rgba(120,100,160,.18);color:rgba(140,120,180,.45)}
+
+/* ── Card nav buttons ── */
+#card-nav{
+  position:absolute;
+  top:52%;left:0;right:0;
+  transform:translateY(-50%);
+  z-index:15;pointer-events:none;
+  display:flex;justify-content:space-between;
+  padding:0 32px 0 6px
+}
+.cnav{
+  pointer-events:all;cursor:none;
+  font:300 36px/1 'Noto Serif TC',serif;
+  color:rgba(196,181,253,.42);
+  background:rgba(7,4,20,.6);
+  border:1px solid rgba(167,139,250,.18);
+  border-radius:4px;padding:6px 10px;
+  transition:all .22s;
+  backdrop-filter:blur(8px)
+}
+.cnav:hover{color:rgba(220,210,255,.95);border-color:rgba(196,181,253,.55);background:rgba(20,10,50,.85);box-shadow:0 0 14px rgba(167,139,250,.18)}
+
+/* ── Aside rail menu ── */
+#aside-rail{
+  position:fixed;right:0;top:50%;
+  transform:translateY(-50%);
+  z-index:40;
+  width:22px;
+  transition:width .32s cubic-bezier(.25,.46,.45,.94),box-shadow .32s;
+  background:rgba(7,4,20,.88);
+  border-left:1px solid rgba(167,139,250,.22);
+  border-radius:6px 0 0 6px;
+  backdrop-filter:blur(16px);
+  overflow:hidden
+}
+#aside-rail:hover{width:148px;box-shadow:-4px 0 28px rgba(0,0,0,.6),0 0 0 1px rgba(167,139,250,.08)}
+/* thin glow bar when collapsed */
+#aside-rail::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;width:2px;
+  background:linear-gradient(to bottom,transparent,rgba(167,139,250,.68) 40%,rgba(165,215,255,.5) 60%,transparent);
+  transition:opacity .22s;pointer-events:none
+}
+#aside-rail:hover::before{opacity:0}
+.ar-inner{padding:8px 0;display:flex;flex-direction:column;min-width:148px}
+.ar-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px 8px 8px;
+  cursor:pointer;white-space:nowrap;
+  border-left:2px solid transparent;
+  transition:all .2s
+}
+.ar-item:hover{background:rgba(110,55,195,.16);border-left-color:rgba(167,139,250,.5)}
+.ar-item.act{background:rgba(110,55,195,.1);border-left-color:rgba(196,181,253,.75)}
+.ar-dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+  background:rgba(167,139,250,.35);border:1px solid rgba(167,139,250,.42);
+  transition:all .2s
+}
+.ar-item:hover .ar-dot,.ar-item.act .ar-dot{background:rgba(196,181,253,.85);box-shadow:0 0 6px rgba(196,181,253,.5)}
+.ar-id{font:700 8px monospace;letter-spacing:2px;color:rgba(196,181,253,.6);flex-shrink:0;min-width:34px}
+.ar-name{font:400 9px monospace;color:rgba(196,181,253,.42);overflow:hidden;text-overflow:ellipsis;transition:color .2s}
+.ar-item:hover .ar-name,.ar-item.act .ar-name{color:rgba(220,210,255,.88)}
+/* breach item red tint */
+.ar-item.breach-item .ar-id{color:rgba(255,100,100,.55)}
+.ar-item.breach-item .ar-dot{background:rgba(255,80,80,.35);border-color:rgba(255,80,80,.45)}
+
+
+/* ── Foreground decorative panoramics ── */
+.deco-layer{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  pointer-events:none;
+  mix-blend-mode:screen
+}
+#deco-rulepaper2{z-index:5}
+#deco-rulepaper{z-index:6}
+#deco-photo{z-index:7}
+
+/* ── Easter egg hotspot layer (JS-resized to match object-fit:cover area) ── */
+#hs-layer{position:fixed;pointer-events:none;z-index:25}
+.deco-hs{position:absolute;cursor:pointer;background:transparent;border:none;pointer-events:all}
+
+
+/* ── Glitch effect ── */
+#glitch-overlay{
+  position:fixed;inset:0;z-index:490;pointer-events:none;opacity:0
+}
+@keyframes g-scan{
+  0%,100%{opacity:0;background:none;transform:none}
+  7%{opacity:1;background:linear-gradient(transparent 22%,rgba(255,20,80,.1) 22%,rgba(255,20,80,.1) 25%,transparent 25%,transparent 68%,rgba(60,180,255,.08) 68%,rgba(60,180,255,.08) 71%,transparent 71%);transform:translateX(-5px)}
+  14%{opacity:0;transform:translateX(0)}
+  28%{opacity:1;background:linear-gradient(transparent 48%,rgba(255,210,0,.07) 48%,rgba(255,210,0,.07) 51%,transparent 51%);transform:translateX(4px)}
+  35%{opacity:0;transform:translateX(0)}
+  50%{opacity:1;background:linear-gradient(transparent 7%,rgba(255,20,80,.06) 7%,rgba(255,20,80,.06) 11%,transparent 11%);transform:translateX(-3px)}
+  57%{opacity:0;transform:translateX(0)}
+}
+#glitch-overlay.active{animation:g-scan .52s steps(1) forwards}
+@keyframes g-jitter{
+  0%,100%{}
+  9%{transform:translateX(-6px)}
+  18%{transform:translateX(4px)}
+  27%{transform:translateX(-4px) skewX(.4deg)}
+  36%{transform:translateX(5px)}
+  45%{transform:translateX(-2px)}
+  54%{transform:translateX(3px) skewX(-.2deg)}
+  63%{transform:translateX(-1px)}
+  72%{transform:translateX(2px)}
+}
+#gallery.glitch{animation:g-jitter .5s steps(1) forwards}
+
+/* ── Popup overlay ── */
+#popup-overlay{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(4,2,14,.78);backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;cursor:pointer
+}
+#popup-overlay.open{display:flex;animation:fadeUp .22s ease}
+#popup-box{
+  max-width:460px;width:88%;
+  border:1px solid rgba(167,139,250,.28);
+  background:rgba(6,3,18,.97);
+  padding:28px 32px 20px;position:relative;cursor:default
+}
+.popup-corner{position:absolute;width:10px;height:10px;border-color:rgba(196,181,253,.4);border-style:solid}
+.popup-corner.tl{top:7px;left:7px;border-width:1px 0 0 1px}
+.popup-corner.tr{top:7px;right:7px;border-width:1px 1px 0 0}
+#popup-title{
+  font:700 8px monospace;letter-spacing:4px;color:rgba(196,181,253,.5);
+  text-transform:uppercase;margin-bottom:16px;padding-bottom:10px;
+  border-bottom:1px solid rgba(167,139,250,.16)
+}
+#popup-body{
+  white-space:pre-wrap;font:400 10.5px/1.9 'Courier New',monospace;
+  color:rgba(185,170,225,.78);margin:0;display:block
+}
+#popup-dismiss{
+  font:400 8px monospace;letter-spacing:3px;color:rgba(167,139,250,.3);
+  margin-top:20px;text-align:center;text-transform:uppercase;
+  border-top:1px solid rgba(167,139,250,.1);padding-top:10px;cursor:pointer
+}
+
+/* ── Ghost / echo cards ── real images dimmed, visible as filler ── */
+.c-card.ghost{pointer-events:none;cursor:default!important}
+.c-card.ghost .c-frame{border:1px solid rgba(100,80,150,.12);box-shadow:none}
+.c-card.ghost .c-img{filter:brightness(.35) saturate(.1)}
+.card-row .c-card:nth-child(8){--rot:3.3deg;--ty:22px;opacity:.42}
+.card-row .c-card:nth-child(9){--rot:3.9deg;--ty:28px;opacity:.26}
+.card-row .c-card:nth-child(10){--rot:4.5deg;--ty:35px;opacity:.14}
+
+.fade-up{opacity:0;animation:fadeUp .8s ease forwards}
+</style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="stars"></div>
+
+<!-- Background -->
+<div id="bg">
+  <img src="assets/Curio/CURIOARRAYBG.webp" alt="">
+  <div id="bg-grad"></div>
+  <div id="bg-vign"></div>
+</div>
+
+<!-- Lamp: 燈具本體 -->
+<img id="lamp" src="assets/Curio/lamp.webp" alt="">
+<!-- Light2: 燈光閃爍效果，點擊燈時觸發 -->
+<img id="light2" src="assets/Curio/light2.webp" alt="">
+<!-- Glitch overlay -->
+<div id="glitch-overlay"></div>
+
+<!-- Foreground decorations -->
+<img id="deco-rulepaper2" class="deco-layer" src="assets/Curio/rulepaper2.webp" alt="">
+<img id="deco-rulepaper"  class="deco-layer" src="assets/Curio/rulepaper.webp"  alt="">
+<img id="deco-photo"      class="deco-layer" src="assets/Curio/photo.webp"       alt="">
+<!-- Hotspot layer — JS sizes this to match rendered object-fit:cover area -->
+<div id="hs-layer">
+  <div class="deco-hs" id="hs-lamp"       style="top:3%;left:71%;width:18%;height:23%"></div>
+  <div class="deco-hs" id="hs-rulepaper"  style="bottom:2%;left:22%;width:20%;height:20%"></div>
+  <div class="deco-hs" id="hs-photo"      style="bottom:2%;right:25%;width:15%;height:18%"></div>
+  <div class="deco-hs" id="hs-rulepaper2" style="bottom:2%;right:17%;width:6%;height:12%"></div>
+</div>
+
+<!-- Popup overlay -->
+<div id="popup-overlay">
+  <div id="popup-box">
+    <div class="popup-corner tl"></div>
+    <div class="popup-corner tr"></div>
+    <div id="popup-title"></div>
+    <pre id="popup-body"></pre>
+    <div id="popup-dismiss">[ 點擊任意處關閉觀測 ]</div>
+  </div>
+</div>
+
+<!-- Rail: 膠捲底片全景圖，和背景同層 -->
+<img id="rail" src="assets/Curio/rail.webp" alt="">
+
+<!-- Sidebar -->
+<div id="sidebar">
+  <div class="sb-head">
+    <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
+    <div class="sb-info">
+      <div class="sb-title">WUYAN'S ARCHIVE</div>
+      <div class="sb-sub">v2.1.0</div>
+      <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
+    </div>
+  </div>
+  <nav id="sb-nav"></nav>
+</div>
+
+<!-- Shell -->
+<div id="shell">
+<div id="main">
+
+  <!-- Header top-left -->
+  <div id="hdr">
+    <div class="hdr-badge">
+      <span class="hdr-badge-text">CONTAINMENT ARCHIVE</span>
+    </div>
+    <div class="hdr-title">奇物陣列：觀測庫</div>
+    <div class="hdr-en">ARTIFACT OBSERVATION ARCHIVE</div>
+    <div class="hdr-desc">某些事物在被注視前並不存在。<br>觀測行為本身，即是釋放程序。</div>
+    <div class="hdr-stats">
+      <span class="stat-item">已收容 <b>3</b> 件</span>
+      <span class="stat-sep">｜</span>
+      <span class="stat-item">未知 <b>4</b> 件</span>
+      <span class="stat-sep">｜</span>
+      <span class="stat-item">逃逸 <b>?</b> 件</span>
+    </div>
+  </div>
+
+
+  <!-- Aside rail menu -->
+  <aside id="aside-rail">
+    <div class="ar-inner">
+      <div class="ar-item act" data-card-id="0"><span class="ar-dot"></span><span class="ar-id">A-001</span><span class="ar-name">數樸之海</span></div>
+      <div class="ar-item" data-card-id="1"><span class="ar-dot"></span><span class="ar-id">A-002</span><span class="ar-name">撲克牌製造機</span></div>
+      <div class="ar-item breach-item" data-card-id="2"><span class="ar-dot"></span><span class="ar-id">A-003</span><span class="ar-name">[已塗除]</span></div>
+      <div class="ar-item" data-card-id="3"><span class="ar-dot"></span><span class="ar-id">A-004</span><span class="ar-name">塔羅抽卡機</span></div>
+      <div class="ar-item" data-card-id="4"><span class="ar-dot"></span><span class="ar-id">A-005</span><span class="ar-name">抽獎機/爬梯子</span></div>
+      <div class="ar-item" data-card-id="5"><span class="ar-dot"></span><span class="ar-id">A-006</span><span class="ar-name">壽司列車</span></div>
+      <div class="ar-item" data-card-id="6"><span class="ar-dot"></span><span class="ar-id">A-007</span><span class="ar-name">騙人的恐懼測驗</span></div>
+    </div>
+  </aside>
+
+  <!-- Gallery -->
+  <div id="gallery">
+
+    <!-- < > nav -->
+    <div id="card-nav">
+      <button id="prev-card" class="cnav">&#8249;</button>
+      <button id="next-card" class="cnav">&#8250;</button>
+    </div>
+
+    <div class="card-row">
+
+      <!-- A-001 數樸之海 — contained -->
+      <div class="c-card fade-up" data-card-id="0" style="animation-delay:.3s" onclick="location.href='project_datasea.html'">
+        <div class="c-frame">
+          <div class="c-id">A-001</div>
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_datasea.png" alt="數樸之海"></div>
+          <span class="c-stamp stamp-ok">已收容</span>
+        </div>
+        <div class="c-label">
+          <div class="c-name">數樸之海</div>
+          <div class="c-sub">探索數字現實的沙盒</div>
+          <div class="c-date"><span>觀測記錄：</span>2024.03.12</div>
+        </div>
+      </div>
+
+      <!-- A-002 撲克牌製造機 — contained -->
+      <div class="c-card fade-up" data-card-id="1" style="animation-delay:.42s" onclick="location.href='project_holocard.html'">
+        <div class="c-frame">
+          <div class="c-id">A-002</div>
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_poker.png" alt="撲克牌製造機"></div>
+          <span class="c-stamp stamp-ok">已收容</span>
+        </div>
+        <div class="c-label">
+          <div class="c-name">撲克牌製造機</div>
+          <div class="c-sub">製造命運的可能性</div>
+          <div class="c-date"><span>觀測記錄：</span>2024.04.02</div>
+        </div>
+      </div>
+
+      <!-- A-003 — CONTAINMENT BREACH -->
+      <div class="c-card breach fade-up" data-card-id="2" style="animation-delay:.54s">
+        <div class="c-frame">
+          <div class="c-id">A-003</div>
+          <div class="crack"></div>
+          <div class="c-img-wrap" style="background:rgba(12,4,4,.92)">
+            <img class="c-img" src="assets/Curio/card_tarot.png" alt="" style="opacity:.18;filter:brightness(.3) saturate(.2)">
+          </div>
+          <div class="breach-over">
+            <div class="breach-rule"></div>
+            <div class="breach-main">警告<br>收容失敗</div>
+            <div class="breach-en">CONTAINMENT FAILED</div>
+            <div class="breach-rule"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A-004 塔羅抽卡機 — contained -->
+      <div class="c-card fade-up" data-card-id="3" style="animation-delay:.66s" onclick="location.href='project_tarot.html'">
+        <div class="c-frame">
+          <div class="c-id">A-004</div>
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_tarot.png" alt="塔羅抽卡機"></div>
+          <span class="c-stamp stamp-ok">已收容</span>
+        </div>
+        <div class="c-label">
+          <div class="c-name">塔羅抽卡機</div>
+          <div class="c-sub">遴選需查遍的牌候</div>
+          <div class="c-date"><span>觀測記錄：</span>???</div>
+        </div>
+      </div>
+
+      <!-- A-005 — unknown (膠捲破損) -->
+      <div class="c-card unk fade-up" data-card-id="4" style="animation-delay:.78s">
+        <div class="c-frame">
+          <div class="c-id">A-005</div>
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_empty.png" alt=""></div>
+          <div class="breach-over" style="background:rgba(4,2,14,.55)">
+            <div class="breach-rule"></div>
+            <div class="breach-main">警告<br>收容失敗</div>
+            <div class="breach-en">CONTAINMENT FAILED</div>
+            <div class="breach-rule"></div>
+          </div>
+          <span class="c-stamp stamp-unk">???</span>
+        </div>
+        <div class="c-label">
+          <div class="c-name">抽獎機 / 爬梯子</div>
+          <div class="c-sub">機率與選擇的迷藏</div>
+          <div class="c-date"><span>觀測記錄：</span>???</div>
+        </div>
+      </div>
+
+      <!-- A-006 — unknown -->
+      <div class="c-card unk fade-up" data-card-id="5" style="animation-delay:.9s">
+        <div class="c-frame">
+          <div class="c-id">A-006</div>
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_empty.png" alt=""></div>
+          <div class="breach-over" style="background:rgba(4,2,14,.55)">
+            <div class="breach-rule"></div>
+            <div class="breach-main">警告<br>收容失敗</div>
+            <div class="breach-en">CONTAINMENT FAILED</div>
+            <div class="breach-rule"></div>
+          </div>
+          <span class="c-stamp stamp-unk">???</span>
+        </div>
+        <div class="c-label">
+          <div class="c-name">壽司列車</div>
+          <div class="c-sub">傳遞縫隙間的遊廊頁</div>
+          <div class="c-date"><span>觀測記錄：</span>???</div>
+        </div>
+      </div>
+
+      <!-- A-007 — unknown -->
+      <div class="c-card unk fade-up" data-card-id="6" style="animation-delay:1.02s">
+        <div class="c-frame">
+          <div class="c-id">A-007</div>
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_empty.png" alt=""></div>
+          <div class="breach-over" style="background:rgba(4,2,14,.55)">
+            <div class="breach-rule"></div>
+            <div class="breach-main">警告<br>收容失敗</div>
+            <div class="breach-en">CONTAINMENT FAILED</div>
+            <div class="breach-rule"></div>
+          </div>
+          <span class="c-stamp stamp-unk">???</span>
+        </div>
+        <div class="c-label">
+          <div class="c-name">騙人的恐懼測驗</div>
+          <div class="c-sub">直視內心的認識論</div>
+          <div class="c-date"><span>觀測記錄：</span>???</div>
+        </div>
+      </div>
+
+      <!-- Ghost / echo cards — real images dimmed, fill rail at wide viewports -->
+      <div class="c-card ghost">
+        <div class="c-frame">
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_datasea.png" alt=""></div>
+        </div>
+      </div>
+      <div class="c-card ghost">
+        <div class="c-frame">
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_poker.png" alt=""></div>
+        </div>
+      </div>
+      <div class="c-card ghost">
+        <div class="c-frame">
+          <div class="c-img-wrap"><img class="c-img" src="assets/Curio/card_tarot.png" alt=""></div>
+        </div>
+      </div>
+
+    </div><!-- /card-row -->
+  </div><!-- /gallery -->
+
+</div>
+</div>
+
+<script>
+// Adaptive card-row padding — centers cards when they all fit, falls back to default when they overflow
+(function syncPadding(){
+  const row=document.querySelector('.card-row');
+  const minPad=clamp(48,5,80); // mirrors CSS clamp(48px,5vw,80px)
+  function clamp(lo,vwPct,hi){return Math.min(hi,Math.max(lo,window.innerWidth*vwPct/100))}
+  function run(){
+    const cards=Array.from(row.querySelectorAll('.c-card'));
+    if(!cards.length)return;
+    const gap=parseFloat(getComputedStyle(row).gap)||30;
+    const cardW=cards[0].getBoundingClientRect().width||clamp(165,13,210);
+    const total=cards.length*cardW+(cards.length-1)*gap;
+    const avail=window.innerWidth;
+    if(total+minPad*2<avail){
+      const pad=(avail-total)/2;
+      row.style.paddingLeft=pad+'px';
+      row.style.paddingRight=pad+'px';
+    }else{
+      row.style.paddingLeft='';
+      row.style.paddingRight='';
+    }
+  }
+  window.addEventListener('resize',run);
+  requestAnimationFrame(run);
+})();
+
+// Hotspot layer — resize to match object-fit:cover rendered area of the BG image
+(function(){
+  const bgImg=document.querySelector('#bg img');
+  const layer=document.getElementById('hs-layer');
+  function update(){
+    const vW=window.innerWidth,vH=window.innerHeight;
+    const iW=bgImg.naturalWidth||1920,iH=bgImg.naturalHeight||1080;
+    const scale=Math.max(vW/iW,vH/iH);
+    const rW=iW*scale,rH=iH*scale;
+    const oX=(vW-rW)/2,oY=(vH-rH)/2;
+    layer.style.cssText=`position:fixed;left:${oX}px;top:${oY}px;width:${rW}px;height:${rH}px;pointer-events:none;z-index:25`;
+  }
+  if(bgImg.complete&&bgImg.naturalWidth)update();
+  else bgImg.addEventListener('load',update);
+  window.addEventListener('resize',update);
+})();
+
+// Sidebar nav
+(function(){
+  const NAVS=[
+    {en:'HOME',       zh:'首頁',     icon:'assets/icon/Home.png',        href:'homepage_final.html'},
+    {en:'ARCHIVE',    zh:'作品集',   icon:'assets/icon/File.png',        href:'works_v3.html'},
+    {en:'COMMISSION', zh:'委託',     icon:'assets/icon/Pay.png',         href:'commission.html'},
+    {en:'SIGNAL',     zh:'訊號站',   icon:'assets/icon/Comment.png',     href:'signal.html'},
+    {en:'CURIO',      zh:'奇物陣列', icon:'assets/icon/LittleWorld.png', href:'curio.html', act:true},
+  ];
+  const nav=document.getElementById('sb-nav');
+  NAVS.forEach(n=>{
+    const a=document.createElement('a');
+    a.className='ni'+(n.act?' act':'');
+    a.href=n.href||'#';
+    a.innerHTML=`<img class="ni-icon" src="${n.icon}" alt=""><div class="ni-text"><div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div></div>`;
+    a.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+    a.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+    nav.appendChild(a);
+  });
+})();
+
+// Stars
+(function(){
+  const c=document.getElementById('stars');
+  const colors=['#ffffff','rgba(255,185,215,1)','rgba(165,215,255,1)','rgba(255,220,140,1)'];
+  for(let i=0;i<65;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*1.8+.4;
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*55}%;width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};--d:${2.5+Math.random()*4}s;--dl:${-Math.random()*4}s;--a:${.12+Math.random()*.5}`;
+    c.appendChild(s);
+  }
+})();
+
+// Cursor
+(function(){
+  const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+  document.querySelectorAll('a,button,[onclick],.ar-item,.deco-hs').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+  });
+  (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+})();
+
+// Circular carousel — FLIP DOM rotation
+(function(){
+  const row=document.querySelector('.card-row');
+  const gallery=document.getElementById('gallery');
+  const arItems=Array.from(document.querySelectorAll('.ar-item'));
+  const prev=document.getElementById('prev-card');
+  const next=document.getElementById('next-card');
+  const N=7, CENTER=3;
+  // Arc values per DOM position, mirrors nth-child CSS
+  const ROT=[-2.7,-1.8,-0.9,0,0.9,1.8,2.7];
+  const TY=[16,7,2,0,2,7,16];
+  let busy=false;
+
+  // Only real cards (with data-card-id), never ghost cards
+  function getCards(){return Array.from(row.querySelectorAll('.c-card[data-card-id]'))}
+  function getFirstGhost(){return row.querySelector('.c-card:not([data-card-id])')}
+
+  function updateAside(){
+    const cId=parseInt(getCards()[CENTER].dataset.cardId);
+    arItems.forEach(it=>it.classList.toggle('act',parseInt(it.dataset.cardId)===cId));
+  }
+
+  function triggerGlitch(){
+    const ov=document.getElementById('glitch-overlay');
+    const gal=document.getElementById('gallery');
+    ov.classList.remove('active');gal.classList.remove('glitch');
+    void ov.offsetWidth;
+    ov.classList.add('active');gal.classList.add('glitch');
+    setTimeout(()=>{ov.classList.remove('active');gal.classList.remove('glitch')},530);
+  }
+
+  function rotate(steps){
+    if(busy||steps===0)return;
+    busy=true;
+    triggerGlitch();
+
+    const cards=getCards();
+    // 1. Snapshot current x positions
+    const initX=cards.map(c=>c.getBoundingClientRect().left);
+
+    // 2. Rotate DOM — keep ghost cards anchored at the end
+    for(let i=0;i<Math.abs(steps);i++){
+      const cur=getCards();
+      const ghost=getFirstGhost();
+      if(steps>0){
+        // move first real card to just before the first ghost (= end of real cards)
+        if(ghost)row.insertBefore(cur[0],ghost);
+        else row.appendChild(cur[0]);
+      }else{
+        row.insertBefore(cur[N-1],cur[0]);
+      }
+    }
+
+    // 3. New positions after DOM mutation
+    const nc=getCards();
+    const newX=nc.map(c=>c.getBoundingClientRect().left);
+
+    // 4. FLIP invert — put each card back where it visually was
+    const s=((steps%N)+N)%N;
+    nc.forEach((card,i)=>{
+      const dx=initX[(i+s)%N]-newX[i];
+      card.style.transition='none';
+      card.style.transform=`translateX(${dx}px) rotate(${ROT[i]}deg) translateY(${TY[i]}px)`;
+    });
+
+    // 5. Force reflow, then play to natural positions
+    void row.offsetHeight;
+    nc.forEach((card,i)=>{
+      card.style.transition='transform .42s cubic-bezier(.25,.46,.45,.94)';
+      card.style.transform=`translateX(0px) rotate(${ROT[i]}deg) translateY(${TY[i]}px)`;
+      card.addEventListener('transitionend',()=>{
+        card.style.transition='';
+        card.style.transform='';
+      },{once:true});
+    });
+
+    updateAside();
+    setTimeout(()=>{busy=false},460);
+  }
+
+  prev.addEventListener('click',()=>rotate(-1));
+  next.addEventListener('click',()=>rotate(1));
+
+  arItems.forEach(item=>{
+    item.addEventListener('click',()=>{
+      const tid=parseInt(item.dataset.cardId);
+      const cur=getCards();
+      const idx=cur.findIndex(c=>parseInt(c.dataset.cardId)===tid);
+      if(idx===CENTER)return;
+      let steps=idx-CENTER;
+      if(steps>N/2)steps-=N;
+      if(steps<-N/2)steps+=N;
+      rotate(steps);
+    });
+  });
+
+  // Wheel within gallery (throttled by busy flag)
+  gallery.addEventListener('wheel',e=>{
+    e.preventDefault();
+    rotate(e.deltaY>0?1:-1);
+  },{passive:false});
+
+  // Arrow keys
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft'){e.preventDefault();rotate(-1);}
+    if(e.key==='ArrowRight'){e.preventDefault();rotate(1);}
+  });
+})();
+
+// Easter eggs — canvas pixel sampling: click anywhere on the visible image content to trigger
+(function(){
+  const overlay=document.getElementById('popup-overlay');
+  const titleEl=document.getElementById('popup-title');
+  const bodyEl=document.getElementById('popup-body');
+  const l2=document.getElementById('light2');
+
+  // ── Popup messages ──
+  const msgs={
+    rulepaper:{
+      t:'觀測守則 · 機密等級 B-2',
+      b:`第○一條　觀測者不得干涉奇物本體。
+第○二條　觀測記錄以最後一份感知為準，
+　　　　　感知不一致時亦同。
+第○三條　觀測行為本身即構成收容程序。
+第○四條　如感知到「被觀測」，立即中止記錄。
+第○五條　本守則在被閱讀後自動更新。
+
+───────────────────────
+最後更新：不明
+此份守則可能與您記憶中的版本不同。`
+    },
+    photo:{
+      t:'附件 B-17 · 影像分析報告',
+      b:`拍攝日期　：????-??-??
+拍攝地點　：B-17 展區，第三走廊
+拍攝者　　：[已塗除]
+影像內容　：[已塗除]
+
+備　　　注：此影像在沖洗後出現了
+　　　　　　攝影者不記得拍攝的物體。
+
+　　　　　　影像在每次觀測後，
+　　　　　　細節有微幅但可量測的差異。
+
+　　　　　　請勿長時間直視。
+
+───────────────────────
+[ 若您在觀測前已見過此影像，
+　請立即向主任報告 ]`
+    },
+    rulepaper2:{
+      t:'內部補充說明 · 觀測人員限閱',
+      b:`關於奇物觀測庫本體：
+
+　目前尚無定論此觀測庫本身
+　是否構成第三類收容目標。
+
+　部分觀測人員的記錄顯示，
+　庫中奇物的數量在不同次觀測間
+　有時會有出入。
+
+　如您確信目前所見與上次不同，
+　這屬於正常的觀測誤差。
+
+　　　　　　　↑
+　　　　（此條目存疑）
+
+───────────────────────
+[ 此說明僅供參考，不構成正式報告 ]`
+    }
+  };
+
+  function showPopup(key){
+    const m=msgs[key];if(!m)return;
+    titleEl.textContent=m.t;bodyEl.textContent=m.b;
+    overlay.classList.add('open');
+  }
+  function closePopup(){overlay.classList.remove('open');}
+  overlay.addEventListener('click',e=>{
+    if(e.target===overlay||e.target.id==='popup-dismiss')closePopup();
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closePopup();});
+
+  // ── Lamp flash ──
+  let flashing=false;
+  function flashLamp(){
+    if(flashing)return;flashing=true;
+    const seq=[.3,.9,.1,.8,.05,.95,.2,1,.4,.7,.05,.9,.3,1];
+    let i=0;
+    function tick(){
+      if(i>=seq.length){l2.style.opacity='1';flashing=false;return;}
+      l2.style.opacity=seq[i++];setTimeout(tick,50+Math.random()*55);
+    }
+    tick();
+  }
+
+  // ── Hotspot click handlers (homepage-style fixed %) ──
+  document.getElementById('hs-lamp').addEventListener('click',flashLamp);
+  document.getElementById('hs-rulepaper').addEventListener('click',()=>showPopup('rulepaper'));
+  document.getElementById('hs-photo').addEventListener('click',()=>showPopup('photo'));
+  document.getElementById('hs-rulepaper2').addEventListener('click',()=>showPopup('rulepaper2'));
+})();
+</script>
+</body>
+</html>

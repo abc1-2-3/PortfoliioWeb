@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sidebar.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
@@ -56,47 +57,6 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
   )
 }
 
-/* ── Sidebar ── */
-#sidebar{
-  position:fixed;left:0;top:0;bottom:0;width:220px;
-  background:linear-gradient(to bottom,rgba(16,10,32,.90) 0%,rgba(8,5,16,.95) 35%,rgba(4,3,10,.99) 100%);
-  backdrop-filter:blur(24px) saturate(1.3);
-  border-right:1px solid rgba(167,139,250,.18);overflow:hidden;z-index:50;
-  transform:translateX(calc(-100% + 16px));
-  transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s
-}
-#sidebar:hover{transform:translateX(0);box-shadow:4px 0 44px rgba(0,0,0,.75),0 0 0 1px rgba(167,139,250,.1)}
-#sidebar::before{
-  content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;
-  background:linear-gradient(to bottom,transparent,rgba(167,139,250,.72) 40%,rgba(165,215,255,.58) 60%,transparent);
-  transition:opacity .25s
-}
-#sidebar:hover::before{opacity:0}
-#sidebar::after{
-  content:'';position:absolute;left:36px;top:80px;bottom:80px;width:1.5px;
-  background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);
-  box-shadow:0 0 6px rgba(167,139,250,.28)
-}
-.sb-head{display:flex;align-items:center;gap:12px;padding:20px 20px 16px;border-bottom:1px solid rgba(167,139,250,.12)}
-.sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(5,10,30,.6);flex-shrink:0;box-shadow:0 0 12px rgba(167,139,250,.22)}
-.sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
-.sb-title{font:800 15px var(--ff-m);letter-spacing:3.5px;color:rgba(210,196,255,.95);text-transform:uppercase;line-height:1.4}
-.sb-sub{font:400 9px var(--ff-m);color:var(--ink-3);letter-spacing:2.5px;margin-top:5px;opacity:.65}
-.sb-pulse{display:flex;align-items:center;gap:6px;margin-top:5px}
-.sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:pulse-dot 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
-.sb-online{font:400 10px var(--ff-m);letter-spacing:2px;color:rgba(80,255,120,.58)}
-@keyframes pulse-dot{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.5);opacity:1}}
-#sb-nav{padding:14px 0 20px}
-.ni{display:flex;align-items:center;gap:12px;padding:11px 20px;cursor:pointer;transition:background .22s,transform .22s;text-decoration:none;margin-bottom:4px}
-.ni:hover{background:rgba(110,55,195,.10);transform:translateX(4px)}
-.ni.act{background:rgba(110,55,195,.08);box-shadow:inset 3px 0 0 rgba(196,181,253,.92),inset 10px 0 20px rgba(167,139,250,.10)}
-.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.70;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
-.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.95}
-.ni-en{font:400 13px var(--ff-m);letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
-.ni-zh{font:400 10px var(--ff-m);color:rgba(155,135,200,.55);letter-spacing:1px;margin-top:3px;transition:color .22s}
-.ni:hover .ni-en,.ni.act .ni-en{color:rgba(232,224,255,.97)}
-.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(210,200,240,.88)}
-
 /* ── App shell ── */
 .app{
   position:relative;z-index:1;height:100vh;width:100%;
@@ -106,21 +66,32 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 /* ── Topbar ── */
 .topbar{
   display:grid;grid-template-columns:1fr auto 1fr;
-  align-items:center;gap:24px;padding:0 32px;height:52px;
-  background:rgba(4,2,14,.62);backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(240,165,205,.12);
-  box-shadow:0 1px 24px rgba(0,0,0,.5);position:relative;z-index:5
+  align-items:center;gap:24px;padding:15px 40px;
+  background:linear-gradient(180deg,rgba(4,2,14,.90) 0%,rgba(4,2,14,.60) 65%,transparent 100%);
+  backdrop-filter:blur(14px);
+  position:relative;z-index:5
 }
-.topbar-left{display:flex;align-items:center;gap:12px;font:400 11px var(--ff-m);letter-spacing:.18em;color:var(--ink-2)}
+.tb-brand{font:400 13px var(--ff-m);letter-spacing:.34em;color:rgba(240,165,205,.92)}
 .topbar-title{text-align:center}
-.topbar-title h1{font:400 13px var(--ff-m);letter-spacing:.45em;color:var(--ink-0);margin:0}
-.topbar-title .sub{margin-top:3px;font-size:10px;letter-spacing:.35em;color:var(--ink-2)}
+.topbar-title h1{font:300 clamp(20px,2.4vw,30px) var(--ff-s);letter-spacing:.3em;color:var(--ink-0);margin:0;text-shadow:0 0 22px rgba(167,139,250,.5)}
+.topbar-title .sub{margin-top:5px;font:400 11px var(--ff-m);letter-spacing:.38em;color:var(--ink-2)}
 .topbar-right{display:flex;align-items:center;gap:16px;justify-content:flex-end;font:400 11px var(--ff-m);letter-spacing:.18em;color:var(--ink-2)}
 .topbar-right .clock{color:var(--violet-bright);font-size:13px;letter-spacing:.14em}
 .status-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}
 
 /* ── Sky content area ── */
 .sky-area{position:relative;overflow:hidden}
+/* 星空提示 */
+.sky-hint{
+  position:absolute;top:22px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;
+  font:400 11px var(--ff-m);letter-spacing:.24em;color:rgba(218,208,255,.90);
+  white-space:nowrap;pointer-events:none;z-index:5;
+  animation:hint-glow 3.5s ease-in-out infinite;
+  text-shadow:0 0 14px rgba(196,181,253,.55)
+}
+.sky-hint::before,.sky-hint::after{content:'';display:block;width:24px;height:1px;background:rgba(196,181,253,.65)}
+@keyframes hint-glow{0%,100%{opacity:.70}50%{opacity:1}}
 
 /* ── Star nodes ── */
 .star-node{
@@ -302,13 +273,13 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 .star-node:hover .sc-platform{animation:textIn .26s ease both;animation-delay:.30s}
 .star-node:hover .sc-desc{animation:textIn .26s ease both;animation-delay:.38s}
 .star-node:hover .sc-btn{animation:textIn .24s ease both;animation-delay:.46s}
-.sc-platform{font:600 10px var(--ff-m);letter-spacing:.25em;color:var(--sc);text-transform:uppercase;margin-bottom:4px}
-.sc-desc{font:400 11px var(--ff-m);color:var(--ink-2);letter-spacing:.06em;line-height:1.55;margin-bottom:10px}
+.sc-platform{font:600 12px var(--ff-m);letter-spacing:.25em;color:var(--sc);text-transform:uppercase;margin-bottom:5px}
+.sc-desc{font:400 12px var(--ff-m);color:rgba(200,188,235,.78);letter-spacing:.06em;line-height:1.6;margin-bottom:12px}
 .sc-btn{
   display:flex;align-items:center;justify-content:center;gap:5px;
-  padding:6px 12px;border-radius:6px;
+  padding:7px 14px;border-radius:6px;
   background:var(--sc-dim);border:1px solid var(--sc-mid);
-  color:var(--sc);font:500 10px var(--ff-m);letter-spacing:.18em;
+  color:var(--sc);font:500 11px var(--ff-m);letter-spacing:.18em;
   text-decoration:none;text-transform:uppercase;transition:all .18s;cursor:pointer;
   width:100%
 }
@@ -317,10 +288,10 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 /* ── Signal footer ── */
 .signal-footer{
   position:absolute;bottom:0;left:0;right:0;
-  padding:32px 40px 48px;
-  background:linear-gradient(to top,rgba(4,2,14,.94) 0%,rgba(4,2,14,.80) 38%,rgba(4,2,14,.42) 68%,transparent 100%);
+  padding:28px 40px 44px;
+  background:linear-gradient(to top,rgba(4,2,14,.97) 0%,rgba(4,2,14,.88) 32%,rgba(4,2,14,.60) 62%,rgba(4,2,14,.22) 82%,transparent 100%);
   z-index:10;
-  display:flex;flex-direction:column;align-items:center;gap:20px
+  display:flex;flex-direction:column;align-items:center;gap:18px
 }
 
 /* Visitor counter */
@@ -334,38 +305,65 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent
 }
 
-/* Emoji reactions */
-.reactions-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
-.reactions-label{font:400 11px var(--ff-m);letter-spacing:.3em;color:var(--ink-1);text-transform:uppercase;margin-right:4px}
-.emoji-btn{
-  display:flex;align-items:center;gap:6px;
-  padding:8px 16px;border-radius:999px;
-  background:rgba(8,4,22,.72);border:1px solid rgba(167,139,250,.28);
-  backdrop-filter:blur(12px);cursor:pointer;
-  font:400 11px var(--ff-m);letter-spacing:.1em;color:var(--ink-1);
-  transition:all .22s;user-select:none
+/* ── Mark section (留下足跡) ── */
+.mark-section{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.mark-header{text-align:center}
+.mark-title-row{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:4px}
+.mark-title-line{width:44px;height:1px;background:rgba(167,139,250,.42)}
+.mark-title-star{color:rgba(196,181,253,.80);font-size:12px}
+.mark-title{font:200 26px var(--ff-s);letter-spacing:.14em;color:var(--ink-0)}
+.mark-sub{font:400 10px var(--ff-m);letter-spacing:.48em;color:rgba(196,181,253,.78);text-transform:uppercase;text-align:center}
+.mark-cards{display:flex;align-items:flex-end;gap:14px;justify-content:center}
+.mark-card{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;
+  padding:20px 14px 14px;width:130px;
+  background:rgba(6,3,22,.80);
+  border:1px solid rgba(167,139,250,.22);
+  cursor:pointer;transition:all .22s;user-select:none
 }
-.emoji-btn .ej{font-size:15px;line-height:1;transition:transform .22s}
-.emoji-btn:hover{
-  background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.42);
-  color:var(--ink-0);transform:translateY(-2px);
-  box-shadow:0 4px 18px rgba(167,139,250,.16)
+.mark-card:hover{border-color:rgba(196,181,253,.52);background:rgba(10,5,32,.90);transform:translateY(-6px);box-shadow:0 12px 36px rgba(167,139,250,.22)}
+.mark-card.voted{border-color:rgba(196,181,253,.38);box-shadow:0 0 18px rgba(167,139,250,.14)}
+.mark-card::before{content:'';position:absolute;inset:5px;border:1px solid rgba(167,139,250,.10);pointer-events:none}
+.card-badge{
+  position:absolute;top:-12px;right:-12px;
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(6,3,18,.96);border:1px solid rgba(196,181,253,.55);
+  display:flex;align-items:center;justify-content:center;
+  font:700 10px var(--ff-m);color:var(--violet-bright);letter-spacing:0
 }
-.emoji-btn:hover .ej{transform:scale(1.25)}
-.emoji-btn.clicked{
-  background:rgba(167,139,250,.16);border-color:rgba(196,181,253,.5);
-  color:var(--violet-bright);
-  box-shadow:0 0 12px rgba(167,139,250,.22),inset 0 0 10px rgba(167,139,250,.06)
+.card-img{
+  width:68px;height:68px;object-fit:contain;
+  filter:drop-shadow(0 0 8px rgba(167,139,250,.34));
+  transition:filter .22s,transform .22s
 }
-.emoji-btn.clicked .ej{animation:emoji-pop .32s cubic-bezier(.34,1.56,.64,1)}
-@keyframes emoji-pop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
+.mark-card:hover .card-img{filter:drop-shadow(0 0 18px rgba(196,181,253,.65));transform:scale(1.1)}
+.mark-card.voted .card-img{filter:drop-shadow(0 0 12px rgba(196,181,253,.52))}
+.card-name-en{font:400 11px var(--ff-m);letter-spacing:.14em;color:rgba(232,224,255,.92);text-transform:uppercase}
+.card-name-zh{font:400 11px var(--ff-m);color:rgba(200,185,240,.78);letter-spacing:.05em}
+.card-count{font:600 22px var(--ff-m);letter-spacing:.04em;color:rgba(196,181,253,.94);margin-top:2px}
+.mark-hint{font:400 10px var(--ff-m);letter-spacing:.20em;color:rgba(180,165,220,.65)}
+.plus-one{
+  position:absolute;top:-26px;left:50%;
+  transform:translateX(-50%);
+  font:700 14px var(--ff-m);color:var(--violet-bright);
+  pointer-events:none;text-shadow:0 0 12px rgba(196,181,253,.7);
+  animation:plus-float 1s ease-out forwards
+}
+@keyframes plus-float{
+  0%{opacity:1;transform:translateX(-50%) translateY(0)}
+  100%{opacity:0;transform:translateX(-50%) translateY(-32px)}
+}
 
 /* ── Responsive ── */
 @media(max-width:768px){
   .topbar{padding:0 16px}
   .topbar-left span:not(:first-child){display:none}
-  .signal-footer{padding:12px 16px 24px}
-  .reactions-label{display:none}
+  .signal-footer{padding:14px 16px 24px}
+  .mark-cards{gap:8px}
+  .mark-card{width:98px;padding:14px 10px 10px;gap:5px}
+  .card-img{width:50px;height:50px}
+  .card-count{font-size:16px}
+  .mark-title{font-size:20px}
 }
 </style>
 </head>
@@ -393,17 +391,12 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 
 <div class="app">
   <header class="topbar">
-    <div class="topbar-left">
-      <span>WUYAN'S ARCHIVE</span>
-      <span style="color:var(--ink-3)">v2.1</span>
-      <span style="color:#4ade80">● ONLINE</span>
-    </div>
+    <div class="tb-brand">✦ WUYAN · ARCHIVE</div>
     <div class="topbar-title">
       <h1>SIGNAL&nbsp;&nbsp;STATION</h1>
       <div class="sub">找到我在宇宙的座標</div>
     </div>
     <div class="topbar-right">
-      <span>CHANNEL OPEN</span>
       <span class="status-dot"></span>
       <span class="clock" id="clock">00:00:00</span>
     </div>
@@ -411,6 +404,7 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 
   <div class="sky-area" id="sky-area">
     <div id="star-links"></div>
+    <div class="sky-hint">懸停星點 · 查看連結</div>
 
     <div class="signal-footer">
       <div class="visitor-hud">
@@ -418,8 +412,19 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
         <span class="vc-num" id="vc-num">—</span>
         <span>次</span>
       </div>
-      <div class="reactions-wrap" id="reactions-wrap">
-        <span class="reactions-label">路過留個印記</span>
+      <div class="mark-section">
+        <div class="mark-header">
+          <div class="mark-title-row">
+            <span class="mark-title-line"></span>
+            <span class="mark-title-star">✦</span>
+            <span class="mark-title">留下足跡</span>
+            <span class="mark-title-star">✦</span>
+            <span class="mark-title-line"></span>
+          </div>
+          <div class="mark-sub">LEAVE YOUR MARK</div>
+        </div>
+        <div class="mark-cards" id="mark-cards"></div>
+        <div class="mark-hint">點擊圖示，記錄你到此一遊的痕跡 ✦</div>
       </div>
     </div>
   </div>
@@ -471,17 +476,18 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 /* ── Sidebar ── */
 (function(){
   var NAVS=[
-    {href:'homepage_final.html',icon:'Home.png',    en:'HOME',       zh:'回到起點'},
-    {href:'works_v3.html',      icon:'File.png',    en:'ARCHIVE',    zh:'作品庫'},
-    {href:'commission.html',    icon:'Pay.png',     en:'COMMISSION', zh:'委託資訊'},
-    {href:'signal.html',        icon:'Comment.png', en:'SIGNAL',     zh:'訊號站'},
+    {href:'homepage_final.html',    icon:'Home.png',       en:'HOME',       zh:'回到起點'},
+    {href:'works_v3.html',          icon:'File.png',       en:'ARCHIVE',    zh:'作品庫'},
+    {href:'commission.html',        icon:'Pay.png',        en:'COMMISSION', zh:'委託資訊'},
+    {href:'signal.html',            icon:'Comment.png',    en:'SIGNAL',     zh:'訊號站'},
+    {href:'curio.html',             icon:'LittleWorld.png',en:'CURIO',      zh:'奇物陣列'},
   ];
   var nav=document.getElementById('sb-nav');
   NAVS.forEach(function(n){
     var a=document.createElement('a');
     a.className='ni'+(location.pathname.includes(n.href)||location.href.includes(n.href)?' act':'');
     a.href=n.href;
-    a.innerHTML='<img class="ni-icon" src="assets/icon/'+n.icon+'" alt=""><div><div class="ni-en">'+n.en+'</div><div class="ni-zh">'+n.zh+'</div></div>';
+    a.innerHTML='<img class="ni-icon" src="assets/icon/'+n.icon+'" alt=""><div class="ni-text"><div class="ni-en">'+n.en+'</div><div class="ni-zh">'+n.zh+'</div></div>';
     nav.appendChild(a);
     if(window._addHov)window._addHov(a);
   });
@@ -489,47 +495,49 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 
 /* ── Star link nodes ── */
 (function(){
-  /* sx/sy = position within sky-area (% left / % top)
-     ss = dot size   sf = float duration   sd = animation delay
-     sc = solid color   sc-mid = 45% alpha   sc-dim = 18% alpha */
   var LINKS=[
     {
       platform:'X · Twitter', desc:'日常碎片・作品更新・隨機碎念',
-      href:'#', btnLabel:'前往 →',
-      sc:'165,215,255',   /* azure  */
-      sx:'17%', sy:'20%', ss:'15px', sf:'4.2s', sd:'0s',
+      href:'https://x.com/wuyan4411', btnLabel:'前往 →',
+      sc:'165,215,255',
+      sx:'16%', sy:'20%', ss:'15px', sf:'4.2s', sd:'0s',
     },
     {
-      platform:'GitHub', desc:'技術合作・開放程式碼',
-      href:'#', btnLabel:'前往 →',
-      sc:'196,181,253',   /* violet */
-      sx:'44%', sy:'11%', ss:'12px', sf:'3.7s', sd:'.6s',
+      platform:'GitHub', desc:'技術合作・開放原始碼',
+      href:'https://github.com/abc1-2-3', btnLabel:'前往 →',
+      sc:'196,181,253',
+      sx:'42%', sy:'11%', ss:'12px', sf:'3.7s', sd:'.6s',
     },
     {
-      platform:'Discord', desc:'即時聊天・交流想法與靈感',
-      href:'#', btnLabel:'複製帳號',
-      sc:'129,140,248',   /* indigo */
-      sx:'71%', sy:'22%', ss:'14px', sf:'5.1s', sd:'1.1s',
+      platform:'YouTube', desc:'影片・直播存檔・Vtuber 作品',
+      href:'https://www.youtube.com/channel/UC_j9cYy739FhjjaTb6zU3yA', btnLabel:'前往頻道 →',
+      sc:'255,130,120',
+      sx:'74%', sy:'22%', ss:'14px', sf:'5.1s', sd:'1.1s',
+    },
+    {
+      platform:'Twitch', desc:'直播頻道・即時互動',
+      href:'https://www.twitch.tv/wuyan1234yyy', btnLabel:'前往直播 →',
+      sc:'180,130,255',
+      sx:'60%', sy:'41%', ss:'11px', sf:'4.0s', sd:'.8s',
     },
     {
       platform:'Email', desc:'網站建議・正式委託・回饋',
-      href:'mailto:#', btnLabel:'寄信 →',
-      sc:'240,165,205',   /* pink   */
-      sx:'29%', sy:'43%', ss:'11px', sf:'4.6s', sd:'.4s',
+      href:'mailto:wuyan1234yyy@gmail.com', btnLabel:'寄信 →',
+      sc:'240,165,205',
+      sx:'28%', sy:'44%', ss:'11px', sf:'4.6s', sd:'.4s',
     },
     {
-      platform:'作品集', desc:'瀏覽所有作品',
-      href:'works_v3.html', btnLabel:'前往 →',
-      sc:'212,168,78',    /* gold   */
-      sx:'63%', sy:'40%', ss:'10px', sf:'3.4s', sd:'1.5s',
+      platform:'綠界贊助', desc:'喜歡的話請我喝杯咖啡 ☕',
+      href:'https://wuyan-thankyou-donate.vercel.app', btnLabel:'前往贊助 →',
+      sc:'220,178,80',
+      sx:'84%', sy:'13%', ss:'10px', sf:'3.4s', sd:'1.5s',
     },
   ];
 
   var container=document.getElementById('star-links');
-
   var GEO_VARIANTS=['geo-a','geo-b','geo-c','geo-d'];
+
   LINKS.forEach(function(lk,idx){
-    /* top stars (sy<35%) → card goes below to avoid topbar clip */
     var isBelow=parseFloat(lk.sy)<35;
     var div=document.createElement('div');
     div.className='star-node'+(isBelow?' card-below':'');
@@ -542,7 +550,7 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
     ].join(';');
 
     var geoClass=GEO_VARIANTS[idx%4];
-    var isDiscord=lk.platform==='Discord';
+    var isMailto=lk.href.startsWith('mailto');
     div.innerHTML=
       '<div class="star-dot '+geoClass+'">'+
         '<div class="gs-core"></div>'+
@@ -559,55 +567,106 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
           '<div class="sc-corner bl"></div><div class="sc-corner br"></div>'+
           '<div class="sc-platform">'+lk.platform+'</div>'+
           '<div class="sc-desc">'+lk.desc+'</div>'+
-          (isDiscord
-            ? '<button class="sc-btn" data-copy="wuyan_archive">'+lk.btnLabel+'</button>'
-            : '<a class="sc-btn" href="'+lk.href+'" target="_blank" rel="noopener">'+lk.btnLabel+'</a>'
-          )+
+          '<a class="sc-btn" href="'+lk.href+'"'+(isMailto?'':' target="_blank" rel="noopener"')+'>'+lk.btnLabel+'</a>'+
         '</div>'+
       '</div>';
-
-    /* Discord copy button */
-    if(isDiscord){
-      div.querySelector('.sc-btn').addEventListener('click',function(){
-        navigator.clipboard.writeText('wuyan_archive').then(function(){
-          var btn=div.querySelector('.sc-btn');
-          btn.textContent='已複製 ✓';
-          setTimeout(function(){btn.textContent='複製帳號';},1800);
-        });
-      });
-    }
 
     if(window._addHov)window._addHov(div.querySelector('.star-dot'));
     container.appendChild(div);
   });
 })();
 
-/* ── Emoji reactions (localStorage) ── */
+/* ── Mark cards (留下足跡) ──
+   單選互斥：同一時間只能選一張，換選時前一張歸 0。
+   Worker API（部署後填入 WORKER_URL）：
+     GET  ?marks=1           → { marks:{stargazer:N,...} }
+     POST ?mark=ID&prev=PREV → { marks:{...} }
+── */
 (function(){
-  var EMOJIS=[
-    {id:'passing', emoji:'👾', label:'路過了'},
-    {id:'nice',    emoji:'✨', label:'很棒'},
-    {id:'night',   emoji:'🌙', label:'深夜在刷'},
-    {id:'love',    emoji:'💜', label:'喜歡'},
-    {id:'lost',    emoji:'🌀', label:'迷路了'},
+  var MARKS=[
+    {id:'stargazer', img:'button1.png', en:'Stargazer', zh:'仰望星空'},
+    {id:'wanderer',  img:'button2.png', en:'Wanderer',  zh:'漫遊者'  },
+    {id:'dreamer',   img:'button3.png', en:'Dreamer',   zh:'夢想家'  },
+    {id:'traveler',  img:'button4.png', en:'Traveler',  zh:'旅人'    },
+    {id:'resonator', img:'button5.png', en:'Resonator', zh:'共鳴者'  },
   ];
-  var KEY='wuyan_signal_reactions';
-  var clicked=JSON.parse(localStorage.getItem(KEY)||'{}');
-  var wrap=document.getElementById('reactions-wrap');
+  var WORKER_URL='https://signal-visitor.wuyan.workers.dev';
+  var SEL_KEY='wuyan_signal_selected';   /* 只存一個 id 字串 */
+  var storedSel=localStorage.getItem(SEL_KEY)||''; /* 記錄上次選擇，僅用於傳 prev 給後端 */
+  var selected='';                        /* 每次進頁面不預選，須主動點選 */
+  var baseCounts={};                      /* 後端拿到的基底數字 */
+  var cardEls={};
+  MARKS.forEach(function(m){baseCounts[m.id]=0;});
 
-  EMOJIS.forEach(function(e){
-    var btn=document.createElement('button');
-    btn.className='emoji-btn'+(clicked[e.id]?' clicked':'');
-    btn.innerHTML='<span class="ej">'+e.emoji+'</span><span>'+e.label+'</span>';
-    btn.addEventListener('click',function(){
-      if(clicked[e.id])return;
-      clicked[e.id]=true;
-      localStorage.setItem(KEY,JSON.stringify(clicked));
-      btn.classList.add('clicked');
+  /* 顯示 = 基底 + (已選中 ? 1 : 0) */
+  function renderCounts(){
+    MARKS.forEach(function(m){
+      var el=document.getElementById('mc-'+m.id);
+      if(el)el.textContent=String(baseCounts[m.id]+(selected===m.id?1:0)).padStart(4,'0');
     });
-    if(window._addHov)window._addHov(btn);
-    wrap.appendChild(btn);
+  }
+
+  function selectCard(newId){
+    var prev=selected||storedSel; /* 本次 session 若無選擇，用上次存的值當 prev */
+    selected=newId;
+    storedSel=newId;
+    localStorage.setItem(SEL_KEY,newId);
+
+    /* 更新所有卡片的 voted 樣式 */
+    MARKS.forEach(function(m){
+      cardEls[m.id].classList.toggle('voted',m.id===newId);
+    });
+
+    /* 更新計數顯示 */
+    renderCounts();
+
+    /* +1 浮出動畫 */
+    var p=document.createElement('div');
+    p.className='plus-one';p.textContent='+1';
+    cardEls[newId].appendChild(p);
+    p.addEventListener('animationend',function(){p.remove();});
+
+    /* POST 到後端（部署前 catch 靜默忽略） */
+    var qs='?mark='+newId+(prev?'&prev='+prev:'');
+    fetch(WORKER_URL+qs,{method:'POST'})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.marks){Object.assign(baseCounts,d.marks);renderCounts();}
+      })
+      .catch(function(){});
+  }
+
+  /* 建立卡片 */
+  var wrap=document.getElementById('mark-cards');
+  MARKS.forEach(function(m){
+    var card=document.createElement('div');
+    card.className='mark-card';
+    card.innerHTML=
+      '<div class="card-badge">+1</div>'+
+      '<img class="card-img" src="assets/signal/'+m.img+'" alt="'+m.en+'">'+
+      '<div class="card-name-en">'+m.en+'</div>'+
+      '<div class="card-name-zh">'+m.zh+'</div>'+
+      '<div class="card-count" id="mc-'+m.id+'">0000</div>';
+    cardEls[m.id]=card;
+
+    card.addEventListener('click',function(){
+      if(selected===m.id)return; /* 已選中，不重複觸發 */
+      selectCard(m.id);
+    });
+    if(window._addHov)window._addHov(card);
+    wrap.appendChild(card);
   });
+
+  /* 初始顯示（含已選狀態） */
+  renderCounts();
+
+  /* GET 後端基底計數（部署後才有資料） */
+  fetch(WORKER_URL+'?marks=1',{method:'GET'})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.marks){Object.assign(baseCounts,d.marks);renderCounts();}
+    })
+    .catch(function(){});
 })();
 
 /* ── Visitor counter — Cloudflare Worker + KV ──

@@ -1,4 +1,6 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Portfolio</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Portfolio</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet"><style>
+@font-face{font-family:'Cubic';src:url('assets/fomts/Cubic.ttf') format('truetype');font-weight:normal;font-display:swap}
+@font-face{font-family:'Yozai';src:url('assets/fomts/Yozai-Medium.ttf') format('truetype');font-weight:normal;font-display:swap}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:none}
 #loader{position:fixed;inset:0;background:#030108;z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding-top:min(16vh,140px);transition:opacity .65s ease}
@@ -59,8 +61,8 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 .blink{animation:blink 1s infinite}
 @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.1}}
 #bio{transition:opacity .9s}
-#scroll-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:80;font:10px 'Courier New',monospace;letter-spacing:4px;color:rgba(165,215,255,.55);pointer-events:none;animation:hint-pulse 3.2s ease-in-out infinite;white-space:nowrap;text-shadow:0 0 10px rgba(165,215,255,.25)}
-@keyframes hint-pulse{0%,100%{opacity:.38;translate:0 0}50%{opacity:.72;translate:0 5px}}
+#scroll-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:80;font:11px 'Courier New',monospace;letter-spacing:5px;color:rgba(165,215,255,.92);pointer-events:none;animation:hint-pulse 3.2s ease-in-out infinite;white-space:nowrap;text-shadow:0 0 14px rgba(165,215,255,.7),0 0 28px rgba(165,215,255,.35)}
+@keyframes hint-pulse{0%,100%{opacity:.62;translate:0 0}50%{opacity:1;translate:0 6px}}
 /* Sec2 */
 #sec2{background:#060612}
 .s2-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:.88}
@@ -71,7 +73,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 .ht-empty{height:1.1em}
 .hw{display:inline-block;opacity:0;color:rgba(200,185,255,.9);text-shadow:0 0 8px rgba(160,140,220,.55);transition:opacity var(--d,.3s) ease,filter var(--d,.3s) ease;filter:blur(3px);cursor:default}
 .s2-bottom{position:absolute;bottom:0;left:0;right:0;padding:clamp(12px,2.5vh,24px) clamp(18px,4vw,50px);background:linear-gradient(to top,rgba(4,4,16,.92) 60%,transparent 100%);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
-.s2-name{font:200 clamp(22px,4.2vw,44px)/1.15 'Noto Serif TC',Georgia,serif;letter-spacing:8px;background:linear-gradient(135deg,#dbb4fc 0%,#a5d7ff 40%,#f9c8e4 75%,#dbb4fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.s2-name{font:normal clamp(22px,4.2vw,44px)/1.15 'Yozai',Georgia,serif;letter-spacing:8px;background:linear-gradient(135deg,#dbb4fc 0%,#a5d7ff 40%,#f9c8e4 75%,#dbb4fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .s2-sub{font:400 clamp(8px,1.1vw,11px) monospace;color:rgba(170,155,210,.6);letter-spacing:4px;text-transform:uppercase;margin-top:6px}
 .s2-links{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
 .s2-link{display:flex;align-items:center;gap:6px;font:600 9px monospace;letter-spacing:3px;text-transform:uppercase;padding:7px 14px;border-radius:4px;border:1px solid rgba(140,120,230,.35);background:rgba(14,7,38,.65);color:rgba(165,150,235,.8);transition:all .25s;backdrop-filter:blur(4px)}
@@ -79,52 +81,15 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 .s2-li{width:11px;height:11px;flex-shrink:0;filter:invert(1);opacity:.55;transition:opacity .25s}
 .s2-link:hover .s2-li{opacity:.85}
 .s2-scroll-up{font:10px monospace;color:rgba(140,120,220,.38);letter-spacing:3px;padding:6px;animation:hint-pulse 3s ease-in-out infinite;align-self:center}
-/* Sec3 About */
-#sec3{background:#030108;overflow:hidden}
-.s3-cosmos{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;pointer-events:none;z-index:0}
-.s3-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(3,1,8,.3) 0%,rgba(3,1,8,.75) 100%);pointer-events:none}
-.ab-wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;z-index:2}
-
-.ab-ascii{padding:4px 0 2px 52px}
-.ab-ascii-art{font:400 9px/1.2 monospace;color:rgba(100,220,160,.55);white-space:pre;letter-spacing:1px}
-.ab-terminal{width:min(560px,90vw);background:rgba(4,2,14,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,80,200,.35);border-radius:10px;box-shadow:0 0 40px rgba(80,40,180,.15),inset 0 1px 0 rgba(140,120,255,.1);overflow:hidden}
-.ab-tbar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:rgba(30,15,60,.5);border-bottom:1px solid rgba(80,60,160,.25)}
-.ab-tprompt{color:rgba(140,255,140,.7);font:700 10px monospace}
-.ab-tsep{color:rgba(120,120,200,.5);font:400 10px monospace;margin:0 1px}
-.ab-tsep2{color:rgba(200,180,255,.6);font:400 10px monospace}
-.ab-tpath{font:400 10px monospace;color:rgba(140,120,200,.6);letter-spacing:2px;margin-left:8px}
-.ab-body{padding:20px 24px 18px}
-.ab-line{display:flex;gap:0;font:400 11px/2 'Courier New',monospace;margin-bottom:2px}
-.ab-spacer{height:10px}
-.ab-k{color:rgba(100,200,255,.7);min-width:56px;letter-spacing:1px}
-.ab-sep{color:rgba(100,80,180,.5)}
-.ab-v{color:rgba(200,185,255,.85)}
-#ab-name{color:rgba(220,200,255,.92);font-weight:700}
-.ab-cursor{color:rgba(160,220,160,.9)}
-.ab-about{font:400 11px/1.9 'Courier New',monospace;color:rgba(180,165,215,.7);padding:4px 0 4px 56px;letter-spacing:.5px}
-.ab-skills{display:flex;flex-wrap:wrap;gap:7px;padding:6px 0 6px 56px}
-.sk-tag{font:600 9px monospace;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid rgba(100,180,255,.28);color:rgba(120,190,255,.75);background:rgba(20,40,80,.4);transition:all .25s}
-.sk-tag:hover{border-color:rgba(140,210,255,.6);color:rgba(180,225,255,.95);background:rgba(20,60,120,.5)}
-.ab-links{display:flex;gap:12px;padding:8px 0 4px 56px;flex-wrap:wrap}
-.ab-link{display:flex;align-items:center;gap:6px;font:600 10px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(170,140,230,.65);border:1px solid rgba(130,100,200,.25);border-radius:5px;padding:6px 12px;text-decoration:none;transition:all .25s;background:rgba(20,10,50,.4)}
-.ab-link:hover{color:rgba(220,200,255,.95);border-color:rgba(180,150,255,.55);background:rgba(50,30,120,.5);box-shadow:0 0 10px rgba(140,100,255,.2)}
-.ab-link-ic{font-size:13px}
-.ab-scroll-up{font:10px monospace;color:rgba(140,120,220,.38);letter-spacing:3px;animation:hint-pulse 3s ease-in-out infinite}
-
-/* ── Data Sea (sec3) ── */
-#sec3{background:#04030f;overflow:hidden}
-.ds-card{background:rgba(6,4,20,.75);backdrop-filter:blur(12px);border:1px solid rgba(80,60,160,.3);border-radius:8px;padding:12px;box-shadow:0 0 20px rgba(40,20,100,.2)}
-.ds-card-title{font:700 10px monospace;letter-spacing:2px;color:rgba(180,160,240,.7);margin-bottom:10px;text-transform:uppercase}
-.ds-param{margin-bottom:10px}
-.ds-param-label{font:400 10px monospace;color:rgba(200,190,240,.7);display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
-.ds-param-sub{font:400 8px monospace;color:rgba(100,85,180,.5);letter-spacing:1px}
-.ds-param-val{font:600 12px monospace;color:rgba(220,210,255,.9);text-align:right;margin-bottom:4px}
-.ds-slider{width:100%;-webkit-appearance:none;height:3px;border-radius:2px;background:rgba(60,40,140,.4);outline:none;cursor:none}
-.ds-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:rgba(160,120,255,.9);box-shadow:0 0 6px rgba(140,100,255,.6);cursor:none}
-.ds-btn{width:100%;margin-top:4px;padding:7px;font:400 9px monospace;letter-spacing:3px;text-transform:uppercase;color:rgba(160,140,220,.7);background:rgba(30,15,60,.6);border:1px solid rgba(100,80,180,.35);border-radius:4px;transition:all .2s;cursor:none}
-.ds-btn:hover{background:rgba(60,40,120,.6);border-color:rgba(160,120,255,.6);color:rgba(210,195,255,.95)}
-.ds-float{position:absolute;font:400 10px monospace;color:rgba(160,200,230,.55);letter-spacing:1px;white-space:nowrap;pointer-events:none;transition:opacity .3s}
-@keyframes ds-pulse{0%{opacity:.9;transform:translate(-50%,-50%) scale(1)}60%{opacity:0;transform:translate(-50%,-50%) scale(2.8)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.8)}}
+/* ── Screen hover labels ── */
+.screen-label{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .38s ease;pointer-events:none}
+.sc-wrap:hover .screen-label{opacity:1}
+.sl-zh{font:normal clamp(7px,1.25vw,13px)/1.3 'Cubic','Noto Serif TC',Georgia,serif;letter-spacing:.3em;color:rgba(235,225,255,.98);text-shadow:0 0 16px rgba(210,190,255,.95),0 0 32px rgba(160,130,255,.6);text-align:center;white-space:nowrap}
+.sl-en{font:normal clamp(5px,.7vw,7px) 'Cubic','Cinzel',serif;letter-spacing:.4em;color:rgba(195,180,255,.72);text-shadow:0 0 8px rgba(175,155,240,.65);text-transform:uppercase;margin-top:4px;white-space:nowrap}
+.sl-line{width:20px;height:3px;background:rgba(195,180,255,.45);margin:5px auto 0;box-shadow:0 0 8px rgba(175,155,240,.6);border-radius:2px}
+#sc-main .sl-zh{font-size:clamp(18px,2.8vw,36px);letter-spacing:.35em}
+#sc-main .sl-en{font-size:clamp(9px,1.3vw,16px);letter-spacing:.5em}
+#sc-main .sl-line{width:40px}
 /* ── Sec2 角色互動 ── */
 .zzz-z{position:absolute;font-family:'Courier New',monospace;font-weight:700;color:rgba(195,185,255,.78);text-shadow:0 0 8px rgba(170,155,255,.5);animation:zzz-rise 2.6s ease-in-out infinite;animation-delay:var(--dl,0s);opacity:0;pointer-events:none}
 @keyframes zzz-rise{0%{opacity:0;transform:translateX(var(--dx,0px)) translateY(0) scale(.55)}14%{opacity:.88}82%{opacity:.3}100%{opacity:0;transform:translateX(var(--dx,0px)) translateY(-65px) scale(1.15)}}
@@ -149,7 +114,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 #ds-panel .ds-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:rgba(160,120,255,.95);box-shadow:0 0 8px rgba(140,100,255,.7);cursor:none}
 #ds-panel .ds-btn{width:100%;margin-top:6px;padding:9px;font:600 9px monospace;letter-spacing:3px;text-transform:uppercase;color:rgba(170,150,230,.75);background:rgba(30,15,60,.7);border:1px solid rgba(100,80,190,.4);border-radius:7px;transition:all .2s;cursor:none}
 #ds-panel .ds-btn:hover{background:rgba(70,45,140,.65);border-color:rgba(170,130,255,.65);color:rgba(220,205,255,.98)}
-</style></head><body><div id="loader"><div id="term-boot"><div id="term-hdr">WUYAN_OS v2.4.1 // NEURAL INTERFACE INIT</div><div id="term-log"></div><div id="term-status"><span id="term-pct">0%</span><div id="term-bar-track"><div id="loader-bar"></div></div></div><span id="term-cur"></span></div></div><div id="wrapper"><canvas id="fxCv"></canvas><div id="sec1"><div id="scene"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_L1.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_L2.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_R1.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_R2.webp" style="z-index:0"><div class="layer" style="z-index:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none"></div><img class="layer" id="bg-dark"   src="assets/fullBGwebp/bg_room_dark_webp.webp" style="z-index:1"><img class="layer" id="bg-bright" src="assets/fullBGwebp/bg_room_webp.webp" style="z-index:2"><canvas id="darkCv"></canvas><div class="sc-wrap" id="sc-main" data-cx="48.90" data-cy="52.50" data-top="41.60" data-w="27.80" data-tx="-55" data-ty="-85" data-rz="-28" data-skx="-8" data-sf="0.06" style="left:35.0%;top:41.6%;width:27.8%;height:21.8%;" onclick="enterPage('Portfolio')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:359.7%;left:-125.9%;top:-190.8%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_mid.webp"></div><img style="position:absolute;left:-2.8%;top:5%;width:105.6%;height:110.7%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-main" style="z-index:2"></div><div class="screen-lit-border" id="lit-main" style="z-index:4"></div><div class="tooltip" style="z-index:5">ARCHIVE<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-L1" data-cx="27.95" data-cy="50.90" data-top="45.70" data-w="10.30" data-tx="58" data-ty="-82" data-rz="22" data-skx="7" data-sf="0.07" style="left:22.8%;top:45.7%;width:10.3%;height:10.4%;" onclick="enterPage('Live2D')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:970.9%;left:-221.4%;top:-439.4%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_L1.webp"></div><img style="position:absolute;left:-7.6%;top:-11.2%;width:115.2%;height:122.4%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L1" style="z-index:2"></div><div class="screen-lit-border" id="lit-L1" style="z-index:4"></div><div class="tooltip" style="z-index:5">COMMISSION<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-L2" data-cx="28.05" data-cy="63.40" data-top="57.80" data-w="10.30" data-tx="-38" data-ty="-95" data-rz="-18" data-skx="-6" data-sf="0.05" style="left:22.9%;top:57.8%;width:10.3%;height:11.2%;" onclick="enterPage('AIPost')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:970.9%;left:-222.3%;top:-516.1%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_L2.webp"></div><img style="position:absolute;left:-7.6%;top:-10.4%;width:115.2%;height:120.9%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L2" style="z-index:2"></div><div class="screen-lit-border" id="lit-L2" style="z-index:4"></div><div class="tooltip" style="z-index:5">SIGNAL<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-R1" data-cx="69.95" data-cy="51.85" data-top="46.10" data-w="11.70" data-tx="52" data-ty="-88" data-rz="30" data-skx="9" data-sf="0.06" style="left:64.1%;top:46.1%;width:11.7%;height:11.5%;" onclick="enterPage('Ecpay')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:854.7%;left:-547.9%;top:-400.9%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_R1.webp"></div><img style="position:absolute;left:-6.7%;top:-10.3%;width:113.3%;height:120.5%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R1" style="z-index:2"></div><div class="screen-lit-border" id="lit-R1" style="z-index:4"></div><div class="tooltip" style="z-index:5">GUESTBOOK<span class="tt-arrow"></span></div></div><div class="sc-wrap" id="sc-R2" data-cx="69.65" data-cy="64.00" data-top="59.00" data-w="11.10" data-tx="12" data-ty="-100" data-rz="8" data-skx="4" data-sf="0.05" style="left:64.1%;top:59.0%;width:11.1%;height:10.0%;" onclick="enterPage('Art')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:900.9%;left:-577.5%;top:-590.0%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_R2.webp"></div><img style="position:absolute;left:-7.0%;top:-11.8%;width:114.0%;height:123.5%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R2" style="z-index:2"></div><div class="screen-lit-border" id="lit-R2" style="z-index:4"></div><div class="tooltip" style="z-index:5">OTHERS<span class="tt-arrow"></span></div></div><img class="layer" id="frame-main" src="assets/fullBGwebp/middlescreen_webp.webp" style="z-index:11"><img class="layer" id="frame-L1" src="assets/fullBGwebp/screen_side_L1_webp.webp" style="z-index:12"><img class="layer" id="frame-L2" src="assets/fullBGwebp/screen_side_L2_webp.webp" style="z-index:13"><img class="layer" id="frame-R1" src="assets/fullBGwebp/screen_side_R1_webp.webp" style="z-index:14"><img class="layer" id="frame-R2" src="assets/fullBGwebp/screen_side_R2_webp.webp" style="z-index:15"><img class="layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:30"><img class="layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:31"><img class="layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:35"><img class="layer" id="lamp-light" src="assets/fullBGwebp/light_webp.webp" style="z-index:36"><div id="lamp-click-area"></div><div id="char-click-zone"></div><div id="terminal"><span id="term-text"></span><span class="blink">_</span></div><div id="bio" style="position:absolute;left:25%;top:23%;width:50%;text-align:center;z-index:40;pointer-events:none;opacity:0;transition:opacity .9s;font:300 9.5px 'Courier New',monospace;letter-spacing:2.5px;line-height:2.4"></div><div id="scroll-hint">↓ scroll ↓</div></div></div><div id="sec2"><img class="s2-bg" src="assets/fullBGwebp/bg_room_webp.webp" alt=""><div class="s2-vignette"></div><img class="s2-char-layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:5"><img class="s2-char-layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:12"><img class="s2-char-layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:7"><img class="s2-char-layer" src="assets/fullBGwebp/light_webp.webp" style="z-index:8;mix-blend-mode:screen"><img class="s2-char-layer" id="s2-char-wakeup" src="assets/fullBGwebp/character_wakeup_webp.webp" style="z-index:10;opacity:0;transition:opacity .45s">
+</style></head><body><div id="loader"><div id="term-boot"><div id="term-hdr">WUYAN_OS v2.4.1 // NEURAL INTERFACE INIT</div><div id="term-log"></div><div id="term-status"><span id="term-pct">0%</span><div id="term-bar-track"><div id="loader-bar"></div></div></div><span id="term-cur"></span></div></div><div id="wrapper"><canvas id="fxCv"></canvas><div id="sec1"><div id="scene"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_L1.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_L2.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_R1.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_R2.webp" style="z-index:0"><div class="layer" style="z-index:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none"></div><img class="layer" id="bg-dark"   src="assets/fullBGwebp/bg_room_dark_webp.webp" style="z-index:1"><img class="layer" id="bg-bright" src="assets/fullBGwebp/bg_room_webp.webp" style="z-index:2"><canvas id="darkCv"></canvas><div class="sc-wrap" id="sc-main" data-cx="48.90" data-cy="52.50" data-top="41.60" data-w="27.80" data-tx="-55" data-ty="-85" data-rz="-28" data-skx="-8" data-sf="0.06" style="left:35.0%;top:41.6%;width:27.8%;height:21.8%;" onclick="enterPage('Portfolio')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:359.7%;left:-125.9%;top:-190.8%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_mid.webp"></div><img style="position:absolute;left:-2.8%;top:5%;width:105.6%;height:110.7%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-main" style="z-index:2"></div><div class="screen-lit-border" id="lit-main" style="z-index:4"></div><div class="tooltip" style="z-index:5">ARCHIVE<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">作品集總覽</div><div class="sl-line"></div><div class="sl-en">ARCHIVE</div></div></div><div class="sc-wrap" id="sc-L1" data-cx="27.95" data-cy="50.90" data-top="45.70" data-w="10.30" data-tx="58" data-ty="-82" data-rz="22" data-skx="7" data-sf="0.07" style="left:22.8%;top:45.7%;width:10.3%;height:10.4%;" onclick="enterPage('Live2D')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:970.9%;left:-221.4%;top:-439.4%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_L1.webp"></div><img style="position:absolute;left:-7.6%;top:-11.2%;width:115.2%;height:122.4%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L1" style="z-index:2"></div><div class="screen-lit-border" id="lit-L1" style="z-index:4"></div><div class="tooltip" style="z-index:5">COMMISSION<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">委託詢問</div><div class="sl-line"></div><div class="sl-en">COMMISSION</div></div></div><div class="sc-wrap" id="sc-L2" data-cx="28.05" data-cy="63.40" data-top="57.80" data-w="10.30" data-tx="-38" data-ty="-95" data-rz="-18" data-skx="-6" data-sf="0.05" style="left:22.9%;top:57.8%;width:10.3%;height:11.2%;" onclick="enterPage('AIPost')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:970.9%;left:-222.3%;top:-516.1%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_L2.webp"></div><img style="position:absolute;left:-7.6%;top:-10.4%;width:115.2%;height:120.9%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L2" style="z-index:2"></div><div class="screen-lit-border" id="lit-L2" style="z-index:4"></div><div class="tooltip" style="z-index:5">SIGNAL<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">訊號站</div><div class="sl-line"></div><div class="sl-en">SIGNAL</div></div></div><div class="sc-wrap" id="sc-R1" data-cx="69.95" data-cy="51.85" data-top="46.10" data-w="11.70" data-tx="52" data-ty="-88" data-rz="30" data-skx="9" data-sf="0.06" style="left:64.1%;top:46.1%;width:11.7%;height:11.5%;" onclick="enterPage('Ecpay')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:854.7%;left:-547.9%;top:-400.9%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_R1.webp"></div><img style="position:absolute;left:-6.7%;top:-10.3%;width:113.3%;height:120.5%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R1" style="z-index:2"></div><div class="screen-lit-border" id="lit-R1" style="z-index:4"></div><div class="tooltip" style="z-index:5">THIS ARCHIVE<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">本站介紹</div><div class="sl-line"></div><div class="sl-en">THIS ARCHIVE</div></div></div><div class="sc-wrap" id="sc-R2" data-cx="69.65" data-cy="64.00" data-top="59.00" data-w="11.10" data-tx="12" data-ty="-100" data-rz="8" data-skx="4" data-sf="0.05" style="left:64.1%;top:59.0%;width:11.1%;height:10.0%;" onclick="enterPage('Art')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:900.9%;left:-577.5%;top:-590.0%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_R2.webp"></div><img style="position:absolute;left:-7.0%;top:-11.8%;width:114.0%;height:123.5%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R2" style="z-index:2"></div><div class="screen-lit-border" id="lit-R2" style="z-index:4"></div><div class="tooltip" style="z-index:5">OTHERS<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">其他作品</div><div class="sl-line"></div><div class="sl-en">OTHERS</div></div></div><img class="layer" id="frame-main" src="assets/fullBGwebp/middlescreen_webp.webp" style="z-index:11"><img class="layer" id="frame-L1" src="assets/fullBGwebp/screen_side_L1_webp.webp" style="z-index:12"><img class="layer" id="frame-L2" src="assets/fullBGwebp/screen_side_L2_webp.webp" style="z-index:13"><img class="layer" id="frame-R1" src="assets/fullBGwebp/screen_side_R1_webp.webp" style="z-index:14"><img class="layer" id="frame-R2" src="assets/fullBGwebp/screen_side_R2_webp.webp" style="z-index:15"><img class="layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:30"><img class="layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:31"><img class="layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:35"><img class="layer" id="lamp-light" src="assets/fullBGwebp/light_webp.webp" style="z-index:36"><div id="lamp-click-area"></div><div id="char-click-zone"></div><div id="terminal"><span id="term-text"></span><span class="blink">_</span></div><div id="bio" style="position:absolute;left:25%;top:23%;width:50%;text-align:center;z-index:40;pointer-events:none;opacity:0;transition:opacity .9s;font:300 9.5px 'Courier New',monospace;letter-spacing:2.5px;line-height:2.4"></div><div id="scroll-hint">↓ scroll ↓</div></div></div><div id="sec2"><img class="s2-bg" src="assets/fullBGwebp/bg_room_webp.webp" alt=""><div class="s2-vignette"></div><img class="s2-char-layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:5"><img class="s2-char-layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:12"><img class="s2-char-layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:7"><img class="s2-char-layer" src="assets/fullBGwebp/light_webp.webp" style="z-index:8;mix-blend-mode:screen"><img class="s2-char-layer" id="s2-char-wakeup" src="assets/fullBGwebp/character_wakeup_webp.webp" style="z-index:10;opacity:0;transition:opacity .45s">
 <!-- ZZZ 泡泡（睡覺狀態，三個 z 大小漸增往上飄）-->
 <div id="s2-zzz"><span class="zzz-z" style="font-size:13px;left:0px;--dl:0s;--dx:-4px">z</span><span class="zzz-z" style="font-size:17px;left:12px;--dl:.85s;--dx:4px">z</span><span class="zzz-z" style="font-size:22px;left:26px;--dl:1.7s;--dx:12px">Z</span></div>
 <!-- ! 驚嘆號（被叫醒狀態）-->
@@ -167,62 +132,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 <div class="ht-line"><span class="hw" style="--d:0.10s">我是創作者</span></div>
 <div class="ht-line"><span class="hw" style="--d:0.10s">也是開發者</span></div>
 <div class="ht-line"><span class="hw" style="--d:0.10s">更是一個</span></div>
-<div class="ht-line"><span class="hw" style="--d:0.10s">永遠好奇的人</span></div></div><div class="s2-bottom"><div><div class="s2-name" id="s2-name-el"></div><div class="s2-sub" id="s2-title-el"></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px"><div class="s2-links"><div class="s2-link" onclick="navTo('works_v3.html')"><img class="s2-li" src="assets/icon/File.png" alt="">ARCHIVE</div><div class="s2-link" onclick="navTo('project.html')"><img class="s2-li" src="assets/icon/Detail.png" alt="">PROJECT</div><div class="s2-link" onclick="navTo('commission.html')"><img class="s2-li" src="assets/icon/Pay.png" alt="">COMMISSION</div><div class="s2-link" onclick="navTo('signal.html')"><img class="s2-li" src="assets/icon/Comment.png" alt="">SIGNAL</div><div class="s2-link" onclick="navTo('lab.html')"><img class="s2-li" src="assets/icon/Experiment.png" alt="">LAB</div></div><div class="s2-scroll-up" onclick="goTo(0)" style="pointer-events:all">↑ scroll up ↑</div></div></div></div><div id="sec3"><img class="s3-cosmos" src="assets/fullBGwebp/wave_bg_webp.webp" alt=""><canvas id="ocean-cv" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="s3-vignette"></div>
-<div id="s3-header" style="position:absolute;top:26px;left:28px;z-index:8;pointer-events:none">
-  <svg width="68" height="68" viewBox="0 0 52 52" style="display:block;margin-bottom:12px;filter:drop-shadow(0 0 10px rgba(140,170,255,0.6))">
-    <defs>
-      <mask id="cm"><circle cx="26" cy="26" r="19" fill="white"/><circle cx="33.5" cy="21.5" r="15.5" fill="black"/></mask>
-    </defs>
-    <circle cx="26" cy="26" r="23" fill="rgba(100,140,255,0.04)"/>
-    <circle cx="26" cy="26" r="19" fill="rgba(195,215,255,0.88)" mask="url(#cm)"/>
-    <circle cx="26" cy="26" r="19" fill="rgba(255,255,255,0.08)" mask="url(#cm)"/>
-    <circle cx="43" cy="9"  r="1.3" fill="rgba(200,220,255,0.7)"/>
-    <circle cx="7"  cy="42" r="0.9" fill="rgba(180,205,255,0.5)"/>
-    <circle cx="46" cy="32" r="0.8" fill="rgba(210,225,255,0.6)"/>
-    <circle cx="4"  cy="18" r="0.6" fill="rgba(180,200,255,0.45)"/>
-    <circle cx="38" cy="44" r="0.7" fill="rgba(190,210,255,0.4)"/>
-  </svg>
-  <div style="font:700 16px/1 monospace;letter-spacing:6px;text-transform:uppercase;color:rgba(185,205,255,0.92);text-shadow:0 0 16px rgba(130,165,255,0.7)">Data Sea</div>
-  <div style="font:400 10px/1 monospace;letter-spacing:2.5px;color:rgba(120,148,205,0.58);margin-top:8px">數據深海 · 一切如波，起落皆數</div>
-</div>
-<div id="ds-floaters" style="position:absolute;inset:0;pointer-events:none;z-index:5"></div>
-<div id="ds-panel">
-  <div class="ds-inner">
-    <div class="ds-title">Ocean Controls</div>
-    <div class="ds-title-zh">海洋控制器</div>
-    <div class="ds-row">
-      <div class="ds-row-top">
-        <div><div class="ds-label">Moon Influence</div><div class="ds-label-zh">月亮引力</div></div>
-        <div class="ds-val" id="moon-val">72%</div>
-      </div>
-      <input class="ds-slider" type="range" id="moon-slider" min="0" max="100" value="72">
-    </div>
-    <div class="ds-row">
-      <div class="ds-row-top">
-        <div><div class="ds-label">Wind Speed</div><div class="ds-label-zh">風速</div></div>
-        <div class="ds-val" id="wind-val">1.38x</div>
-      </div>
-      <input class="ds-slider" type="range" id="wind-slider" min="0" max="300" value="138">
-    </div>
-    <div class="ds-row">
-      <div class="ds-row-top">
-        <div><div class="ds-label">Wave Freq</div><div class="ds-label-zh">波動頻率</div></div>
-        <div class="ds-val" id="freq-val">2.45x</div>
-      </div>
-      <input class="ds-slider" type="range" id="freq-slider" min="0" max="500" value="245">
-    </div>
-    <div class="ds-row">
-      <div class="ds-row-top">
-        <div><div class="ds-label">Data Density</div><div class="ds-label-zh">數據密度</div></div>
-        <div class="ds-val" id="dens-val">89%</div>
-      </div>
-      <input class="ds-slider" type="range" id="dens-slider" min="0" max="100" value="89">
-    </div>
-    <button class="ds-btn" onclick="resetParams()">↺ RESET · 重置</button>
-  </div>
-</div>
-<div class="ab-scroll-up" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:all" onclick="goTo(1)">↑ scroll up ↑</div>
-</div><div id="cursor-dot"></div><script>
+<div class="ht-line"><span class="hw" style="--d:0.10s">永遠好奇的人</span></div></div><div class="s2-bottom"><div><div class="s2-name" id="s2-name-el"></div><div class="s2-sub" id="s2-title-el"></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px"><div class="s2-links"><div class="s2-link" onclick="navTo('works_v3.html')"><img class="s2-li" src="assets/icon/File.png" alt="">ARCHIVE</div><div class="s2-link" onclick="navTo('commission.html')"><img class="s2-li" src="assets/icon/Pay.png" alt="">COMMISSION</div><div class="s2-link" onclick="navTo('signal.html')"><img class="s2-li" src="assets/icon/Comment.png" alt="">SIGNAL</div><div class="s2-link" style="opacity:.45;pointer-events:none"><img class="s2-li" src="assets/icon/LittleWorld.png" alt="">CURIO</div></div><div class="s2-scroll-up" onclick="goTo(0)" style="pointer-events:all">↑ scroll up ↑</div></div></div></div><div id="cursor-dot"></div><script>
 // ── 作者設定（改名字改這裡）──
 const PERSONA = { zh: '吳言', en: 'WUYAN', title: 'Vtuber · 後端工程師' };
 (()=>{const n=document.getElementById('s2-name-el'),t=document.getElementById('s2-title-el');if(n)n.textContent=PERSONA.zh+' '+PERSONA.en;if(t)t.textContent=PERSONA.title;})();
@@ -231,7 +141,7 @@ const PERSONA = { zh: '吳言', en: 'WUYAN', title: 'Vtuber · 後端工程師' 
 const scene=document.getElementById('scene');
 const darkCv=document.getElementById('darkCv');const dctx=darkCv.getContext('2d');
 const fxCv=document.getElementById('fxCv');const fxCtx=fxCv.getContext('2d');
-const sec1=document.getElementById('sec1'),sec2=document.getElementById('sec2'),sec3=document.getElementById('sec3');
+const sec1=document.getElementById('sec1'),sec2=document.getElementById('sec2');
 
 const SCREENS=Array.from(document.querySelectorAll('.sc-wrap')).map(el=>({
   id:el.id.replace('sc-',''),el,cx:parseFloat(el.dataset.cx),cy:parseFloat(el.dataset.cy),
@@ -284,7 +194,11 @@ document.getElementById('lamp-click-area').addEventListener('click',()=>{
 });
 
 // ── Navigation ──
-function navTo(page){ console.log('navigate→',page); }
+const SCREEN_PAGES={'sc-main':'works_v3.html','sc-L1':'commission.html','sc-L2':'signal.html','sc-R1':'project_archive.html','sc-R2':'#'};
+function navTo(target){
+  const href=target.includes('.')||target==='#'?target:SCREEN_PAGES[target]||'#';
+  if(href&&href!=='#') window.location.href=href;
+}
 
 // Screen clicks trigger magic circle
 document.addEventListener('DOMContentLoaded',()=>{
@@ -440,98 +354,79 @@ function burstErr(){for(let i=0;i<4;i++)setTimeout(()=>{errN++;spawnErr(errN);},
 function startMagic(ox,oy,cb){
   fxCv.style.display='block';fxCv.width=window.innerWidth;fxCv.height=window.innerHeight;
   const W=fxCv.width,H=fxCv.height;let t=0;
-  const COLS=['#ffffff','rgba(255,185,215,1)','rgba(165,215,255,1)','rgba(255,220,140,1)'];
-  // 70 粒子：螺旋旋轉後收縮至中心
-  const pts=Array.from({length:70},(_,i)=>({
-    angle:Math.random()*Math.PI*2,
-    rad:25+Math.random()*Math.min(W,H)*0.38,
-    speed:(0.018+Math.random()*0.025)*(Math.random()<0.5?1:-1),
-    col:COLS[Math.floor(Math.random()*4)],
-    size:1.4+Math.random()*2.8,
-    born:Math.floor(Math.random()*28),
-  }));
-
-  // 三層旋轉弧段（紫/藍/金）
-  const rings=[[38,0.022,'167,139,250'],[60,0.035,'165,215,255'],[22,0.018,'255,220,140']];
+  const TOTAL=54;
+  const DIAG=Math.sqrt(W*W+H*H);
 
   function frame(){
-    t++;fxCtx.clearRect(0,0,W,H);
+    t++;
+    fxCtx.clearRect(0,0,W,H);
+    const p=t/TOTAL;
 
-    // ── 暗幕從外向內漸入（全程）──
-    const dk=Math.min(0.93,t/70*0.93);
-    const vg=fxCtx.createRadialGradient(ox,oy,0,ox,oy,Math.sqrt(W*W+H*H)*0.85);
-    vg.addColorStop(0,`rgba(2,1,10,${dk*0.4})`);
-    vg.addColorStop(0.55,`rgba(2,1,10,${dk*0.78})`);
-    vg.addColorStop(1,`rgba(2,1,10,${dk})`);
-    fxCtx.fillStyle=vg;fxCtx.fillRect(0,0,W,H);
-
-    // ── 旋轉弧環（t 8-80）──
-    if(t>8){
-      rings.forEach(([r,spd,rgb],i)=>{
-        const pr=Math.min(1,(t-8-i*9)/28);if(pr<=0)return;
-        const decay=t>60?Math.max(0,1-(t-60)/30):1;
-        const rot=spd*t;
-        for(let seg=0;seg<3;seg++){
-          const sa=rot+seg*Math.PI*2/3;
-          fxCtx.beginPath();
-          fxCtx.arc(ox,oy,r*pr,sa,sa+Math.PI*0.40);
-          fxCtx.strokeStyle=`rgba(${rgb},${(0.35+i*0.12)*decay})`;
-          fxCtx.lineWidth=1.6;fxCtx.stroke();
-          // 弧端光點
-          const ex=ox+Math.cos(sa+Math.PI*0.40)*r*pr;
-          const ey=oy+Math.sin(sa+Math.PI*0.40)*r*pr;
-          fxCtx.beginPath();fxCtx.arc(ex,ey,2.2,0,Math.PI*2);
-          fxCtx.fillStyle=`rgba(${rgb},${0.65*decay})`;fxCtx.fill();
-        }
-      });
-    }
-
-    // ── 螺旋星塵（t 0-95）──
-    pts.forEach(p=>{
-      if(t<p.born)return;
-      const age=t-p.born;
-      // t>58 後加速向中心塌縮
-      const collapse=t>58?Math.pow((t-58)/50,1.7):0;
-      const r=p.rad*(1-collapse*1.3);
-      if(r<2)return;
-      const a=p.angle+p.speed*age;
-      const sx=ox+Math.cos(a)*r,sy=oy+Math.sin(a)*r;
-      const fa=Math.min(1,age/10)*(1-Math.max(0,collapse-0.55)*2.8);
-      if(fa<=0)return;
-      const col=p.col.includes('rgba')?p.col.replace(/[\d.]+\)$/,fa+')' ):`rgba(255,255,255,${fa})`;
-      fxCtx.beginPath();fxCtx.arc(sx,sy,p.size*(0.7+0.3*(1-collapse)),0,Math.PI*2);
-      fxCtx.fillStyle=col;fxCtx.fill();
-      // 殘影尾跡
-      if(age>2){
-        const pa=a-p.speed*3;
-        fxCtx.beginPath();fxCtx.moveTo(sx,sy);
-        fxCtx.lineTo(ox+Math.cos(pa)*r,oy+Math.sin(pa)*r);
-        fxCtx.strokeStyle=col.replace(fa+')',fa*0.22+')');
-        fxCtx.lineWidth=p.size*0.55;fxCtx.stroke();
+    // ── 噪點色塊從點擊點向外擴散（t 1-42）──
+    if(t<=42){
+      const spread=Math.min(DIAG,t*t*3.2);
+      const count=10+Math.floor(t*2.8);
+      for(let i=0;i<count;i++){
+        const ang=Math.random()*Math.PI*2;
+        const dist=Math.random()*spread;
+        const bx=ox+Math.cos(ang)*dist;
+        const by=oy+Math.sin(ang)*dist;
+        const bw=8+Math.random()*130;
+        const bh=1+Math.random()*5;
+        const r=Math.random();
+        if(r<0.10)      fxCtx.fillStyle=`rgba(255,50,50,${0.45+Math.random()*0.5})`;
+        else if(r<0.20) fxCtx.fillStyle=`rgba(50,240,215,${0.35+Math.random()*0.5})`;
+        else if(r<0.27) fxCtx.fillStyle=`rgba(245,235,255,${0.55+Math.random()*0.4})`;
+        else            fxCtx.fillStyle=`rgba(4,2,14,${0.5+Math.random()*0.45})`;
+        fxCtx.fillRect(bx-bw/2,by-bh/2,bw,bh);
       }
-    });
-
-    // ── 中心紫金綻放（t 60-90）──
-    if(t>60&&t<=90){
-      const bp=Math.min(1,(t-60)/22);
-      const br=Math.min(W,H)*(0.06+bp*0.42);
-      const bloom=fxCtx.createRadialGradient(ox,oy,0,ox,oy,br);
-      bloom.addColorStop(0,`rgba(240,225,255,${bp*0.97})`);
-      bloom.addColorStop(0.20,`rgba(200,170,255,${bp*0.70})`);
-      bloom.addColorStop(0.48,`rgba(150,115,240,${bp*0.35})`);
-      bloom.addColorStop(0.78,`rgba(100,75,200,${bp*0.10})`);
-      bloom.addColorStop(1,'rgba(60,40,160,0)');
-      fxCtx.fillStyle=bloom;fxCtx.fillRect(0,0,W,H);
     }
 
-    // ── 暗場收幕（t 82-108）──
-    if(t>82){
-      const dp=Math.pow(Math.min(1,(t-82)/26),1.5);
-      fxCtx.fillStyle=`rgba(4,2,14,${dp*0.97})`;fxCtx.fillRect(0,0,W,H);
+    // ── 水平 RGB 色差線條（t 10-48）──
+    if(t>10){
+      const caAmt=Math.min(1,(t-10)/20);
+      const bands=Math.floor(4+caAmt*28);
+      for(let i=0;i<bands;i++){
+        const ly=Math.random()*H;
+        const lx=Math.random()*W*0.65;
+        const lw=15+Math.random()*(W*0.6);
+        const lh=1+Math.random()*3;
+        const shift=3+Math.random()*14;
+        const alpha=0.15+Math.random()*0.38;
+        fxCtx.fillStyle=`rgba(255,35,35,${alpha})`;
+        fxCtx.fillRect(lx-shift,ly,lw,lh);
+        fxCtx.fillStyle=`rgba(35,240,210,${alpha*0.9})`;
+        fxCtx.fillRect(lx+shift,ly,lw,lh);
+      }
     }
 
-    if(t<108)requestAnimationFrame(frame);
-    else{fxCv.style.display='none';if(cb)cb();}
+    // ── 掃描線紋理（t 16+）──
+    if(t>16){
+      const slA=Math.min(0.22,(t-16)/28*0.22);
+      for(let y=0;y<H;y+=3){
+        fxCtx.fillStyle=`rgba(0,0,0,${slA})`;
+        fxCtx.fillRect(0,y,W,1);
+      }
+    }
+
+    // ── 暗幕從點擊點向外擴散壓暗（全程）──
+    const spread=Math.min(DIAG*1.05,t*t*3.2*1.1);
+    const dg=fxCtx.createRadialGradient(ox,oy,0,ox,oy,spread);
+    const edge=Math.min(0.9,p*1.4);
+    dg.addColorStop(0,   'rgba(4,2,14,0)');
+    dg.addColorStop(0.30,`rgba(4,2,14,${edge*0.2})`);
+    dg.addColorStop(0.70,`rgba(4,2,14,${edge*0.65})`);
+    dg.addColorStop(1,   `rgba(4,2,14,${edge})`);
+    fxCtx.fillStyle=dg;fxCtx.fillRect(0,0,W,H);
+
+    // ── 全黑收幕（t 36-54）──
+    if(t>36){
+      const dp=Math.pow(Math.min(1,(t-36)/18),1.7);
+      fxCtx.fillStyle=`rgba(4,2,14,${dp*0.98})`;fxCtx.fillRect(0,0,W,H);
+    }
+
+    if(t<TOTAL)requestAnimationFrame(frame);
+    else{if(cb)cb();setTimeout(()=>{fxCv.style.display='none';},500);}
   }
   requestAnimationFrame(frame);
 }
@@ -541,7 +436,6 @@ window.addEventListener('wheel',e=>{
   e.preventDefault();
   if(peeling)return;
   if(section===1){if(e.deltaY<0)goTo(0);return;}
-  if(section===2){if(e.deltaY<0)goTo(1);return;}
   // section 0: peel
   if(e.deltaY>0)scrollAccum=Math.min(scrollAccum+Math.abs(e.deltaY)*2,PEEL_MAX);
   else scrollAccum=Math.max(0,scrollAccum-Math.abs(e.deltaY)*.9);
@@ -581,15 +475,6 @@ function goTo(n){
   if(peeling)return;
   const from=section;section=n;
   if(from===1&&n===0){setPeel(true);sec2.classList.remove('active');sec1.style.opacity='1';document.querySelectorAll('.hw').forEach(s=>{s.style.opacity='0';s.style.filter='blur(3px)';});scrollAccum=0;resetS1();setTimeout(()=>setPeel(false),600);}
-  else if(from===1&&n===2){
-    sec2.classList.remove('active');
-    sec3.classList.add('active');
-  }
-  else if(from===2&&n===1){
-    // Fade back to page2
-    sec3.classList.remove('active');sec2.classList.add('active');
-    setTimeout(()=>setPeel(false),400);
-  }
 }
 function startReturn(){goTo(section-1);}
 
@@ -656,301 +541,7 @@ function loop(now){
   },18);
 })();
 
-// ── Data Sea Wave Engine ──
-(function(){
-  const cv = document.getElementById('ocean-cv');
-  if(!cv) return;
-  const ctx = cv.getContext('2d');
-  let W=0,H=0,mouseX=-999,mouseY=-999;
 
-  // Wave params (driven by sliders)
-  let moonInf=0.72, windSpd=1.38, waveFreq=2.45, dataDens=0.89;
-
-  function resize(){
-    const p=cv.parentElement;
-    W=p.offsetWidth||window.innerWidth;
-    H=p.offsetHeight||window.innerHeight;
-    cv.width=W; cv.height=H;
-  }
-  resize(); window.addEventListener('resize',resize);
-
-  // Wire sliders
-  function wireSlider(id, valId, scale, cb){
-    const sl=document.getElementById(id);
-    const vl=document.getElementById(valId);
-    if(!sl) return;
-    sl.addEventListener('input',()=>{
-      const v=sl.value/100;
-      cb(v*scale);
-      vl.textContent=scale===1?(Math.round(v*100)+'%'):(v*scale).toFixed(2)+'x';
-    });
-    sl.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-    sl.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-  }
-  wireSlider('moon-slider','moon-val',1,(v)=>moonInf=v);
-  wireSlider('wind-slider','wind-val',3,(v)=>windSpd=v);
-  wireSlider('freq-slider','freq-val',5,(v)=>waveFreq=v);
-  wireSlider('dens-slider','dens-val',1,(v)=>dataDens=v);
-  window.resetParams=()=>{
-    moonInf=0.72;windSpd=1.38;waveFreq=2.45;dataDens=0.89;
-    document.getElementById('moon-slider').value=72;document.getElementById('moon-val').textContent='72%';
-    document.getElementById('wind-slider').value=138;document.getElementById('wind-val').textContent='1.38x';
-    document.getElementById('freq-slider').value=245;document.getElementById('freq-val').textContent='2.45x';
-    document.getElementById('dens-slider').value=89;document.getElementById('dens-val').textContent='89%';
-  };
-
-  // Mouse — listen on sec3 so it works even when hovering over dots
-  const sec3El=cv.parentElement;
-  sec3El.addEventListener('mousemove',e=>{
-    const r=cv.getBoundingClientRect();
-    mouseX=e.clientX-r.left; mouseY=e.clientY-r.top;
-  });
-  sec3El.addEventListener('mouseleave',()=>{mouseX=-999;mouseY=-999;});
-
-  // Wave height function — multi-sine with params
-  function waveY(x, t, layerIdx){
-    const nx = x/W;
-    const moonAmp = moonInf * 0.12;   // moon boosts amplitude
-    const windAmp = windSpd * 0.035;  // wind boosts amplitude
-    const freq = waveFreq * 0.8;
-    const baseY = 0.38 + layerIdx*0.11;
-
-    let y = baseY
-      + Math.sin(nx*Math.PI*freq*2 + t*(0.4+layerIdx*0.12)) * (moonAmp + windAmp * 0.5)
-      + Math.sin(nx*Math.PI*freq*1.3 + t*(0.28+layerIdx*0.08)) * moonAmp * 0.55
-      + Math.sin(nx*Math.PI*freq*3.1 + t*(0.62+layerIdx*0.15)) * windAmp * 0.35;
-
-    // Mouse ripple: push wave up near cursor
-    if(mouseX>0){
-      const dx=x-mouseX, dy=H*y-mouseY;
-      const dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<120) y -= (1-dist/120)*0.04*(1-layerIdx*0.12);
-    }
-    return y;
-  }
-
-  // Build wave path
-  function wavePath(layerIdx, t, step=3){
-    const pts=[];
-    for(let x=0;x<=W;x+=step){
-      pts.push({x, y:waveY(x,t,layerIdx)*H});
-    }
-    return pts;
-  }
-
-  // Glow particles on wave crests
-  const PARTS=[];
-  function initParts(){
-    PARTS.length=0;
-    const n=Math.floor(60*dataDens);
-    for(let i=0;i<n;i++){
-      PARTS.push({
-        nx:Math.random(),
-        layer:Math.floor(Math.random()*5),
-        phase:Math.random()*Math.PI*2,
-        size:1.5+Math.random()*2.5,
-        alpha:0.4+Math.random()*0.5,
-        pulsePhase:Math.random()*Math.PI*2,
-      });
-    }
-  }
-  initParts();
-  // Re-init when density changes
-  let lastDens=dataDens;
-
-  function drawWaveLine(pts, col, lineW, glowCol, glowW){
-    // Glow pass
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x,pts[0].y);
-    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
-    ctx.strokeStyle=glowCol;
-    ctx.lineWidth=glowW;
-    ctx.filter=`blur(3px)`;
-    ctx.stroke();
-    ctx.restore();
-    // Sharp line
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x,pts[0].y);
-    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
-    ctx.strokeStyle=col;
-    ctx.lineWidth=lineW;
-    ctx.stroke();
-  }
-
-  const LAYER_COLS=[
-    ['rgba(60,80,200,0.6)','rgba(40,60,180,0.2)',2.8,5],
-    ['rgba(90,110,235,0.7)','rgba(70,100,220,0.28)',2.2,6],
-    ['rgba(130,155,255,0.78)','rgba(110,140,250,0.3)',2.0,8],
-    ['rgba(160,180,255,0.85)','rgba(145,165,255,0.38)',1.6,10],
-    ['rgba(195,210,255,0.90)','rgba(175,200,255,0.45)',1.3,12],
-    ['rgba(220,235,255,0.95)','rgba(210,228,255,0.52)',1.1,14],
-  ];
-
-  function frame(ts){
-    if(!document.getElementById('sec3').classList.contains('active')){requestAnimationFrame(frame);return;}
-    const t=ts*0.001;
-
-    // Re-init particles if density changed
-    if(Math.abs(dataDens-lastDens)>0.05){lastDens=dataDens;initParts();}
-
-    ctx.clearRect(0,0,W,H);
-
-    // 半透明深色遮罩（讓底圖 wave_bg 透出來）
-    const bg=ctx.createLinearGradient(0,0,0,H);
-    bg.addColorStop(0,'rgba(1,1,14,0.48)');
-    bg.addColorStop(0.45,'rgba(3,2,22,0.45)');
-    bg.addColorStop(1,'rgba(5,3,30,0.42)');
-    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-
-    // Draw filled wave layers (background depth)
-    for(let li=0;li<6;li++){
-      const pts=wavePath(li,t);
-      const [col,,lw]=LAYER_COLS[li];
-      // Fill below wave
-      ctx.beginPath();
-      ctx.moveTo(0,H);
-      ctx.lineTo(pts[0].x,pts[0].y);
-      for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
-      ctx.lineTo(W,H);
-      ctx.closePath();
-      const fg=ctx.createLinearGradient(0,pts[0].y,0,H);
-      const opacity=(0.08+li*0.04)*(moonInf*0.5+0.7);
-      fg.addColorStop(0,`rgba(40,60,180,${opacity})`);
-      fg.addColorStop(1,'rgba(4,3,15,0)');
-      ctx.fillStyle=fg; ctx.fill();
-    }
-
-    // Draw wave lines (foreground, brightest on top)
-    for(let li=5;li>=0;li--){
-      const pts=wavePath(li,t);
-      const [col,glowCol,lw,glowW]=LAYER_COLS[li];
-      drawWaveLine(pts,col,lw,glowCol,glowW);
-
-      // Draw sub-lines between main lines (dense effect)
-      if(li<5){
-        const pts2=wavePath(li+0.5,t,6);
-        ctx.beginPath();ctx.moveTo(pts2[0].x,pts2[0].y);
-        for(let i=1;i<pts2.length;i++) ctx.lineTo(pts2[i].x,pts2[i].y);
-        ctx.strokeStyle=`rgba(100,120,220,${0.15+li*0.04})`;
-        ctx.lineWidth=0.8; ctx.stroke();
-      }
-    }
-
-    // Glowing particles on wave crests
-    for(const p of PARTS){
-      const x=p.nx*W;
-      const y=waveY(x,t,p.layer)*H;
-      const pulse=0.6+Math.sin(t*2+p.pulsePhase)*0.4;
-      const a=p.alpha*pulse;
-      const r=p.size*pulse;
-      // Glow
-      ctx.beginPath();ctx.arc(x,y,r*3,0,Math.PI*2);
-      ctx.fillStyle=`rgba(160,180,255,${a*0.12})`; ctx.fill();
-      // Core
-      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(220,230,255,${a})`; ctx.fill();
-    }
-
-    // Floating data labels near crests
-    const labelCount=Math.floor(8*dataDens);
-    ctx.font='9px monospace';
-    ctx.fillStyle='rgba(160,200,230,0.5)';
-    for(let i=0;i<labelCount;i++){
-      const nx=(i+0.5)/labelCount;
-      const x=nx*W;
-      const topLay=waveY(x,t,5)*H;
-      const val=(0.1+Math.sin(x*0.03+t*0.3)*0.2).toFixed(2);
-      ctx.fillText(val, x-12, topLay-8);
-      // Vertical tick
-      ctx.beginPath();ctx.moveTo(x,topLay-6);ctx.lineTo(x,topLay+4);
-      ctx.strokeStyle='rgba(140,180,220,0.3)';ctx.lineWidth=0.7;ctx.stroke();
-    }
-
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-
-  // Wave-peak info nodes (clickable dots on crests)
-  (function(){
-    const container=document.getElementById('ds-floaters');
-    if(!container) return;
-    const nodes=[
-      {label:'PROFILE',icon:'👤',info:'Artist · Developer · VTuber'},
-      {label:'WORKS',icon:'🎨',info:'插畫 · 角色設計 · Live2D · Web'},
-      {label:'SKILLS',icon:'⚡',info:'Illustration · Live2D · React · Python'},
-      {label:'CONTACT',icon:'💌',info:'Commission & Collaboration'},
-      {label:'2025',icon:'✦',info:'永遠好奇，永遠在創作'},
-    ];
-    // Place dots at wave peaks
-    const positions=[0.12, 0.28, 0.5, 0.70, 0.86];
-    // 全域提示文字（底部，幾秒後淡出）
-    const hint=document.createElement('div');
-    hint.style.cssText='position:absolute;bottom:56px;left:50%;transform:translateX(-50%);font:400 9px monospace;letter-spacing:3px;color:rgba(160,180,255,.5);white-space:nowrap;pointer-events:none;animation:ds-hint 2.5s ease-in-out infinite;z-index:8;text-transform:uppercase';
-    hint.textContent='✦ 點擊光點探索 · click to explore ✦';
-    container.appendChild(hint);
-    setTimeout(()=>{hint.style.transition='opacity 1.5s';hint.style.opacity='0';},6000);
-
-    const dots=nodes.map((n,i)=>{
-      const wrap=document.createElement('div');
-      wrap.style.cssText='position:absolute;left:0;top:0;z-index:6;pointer-events:none;transform-origin:center bottom';
-
-      // 脈衝外環（純裝飾，不擋點擊）
-      const ring=document.createElement('div');
-      ring.style.cssText=`width:28px;height:28px;border-radius:50%;border:1px solid rgba(160,185,255,0.45);position:absolute;transform:translate(-50%,-50%);animation:ds-pulse ${1.9+i*0.35}s ease-out infinite;pointer-events:none`;
-
-      // 主光點（接收點擊）
-      const dot=document.createElement('div');
-      dot.style.cssText='width:13px;height:13px;border-radius:50%;background:rgba(200,220,255,0.9);box-shadow:0 0 10px rgba(180,205,255,0.85),0 0 24px rgba(140,170,255,0.5);transform:translate(-50%,-50%);transition:all .22s;pointer-events:all;cursor:none';
-
-      // 常駐標籤（點名，永遠可見）
-      const label=document.createElement('div');
-      label.style.cssText='position:absolute;top:12px;left:50%;transform:translateX(-50%);font:700 7px monospace;letter-spacing:2.5px;color:rgba(180,205,255,0.65);white-space:nowrap;pointer-events:none;text-transform:uppercase;text-shadow:0 0 8px rgba(140,170,255,0.6)';
-      label.textContent=n.label;
-
-      // 點擊展開的資訊卡
-      const popup=document.createElement('div');
-      popup.style.cssText='position:absolute;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(6,3,22,.92);backdrop-filter:blur(16px);border:1px solid rgba(110,85,215,.5);border-radius:9px;padding:12px 16px;min-width:155px;text-align:center;pointer-events:none;opacity:0;transition:opacity .25s,transform .25s;white-space:nowrap;transform-origin:bottom center';
-      popup.innerHTML=`<div style="font:700 10px monospace;letter-spacing:3px;color:rgba(190,168,255,.95);text-transform:uppercase;margin-bottom:6px">${n.icon} ${n.label}</div><div style="font:400 9px/1.6 monospace;color:rgba(140,165,215,.7);letter-spacing:.5px">${n.info}</div>`;
-
-      let open=false;
-      dot.addEventListener('click',()=>{
-        open=!open;
-        popup.style.opacity=open?'1':'0';
-        popup.style.transform=open?'translateX(-50%) translateY(-4px)':'translateX(-50%)';
-        dot.style.background=open?'rgba(230,215,255,1)':'rgba(200,220,255,0.9)';
-        dot.style.boxShadow=open?'0 0 16px rgba(200,180,255,1),0 0 32px rgba(160,140,255,0.8)':'0 0 10px rgba(180,205,255,0.85),0 0 24px rgba(140,170,255,0.5)';
-        // 關閉其他已開的
-        dots.forEach(other=>{
-          if(other&&other.dotEl!==dot&&other.openFn)other.openFn(false);
-        });
-      });
-      dot.addEventListener('mouseenter',()=>{dot.style.transform='translate(-50%,-50%) scale(1.6)';dot.style.boxShadow='0 0 14px rgba(200,210,255,1),0 0 30px rgba(160,180,255,0.9)';});
-      dot.addEventListener('mouseleave',()=>{dot.style.transform='translate(-50%,-50%)';if(!open)dot.style.boxShadow='0 0 10px rgba(180,205,255,0.85),0 0 24px rgba(140,170,255,0.5)';});
-
-      wrap.appendChild(ring);wrap.appendChild(dot);wrap.appendChild(label);wrap.appendChild(popup);
-      container.appendChild(wrap);
-      const entry={wrap,nx:positions[i],dotEl:dot,openFn:(v)=>{
-        open=v;popup.style.opacity=v?'1':'0';
-        dot.style.background=v?'rgba(230,215,255,1)':'rgba(200,220,255,0.9)';
-      }};
-      return entry;
-    });
-    // Update dot positions to follow wave peaks each frame
-    function tick(ts){
-      if(!cv.width){requestAnimationFrame(tick);return;}
-      const t=ts*0.001;
-      dots.forEach(d=>{
-        const x=d.nx*cv.offsetWidth;
-        const y=waveY(x,t,2)*cv.offsetHeight;
-        d.wrap.style.transform=`translate(${x}px,${y}px)`;
-        d.wrap.style.left='0';d.wrap.style.top='0';
-      });
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  })();
-})();
 
 // Loader — terminal boot sequence
 (function(){

@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ARCANA · 塔羅占卜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Topbar ===== */
+#topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 48px;
+  z-index: 1000;
+  background: rgba(11, 8, 32, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.16);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+}
+.tnav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.tnav-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(196, 181, 253, 0.55);
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.tnav-back:hover {
+  color: #e8e0f8;
+  background: rgba(167, 139, 250, 0.09);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+.tnav-sep {
+  width: 1px; height: 22px;
+  background: rgba(167, 139, 250, 0.16);
+  flex-shrink: 0;
+}
+.tnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.tnav-brand-mark {
+  font-size: 16px;
+  color: #d6b06c;
+  filter: drop-shadow(0 0 7px rgba(214, 176, 108, 0.55));
+  line-height: 1;
+  font-family: 'Cormorant Garamond', serif;
+}
+.tnav-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+.tnav-brand-en {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: #ece8f8;
+  line-height: 1.2;
+}
+.tnav-brand-zh {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: rgba(196, 181, 253, 0.4);
+  font-family: 'Noto Serif TC', serif;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* ===== Tarot App Styles ===== */
+:root {
+  --bg-0: #0b0820;
+  --bg-1: #14102e;
+  --bg-2: #1f1a44;
+  --ink: #f3ead5;
+  --ink-dim: rgba(243, 234, 213, 0.65);
+  --ink-faint: rgba(243, 234, 213, 0.38);
+  --gold: #d6b06c;
+  --gold-soft: #c89e58;
+  --gold-glow: rgba(214, 176, 108, 0.5);
+  --violet: #6d4bb3;
+  --rail-w-open: 400px;
+  --rail-w-collapsed: 56px;
+  --serif-en: "Cormorant Garamond", "Cinzel", Georgia, serif;
+  --display: "Cinzel", "Cormorant Garamond", serif;
+  --serif-cn: "Noto Serif TC", "Songti TC", "STSong", serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--serif-cn);
+  color: var(--ink);
+  background: var(--bg-0);
+  overflow: hidden;
+  height: 100vh;
+  letter-spacing: 0.02em;
+}
+
+/* ===== Stage / Background ===== */
+.stage {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(109, 75, 179, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(214, 176, 108, 0.10) 0%, transparent 55%),
+    linear-gradient(rgba(8, 5, 22, 0.52), rgba(8, 5, 22, 0.52)),
+    url('assets/tarot/tarotbg.webp') center / cover no-repeat;
+  overflow: hidden;
+  z-index: 0;
+}
+.stars, .stars-2, .stars-3 { position: absolute; inset: 0; pointer-events: none; }
+.stars::before, .stars-2::before, .stars-3::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background-repeat: repeat;
+}
+.stars::before {
+  background-image: radial-gradient(1px 1px at 25% 30%, rgba(255,255,255,0.9), transparent),
+                    radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.7), transparent),
+                    radial-gradient(1.5px 1.5px at 80% 20%, rgba(255,255,255,0.85), transparent),
+                    radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.6), transparent),
+                    radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.8), transparent),
+                    radial-gradient(1px 1px at 40% 90%, rgba(214,176,108,0.5), transparent);
+  background-size: 300px 300px;
+  animation: twinkle 8s ease-in-out infinite;
+}
+.stars-2::before {
+  background-image: radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.6), transparent),
+                    radial-gradient(0.5px 0.5px at 30% 60%, rgba(255,255,255,0.4), transparent),
+                    radial-gradient(0.5px 0.5px at 75% 25%, rgba(255,255,255,0.5), transparent);
+  background-size: 200px 200px;
+  animation: twinkle 12s ease-in-out infinite reverse;
+}
+.stars-3::before {
+  background-image: radial-gradient(1.5px 1.5px at 10% 10%, rgba(214,176,108,0.6), transparent),
+                    radial-gradient(1px 1px at 70% 80%, rgba(214,176,108,0.4), transparent),
+                    radial-gradient(1.5px 1.5px at 45% 35%, rgba(255,240,200,0.7), transparent);
+  background-size: 500px 500px;
+  animation: twinkle 15s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.55; transform: translateY(-8px); }
+}
+.smoke {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 40% at 30% 100%, rgba(140, 96, 220, 0.18), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 70% 0%, rgba(214, 176, 108, 0.08), transparent 70%);
+  filter: blur(20px);
+  mix-blend-mode: screen;
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+
+/* ===== App Header (decorative, below topbar) ===== */
+.header {
+  position: fixed;
+  top: 48px; left: 0; right: 0;
+  padding: 16px 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 50;
+  pointer-events: none;
+}
+.brand { display: none; }
+.header-subtitle {
+  font-family: var(--serif-cn);
+  color: var(--ink-faint);
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  padding-left: 0.4em;
+}
+
+/* ===== Main grid ===== */
+.app-main {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: grid;
+  transition: grid-template-columns 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.app-main.no-rail { grid-template-columns: 1fr; }
+.app-main.has-rail-collapsed { grid-template-columns: 1fr var(--rail-w-collapsed); }
+.app-main.has-rail-open { grid-template-columns: 1fr var(--rail-w-open); }
+
+/* ===== Board (left column) ===== */
+.board-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 112px 40px 40px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.board-meta {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.board-meta-en {
+  font-family: var(--display);
+  letter-spacing: 0.45em;
+  font-size: 11px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.board-meta-cn {
+  font-family: var(--serif-cn);
+  font-size: 30px;
+  letter-spacing: 0.32em;
+  color: var(--ink);
+  padding-left: 0.32em;
+  text-shadow: 0 0 30px rgba(214,176,108,0.25);
+}
+.board-meta-orn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+  color: var(--gold);
+}
+.board-meta-orn > span:not(.orn-glyph) {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.orn-glyph {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.board {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  flex: 0 0 auto;
+  transition: max-width 0.4s ease, height 0.4s ease;
+  margin: 8px 0 16px;
+}
+.board.is-celtic { max-width: 820px; }
+
+/* ===== Board CTA ===== */
+.board-cta {
+  margin-top: auto;
+  padding-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.board-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 46px;
+  background: linear-gradient(180deg, rgba(214,176,108,0.2), rgba(214,176,108,0.06));
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  font-family: var(--serif-cn);
+  font-size: 15px;
+  letter-spacing: 0.45em;
+  padding-left: calc(46px + 0.45em);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.board-cta-btn::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(214,176,108,0.25);
+  pointer-events: none;
+}
+.board-cta-btn .cta-rune {
+  color: var(--gold);
+  font-size: 13px;
+}
+.board-cta-btn:hover {
+  background: linear-gradient(180deg, rgba(214,176,108,0.3), rgba(214,176,108,0.12));
+  box-shadow: 0 0 50px var(--gold-glow), inset 0 0 30px rgba(214,176,108,0.15);
+}
+.board-cta-hint {
+  font-family: var(--serif-cn);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.28em;
+}
+
+/* ===== Bottom Bar ===== */
+.bottom-bar {
+  margin-top: auto;
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.bar-status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 22px;
+  background: rgba(11,8,32,0.5);
+  border: 1px solid rgba(214,176,108,0.25);
+  font-family: var(--serif-cn);
+}
+.bar-status-label {
+  font-size: 12px;
+  color: var(--ink-dim);
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+}
+.bar-status-num {
+  font-family: var(--display);
+  font-size: 16px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+.bar-btn {
+  padding: 12px 24px;
+  font-family: var(--serif-cn);
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  padding-left: calc(24px + 0.3em);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid;
+}
+.bar-btn-primary {
+  background: linear-gradient(180deg, rgba(214,176,108,0.2), rgba(214,176,108,0.05));
+  border-color: var(--gold);
+  color: var(--ink);
+  position: relative;
+}
+.bar-btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(214,176,108,0.25);
+  pointer-events: none;
+}
+.bar-btn-primary:hover {
+  background: linear-gradient(180deg, rgba(214,176,108,0.32), rgba(214,176,108,0.12));
+  box-shadow: 0 0 24px var(--gold-glow);
+}
+.bar-btn-ghost {
+  background: transparent;
+  border-color: rgba(214,176,108,0.4);
+  color: var(--ink-dim);
+}
+.bar-btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.bar-btn-text {
+  background: transparent;
+  border: none;
+  color: var(--ink-faint);
+  font-size: 12px;
+  padding: 8px 12px;
+  letter-spacing: 0.25em;
+}
+.bar-btn-text:hover { color: var(--gold); }
+
+/* ===== Slot placeholder ===== */
+.slot-placeholder {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: slotIn 0.6s ease both;
+}
+.slot-placeholder.is-overlay { z-index: 2; }
+.slot-inner {
+  width: 100%;
+  height: 100%;
+  border: 1px dashed rgba(214,176,108,0.32);
+  background: rgba(11, 8, 32, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  border-radius: 4px;
+}
+.slot-inner::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(214,176,108,0.08);
+  border-radius: 2px;
+}
+.slot-num {
+  font-family: var(--display);
+  font-size: 24px;
+  color: var(--gold);
+  opacity: 0.6;
+  letter-spacing: 0.1em;
+}
+.slot-label {
+  font-family: var(--serif-cn);
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 0.25em;
+  white-space: nowrap;
+  padding-left: 0.25em;
+}
+@keyframes slotIn {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ===== Tarot Card ===== */
+.tarot-card-slot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  perspective: 1200px;
+  transition: opacity 0.6s ease;
+  user-select: none;
+  pointer-events: none;
+}
+.tarot-card-slot.is-dimmed { opacity: 0.4; }
+.tarot-card-slot.is-overlay { z-index: 3; }
+.tarot-card-slot.is-focused { z-index: 4; }
+
+.tarot-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.tarot-card-slot.is-flipped .tarot-card-inner {
+  transform: rotate(var(--card-rot, 0deg)) rotateY(180deg) !important;
+}
+
+.tarot-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow:
+    0 12px 36px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(214,176,108,0.35),
+    inset 0 0 0 1px rgba(214,176,108,0.15);
+}
+.tarot-card-back {
+  background: radial-gradient(circle at 50% 50%, #2a1f5a 0%, #14102e 60%, #0b0820 100%);
+}
+.back-ornament { position: absolute; inset: 0; }
+.back-ornament svg { width: 100%; height: 100%; display: block; }
+
+.tarot-card-front {
+  background: linear-gradient(180deg, #1d1838 0%, #15102f 100%);
+  transform: rotateY(180deg);
+  display: grid;
+  place-items: center;
+}
+.tarot-card-front.is-reversed .front-inner { transform: rotate(180deg); }
+
+.front-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 10px;
+}
+.front-frame {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(214,176,108,0.55);
+  pointer-events: none;
+}
+.front-frame::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(214,176,108,0.2);
+}
+.corner {
+  position: absolute;
+  font-family: var(--display);
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+.corner.tl { top: 8px; left: 10px; }
+.corner.br { bottom: 8px; right: 10px; }
+.front-glyph {
+  font-size: 60px;
+  color: var(--gold);
+  margin-top: 22px;
+  text-shadow: 0 0 24px rgba(214,176,108,0.55);
+  font-family: var(--display);
+  line-height: 1;
+}
+.front-name { text-align: center; margin-bottom: 8px; z-index: 2; }
+.name-cn {
+  font-family: var(--serif-cn);
+  font-size: 15px;
+  color: var(--ink);
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+}
+.name-en {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  margin-top: 4px;
+}
+.reversed-tag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+  font-family: var(--display);
+  font-size: 9px;
+  color: rgba(214,176,108,0.55);
+  letter-spacing: 0.3em;
+  border: 1px solid rgba(214,176,108,0.3);
+  padding: 3px 8px;
+  margin-top: 48px;
+}
+.card-label {
+  position: absolute;
+  bottom: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--serif-cn);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.tarot-card-slot.is-flipped .card-label { color: var(--gold); }
+.tarot-card-slot.is-focused .card-label { color: var(--gold); }
+.tarot-card-inner:hover ~ .card-label { color: var(--gold); }
+
+/* Entry animation */
+.tarot-card-slot {
+  animation: deal 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+@keyframes deal {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-60px) scale(0.7);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    filter: blur(0);
+  }
+}
+.tarot-card-slot:not(.is-flipped) .tarot-card-inner:hover {
+  transform: rotate(var(--card-rot, 0deg)) translateY(-6px) scale(1.04);
+}
+.tarot-card-slot:not(.is-flipped) .tarot-card-inner:hover .tarot-card-face {
+  box-shadow:
+    0 22px 50px rgba(0,0,0,0.75),
+    0 0 0 1px var(--gold),
+    0 0 36px var(--gold-glow);
+}
+
+/* ===== Floating Spread Picker ===== */
+.spread-float {
+  position: fixed;
+  top: 118px;
+  right: 32px;
+  width: 340px;
+  background: linear-gradient(180deg, rgba(11,8,32,0.92), rgba(20,16,46,0.94));
+  border: 1px solid rgba(214,176,108,0.32);
+  backdrop-filter: blur(16px);
+  padding: 22px 22px 22px;
+  z-index: 40;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(214,176,108,0.06),
+    inset 0 0 0 1px rgba(214,176,108,0.06);
+  animation: floatIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.spread-float::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(214,176,108,0.12);
+  pointer-events: none;
+}
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.float-header {
+  text-align: left;
+  margin-bottom: 18px;
+  position: relative;
+}
+.float-eyebrow {
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.float-title {
+  font-family: var(--serif-cn);
+  font-size: 20px;
+  color: var(--ink);
+  letter-spacing: 0.3em;
+  margin-top: 6px;
+  padding-left: 0.3em;
+}
+.float-divider {
+  margin-top: 12px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(214,176,108,0.5), transparent);
+}
+.float-list { display: flex; flex-direction: column; gap: 4px; }
+.float-pick {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  background: transparent;
+  border: 1px solid rgba(214,176,108,0.12);
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  transition: all 0.22s ease;
+}
+.float-pick:hover {
+  border-color: rgba(214,176,108,0.4);
+  background: rgba(214,176,108,0.05);
+}
+.float-pick.is-selected {
+  border-color: var(--gold);
+  background: linear-gradient(90deg, rgba(214,176,108,0.14), rgba(214,176,108,0.02));
+  box-shadow: 0 0 20px rgba(214,176,108,0.15);
+}
+.float-pick-radio {
+  width: 14px; height: 14px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.radio-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.float-pick.is-selected .radio-dot { opacity: 1; }
+.float-pick-info { flex: 1; min-width: 0; }
+.float-pick-name {
+  font-family: var(--serif-cn);
+  font-size: 14px;
+  color: var(--ink);
+  letter-spacing: 0.15em;
+  padding-left: 0.15em;
+}
+.float-pick-sub {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 10px;
+  color: var(--ink-faint);
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+.float-pick-mini {
+  width: 52px; height: 28px;
+  color: var(--ink-faint);
+  flex-shrink: 0;
+}
+.float-pick-mini svg { width: 100%; height: 100%; }
+.float-pick.is-selected .float-pick-mini { color: var(--gold); }
+.float-desc {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--gold);
+  background: rgba(214,176,108,0.04);
+  font-family: var(--serif-cn);
+  font-size: 12px;
+  color: var(--ink-dim);
+  line-height: 1.85;
+  letter-spacing: 0.05em;
+}
+
+/* ===== Side Rail (right column) ===== */
+.side-rail {
+  position: relative;
+  background: linear-gradient(180deg, rgba(11,8,32,0.92), rgba(20,16,46,0.92));
+  border-left: 1px solid rgba(214,176,108,0.25);
+  backdrop-filter: blur(18px);
+  height: 100vh;
+  overflow: hidden;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.rail-toggle {
+  position: absolute;
+  top: 50%;
+  left: -16px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 60px;
+  border-radius: 6px 0 0 6px;
+  background: var(--bg-2);
+  border: 1px solid rgba(214,176,108,0.4);
+  border-right: none;
+  color: var(--gold);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.25s ease;
+}
+.rail-toggle:hover {
+  background: var(--gold);
+  color: var(--bg-0);
+  border-color: var(--gold);
+}
+.rail-collapsed-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 60px;
+  pointer-events: none;
+}
+.rail-collapsed-title {
+  font-family: var(--serif-cn);
+  font-size: 14px;
+  color: var(--ink-dim);
+  letter-spacing: 0.5em;
+  writing-mode: vertical-rl;
+  padding-top: 0.5em;
+}
+.rail-content {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 120px 28px 32px;
+  width: var(--rail-w-open);
+}
+.rail-content::-webkit-scrollbar { width: 6px; }
+.rail-content::-webkit-scrollbar-thumb { background: rgba(214,176,108,0.2); border-radius: 3px; }
+.rail-section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.rail-section-title > span:first-child::before {
+  content: "✦ ";
+  opacity: 0.6;
+  margin-right: 6px;
+}
+.rail-section-divider {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(214,176,108,0.4), transparent);
+}
+.rail-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  border: 1px dashed rgba(214,176,108,0.2);
+  background: rgba(11,8,32,0.3);
+}
+.rail-empty-glyph {
+  font-size: 40px;
+  color: var(--gold);
+  opacity: 0.6;
+  margin-bottom: 18px;
+}
+.rail-empty-text {
+  font-family: var(--serif-cn);
+  font-size: 13px;
+  color: var(--ink-dim);
+  letter-spacing: 0.25em;
+  line-height: 2;
+  padding-left: 0.25em;
+}
+
+/* Card detail */
+.card-detail {
+  background: linear-gradient(180deg, rgba(31,26,68,0.5), rgba(11,8,32,0.5));
+  border: 1px solid rgba(214,176,108,0.2);
+  padding: 24px 22px 26px;
+  position: relative;
+  overflow: hidden;
+}
+.card-detail::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle at 70% 30%, rgba(214,176,108,0.12), transparent 70%);
+  pointer-events: none;
+}
+.cd-position {
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.cd-name {
+  font-family: var(--serif-cn);
+  font-size: 32px;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  margin-top: 14px;
+  padding-left: 0.18em;
+}
+.cd-en {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+.cd-orientation {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 4px 12px;
+  border: 1px solid var(--gold);
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+}
+.cd-orientation.is-reversed {
+  border-color: #c889a3;
+  color: #c889a3;
+}
+.cd-keyword {
+  margin-top: 18px;
+  font-family: var(--serif-cn);
+  font-size: 13px;
+  color: var(--ink-dim);
+  letter-spacing: 0.2em;
+}
+.cd-body {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(214,176,108,0.15);
+}
+.cd-body-label {
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.cd-body-text {
+  font-family: var(--serif-cn);
+  font-size: 14px;
+  line-height: 1.95;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+}
+
+/* ===== Shuffle Overlay ===== */
+.shuffle-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(11,8,32,0.85), rgba(11,8,32,0.98));
+  z-index: 70;
+  backdrop-filter: blur(8px);
+}
+.shuffle-stack {
+  position: relative;
+  width: 160px;
+  height: 250px;
+}
+.shuffle-stack .shuffle-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: radial-gradient(circle at 50% 50%, #2a1f5a 0%, #14102e 60%, #0b0820 100%);
+  border: 1px solid var(--gold-glow);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  animation: shuffle 1.2s ease-in-out infinite;
+}
+.shuffle-stack .shuffle-card:nth-child(1) { animation-delay: 0s; }
+.shuffle-stack .shuffle-card:nth-child(2) { animation-delay: 0.15s; }
+.shuffle-stack .shuffle-card:nth-child(3) { animation-delay: 0.3s; }
+.shuffle-stack .shuffle-card:nth-child(4) { animation-delay: 0.45s; }
+.shuffle-stack .shuffle-card:nth-child(5) { animation-delay: 0.6s; }
+@keyframes shuffle {
+  0%, 100% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(-34px,-12px) rotate(-8deg); }
+  50% { transform: translate(0,0) rotate(0deg); }
+  75% { transform: translate(34px,-12px) rotate(8deg); }
+}
+.shuffle-text {
+  margin-top: 60px;
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.shuffle-text-cn {
+  margin-top: 12px;
+  font-family: var(--serif-cn);
+  font-size: 15px;
+  color: var(--ink-dim);
+  letter-spacing: 0.4em;
+  padding-left: 0.4em;
+}
+
+.fade-in { animation: fadeIn 0.6s ease both; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="tnav-left">
+    <a href="works_v3.html" class="tnav-back">← ARCHIVE</a>
+    <div class="tnav-sep"></div>
+    <div class="tnav-brand">
+      <span class="tnav-brand-mark">☾</span>
+      <div class="tnav-brand-text">
+        <div class="tnav-brand-en">ARCANA</div>
+        <div class="tnav-brand-zh">塔羅占卜</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="root"></div>
+
+<script>
+window.__TAROT_TWEAKS_DEFAULTS__ = {
+  "starsExtra": true,
+  "smoke": true,
+  "mood": "deep"
+};
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- tweaks-panel -->
+<script type="text/babel">
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;min-width:0;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2}
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+`;
+
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd">
+          <b>{title}</b>
+          <button className="twk-x" onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+function TweakSection({ label, children }) {
+  return (<><div className="twk-sect">{label}</div>{children}</>);
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+  return (
+    <div className="twk-row">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <div ref={trackRef} className="twk-seg">
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakToggle, TweakRadio });
+</script>
+
+<!-- tarot-data -->
+<script type="text/babel">
+const ARCANA = [
+  { num: 0,  roman: "0",     name: "愚者",       en: "The Fool",            keyword: "純真．冒險．新旅程",
+    upright: "聽從直覺，踏出第一步。未知的旅途正在等待你。",
+    reversed: "魯莽、猶豫不決，或對風險缺乏準備。",
+    glyph: "☼" },
+  { num: 1,  roman: "I",     name: "魔術師",     en: "The Magician",        keyword: "意志．創造．行動",
+    upright: "你擁有所需的一切資源，將想法化為現實的時機已到。",
+    reversed: "才能被誤用、口是心非，或被自身的能力所迷惑。",
+    glyph: "∞" },
+  { num: 2,  roman: "II",    name: "女祭司",     en: "High Priestess",      keyword: "直覺．潛意識．奧秘",
+    upright: "靜默聆聽內在的聲音，答案藏於沉思之中。",
+    reversed: "忽略直覺、訊息被遮蔽，內外失衡。",
+    glyph: "☾" },
+  { num: 3,  roman: "III",   name: "皇后",       en: "The Empress",         keyword: "豐盛．孕育．感官",
+    upright: "創造力與生命力充盈，是收穫與愛的時節。",
+    reversed: "依賴、過度給予，或創造力受阻。",
+    glyph: "♀" },
+  { num: 4,  roman: "IV",    name: "皇帝",       en: "The Emperor",         keyword: "秩序．權威．結構",
+    upright: "建立穩固的根基，以理性與紀律掌握全局。",
+    reversed: "專制、僵化，或失去主導權。",
+    glyph: "♂" },
+  { num: 5,  roman: "V",     name: "教皇",       en: "The Hierophant",      keyword: "傳統．信念．指引",
+    upright: "遵循既定的智慧傳統，導師或制度將給予幫助。",
+    reversed: "挑戰權威、打破傳統，走自己的道路。",
+    glyph: "✠" },
+  { num: 6,  roman: "VI",    name: "戀人",       en: "The Lovers",          keyword: "選擇．連結．和諧",
+    upright: "重要的選擇與深刻的連結，請忠於內心。",
+    reversed: "失衡的關係、誤解、價值觀衝突。",
+    glyph: "✧" },
+  { num: 7,  roman: "VII",   name: "戰車",       en: "The Chariot",         keyword: "意志．前進．掌控",
+    upright: "以堅定意志駕馭對立的力量，邁向勝利。",
+    reversed: "失控、目標模糊，或對抗中內耗。",
+    glyph: "⛛" },
+  { num: 8,  roman: "VIII",  name: "力量",       en: "Strength",            keyword: "勇氣．柔韌．馴服",
+    upright: "以溫柔的堅毅面對挑戰，內在的力量勝過蠻力。",
+    reversed: "自我懷疑、情緒失控，或被恐懼支配。",
+    glyph: "∞" },
+  { num: 9,  roman: "IX",    name: "隱者",       en: "The Hermit",          keyword: "沉思．孤獨．啟示",
+    upright: "退一步，獨自走向內在，光會從心中升起。",
+    reversed: "孤立、迷失方向，或拒絕被理解。",
+    glyph: "✦" },
+  { num: 10, roman: "X",     name: "命運之輪",   en: "Wheel of Fortune",    keyword: "轉變．循環．時機",
+    upright: "命運之輪轉動，新的循環即將到來。",
+    reversed: "抗拒改變、運勢受阻，或停留於舊習慣。",
+    glyph: "☯" },
+  { num: 11, roman: "XI",    name: "正義",       en: "Justice",             keyword: "公平．因果．真相",
+    upright: "事情會以應有的方式平衡，誠實與責任是關鍵。",
+    reversed: "偏見、逃避責任，或不公的結果。",
+    glyph: "⚖" },
+  { num: 12, roman: "XII",   name: "倒吊人",     en: "The Hanged Man",      keyword: "暫停．犧牲．新視角",
+    upright: "暫停，換一個角度看，犧牲將帶來新的領悟。",
+    reversed: "停滯、無謂的犧牲，或拒絕轉換觀點。",
+    glyph: "⟂" },
+  { num: 13, roman: "XIII",  name: "死神",       en: "Death",               keyword: "終結．蛻變．重生",
+    upright: "一段循環結束，新生命從蛻變中誕生。",
+    reversed: "抗拒結束、停留過去，或變化來得遲緩。",
+    glyph: "✕" },
+  { num: 14, roman: "XIV",   name: "節制",       en: "Temperance",          keyword: "平衡．調和．整合",
+    upright: "耐心調和對立的元素，找到中道。",
+    reversed: "過度、失衡，或急於求成。",
+    glyph: "△" },
+  { num: 15, roman: "XV",    name: "惡魔",       en: "The Devil",           keyword: "束縛．執念．陰影",
+    upright: "看清困住你的執念，鎖鏈其實在自己手中。",
+    reversed: "從束縛中解脫，重新奪回主導權。",
+    glyph: "⛧" },
+  { num: 16, roman: "XVI",   name: "高塔",       en: "The Tower",           keyword: "崩塌．覺醒．真相",
+    upright: "舊有結構崩塌，真相以閃電之姿降臨。",
+    reversed: "延遲的崩塌、勉強維持，或內在的危機。",
+    glyph: "▲" },
+  { num: 17, roman: "XVII",  name: "星星",       en: "The Star",            keyword: "希望．療癒．指引",
+    upright: "風暴之後的寧靜，希望之光重新照亮前路。",
+    reversed: "失去信心、希望黯淡，或自我懷疑。",
+    glyph: "✧" },
+  { num: 18, roman: "XVIII", name: "月亮",       en: "The Moon",            keyword: "幻象．潛意識．迷霧",
+    upright: "穿越迷霧，傾聽夢境與直覺的訊息。",
+    reversed: "迷霧散去，真相浮現；或仍被恐懼蒙蔽。",
+    glyph: "☽" },
+  { num: 19, roman: "XIX",   name: "太陽",       en: "The Sun",             keyword: "光明．喜悅．成就",
+    upright: "光與生命綻放，純粹的喜悅與成功降臨。",
+    reversed: "光芒被遮蔽、過度樂觀，或喜悅延遲。",
+    glyph: "☀" },
+  { num: 20, roman: "XX",    name: "審判",       en: "Judgement",           keyword: "覺醒．召喚．清算",
+    upright: "聽見內在的召喚，是時候做出最終的決定。",
+    reversed: "自我批判、忽略召喚，或無法原諒自己。",
+    glyph: "♁" },
+  { num: 21, roman: "XXI",   name: "世界",       en: "The World",           keyword: "完成．圓滿．整合",
+    upright: "一段旅程圓滿結束，你已完整地成為自己。",
+    reversed: "未完成、缺口仍在，或無法放下舊章節。",
+    glyph: "✺" },
+
+  // ── 小阿爾克那 · Minor Arcana ─────────────────────────────────────────
+
+  // 權杖 Wands（火・熱情・行動・創造）
+  { num: "w1",  roman: "A",   suit: "wands",    name: "權杖首牌", en: "Ace of Wands",      keyword: "靈感．起點．創意之火",
+    upright:  "新的靈感與熱情湧現，是行動與創造的最佳起點。",
+    reversed: "創意受阻、方向不明，或缺乏動力啟動新計畫。",    glyph: "♣" },
+  { num: "w2",  roman: "II",  suit: "wands",    name: "權杖二",   en: "Two of Wands",      keyword: "規劃．遠見．擴張",
+    upright:  "已有初步成果，現在需要規劃更宏大的未來藍圖。",
+    reversed: "安於現狀、缺乏遠見，或計畫難以付諸實行。",       glyph: "♣" },
+  { num: "w3",  roman: "III", suit: "wands",    name: "權杖三",   en: "Three of Wands",    keyword: "等待．機遇．探索",
+    upright:  "計畫已啟動，等待時機擴展至更廣闊的領域。",
+    reversed: "延誤、挫折，或對未來感到不確定與焦慮。",         glyph: "♣" },
+  { num: "w4",  roman: "IV",  suit: "wands",    name: "權杖四",   en: "Four of Wands",     keyword: "慶祝．和諧．里程碑",
+    upright:  "值得慶祝的成就，一個穩定、喜悅的階段到來。",
+    reversed: "慶祝被推遲，家庭或社群關係出現緊張。",           glyph: "♣" },
+  { num: "w5",  roman: "V",   suit: "wands",    name: "權杖五",   en: "Five of Wands",     keyword: "競爭．衝突．混亂",
+    upright:  "多方競爭或意見分歧，需要在混亂中找到出路。",
+    reversed: "避免衝突或找到共識，但也可能是壓抑未化解的矛盾。", glyph: "♣" },
+  { num: "w6",  roman: "VI",  suit: "wands",    name: "權杖六",   en: "Six of Wands",      keyword: "勝利．肯定．榮耀",
+    upright:  "努力獲得認可，在眾人的肯定中凱旋而歸。",
+    reversed: "自我懷疑、失敗的恐懼，或成功遭到嫉妒。",         glyph: "♣" },
+  { num: "w7",  roman: "VII", suit: "wands",    name: "權杖七",   en: "Seven of Wands",    keyword: "堅守．挑戰．防禦",
+    upright:  "面對多方挑戰，需要堅持立場捍衛已有成果。",
+    reversed: "不堪壓力而退縮，或在不必要的地方消耗精力。",     glyph: "♣" },
+  { num: "w8",  roman: "VIII",suit: "wands",    name: "權杖八",   en: "Eight of Wands",    keyword: "速度．行動．訊息",
+    upright:  "事情快速推進，訊息傳遞順暢，行動的時機已到。",
+    reversed: "延誤、誤解，或行動過於倉促。",                   glyph: "♣" },
+  { num: "w9",  roman: "IX",  suit: "wands",    name: "權杖九",   en: "Nine of Wands",     keyword: "韌性．防衛．疲憊",
+    upright:  "雖已疲憊，仍保持警戒；再撐一步，終點就在前方。",
+    reversed: "固執己見，或因過度謹慎而無法前進。",             glyph: "♣" },
+  { num: "w10", roman: "X",   suit: "wands",    name: "權杖十",   en: "Ten of Wands",      keyword: "重擔．責任．過載",
+    upright:  "承擔了過多責任，需要學習放下或尋求協助。",
+    reversed: "丟下重擔、委派任務，或因不堪重負而倒下。",       glyph: "♣" },
+  { num: "w11", roman: "Pg",  suit: "wands",    name: "權杖侍者", en: "Page of Wands",     keyword: "熱忱．探索．新訊息",
+    upright:  "充滿好奇與熱情，帶著初學者的心態探索新領域。",
+    reversed: "衝動、魯莽，或熱情難以持久。",                   glyph: "♣" },
+  { num: "w12", roman: "Kn",  suit: "wands",    name: "權杖騎士", en: "Knight of Wands",   keyword: "行動．冒險．衝勁",
+    upright:  "充滿能量與衝勁地追求目標，但需注意不要過於魯莽。",
+    reversed: "衝動行事、缺乏計畫，或能量散漫無法聚焦。",       glyph: "♣" },
+  { num: "w13", roman: "Q",   suit: "wands",    name: "權杖皇后", en: "Queen of Wands",    keyword: "自信．魅力．創造力",
+    upright:  "以熱情和自信感召他人，是充滿創意與領導力的時期。",
+    reversed: "過度強勢、自我中心，或失去自信。",               glyph: "♣" },
+  { num: "w14", roman: "K",   suit: "wands",    name: "權杖國王", en: "King of Wands",     keyword: "領導．願景．行動力",
+    upright:  "以清晰的願景與果斷的行動力引領他人走向目標。",
+    reversed: "獨斷專行、急躁，或無法將宏大願景付諸實踐。",     glyph: "♣" },
+
+  // 聖杯 Cups（水・情感・直覺・關係）
+  { num: "c1",  roman: "A",   suit: "cups",     name: "聖杯首牌", en: "Ace of Cups",       keyword: "新愛．情感．靈性開啟",
+    upright:  "情感的新開始，愛、喜悅與靈感從心中湧現。",
+    reversed: "情感封閉、愛被壓抑，或靈感難以流動。",           glyph: "♥" },
+  { num: "c2",  roman: "II",  suit: "cups",     name: "聖杯二",   en: "Two of Cups",       keyword: "連結．互吸．夥伴關係",
+    upright:  "兩人之間深刻的連結與相互吸引，是關係的美好起點。",
+    reversed: "失衡的關係、誤解，或分離。",                     glyph: "♥" },
+  { num: "c3",  roman: "III", suit: "cups",     name: "聖杯三",   en: "Three of Cups",     keyword: "慶祝．友誼．共同喜悅",
+    upright:  "與親友共享喜悅，是慶祝與感謝的時刻。",
+    reversed: "過度放縱、閒言閒語，或朋友間出現嫌隙。",         glyph: "♥" },
+  { num: "c4",  roman: "IV",  suit: "cups",     name: "聖杯四",   en: "Four of Cups",      keyword: "冥思．不滿．機會",
+    upright:  "內心的不滿讓你忽略了眼前的機會，試著抬起頭看看。",
+    reversed: "從消極中走出，重新對生活燃起熱情。",             glyph: "♥" },
+  { num: "c5",  roman: "V",   suit: "cups",     name: "聖杯五",   en: "Five of Cups",      keyword: "失落．悲傷．後悔",
+    upright:  "沉浸於失去的悲傷，但身後仍有未被看見的希望。",
+    reversed: "走出悲傷，重新接受過去，尋求和解。",             glyph: "♥" },
+  { num: "c6",  roman: "VI",  suit: "cups",     name: "聖杯六",   en: "Six of Cups",       keyword: "懷舊．童真．過去",
+    upright:  "過去美好的記憶帶來溫暖，或有人以善意回來。",
+    reversed: "困於過去、無法向前，或理想化了不真實的回憶。",   glyph: "♥" },
+  { num: "c7",  roman: "VII", suit: "cups",     name: "聖杯七",   en: "Seven of Cups",     keyword: "幻象．選擇．白日夢",
+    upright:  "面對眾多選擇，需辨別哪些是真實的機會、哪些是幻象。",
+    reversed: "從幻想中醒來，面對現實，做出清醒的決定。",       glyph: "♥" },
+  { num: "c8",  roman: "VIII",suit: "cups",     name: "聖杯八",   en: "Eight of Cups",     keyword: "離去．尋求．放棄",
+    upright:  "放下不再滿足你的事物，踏上追求更深層意義的旅途。",
+    reversed: "徘徊不去、難以放手，或逃避而非真正釋懷。",       glyph: "♥" },
+  { num: "c9",  roman: "IX",  suit: "cups",     name: "聖杯九",   en: "Nine of Cups",      keyword: "滿足．心願成真．幸福",
+    upright:  "心願得償，情感上達到豐盈與滿足的狀態。",
+    reversed: "表面的滿足掩蓋內心的空虛，或過度縱慾。",         glyph: "♥" },
+  { num: "c10", roman: "X",   suit: "cups",     name: "聖杯十",   en: "Ten of Cups",       keyword: "圓滿．家庭．幸福",
+    upright:  "情感與家庭關係達到圓滿，是持久幸福的象徵。",
+    reversed: "家庭不和睦、理想破碎，或幸福感難以持續。",       glyph: "♥" },
+  { num: "c11", roman: "Pg",  suit: "cups",     name: "聖杯侍者", en: "Page of Cups",      keyword: "直覺．情感訊息．創意",
+    upright:  "以開放的心接收情感的訊息，靈感與直覺特別敏銳。",
+    reversed: "情緒化、逃避現實，或創意被壓抑。",               glyph: "♥" },
+  { num: "c12", roman: "Kn",  suit: "cups",     name: "聖杯騎士", en: "Knight of Cups",    keyword: "浪漫．追求．理想主義",
+    upright:  "以浪漫的姿態追求理想，帶著誠意跟隨內心的呼喚。",
+    reversed: "過度理想化、情緒化，或以美麗言語掩蓋行動的缺乏。", glyph: "♥" },
+  { num: "c13", roman: "Q",   suit: "cups",     name: "聖杯皇后", en: "Queen of Cups",     keyword: "共情．直覺．情感智慧",
+    upright:  "以豐沛的同理心與直覺回應他人，是溫柔而深刻的力量。",
+    reversed: "情緒界線模糊、過度敏感，或以情緒操控他人。",     glyph: "♥" },
+  { num: "c14", roman: "K",   suit: "cups",     name: "聖杯國王", en: "King of Cups",      keyword: "情感成熟．智慧．包容",
+    upright:  "以成熟的情感智慧引領局面，在波動中保持內心的平靜。",
+    reversed: "情緒失控、操控他人，或以冷漠掩蓋脆弱。",         glyph: "♥" },
+
+  // 寶劍 Swords（風・思維・真相・衝突）
+  { num: "s1",  roman: "A",   suit: "swords",   name: "寶劍首牌", en: "Ace of Swords",     keyword: "真相．清晰．突破",
+    upright:  "以清晰的思維和語言突破混亂，真相浮出水面。",
+    reversed: "思緒混沌、訊息錯誤，或以言語傷害他人。",         glyph: "♠" },
+  { num: "s2",  roman: "II",  suit: "swords",   name: "寶劍二",   en: "Two of Swords",     keyword: "猶豫．僵局．迴避",
+    upright:  "面臨難以取捨的抉擇，暫時封閉感受以求暫時平衡。",
+    reversed: "拖延決策造成更多傷害，或真相開始浮現。",         glyph: "♠" },
+  { num: "s3",  roman: "III", suit: "swords",   name: "寶劍三",   en: "Three of Swords",   keyword: "心碎．傷痛．悲傷",
+    upright:  "情感上的傷痛無可迴避，允許自己悲傷是療癒的開始。",
+    reversed: "走出傷痛、逐漸療癒，但也可能是壓抑未竟的悲傷。", glyph: "♠" },
+  { num: "s4",  roman: "IV",  suit: "swords",   name: "寶劍四",   en: "Four of Swords",    keyword: "休養．靜思．復原",
+    upright:  "身心需要休養，暫時撤退、沉澱，以備下一步的行動。",
+    reversed: "強迫自己繼續、難以休息，或從靜養中重新出發。",   glyph: "♠" },
+  { num: "s5",  roman: "V",   suit: "swords",   name: "寶劍五",   en: "Five of Swords",    keyword: "衝突．失敗．不擇手段",
+    upright:  "表面勝利卻付出了道德上的代價，勝者未必真的贏。",
+    reversed: "從衝突中撤身，或面對自己在關係中造成的傷害。",   glyph: "♠" },
+  { num: "s6",  roman: "VI",  suit: "swords",   name: "寶劍六",   en: "Six of Swords",     keyword: "過渡．轉移．漸趨平靜",
+    upright:  "離開風暴，逐漸移往更平靜的地方，過渡期中帶著希望。",
+    reversed: "難以離去、抗拒改變，或轉移中帶著舊傷。",         glyph: "♠" },
+  { num: "s7",  roman: "VII", suit: "swords",   name: "寶劍七",   en: "Seven of Swords",   keyword: "欺騙．策略．獨行",
+    upright:  "某人以欺騙或巧計行事，或需要以靈活的策略應對局面。",
+    reversed: "謊言被揭穿，或決定以誠實面對而非逃避。",         glyph: "♠" },
+  { num: "s8",  roman: "VIII",suit: "swords",   name: "寶劍八",   en: "Eight of Swords",   keyword: "束縛．困境．自我限制",
+    upright:  "感覺被困住，但真正的束縛往往來自內心的恐懼與信念。",
+    reversed: "開始看見出路，打破自我設限的思維模式。",         glyph: "♠" },
+  { num: "s9",  roman: "IX",  suit: "swords",   name: "寶劍九",   en: "Nine of Swords",    keyword: "焦慮．噩夢．自責",
+    upright:  "黑夜裡的恐懼與焦慮，往往比現實更為巨大。",
+    reversed: "從焦慮中解脫，或尋求幫助面對內心的陰影。",       glyph: "♠" },
+  { num: "s10", roman: "X",   suit: "swords",   name: "寶劍十",   en: "Ten of Swords",     keyword: "終結．背叛．觸底",
+    upright:  "痛苦的結局，但這也是最低點，從此只能往上走。",
+    reversed: "拒絕接受結局，或緩慢地從痛苦中復原。",           glyph: "♠" },
+  { num: "s11", roman: "Pg",  suit: "swords",   name: "寶劍侍者", en: "Page of Swords",    keyword: "好奇．直言．警覺",
+    upright:  "以敏銳的觀察力和直率的語言探索真相。",
+    reversed: "多嘴惹禍、言語尖刻，或空談而無行動。",           glyph: "♠" },
+  { num: "s12", roman: "Kn",  suit: "swords",   name: "寶劍騎士", en: "Knight of Swords",  keyword: "果斷．衝鋒．思維敏銳",
+    upright:  "以驚人的速度和清晰的思維衝向目標，但需防止魯莽。",
+    reversed: "衝動、爭強好勝，或因急躁而忽略重要細節。",       glyph: "♠" },
+  { num: "s13", roman: "Q",   suit: "swords",   name: "寶劍皇后", en: "Queen of Swords",   keyword: "獨立．客觀．清晰",
+    upright:  "以客觀、清晰的判斷力面對現實，不受情緒左右。",
+    reversed: "過度冷漠或刻薄，或以理性壓抑了應有的情感。",     glyph: "♠" },
+  { num: "s14", roman: "K",   suit: "swords",   name: "寶劍國王", en: "King of Swords",    keyword: "權威．理性．公正",
+    upright:  "以高度的理性和公正掌握全局，以清晰的標準做出決策。",
+    reversed: "濫用權威、操控他人，或以智識傲慢壓制異見。",     glyph: "♠" },
+
+  // 星幣 Pentacles（土・物質．工作．健康）
+  { num: "p1",  roman: "A",   suit: "pentacles",name: "星幣首牌", en: "Ace of Pentacles",  keyword: "機遇．豐盛起點．物質基礎",
+    upright:  "新的財務或事業機遇出現，是建立穩固基礎的好時機。",
+    reversed: "機會被錯失，或物質上的計畫難以落地。",           glyph: "◆" },
+  { num: "p2",  roman: "II",  suit: "pentacles",name: "星幣二",   en: "Two of Pentacles",  keyword: "平衡．適應．多工",
+    upright:  "在多個責任間靈活調配，保持動態的平衡。",
+    reversed: "不堪重負、時間管理混亂，或難以維持平衡。",       glyph: "◆" },
+  { num: "p3",  roman: "III", suit: "pentacles",name: "星幣三",   en: "Three of Pentacles",keyword: "合作．技藝．協作",
+    upright:  "團隊合作發揮個人專長，共同創造出卓越的成果。",
+    reversed: "缺乏協調、各自為政，或專業能力未受到認可。",     glyph: "◆" },
+  { num: "p4",  roman: "IV",  suit: "pentacles",name: "星幣四",   en: "Four of Pentacles", keyword: "守財．控制．安全感",
+    upright:  "謹慎守護已有的資源，但過度執著可能阻礙成長。",
+    reversed: "放鬆對物質的執著，或因揮霍而失去穩定。",         glyph: "◆" },
+  { num: "p5",  roman: "V",   suit: "pentacles",name: "星幣五",   en: "Five of Pentacles", keyword: "匱乏．困難．孤立",
+    upright:  "物質或情感上的匱乏，需要尋求幫助而非獨自承受。",
+    reversed: "困境漸漸好轉，或開始接受他人的援助。",           glyph: "◆" },
+  { num: "p6",  roman: "VI",  suit: "pentacles",name: "星幣六",   en: "Six of Pentacles",  keyword: "給予．分享．慷慨",
+    upright:  "資源的給予與接受，慷慨與恩惠在關係中流動。",
+    reversed: "施與受的不平等，或慈善行為帶有控制意圖。",       glyph: "◆" },
+  { num: "p7",  roman: "VII", suit: "pentacles",name: "星幣七",   en: "Seven of Pentacles",keyword: "等待．評估．長期投資",
+    upright:  "努力已有初步成果，此刻需要耐心等待，評估是否繼續。",
+    reversed: "缺乏耐心、急於求成，或投入不見回報感到沮喪。",   glyph: "◆" },
+  { num: "p8",  roman: "VIII",suit: "pentacles",name: "星幣八",   en: "Eight of Pentacles",keyword: "精進．勤奮．工藝",
+    upright:  "全心投入技藝的精進，每一次重複都是向卓越的邁進。",
+    reversed: "缺乏動力、粗心大意，或過度追求完美而無法前進。", glyph: "◆" },
+  { num: "p9",  roman: "IX",  suit: "pentacles",name: "星幣九",   en: "Nine of Pentacles", keyword: "豐足．自立．優雅",
+    upright:  "以自己的努力創造出豐裕自在的生活，享受所得的成果。",
+    reversed: "過度依賴他人，或物質上的豐足掩蓋了內心的空虛。", glyph: "◆" },
+  { num: "p10", roman: "X",   suit: "pentacles",name: "星幣十",   en: "Ten of Pentacles",  keyword: "傳承．富足．家族圓滿",
+    upright:  "物質與家族的圓滿傳承，長期努力帶來的豐盛。",
+    reversed: "家族衝突、財產糾紛，或物質的富足缺乏精神的意義。", glyph: "◆" },
+  { num: "p11", roman: "Pg",  suit: "pentacles",name: "星幣侍者", en: "Page of Pentacles", keyword: "學習．機會．潛力",
+    upright:  "以踏實的態度學習新技能，為未來的物質發展打下基礎。",
+    reversed: "缺乏專注、容易分心，或學而不用。",               glyph: "◆" },
+  { num: "p12", roman: "Kn",  suit: "pentacles",name: "星幣騎士", en: "Knight of Pentacles",keyword: "踏實．堅持．可靠",
+    upright:  "緩慢而穩定地推進目標，以可靠與盡責贏得信任。",
+    reversed: "過於固執、抗拒變化，或行事遲緩令進展停滯。",     glyph: "◆" },
+  { num: "p13", roman: "Q",   suit: "pentacles",name: "星幣皇后", en: "Queen of Pentacles",keyword: "務實．滋養．豐盛",
+    upright:  "以務實的愛與豐盛的能量照顧家庭與事業，創造安穩的環境。",
+    reversed: "過度專注物質而忽略情感需求，或在給予中迷失自我。", glyph: "◆" },
+  { num: "p14", roman: "K",   suit: "pentacles",name: "星幣國王", en: "King of Pentacles", keyword: "富裕．穩定．成就",
+    upright:  "以豐富的經驗和穩健的判斷力掌握物質世界，是成就的象徵。",
+    reversed: "貪婪、物質主義，或用財富掌控他人。",             glyph: "◆" },
+];
+
+const SPREADS = {
+  single: {
+    id: "single",
+    name: "單張牌陣",
+    sub: "Single Card",
+    desc: "對一個明確的問題給予直接的答覆。最簡潔，也最深刻。",
+    count: 1,
+    positions: [
+      { label: "核心訊息", x: 50, y: 50 },
+    ],
+  },
+  trinity: {
+    id: "trinity",
+    name: "聖三角牌陣",
+    sub: "Holy Trinity",
+    desc: "經典的三張牌陣，從時間或情境的三個面向揭示全貌。",
+    count: 3,
+    positions: [
+      { label: "過去 · 因",    x: 22, y: 50 },
+      { label: "現在 · 此刻",  x: 50, y: 50 },
+      { label: "未來 · 果",    x: 78, y: 50 },
+    ],
+  },
+  core: {
+    id: "core",
+    name: "直指核心",
+    sub: "The Core",
+    desc: "四張牌深入剖析現況、阻礙、建議與結果。",
+    count: 4,
+    positions: [
+      { label: "現況",         x: 18, y: 50 },
+      { label: "阻礙",         x: 40, y: 50 },
+      { label: "建議",         x: 62, y: 50 },
+      { label: "結果",         x: 84, y: 50 },
+    ],
+  },
+  celtic: {
+    id: "celtic",
+    name: "凱爾特十字",
+    sub: "Celtic Cross",
+    desc: "塔羅最經典的十張牌陣，全方位解讀人生課題的每個面向。",
+    count: 10,
+    positions: [
+      { label: "1. 現況",        x: 26, y: 50 },
+      { label: "2. 挑戰",        x: 26, y: 50, rot: 90, overlay: true },
+      { label: "3. 根基",        x: 26, y: 82 },
+      { label: "4. 過去",        x: 10, y: 50 },
+      { label: "5. 目標",        x: 26, y: 18 },
+      { label: "6. 不久將來",    x: 42, y: 50 },
+      { label: "7. 自我態度",    x: 70, y: 82 },
+      { label: "8. 外在影響",    x: 70, y: 60 },
+      { label: "9. 希望與恐懼",  x: 70, y: 38 },
+      { label: "10. 最終結果",   x: 70, y: 16 },
+    ],
+  },
+};
+
+window.ARCANA = ARCANA;
+window.SPREADS = SPREADS;
+</script>
+
+<!-- tarot-card -->
+<script type="text/babel">
+function TarotCard({ card, reversed, flipped, onFlip, onDoubleFlip, position, label, delay, size = 1, focused, dimmed }) {
+  const baseW = 140 * size;
+  const baseH = 228 * size;
+  const rot = position?.rot || 0;
+  const overlay = position?.overlay;
+
+  return (
+    <div
+      className={
+        "tarot-card-slot" +
+        (flipped ? " is-flipped" : "") +
+        (focused ? " is-focused" : "") +
+        (dimmed ? " is-dimmed" : "") +
+        (overlay ? " is-overlay" : "")
+      }
+      style={{
+        left: `${position.x}%`,
+        top: `${position.y}%`,
+        width: `${baseW}px`,
+        height: `${baseH}px`,
+        transitionDelay: `${delay}ms`,
+        animationDelay: `${delay}ms`,
+        "--card-rot": `${rot}deg`,
+      }}
+    >
+      <div
+        className="tarot-card-inner"
+        style={{ transform: `rotate(${rot}deg)` }}
+        onClick={onFlip}
+        onDoubleClick={onDoubleFlip}
+      >
+        <div className="tarot-card-face tarot-card-back">
+          <div className="back-ornament">
+            <svg viewBox="0 0 100 160" preserveAspectRatio="none">
+              <defs>
+                <radialGradient id="bg-glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="rgba(214,176,108,0.35)" />
+                  <stop offset="100%" stopColor="rgba(214,176,108,0)" />
+                </radialGradient>
+              </defs>
+              <rect x="3" y="3" width="94" height="154" fill="none" stroke="rgba(214,176,108,0.55)" strokeWidth="0.6" />
+              <rect x="6" y="6" width="88" height="148" fill="none" stroke="rgba(214,176,108,0.3)" strokeWidth="0.3" />
+              <circle cx="50" cy="80" r="36" fill="url(#bg-glow)" />
+              <circle cx="50" cy="80" r="28" fill="none" stroke="rgba(214,176,108,0.55)" strokeWidth="0.4" />
+              <circle cx="50" cy="80" r="20" fill="none" stroke="rgba(214,176,108,0.4)" strokeWidth="0.3" />
+              <g transform="translate(50 80)">
+                {[0,45,90,135].map(deg => (
+                  <line key={deg} x1="-22" y1="0" x2="22" y2="0" transform={`rotate(${deg})`} stroke="rgba(214,176,108,0.55)" strokeWidth="0.4" />
+                ))}
+                {[0,45,90,135].map(deg => (
+                  <line key={"s"+deg} x1="-14" y1="0" x2="14" y2="0" transform={`rotate(${deg+22.5})`} stroke="rgba(214,176,108,0.35)" strokeWidth="0.25" />
+                ))}
+                <circle r="4" fill="rgba(214,176,108,0.9)" />
+                <circle r="2" fill="rgba(24,18,42,1)" />
+              </g>
+              {[[12,16],[88,16],[12,144],[88,144]].map(([cx,cy],i)=>(
+                <g key={i} transform={`translate(${cx} ${cy})`}>
+                  <circle r="1.6" fill="rgba(214,176,108,0.7)" />
+                  <circle r="3" fill="none" stroke="rgba(214,176,108,0.4)" strokeWidth="0.3" />
+                </g>
+              ))}
+            </svg>
+          </div>
+        </div>
+
+        <div className={"tarot-card-face tarot-card-front" + (reversed ? " is-reversed" : "")}>
+          <div className="front-inner">
+            <div className="front-frame">
+              <span className="corner tl">{card?.roman}</span>
+              <span className="corner br">{card?.roman}</span>
+            </div>
+            <div className="front-glyph">{card?.glyph}</div>
+            <div className="front-name">
+              <div className="name-cn">{card?.name}</div>
+              <div className="name-en">{card?.en}</div>
+            </div>
+            {reversed && <div className="reversed-tag">逆位</div>}
+          </div>
+        </div>
+      </div>
+
+      {label && (
+        <div className="card-label" style={{ transform: `translateX(-50%) rotate(${overlay ? -rot : 0}deg)` }}>
+          {label}
+        </div>
+      )}
+    </div>
+  );
+}
+
+window.TarotCard = TarotCard;
+</script>
+
+<!-- app -->
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function SpreadDiagram({ id, color = "currentColor" }) {
+  const stroke = color;
+  if (id === "single") return (
+    <svg viewBox="0 0 100 78"><rect x="42" y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/></svg>
+  );
+  if (id === "trinity") return (
+    <svg viewBox="0 0 140 78">
+      <rect x="14" y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/>
+      <rect x="62" y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/>
+      <rect x="110" y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/>
+    </svg>
+  );
+  if (id === "core") return (
+    <svg viewBox="0 0 180 78">
+      <rect x="8"   y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/>
+      <rect x="56"  y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/>
+      <rect x="104" y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/>
+      <rect x="152" y="14" width="16" height="50" rx="1.5" fill="none" stroke={stroke} strokeWidth="1"/>
+    </svg>
+  );
+  if (id === "celtic") return (
+    <svg viewBox="0 0 200 100">
+      <rect x="44" y="36" width="14" height="28" rx="1.2" fill="none" stroke={stroke} strokeWidth="0.9"/>
+      <rect x="40" y="42" width="22" height="16" rx="1.2" fill="none" stroke={stroke} strokeWidth="0.9" transform="rotate(90 51 50)"/>
+      <rect x="44" y="72" width="14" height="20" rx="1.2" fill="none" stroke={stroke} strokeWidth="0.9"/>
+      <rect x="24" y="36" width="14" height="28" rx="1.2" fill="none" stroke={stroke} strokeWidth="0.9"/>
+      <rect x="44" y="8"  width="14" height="20" rx="1.2" fill="none" stroke={stroke} strokeWidth="0.9"/>
+      <rect x="68" y="36" width="14" height="28" rx="1.2" fill="none" stroke={stroke} strokeWidth="0.9"/>
+      {[6, 30, 54, 78].map((y, i) => (
+        <rect key={i} x="110" y={y} width="14" height="18" rx="1.2" fill="none" stroke={stroke} strokeWidth="0.9"/>
+      ))}
+    </svg>
+  );
+  return null;
+}
+
+function shuffleDeck() {
+  const deck = ARCANA.map(c => ({ card: c, reversed: Math.random() < 0.28 }));
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+}
+
+function App() {
+  const tweaks = window.useTweaks ? window.useTweaks(window.__TAROT_TWEAKS_DEFAULTS__) : [window.__TAROT_TWEAKS_DEFAULTS__, () => {}];
+  const [t, setTweak] = tweaks;
+
+  const [spreadId, setSpreadId] = useState("trinity");
+  const [phase, setPhase] = useState("ready");
+  const [draws, setDraws] = useState([]);
+  const [activeIdx, setActiveIdx] = useState(null);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  const spread = SPREADS[spreadId];
+  const hasDraws = draws.length > 0;
+  const flippedCount = draws.filter(d => d.flipped).length;
+  const allFlipped = hasDraws && flippedCount === draws.length;
+
+  function pickSpread(id) {
+    setSpreadId(id);
+    setDraws([]);
+    setActiveIdx(null);
+    setPhase("ready");
+  }
+
+  function startDraw() {
+    setPhase("shuffle");
+    setActiveIdx(null);
+    setPanelOpen(false);
+    const deck = shuffleDeck();
+    const count = SPREADS[spreadId].count;
+    const picked = deck.slice(0, count).map(d => ({ ...d, flipped: false }));
+    setTimeout(() => {
+      setDraws(picked);
+      setPhase("reading");
+    }, 2200);
+  }
+
+  function handleCardClick(idx) {
+    setDraws(prev => prev.map((d, i) => i === idx ? { ...d, flipped: true } : d));
+  }
+
+  function handleCardDoubleClick(idx) {
+    setDraws(prev => prev.map((d, i) => i === idx ? { ...d, flipped: true } : d));
+    setActiveIdx(idx);
+    setPanelOpen(true);
+  }
+
+  function flipAll() {
+    setDraws(prev => prev.map(d => ({ ...d, flipped: true })));
+  }
+
+  function resetBoard() {
+    setDraws([]);
+    setActiveIdx(null);
+    setPanelOpen(false);
+    setPhase("ready");
+  }
+
+  const cardSize = spreadId === "celtic" ? 0.78 : 1.0;
+
+  return (
+    <>
+      <div className="stage">
+        <div className="stars" />
+        <div className="stars-2" />
+        {t.starsExtra && <div className="stars-3" />}
+        {t.smoke && <div className="smoke" />}
+        <div className="vignette" />
+      </div>
+
+      <div className="header">
+        <div className="header-subtitle">凝神靜心，將問題置於心中</div>
+      </div>
+
+      <main className={
+        "app-main"
+        + (hasDraws ? (panelOpen ? " has-rail-open" : " has-rail-collapsed") : " no-rail")
+      }>
+        <Board
+          spread={spread}
+          draws={draws}
+          phase={phase}
+          activeIdx={activeIdx}
+          onCardClick={handleCardClick}
+          onCardDoubleClick={handleCardDoubleClick}
+          onStartDraw={startDraw}
+          cardSize={cardSize}
+          flippedCount={flippedCount}
+          allFlipped={allFlipped}
+          onFlipAll={flipAll}
+          onReset={resetBoard}
+        />
+
+        <SideRail
+          activeDraw={activeIdx != null ? draws[activeIdx] : null}
+          activePos={activeIdx != null ? spread.positions[activeIdx] : null}
+          panelOpen={panelOpen}
+          hasDraws={hasDraws}
+          onTogglePanel={() => setPanelOpen(v => !v)}
+        />
+      </main>
+
+      {phase === "ready" && !hasDraws && (
+        <SpreadPickerFloat
+          spreadId={spreadId}
+          spread={spread}
+          onPick={pickSpread}
+        />
+      )}
+
+      {phase === "shuffle" && <ShuffleOverlay />}
+
+      {window.TweaksPanel && (
+        <window.TweaksPanel title="氛圍與細節">
+          <TweaksContent t={t} setTweak={setTweak} />
+        </window.TweaksPanel>
+      )}
+    </>
+  );
+}
+
+function Board({ spread, draws, phase, activeIdx, onCardClick, onCardDoubleClick, onStartDraw, cardSize, flippedCount, allFlipped, onFlipAll, onReset }) {
+  const isCeltic = spread.id === "celtic";
+  const hasDraws = draws.length > 0;
+
+  return (
+    <div className="board-wrap">
+      <div className="board-meta">
+        <div className="board-meta-en">{spread.sub} · {spread.count} {spread.count === 1 ? "Card" : "Cards"}</div>
+        <div className="board-meta-cn">{spread.name}</div>
+        <div className="board-meta-orn">
+          <span /><span className="orn-glyph">✦</span><span />
+        </div>
+      </div>
+
+      <div
+        className={"board" + (isCeltic ? " is-celtic" : "")}
+        style={{ height: isCeltic ? 580 : 460 }}
+      >
+        {!hasDraws && spread.positions.map((pos, i) => (
+          <div
+            key={"slot-" + i}
+            className={"slot-placeholder" + (pos.overlay ? " is-overlay" : "")}
+            style={{
+              left: `${pos.x}%`,
+              top: `${pos.y}%`,
+              width: `${140 * cardSize}px`,
+              height: `${228 * cardSize}px`,
+              "--card-rot": `${pos.rot || 0}deg`,
+              animationDelay: `${i * 80}ms`,
+            }}
+          >
+            <div className="slot-inner" style={{ transform: `rotate(${pos.rot || 0}deg)` }}>
+              <div className="slot-num">{i + 1}</div>
+              <div className="slot-label" style={{ transform: pos.overlay ? `rotate(${-(pos.rot || 0)}deg)` : "none" }}>
+                {pos.label}
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {hasDraws && draws.map((d, i) => {
+          const pos = spread.positions[i];
+          return (
+            <window.TarotCard
+              key={i + "-" + d.card.num}
+              card={d.card}
+              reversed={d.reversed}
+              flipped={d.flipped}
+              position={pos}
+              label={pos.label}
+              delay={i * 160}
+              size={cardSize}
+              focused={activeIdx === i}
+              dimmed={activeIdx != null && activeIdx !== i}
+              onFlip={() => onCardClick(i)}
+              onDoubleFlip={() => onCardDoubleClick(i)}
+            />
+          );
+        })}
+      </div>
+
+      {!hasDraws && phase !== "shuffle" && (
+        <div className="board-cta">
+          <button className="board-cta-btn" onClick={onStartDraw}>
+            <span className="cta-rune">✦</span>
+            <span>開始抽牌</span>
+            <span className="cta-rune">✦</span>
+          </button>
+          <div className="board-cta-hint">點一下翻牌 ・ 點兩下查看牌義</div>
+        </div>
+      )}
+
+      {hasDraws && phase === "reading" && (
+        <BottomBar
+          flippedCount={flippedCount}
+          total={draws.length}
+          allFlipped={allFlipped}
+          onFlipAll={onFlipAll}
+          onRedraw={onStartDraw}
+          onReset={onReset}
+        />
+      )}
+    </div>
+  );
+}
+
+function SpreadPickerFloat({ spreadId, spread, onPick }) {
+  const ids = ["single", "trinity", "core", "celtic"];
+  return (
+    <div className="spread-float">
+      <div className="float-header">
+        <div className="float-eyebrow">CHOOSE SPREAD</div>
+        <div className="float-title">選擇牌陣</div>
+        <div className="float-divider" />
+      </div>
+      <div className="float-list">
+        {ids.map(id => {
+          const s = SPREADS[id];
+          const selected = id === spreadId;
+          return (
+            <button
+              key={id}
+              className={"float-pick" + (selected ? " is-selected" : "")}
+              onClick={() => onPick(id)}
+            >
+              <div className="float-pick-radio"><span className="radio-dot" /></div>
+              <div className="float-pick-info">
+                <div className="float-pick-name">{s.name}</div>
+                <div className="float-pick-sub">{s.sub} · {s.count} {s.count === 1 ? "Card" : "Cards"}</div>
+              </div>
+              <div className="float-pick-mini"><SpreadDiagram id={id} /></div>
+            </button>
+          );
+        })}
+      </div>
+      <div className="float-desc">{spread.desc}</div>
+    </div>
+  );
+}
+
+function SideRail({ activeDraw, activePos, panelOpen, hasDraws, onTogglePanel }) {
+  if (!hasDraws) return null;
+
+  return (
+    <aside className={"side-rail" + (panelOpen ? " is-open" : " is-collapsed")}>
+      <button
+        className="rail-toggle"
+        onClick={onTogglePanel}
+        title={panelOpen ? "收起" : "展開"}
+      >
+        <svg viewBox="0 0 24 24" width="14" height="14">
+          <path
+            d={panelOpen ? "M9 6l6 6-6 6" : "M15 6l-6 6 6 6"}
+            fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+          />
+        </svg>
+      </button>
+
+      {!panelOpen && (
+        <div className="rail-collapsed-label">
+          <div className="rail-collapsed-title">牌義解讀</div>
+        </div>
+      )}
+
+      {panelOpen && (
+        <div className="rail-content">
+          <div className="rail-section-title">
+            <span>牌義解讀</span>
+            <span className="rail-section-divider" />
+          </div>
+          {activeDraw && activeDraw.flipped ? (
+            <CardDetail draw={activeDraw} position={activePos} />
+          ) : (
+            <div className="rail-empty">
+              <div className="rail-empty-glyph">✦</div>
+              <div className="rail-empty-text">
+                點兩下任一張卡牌<br/>查看牌義解讀
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </aside>
+  );
+}
+
+function CardDetail({ draw, position }) {
+  const { card, reversed } = draw;
+  return (
+    <div className="card-detail">
+      <div className="cd-position">{position.label}</div>
+      <div className="cd-name">{card.name}</div>
+      <div className="cd-en">{card.en} · {card.roman}</div>
+      <div className={"cd-orientation" + (reversed ? " is-reversed" : "")}>
+        {reversed ? "REVERSED · 逆位" : "UPRIGHT · 正位"}
+      </div>
+      <div className="cd-keyword">{card.keyword}</div>
+      <div className="cd-body">
+        <div className="cd-body-label">{reversed ? "Reversed Reading" : "Upright Reading"}</div>
+        <div className="cd-body-text">{reversed ? card.reversed : card.upright}</div>
+      </div>
+    </div>
+  );
+}
+
+function BottomBar({ flippedCount, total, allFlipped, onFlipAll, onRedraw, onReset }) {
+  return (
+    <div className="bottom-bar">
+      <div className="bar-status">
+        <span className="bar-status-label">已翻開</span>
+        <span className="bar-status-num">{flippedCount} / {total}</span>
+      </div>
+      {!allFlipped && (
+        <button className="bar-btn bar-btn-ghost" onClick={onFlipAll}>一次翻開全部</button>
+      )}
+      <button className="bar-btn bar-btn-primary" onClick={onRedraw}>重新洗牌</button>
+      <button className="bar-btn bar-btn-text" onClick={onReset}>清空牌桌</button>
+    </div>
+  );
+}
+
+function ShuffleOverlay() {
+  return (
+    <div className="shuffle-overlay">
+      <div className="shuffle-stack">
+        <div className="shuffle-card" />
+        <div className="shuffle-card" />
+        <div className="shuffle-card" />
+        <div className="shuffle-card" />
+        <div className="shuffle-card" />
+      </div>
+      <div className="shuffle-text">SHUFFLING THE DECK</div>
+      <div className="shuffle-text-cn">凝心．洗牌．抽取訊息</div>
+    </div>
+  );
+}
+
+function TweaksContent({ t, setTweak }) {
+  const { TweakSection, TweakToggle, TweakRadio } = window;
+  return (
+    <>
+      <TweakSection title="氛圍">
+        <TweakToggle label="額外星辰層" value={t.starsExtra} onChange={v => setTweak("starsExtra", v)} />
+        <TweakToggle label="紫煙縈繞" value={t.smoke} onChange={v => setTweak("smoke", v)} />
+      </TweakSection>
+      <TweakSection title="色調">
+        <TweakRadio
+          label="主色調"
+          value={t.mood}
+          options={[
+            { label: "深邃神秘", value: "deep" },
+            { label: "靜謐冷峻", value: "cold" },
+            { label: "古銅暖黃", value: "warm" },
+          ]}
+          onChange={v => { setTweak("mood", v); applyMood(v); }}
+        />
+      </TweakSection>
+    </>
+  );
+}
+
+function applyMood(mood) {
+  const root = document.documentElement;
+  if (mood === "cold") {
+    root.style.setProperty("--bg-0", "#070a1f");
+    root.style.setProperty("--bg-1", "#0d1330");
+    root.style.setProperty("--bg-2", "#162247");
+    root.style.setProperty("--gold", "#8ec3d8");
+    root.style.setProperty("--gold-soft", "#6ea9c2");
+    root.style.setProperty("--gold-glow", "rgba(142,195,216,0.45)");
+  } else if (mood === "warm") {
+    root.style.setProperty("--bg-0", "#1a1208");
+    root.style.setProperty("--bg-1", "#2a1d10");
+    root.style.setProperty("--bg-2", "#3a2814");
+    root.style.setProperty("--gold", "#e6b97c");
+    root.style.setProperty("--gold-soft", "#c89556");
+    root.style.setProperty("--gold-glow", "rgba(230,185,124,0.55)");
+  } else {
+    root.style.setProperty("--bg-0", "#0b0820");
+    root.style.setProperty("--bg-1", "#14102e");
+    root.style.setProperty("--bg-2", "#1f1a44");
+    root.style.setProperty("--gold", "#d6b06c");
+    root.style.setProperty("--gold-soft", "#c89e58");
+    root.style.setProperty("--gold-glow", "rgba(214,176,108,0.5)");
+  }
+}
+
+setTimeout(() => {
+  if (window.__TAROT_TWEAKS_DEFAULTS__?.mood) applyMood(window.__TAROT_TWEAKS_DEFAULTS__.mood);
+}, 0);
+
+window.App = App;
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<window.App />);
+</script>
+
+</body>
+</html>

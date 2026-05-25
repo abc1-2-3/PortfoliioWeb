@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400&family=Cinzel:wght@400&family=Instrument+Serif:ital@0;1&family=Noto+Serif+TC:wght@200;300&family=Noto+Sans+TC:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'Cubic';src:url('assets/fomts/Cubic.ttf') format('truetype');font-weight:normal;font-display:swap}
 /* ── Reset ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none!important}
 html,body{width:100%;min-height:100vh;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
@@ -109,15 +110,14 @@ nav::-webkit-scrollbar{width:0}
 .pn-item.act .pn-node{border-color:rgba(196,181,253,.9);background:rgba(167,139,250,.72);box-shadow:0 0 10px rgba(196,181,253,.65),0 0 22px rgba(167,139,250,.3)}
 
 /* ── Topbar ── */
-#topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 40px;background:rgba(4,2,14,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(167,139,250,.18)}
-.tb-brand{font:400 12px 'Cinzel Decorative','Cinzel',serif;letter-spacing:3px;color:rgba(218,185,255,.82);text-transform:uppercase}
-.tb-brand span{background:linear-gradient(135deg,#f5e8c2 0%,#e8c87a 18%,#d4a84e 38%,#c09030 52%,#d4a84e 66%,#e8c87a 82%,#f5e8c2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 40px;background:linear-gradient(180deg,rgba(4,2,14,.88) 0%,rgba(4,2,14,.52) 65%,transparent 100%);backdrop-filter:blur(14px)}
+.tb-brand{font:400 14px 'Cinzel Decorative','Cinzel',serif;letter-spacing:.3em;color:rgba(240,165,205,.92)}
 .topbar-crumb{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:rgba(138,122,176,.7);text-transform:uppercase;display:flex;align-items:center;gap:0}
 .topbar-crumb a{color:rgba(198,186,222,.6);text-decoration:none;transition:color .2s}
 .topbar-crumb a:hover{color:rgba(196,181,253,.9)}
 .topbar-crumb .sep{margin:0 8px;opacity:.45}
 .topbar-crumb .here{color:rgba(196,181,253,.85)}
-.topbar-tag{font-family:var(--mono);font-size:10px;letter-spacing:.2em;padding:4px 12px;border:1px solid rgba(167,139,250,.3);border-radius:999px;color:rgba(196,181,253,.8);text-transform:uppercase}
+.topbar-tag{font-family:var(--mono);font-size:10px;letter-spacing:.2em;padding:4px 12px;border:1px solid rgba(167,139,250,.3);border-radius:999px;color:rgba(196,181,253,.8);text-transform:uppercase;justify-self:end}
 
 /* ── Shell + Page layout ── */
 #shell{display:grid;grid-template-columns:1fr;min-height:100vh;position:relative;z-index:1}
@@ -171,7 +171,7 @@ nav::-webkit-scrollbar{width:0}
 .hero-crumbs a:hover{color:var(--ink)}
 .hero-crumbs .sep{opacity:.45}
 .hero-crumbs .here{color:var(--powder)}
-.h-display .hero-zh{font-family:var(--sans);font-weight:600;letter-spacing:.04em;background:linear-gradient(135deg,var(--powder),var(--magic) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.h-display .hero-zh{font-family:'Cubic',var(--sans);font-weight:normal;letter-spacing:.06em;background:linear-gradient(135deg,var(--powder),var(--magic) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero-lead{font-size:18px;line-height:1.65;color:var(--ink-mute);max-width:64ch;margin:4px 0 0}
 .hero-lead em{font-family:var(--display);font-style:italic;color:var(--ink);font-size:1.05em;padding:0 2px}
 .hero-lead .emp{font-style:normal;font-family:var(--sans);font-weight:500;letter-spacing:0;color:var(--powder)}
@@ -383,6 +383,7 @@ nav::-webkit-scrollbar{width:0}
 .foot-nav a{color:var(--ink-mute);text-decoration:none}
 .foot-nav a:hover{color:var(--ink)}
 .foot-nav span{opacity:.45}
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,rgba(103,232,249,.4),rgba(167,139,250,.85),rgba(240,165,205,.7));z-index:9000;pointer-events:none;transition:width .1s linear}
 </style>
 <link rel="stylesheet" href="sidebar.css">
 <script>window.SIDEBAR_PAGE='archive';</script>
@@ -393,6 +394,7 @@ nav::-webkit-scrollbar{width:0}
 <div id="page-bg"></div>
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
+<div id="prog"></div>
 <div id="stars"></div>
 
 <!-- ── Sidebar ── -->
@@ -411,7 +413,7 @@ nav::-webkit-scrollbar{width:0}
       <span class="sep">/</span>
       <span class="here">API · SDK</span>
     </div>
-    <div class="tb-brand">WUYAN'S · <span>ARCHIVE</span></div>
+    <div class="tb-brand">✦ WUYAN · ARCHIVE</div>
     <div class="topbar-tag">WORKS · 03</div>
   </div>
   <div id="root"></div>
@@ -1128,8 +1130,7 @@ function Hero(){
         <span className="hero-zh">沒有畫面 的作品 們</span>
       </h1>
       <p className="hero-lead">
-        三個跟後端 · <em>API / SDK</em> 有關的小作品。沒有漂亮的介面可以截圖,
-        所以我把<span className="emp">流程、結構、程式碼</span>當作主角拿出來展示。
+        三個跟後端 · <em>API / SDK</em> 有關的小作品。<br/>沒有漂亮的介面可以截圖，所以我把<span className="emp">流程、結構、程式碼</span>當作主角拿出來展示。
       </p>
       <div className="hero-meta">
         <div className="hero-meta-cell">
@@ -1247,6 +1248,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
     },{rootMargin:'-5% 0px -60% 0px'});
     items.forEach(function(i){io.observe(i.el)});
   },250);
+})();
+(function(){
+  var prog=document.getElementById('prog');
+  if(!prog)return;
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(h>0?Math.round(window.scrollY/h*100):0)+'%';
+  },{passive:true});
 })();
 </script>
 </body>
