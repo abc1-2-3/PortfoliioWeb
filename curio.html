@@ -62,8 +62,8 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 .hdr-badge img{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(280deg);opacity:.72}
 .hdr-badge-text{font:400 9px monospace;letter-spacing:4px;color:rgba(196,181,253,.62);text-transform:uppercase}
 .hdr-title{font:200 clamp(22px,2.8vw,44px)/1.2 'Noto Serif TC','Georgia',serif;letter-spacing:10px;color:rgba(235,228,255,.94);filter:drop-shadow(0 0 22px rgba(180,150,255,.36));margin-bottom:7px;opacity:0;animation:fadeUp .9s ease forwards .2s}
-.hdr-en{font:400 9px monospace;letter-spacing:8px;color:rgba(196,181,253,.38);text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fadeUp .8s ease forwards .4s}
-.hdr-desc{font:400 11px/2 monospace;color:rgba(185,170,225,.52);margin-bottom:18px;opacity:0;animation:fadeUp .8s ease forwards .6s}
+.hdr-en{font:400 9px monospace;letter-spacing:8px;color:rgba(196,181,253,.65);text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fadeUp .8s ease forwards .4s}
+.hdr-desc{font:400 11px/2 monospace;color:rgba(205,192,240,.80);margin-bottom:18px;opacity:0;animation:fadeUp .8s ease forwards .6s}
 .hdr-stats{display:flex;align-items:center;gap:18px;opacity:0;animation:fadeUp .8s ease forwards .8s}
 .stat-item{font:400 11px monospace;letter-spacing:1px;color:rgba(180,162,220,.62)}
 .stat-item b{color:rgba(220,205,255,.90);font-weight:400;font-size:13px}
@@ -173,10 +173,10 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 .card-row .c-card:nth-child(6):hover .c-label{transform:translateY(1px) rotate(1.2deg);opacity:1}
 .card-row .c-card:nth-child(7):hover .c-label{transform:translateY(2px) rotate(-2.5deg);opacity:1}
 
-.c-name{font:400 12px/1.4 'Noto Serif TC','Georgia',serif;color:rgba(45,32,15,.9);letter-spacing:2px;margin-bottom:3px}
-.c-sub{font:400 8.5px monospace;color:rgba(65,48,22,.72);letter-spacing:.5px;line-height:1.5;margin-bottom:6px;min-height:2em}
-.c-date{font:400 8px monospace;color:rgba(80,60,28,.68);letter-spacing:.5px}
-.c-date span{color:rgba(90,68,30,.52)}
+.c-name{font:400 12px/1.4 'Noto Serif TC','Georgia',serif;color:rgba(30,18,8,1);letter-spacing:2px;margin-bottom:3px}
+.c-sub{font:400 8.5px monospace;color:rgba(50,34,12,.95);letter-spacing:.5px;line-height:1.5;margin-bottom:6px;min-height:2em}
+.c-date{font:400 8px monospace;color:rgba(60,42,16,.92);letter-spacing:.5px}
+.c-date span{color:rgba(70,50,18,.80)}
 
 /* ── Status stamp — hidden, fades in on hover ── */
 .c-stamp{
@@ -207,6 +207,7 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 .c-card.unk .c-frame::before{display:none}
 .c-card.unk .c-img{opacity:.65;filter:brightness(.55) saturate(.2)}
 .c-card.unk .c-id{background:rgba(4,2,14,.52);border-color:rgba(120,100,160,.18);color:rgba(140,120,180,.45)}
+.c-card.unk .c-label{display:none}
 
 /* ── Card nav buttons ── */
 #card-nav{
@@ -340,8 +341,8 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
   border-bottom:1px solid rgba(167,139,250,.16)
 }
 #popup-body{
-  white-space:pre-wrap;font:400 10.5px/1.9 'Courier New',monospace;
-  color:rgba(185,170,225,.78);margin:0;display:block
+  white-space:pre-wrap;font:400 13px/2 'Courier New',monospace;
+  color:rgba(215,205,255,.95);margin:0;display:block
 }
 #popup-dismiss{
   font:400 8px monospace;letter-spacing:3px;color:rgba(167,139,250,.3);
@@ -358,6 +359,24 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 .card-row .c-card:nth-child(10){--rot:4.5deg;--ty:35px;opacity:.14}
 
 .fade-up{opacity:0;animation:fadeUp .8s ease forwards}
+
+/* ── Popup scan line ── */
+@keyframes popup-scan{
+  from{top:-3px;opacity:1}
+  to  {top:100%;opacity:.3}
+}
+#popup-box::after{
+  content:'';position:absolute;left:-1px;right:-1px;height:2px;
+  background:rgba(196,181,253,.6);
+  box-shadow:0 0 10px rgba(196,181,253,.55),0 0 3px rgba(196,181,253,.85);
+  pointer-events:none;z-index:20;opacity:0
+}
+#popup-box.scanning::after{animation:popup-scan .7s linear forwards}
+/* flicker on popup open */
+@keyframes popup-flicker{
+  0%{opacity:0}8%{opacity:1}12%{opacity:.6}18%{opacity:1}22%{opacity:.75}28%{opacity:1}100%{opacity:1}
+}
+#popup-box.scanning{animation:popup-flicker .32s steps(1) forwards}
 </style>
 </head>
 <body>
@@ -447,9 +466,9 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
       <div class="ar-item" data-card-id="1"><span class="ar-dot"></span><span class="ar-id">A-002</span><span class="ar-name">撲克牌製造機</span></div>
       <div class="ar-item breach-item" data-card-id="2"><span class="ar-dot"></span><span class="ar-id">A-003</span><span class="ar-name">[已塗除]</span></div>
       <div class="ar-item" data-card-id="3"><span class="ar-dot"></span><span class="ar-id">A-004</span><span class="ar-name">塔羅抽卡機</span></div>
-      <div class="ar-item" data-card-id="4"><span class="ar-dot"></span><span class="ar-id">A-005</span><span class="ar-name">抽獎機/爬梯子</span></div>
-      <div class="ar-item" data-card-id="5"><span class="ar-dot"></span><span class="ar-id">A-006</span><span class="ar-name">壽司列車</span></div>
-      <div class="ar-item" data-card-id="6"><span class="ar-dot"></span><span class="ar-id">A-007</span><span class="ar-name">騙人的恐懼測驗</span></div>
+      <div class="ar-item" data-card-id="4"><span class="ar-dot"></span><span class="ar-id">A-005</span><span class="ar-name">████████</span></div>
+      <div class="ar-item" data-card-id="5"><span class="ar-dot"></span><span class="ar-id">A-006</span><span class="ar-name">[無法解析]</span></div>
+      <div class="ar-item" data-card-id="6"><span class="ar-dot"></span><span class="ar-id">A-007</span><span class="ar-name">██████</span></div>
     </div>
   </aside>
 
@@ -866,10 +885,46 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
     }
   };
 
+  // ── Scramble decode animation ──
+  const POOL='!<>-=+*?#[]{}\\|/01▓░│┼▒⊕⊗';
+  function scramble(el,text,duration){
+    const arr=text.split('');
+    const start=performance.now();
+    let nonWs=0;
+    const total=arr.filter(c=>c!=='\n'&&c!==' '&&c!=='　').length;
+    const resolveAt=arr.map(c=>{
+      if(c==='\n'||c===' '||c==='　')return 0;
+      const p=nonWs++/total;
+      return start+p*duration*.72+Math.random()*duration*.38;
+    });
+    function tick(now){
+      let out='',done=true;
+      for(let i=0;i<arr.length;i++){
+        if(arr[i]==='\n'){out+='\n';continue;}
+        if(arr[i]===' '||arr[i]==='　'){out+=arr[i];continue;}
+        if(now>=resolveAt[i]){out+=arr[i];}
+        else{done=false;out+=POOL[Math.floor(Math.random()*POOL.length)];}
+      }
+      el.textContent=out;
+      if(!done)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
   function showPopup(key){
     const m=msgs[key];if(!m)return;
-    titleEl.textContent=m.t;bodyEl.textContent=m.b;
+    titleEl.textContent='';bodyEl.textContent='';
     overlay.classList.add('open');
+    const box=document.getElementById('popup-box');
+    box.classList.remove('scanning');
+    void box.offsetWidth;
+    box.classList.add('scanning');
+    setTimeout(()=>box.classList.remove('scanning'),750);
+    // Title: fast scramble 380ms; body: slower by length
+    setTimeout(()=>{
+      scramble(titleEl,m.t,380);
+      scramble(bodyEl,m.b,Math.min(1600,Math.max(900,m.b.length*14)));
+    },60);
   }
   function closePopup(){overlay.classList.remove('open');}
   overlay.addEventListener('click',e=>{

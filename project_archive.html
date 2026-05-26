@@ -8,10 +8,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400&family=Cinzel:wght@400&family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'Yozai';src:url('assets/fomts/Yozai-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:'ThePeak';src:url('assets/fomts/ThePeakFontBeta_V0.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Cubic';src:url('assets/fomts/Cubic.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Iansui';src:url('assets/fomts/Iansui-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Elffont';src:url('assets/fomts/elffont-rock.otf') format('opentype');font-weight:400;font-display:swap}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;color:#cec8f0;font-family:'Courier New',monospace;overflow:hidden;cursor:none}
 body{background:#04020e url('assets/project_archive/background.webp') center/cover no-repeat fixed}
-body::before{content:'';position:fixed;inset:0;background:rgba(4,2,14,.48);z-index:0;pointer-events:none}
+body::before{content:'';position:fixed;inset:0;background:rgba(4,2,14,.62);z-index:0;pointer-events:none}
 *{cursor:none!important}
 
 #cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
@@ -100,9 +105,9 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 
 /* Hero title */
 .hero-title-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);z-index:4;text-align:center;pointer-events:none}
-.hero-big-title{font:200 clamp(28px,3.5vw,52px)/1.3 'Noto Serif TC','Georgia',serif;letter-spacing:12px;background:linear-gradient(135deg,#f8f0ff 0%,#d8c0f8 20%,#a890e8 40%,#c890d8 58%,#e8b0f0 78%,#f8f0ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 28px rgba(196,130,240,.38));opacity:0;animation:heroTitleIn 1.2s ease forwards .4s}
+.hero-big-title{font:200 clamp(28px,3.5vw,52px)/1.3 'Yozai','Noto Serif TC','Georgia',serif;letter-spacing:12px;background:linear-gradient(135deg,#ffffff 0%,#e8eaff 16%,#b8aaff 34%,#d890e8 52%,#f8d0ff 72%,#ffffff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 32px rgba(200,140,255,.52));opacity:0;animation:heroTitleIn 1.2s ease forwards .4s}
 @keyframes heroTitleIn{to{opacity:1}}
-.hero-big-sub{font:400 9px monospace;letter-spacing:8px;color:rgba(220,190,255,.52);text-transform:uppercase;margin-top:10px;opacity:0;animation:heroTitleIn .9s ease forwards 1.2s}
+.hero-big-sub{font:400 9px 'ThePeak','Courier New',monospace;letter-spacing:10px;color:rgba(200,215,255,.72);text-transform:uppercase;margin-top:12px;opacity:0;animation:heroTitleIn .9s ease forwards 1.2s}
 
 .char-span{display:inline-block;opacity:0;transform:translateY(14px);animation:charReveal .5s ease forwards}
 @keyframes charReveal{to{opacity:1;transform:translateY(0)}}
@@ -116,7 +121,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .sp:nth-child(5){animation-delay:-1.2s;color:rgba(240,165,205,.70)}
 @keyframes spfade{0%,100%{opacity:.2;transform:scale(.82)}50%{opacity:1;transform:scale(1.12)}}
 
-.proj-title{font:200 clamp(26px,3vw,44px)/1.35 'Noto Serif TC','Georgia',serif;letter-spacing:10px;background:linear-gradient(135deg,#f0f4ff 0%,#c8d8f8 18%,#8ca8e8 38%,#a090e0 55%,#c8b8f8 75%,#f0eeff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(196,181,253,.32));margin-bottom:12px;min-height:1.4em}
+.proj-title{font:500 clamp(26px,3vw,44px)/1.35 'Yozai','Noto Serif TC','Georgia',serif;letter-spacing:10px;background:linear-gradient(135deg,#f0f4ff 0%,#c8d8f8 18%,#8ca8e8 38%,#a090e0 55%,#c8b8f8 75%,#f0eeff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 22px rgba(196,181,253,.38));margin-bottom:12px;min-height:1.4em}
 .proj-sub-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .proj-sub-line{width:36px;height:1px;background:linear-gradient(to right,transparent,rgba(240,165,205,.48))}
 .proj-sub-line.r{background:linear-gradient(to left,transparent,rgba(240,165,205,.48))}
@@ -136,16 +141,16 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 
 /* ── Sections ── */
 .sec{padding:56px max(40px,calc((100% - 1280px)/2))}
-.sec-label{font:700 11px monospace;letter-spacing:4px;color:rgba(240,165,205,.68);text-transform:uppercase;margin-bottom:34px;display:flex;align-items:center;gap:14px}
-.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(240,165,205,.22),transparent)}
-.sec-label .sec-zh{font:400 10px monospace;letter-spacing:2px;opacity:.7}
+.sec-label{font:700 12px monospace;letter-spacing:5px;color:rgba(80,218,255,.88);text-transform:uppercase;margin-bottom:34px;display:flex;align-items:center;gap:14px}
+.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(80,218,255,.28),transparent)}
+.sec-label .sec-zh{font:400 10px monospace;letter-spacing:3px;color:rgba(140,210,255,.62)}
 
 .l2{display:grid;grid-template-columns:1.3fr 1fr;gap:44px;align-items:start}
 .l3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .l4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 
-.s-block{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:22px;transition:border-color .25s,box-shadow .25s}
-.s-block:hover{border-color:rgba(196,181,253,.38);box-shadow:0 0 22px rgba(167,139,250,.08)}
+.s-block{background:rgba(255,255,255,.028);border:1px solid rgba(160,135,255,.16);border-radius:10px;padding:22px;backdrop-filter:blur(12px);transition:border-color .25s,box-shadow .25s}
+.s-block:hover{border-color:rgba(196,181,253,.32);box-shadow:0 0 24px rgba(120,90,255,.08),0 0 0 1px rgba(255,255,255,.03)}
 .s-head{font:700 11px monospace;letter-spacing:3px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:5px}
 .s-head::before{content:'+';color:rgba(196,181,253,.55)}
 .s-text{font:400 13px/2.1 monospace;color:rgba(200,220,248,.84)}
@@ -155,20 +160,20 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 
 /* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
-.stat-box{background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.2);border-radius:8px;padding:18px 12px;text-align:center;transition:all .28s}
-.stat-box:hover{border-color:rgba(240,165,205,.5);background:rgba(22,8,45,.7);box-shadow:0 0 20px rgba(167,139,250,.14);transform:translateY(-2px)}
-.stat-num{font:200 32px 'Noto Serif TC',serif;background:linear-gradient(135deg,#f5d0e8,#d090c0,#a070e0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1.1}
-.stat-lbl{font:400 10px monospace;letter-spacing:2px;color:rgba(196,181,253,.62);text-transform:uppercase;margin-top:6px;display:block}
+.stat-box{background:rgba(8,5,26,.68);border:1px solid rgba(90,210,255,.18);border-radius:8px;padding:18px 12px;text-align:center;transition:all .28s;backdrop-filter:blur(12px)}
+.stat-box:hover{border-color:rgba(80,225,255,.52);background:rgba(8,10,34,.8);box-shadow:0 0 24px rgba(60,200,255,.14),0 0 60px rgba(40,170,255,.06);transform:translateY(-2px)}
+.stat-num{font:200 46px 'Noto Serif TC',serif;background:linear-gradient(135deg,#e8f8ff,#88e6ff,#3dd4f8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1.05}
+.stat-lbl{font:400 9px monospace;letter-spacing:3px;color:rgba(140,200,240,.58);text-transform:uppercase;margin-top:8px;display:block}
 
 /* Overview */
 .overview-text{font:400 13.5px/2.1 monospace;color:rgba(205,225,248,.86);margin-bottom:22px}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.feat-box{background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.22);border-radius:7px;padding:14px 10px;text-align:center;transition:all .22s}
-.feat-box:hover{border-color:rgba(240,165,205,.55);background:rgba(30,10,60,.7);transform:translateY(-2px);box-shadow:0 4px 18px rgba(167,139,250,.14)}
-.feat-box .f-icon-img{width:30px;height:30px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;margin-bottom:8px;transition:opacity .22s;display:block;margin-left:auto;margin-right:auto}
+.feat-box{background:rgba(255,255,255,.025);border:1px solid rgba(160,135,255,.16);border-radius:7px;padding:14px 10px;text-align:center;backdrop-filter:blur(8px);transition:all .22s}
+.feat-box:hover{border-color:rgba(75,215,255,.48);background:rgba(5,12,35,.72);transform:translateY(-2px);box-shadow:0 4px 20px rgba(50,185,255,.12)}
+.feat-box .f-icon-img{width:30px;height:30px;filter:invert(1) sepia(1) saturate(2) hue-rotate(190deg);opacity:.72;margin-bottom:8px;transition:opacity .22s;display:block;margin-left:auto;margin-right:auto}
 .feat-box:hover .f-icon-img{opacity:1}
 .feat-box .f-lbl{font:400 10px/1.5 monospace;color:rgba(196,181,253,.72)}
-.links-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:0}
+.links-card{background:rgba(255,255,255,.025);border:1px solid rgba(160,135,255,.16);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:0;backdrop-filter:blur(12px)}
 .cta-box{display:flex;align-items:center;justify-content:space-between;background:rgba(40,10,70,.16);border:1px solid rgba(240,165,205,.25);border-radius:7px;padding:12px 16px;transition:all .25s;margin-bottom:16px;backdrop-filter:blur(10px);position:relative;overflow:hidden;text-decoration:none;color:inherit}
 .cta-box::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,180,220,.14) 50%,transparent 60%);transform:translateX(-100%);transition:transform .75s ease;pointer-events:none;z-index:1}
 .cta-box::after{content:'';position:absolute;bottom:0;left:12px;right:12px;height:1px;background:linear-gradient(to right,transparent,rgba(240,165,205,.6),transparent);opacity:0;transition:opacity .3s;pointer-events:none}
@@ -185,7 +190,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .link-row:hover{padding-left:4px}
 .link-row:hover .link-name{color:rgba(255,220,240,.96)}
 .link-ic{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid rgba(167,139,250,.28);border-radius:3px;background:rgba(10,5,32,.72)}
-.link-ic img{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(280deg);opacity:.72}
+.link-ic img{width:14px;height:14px;filter:invert(1) sepia(1) saturate(2) hue-rotate(190deg);opacity:.75}
 .link-name{font:600 10px monospace;color:rgba(220,200,252,.82);display:block;transition:color .2s}
 .link-url{font:400 8px monospace;color:rgba(167,139,250,.52);display:block;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .link-arr{font-size:10px;color:rgba(196,181,253,.48)}
@@ -237,10 +242,10 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .sew-btn:hover{border-color:rgba(240,165,205,.55);color:rgba(255,215,235,.96)}
 
 /* Interactive cards */
-.ic-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:18px;transition:all .28s}
-.ic-card:hover{border-color:rgba(240,165,205,.38);box-shadow:0 0 16px rgba(167,139,250,.1)}
-.ic-card.lit{border-color:rgba(240,165,205,.7) !important;background:rgba(35,5,55,.7) !important;box-shadow:0 0 26px rgba(200,100,160,.22) !important}
-.ic-icon{width:28px;height:28px;margin-bottom:9px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;transition:opacity .22s;display:block}
+.ic-card{background:rgba(255,255,255,.028);border:1px solid rgba(160,135,255,.16);border-radius:10px;padding:18px;backdrop-filter:blur(10px);transition:all .28s}
+.ic-card:hover{border-color:rgba(80,220,255,.42);box-shadow:0 0 18px rgba(60,190,255,.12)}
+.ic-card.lit{border-color:rgba(240,165,205,.7) !important;background:rgba(35,5,55,.6) !important;box-shadow:0 0 26px rgba(200,100,160,.22) !important}
+.ic-icon{width:28px;height:28px;margin-bottom:9px;filter:invert(1) sepia(1) saturate(2) hue-rotate(190deg);opacity:.72;transition:opacity .22s;display:block}
 .ic-card:hover .ic-icon,.ic-card.lit .ic-icon{opacity:1}
 .ic-head{font:700 11px monospace;letter-spacing:2px;color:rgba(240,165,205,.85);text-transform:uppercase;margin-bottom:7px}
 .ic-text{font:400 13px/1.95 monospace;color:rgba(205,220,248,.82)}
@@ -251,7 +256,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .flow-chain{display:flex;flex-direction:column;gap:5px}
 .flow-step{display:flex;align-items:center;gap:12px}
 .flow-ico{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(167,139,250,.42);background:rgba(10,5,32,.85);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.flow-ico img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(275deg);opacity:.82}
+.flow-ico img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(2) hue-rotate(190deg);opacity:.82}
 .flow-t{font:700 10px monospace;color:rgba(220,205,255,.90)}
 .flow-s{font:400 9px monospace;color:rgba(167,139,250,.65);margin-top:2px}
 .flow-arr{padding-left:18px;color:rgba(167,139,250,.42);font-size:9px}
@@ -297,16 +302,16 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .ch-bg-r{background:rgba(60,200,100,.04)}
 
 /* 彩蛋探索 */
-.egg-hint{font:400 9px monospace;letter-spacing:3px;color:rgba(196,181,253,.52);margin-bottom:22px}
-.egg-card{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:9px;padding:16px;display:flex;flex-direction:column;gap:8px;transition:all .28s}
-.egg-card:hover{border-color:rgba(240,165,205,.52);background:rgba(18,5,40,.65);transform:translateY(-3px);box-shadow:0 5px 22px rgba(167,139,250,.14)}
-.egg-icon-ph{width:42px;height:42px;border-radius:8px;background:rgba(15,5,40,.7);border:1px solid rgba(167,139,250,.28);display:flex;align-items:center;justify-content:center;transition:border-color .22s}
-.egg-card:hover .egg-icon-ph{border-color:rgba(240,165,205,.45)}
-.egg-icon-ph img{width:25px;height:25px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.78}
-.egg-trigger{font:700 7px monospace;letter-spacing:2px;color:rgba(240,165,205,.68);text-transform:uppercase;padding:2px 7px;border:1px solid rgba(240,165,205,.25);border-radius:2px;width:fit-content}
-.egg-title{font:700 11px monospace;color:rgba(220,205,255,.94);letter-spacing:.5px}
-.egg-desc{font:400 9px/1.7 monospace;color:rgba(196,181,253,.78)}
-.egg-note{font:400 8px monospace;color:rgba(248,215,140,.52);margin-top:2px}
+.egg-hint{font:400 11px monospace;letter-spacing:2px;color:rgba(140,210,255,.68);margin-bottom:22px}
+.egg-card{background:rgba(255,255,255,.025);border:1px solid rgba(160,135,255,.16);border-radius:9px;padding:16px;display:flex;flex-direction:column;gap:8px;backdrop-filter:blur(10px);transition:all .28s}
+.egg-card:hover{border-color:rgba(75,215,255,.45);background:rgba(4,10,32,.72);transform:translateY(-3px);box-shadow:0 5px 24px rgba(50,185,255,.12)}
+.egg-icon-ph{width:44px;height:44px;border-radius:8px;background:rgba(5,12,35,.8);border:1px solid rgba(80,200,255,.28);display:flex;align-items:center;justify-content:center;transition:border-color .22s}
+.egg-card:hover .egg-icon-ph{border-color:rgba(80,220,255,.58)}
+.egg-icon-ph img{width:26px;height:26px;filter:invert(1) sepia(1) saturate(2) hue-rotate(190deg);opacity:.82}
+.egg-trigger{font:700 9px 'ThePeak','Courier New',monospace;letter-spacing:3px;color:rgba(75,215,255,.82);text-transform:uppercase;padding:3px 8px;border:1px solid rgba(75,215,255,.28);border-radius:2px;width:fit-content}
+.egg-title{font:700 13px monospace;color:rgba(230,220,255,.97);letter-spacing:.5px}
+.egg-desc{font:400 11px/1.85 monospace;color:rgba(200,215,250,.85)}
+.egg-note{font:400 9px monospace;color:rgba(255,218,100,.68);margin-top:2px}
 .egg-note::before{content:'※ '}
 
 /* Reflection */
@@ -316,7 +321,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .reflect-list{margin-top:18px}
 .reflect-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(167,139,250,.14)}
 .reflect-item:last-child{border-bottom:none}
-.reflect-item img{width:28px;height:28px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(275deg);opacity:.68;flex-shrink:0;margin-top:2px}
+.reflect-item img{width:28px;height:28px;filter:invert(1) sepia(1) saturate(2) hue-rotate(190deg);opacity:.72;flex-shrink:0;margin-top:2px}
 .reflect-item-t{font:700 10px monospace;color:rgba(220,205,255,.90);margin-bottom:4px}
 .reflect-item-s{font:400 9px/1.7 monospace;color:rgba(196,181,253,.75)}
 
@@ -364,7 +369,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .qnav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
 .qnav-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(10,5,30,.7);border:1px solid rgba(167,139,250,.2);border-radius:8px;padding:16px 8px;text-decoration:none;transition:all .25s;text-align:center}
 .qnav-card:hover{border-color:rgba(240,165,205,.52);background:rgba(30,8,55,.7);transform:translateY(-3px);box-shadow:0 6px 24px rgba(167,139,250,.14)}
-.qnav-icon{width:24px;height:24px;filter:invert(1) sepia(1) saturate(2.5) hue-rotate(278deg);opacity:.68;transition:opacity .22s}
+.qnav-icon{width:24px;height:24px;filter:invert(1) sepia(1) saturate(2) hue-rotate(190deg);opacity:.72;transition:opacity .22s}
 .qnav-card:hover .qnav-icon{opacity:1}
 .qnav-name{font:600 12px monospace;color:rgba(220,200,252,.82);letter-spacing:.5px}
 .qnav-hint{font:400 9px monospace;color:rgba(167,139,250,.5);letter-spacing:1px;text-transform:uppercase}
@@ -403,12 +408,18 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .privacy-note::before{content:'※';color:rgba(165,215,255,.75);font-size:14px;flex-shrink:0;margin-top:1px}
 
 /* ── CTA link button ── */
-.cta-link-btn{display:inline-flex;align-items:center;gap:8px;font:700 12px monospace;letter-spacing:3px;color:rgba(255,220,240,.94);text-transform:uppercase;padding:12px 22px;border:1px solid rgba(240,165,205,.42);border-radius:6px;background:rgba(30,5,50,.45);backdrop-filter:blur(10px);text-decoration:none;transition:all .28s;position:relative;overflow:hidden}
-.cta-link-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,180,220,.14) 50%,transparent 60%);transform:translateX(-100%);transition:transform .75s ease;pointer-events:none}
-.cta-link-btn:hover{border-color:rgba(255,185,225,.75);background:rgba(60,10,90,.55);box-shadow:0 0 22px rgba(220,120,175,.22);transform:translateY(-2px)}
+@keyframes ctaGlow{
+  0%,100%{box-shadow:0 0 22px rgba(220,120,175,.22)}
+  50%{box-shadow:0 0 42px rgba(240,120,175,.48),0 0 72px rgba(240,120,175,.12)}
+}
+.cta-link-btn{display:inline-flex;align-items:center;gap:8px;font:700 12px monospace;letter-spacing:3px;color:rgba(255,220,240,.94);text-transform:uppercase;padding:12px 22px;border:1px solid rgba(240,165,205,.42);border-radius:6px;background:rgba(30,5,50,.45);backdrop-filter:blur(10px);text-decoration:none;transition:border-color .28s,background .28s,transform .28s;position:relative;overflow:hidden}
+.cta-link-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,180,220,.18) 50%,transparent 60%);transform:translateX(-100%);transition:transform .72s ease;pointer-events:none}
+.cta-link-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(285deg,transparent 40%,rgba(255,180,220,.10) 50%,transparent 60%);transform:translateX(100%);transition:transform 1.0s ease .28s;pointer-events:none}
+.cta-link-btn:hover{border-color:rgba(255,185,225,.78);background:rgba(60,10,90,.58);transform:translateY(-2px);animation:ctaGlow 1.8s ease-in-out infinite}
 .cta-link-btn:hover::before{transform:translateX(220%)}
+.cta-link-btn:hover::after{transform:translateX(-220%)}
 .cta-link-btn .arr{transition:transform .25s}
-.cta-link-btn:hover .arr{transform:translateX(4px)}
+.cta-link-btn:hover .arr{transform:translateX(6px)}
 
 /* ── Coming soon ── */
 .coming-soon-wrap{background:rgba(7,4,20,.6);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:52px 40px;text-align:center;position:relative;overflow:hidden}
@@ -720,45 +731,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
       </div>
     </div>
 
-    <!-- ⑦ WORLD MAP -->
-    <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
-    <div class="sec" id="sec-worldmap">
-      <div class="sec-label"><span>頁面地圖</span><span class="sec-zh">WORLD MAP</span></div>
-      <div class="l3">
-        <div class="page-card">
-          <div class="page-thumb" style="background:radial-gradient(ellipse at 55% 50%,rgba(240,165,205,.07),rgba(4,2,14,.95))">
-            <img class="page-thumb-icon" src="assets/icon/Home.png" alt=""><span class="page-badge">HOMEPAGE</span>
-          </div>
-          <div class="page-info">
-            <div class="page-name">首頁</div>
-            <div class="page-desc">暗室場景入口。聚光燈跟隨、點擊轉場、燈光切換、7 個隱藏彩蛋。</div>
-            <div class="page-tags"><span class="page-tag">分層動畫</span><span class="page-tag">聚光燈</span><span class="page-tag">彩蛋</span></div>
-          </div>
-        </div>
-        <div class="page-card">
-          <div class="page-thumb" style="background:radial-gradient(ellipse at 50% 50%,rgba(196,181,253,.08),rgba(4,2,14,.95))">
-            <img class="page-thumb-icon" src="assets/icon/File.png" alt=""><span class="page-badge">WORKS</span>
-          </div>
-          <div class="page-info">
-            <div class="page-name">作品導覽</div>
-            <div class="page-desc">三個旋轉入口（WEB / VTUBER / AI），記憶片段輪播，引導進入不同作品類別。</div>
-            <div class="page-tags"><span class="page-tag">Portal 入口</span><span class="page-tag">記憶輪播</span></div>
-          </div>
-        </div>
-        <div class="page-card">
-          <div class="page-thumb" style="background:radial-gradient(ellipse at 45% 50%,rgba(165,215,255,.07),rgba(4,2,14,.95))">
-            <img class="page-thumb-icon" src="assets/icon/Detail.png" alt=""><span class="page-badge">PROJECT</span>
-          </div>
-          <div class="page-info">
-            <div class="page-name">作品詳情頁</div>
-            <div class="page-desc">每個作品的深度介紹頁，含場景展示、互動 hotspot、技術說明、系統流程。</div>
-            <div class="page-tags"><span class="page-tag">場景 hotspot</span><span class="page-tag">Scroll 版型</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⑧ WORKS V3 -->
+    <!-- ⑦ WORKS V3 -->
     <div class="sec-divider"><img src="assets/Dividers/Divider3.png" alt=""></div>
     <div class="sec" id="sec-works">
       <div class="sec-label"><span>作品集導覽</span><span class="sec-zh">WORKS V3</span></div>
@@ -836,14 +809,161 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
       <a class="cta-link-btn" href="project_vtuber.html">前往 VTUBER 頁面體驗動態捕捉 <span class="arr">↗</span></a>
     </div>
 
-    <!-- ⑪ COMING SOON -->
+    <!-- ⑩ CURIO OVERVIEW -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider3.png" alt=""></div>
+    <div class="sec" id="sec-curio">
+      <div class="sec-label"><span>奇物陣列</span><span class="sec-zh">CURIO ARCHIVE</span></div>
+      <div class="l2">
+        <div>
+          <p class="overview-text">奇物陣列不只是一個分類頁——它自己也是一件作品。以 SCP 式的收容資料庫為形，前端互動小作品以「奇物」為名建檔。七張旋轉卡匣、膠捲底片軌道、側欄收容狀態，每個設計決策都帶著世界觀的重量。</p>
+          <p class="overview-text" style="margin-top:10px">這個頁面保有完全獨立的風格——與作品集其他頁面同屬一個宇宙，但走進來像是進入另一個空間。頁面本身也藏有幾個不對外說明的彩蛋，等待被找到。</p>
+          <div style="margin-top:22px">
+            <a class="cta-link-btn" href="curio.html">進入奇物觀測庫 <span class="arr">↗</span></a>
+          </div>
+        </div>
+        <div class="s-block">
+          <div class="s-head">ARCHIVE DESIGN</div>
+          <div class="s-cat">頁面架構</div>
+          <div class="s-item">SCP 風格收容資料庫美學</div>
+          <div class="s-item">膠捲底片全景背景軌道</div>
+          <div class="s-item">七張卡片循環旋轉卡匣</div>
+          <div class="s-cat">互動細節</div>
+          <div class="s-item">FLIP 動畫防閃跳位移</div>
+          <div class="s-item">貼紙從畫外旋入彈跳落定</div>
+          <div class="s-item">側選單以 ████ · [無法解析] 呈現</div>
+        </div>
+      </div>
+
+      <div class="sec-label" style="margin-top:44px"><span>隱藏彩蛋</span><span class="sec-zh">EASTER EGGS · CLICK TO FIND</span></div>
+      <p class="egg-hint">點擊頁面前景物件觸發 · 文字以亂碼逐字解密呈現</p>
+      <div class="l3">
+        <div class="egg-card">
+          <div class="egg-icon-ph"><img src="assets/icon/FillForm.png" alt=""></div>
+          <div class="egg-trigger">CLICK · 規則紙</div>
+          <div class="egg-title">觀測守則 B-2</div>
+          <div class="egg-desc">彈出五條機密等級守則。第五條說明本守則在被閱讀後自動更新——您正在讀的這份，可能已與記憶中的版本不同。</div>
+          <div class="egg-note">最後更新：不明</div>
+        </div>
+        <div class="egg-card">
+          <div class="egg-icon-ph"><img src="assets/icon/IntroductionTips.png" alt=""></div>
+          <div class="egg-trigger">CLICK · 相片</div>
+          <div class="egg-title">附件 B-17 影像報告</div>
+          <div class="egg-desc">拍攝者已塗除。影像在沖洗後出現了攝影者不記得拍攝的物體，且每次觀測後細節有可量測的差異。</div>
+          <div class="egg-note">請勿長時間直視</div>
+        </div>
+        <div class="egg-card">
+          <div class="egg-icon-ph"><img src="assets/icon/CircleExclamationMark.png" alt=""></div>
+          <div class="egg-trigger">CLICK · 小紙條</div>
+          <div class="egg-title">內部補充說明</div>
+          <div class="egg-desc">觀測庫本身是否構成第三類收容目標，目前尚無定論。部分觀測人員記錄顯示，庫中奇物的數量在不同次觀測間有出入。</div>
+          <div class="egg-note">此條目存疑</div>
+        </div>
+      </div>
+      <div class="l3" style="margin-top:12px">
+        <div class="egg-card">
+          <div class="egg-icon-ph"><img src="assets/icon/Code.png" alt=""></div>
+          <div class="egg-trigger">DESIGN</div>
+          <div class="egg-title">字元解碼動畫</div>
+          <div class="egg-desc">彈窗開啟時掃描光線劃過，文字從 !&lt;&gt;▓░│⊕ 等亂碼逐字解密，搭配 CRT 開機閃爍，標題 380ms，正文依長度延長至 1.6s。</div>
+        </div>
+        <div class="egg-card">
+          <div class="egg-icon-ph"><img src="assets/icon/CircleQuestionMark.png" alt=""></div>
+          <div class="egg-trigger">DESIGN</div>
+          <div class="egg-title">收容失敗 A-003</div>
+          <div class="egg-desc">第三張卡片已失蹤。卡框轉紅、裂縫覆蓋、名稱以 [已塗除] 呈現，不可點擊，Hover 不彈出貼紙。</div>
+        </div>
+        <div class="egg-card">
+          <div class="egg-icon-ph"><img src="assets/icon/Lamp.png" alt=""></div>
+          <div class="egg-trigger">CLICK · 燈具</div>
+          <div class="egg-title">不穩定照明</div>
+          <div class="egg-desc">點擊右上角燈具熱區，觸發燈光閃爍序列。燈忽明忽暗，模擬收容設施的異常環境。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑪ DATA SEA -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider4.png" alt=""></div>
+    <div class="sec" id="sec-datasea">
+      <div class="sec-label"><span>數樸之海</span><span class="sec-zh">A-001 · DATA SEA</span></div>
+      <div class="l2">
+        <div>
+          <p class="overview-text">一片由數學公式堆疊出的虛擬海洋，不含任何圖片素材。拖曳月亮調整潮汐強度，改變風速觀看波型從平靜的湧浪轉為洶湧浪頭，或切換不同時段體驗晨昏光影差異。</p>
+          <div class="feat-grid" style="margin-top:18px">
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/CrescentMoon.png" alt=""><div class="f-lbl">月亮位置<br>潮汐控制</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Cloud.png" alt=""><div class="f-lbl">風速調整<br>波型變化</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Sun.png" alt=""><div class="f-lbl">晨昏切換<br>光影差異</div></div>
+          </div>
+          <div style="margin-top:22px">
+            <a class="cta-link-btn" href="project_datasea.html">前往數樸之海體驗 <span class="arr">↗</span></a>
+          </div>
+        </div>
+        <div class="s-block">
+          <div style="text-align:center;padding:10px 0 16px">
+            <img src="assets/Curio/card_datasea.png" alt="數樸之海" style="height:200px;width:auto;border-radius:8px;border:1px solid rgba(167,139,250,.25);object-fit:cover;display:inline-block">
+          </div>
+          <div class="s-head">TECH</div>
+          <div class="s-item">純 Canvas 數學波形渲染</div>
+          <div class="s-item">傅立葉疊加多頻波</div>
+          <div class="s-item">即時物理參數互動調整</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑫ HOLOCARD -->
+    <div class="sec-divider"><img src="assets/Dividers/Divider1.png" alt=""></div>
+    <div class="sec" id="sec-holocard">
+      <div class="sec-label"><span>撲克牌製造機</span><span class="sec-zh">A-002 · HOLOCARD</span></div>
+      <div class="l2">
+        <div>
+          <p class="overview-text">自訂卡背圖案、選擇配色，即時預覽閃卡光澤效果。設計定稿後，可以下載整副 54 張（含大小鬼）的專屬撲克牌，直接拿去印刷或分享。</p>
+          <div class="feat-grid" style="margin-top:18px">
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/MagicWand.png" alt=""><div class="f-lbl">自訂<br>卡背設計</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Star.png" alt=""><div class="f-lbl">閃卡<br>光澤預覽</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Gift.png" alt=""><div class="f-lbl">下載<br>完整牌組</div></div>
+          </div>
+          <div style="margin-top:22px">
+            <a class="cta-link-btn" href="project_holocard.html">前往撲克牌製造機 <span class="arr">↗</span></a>
+          </div>
+        </div>
+        <div class="s-block">
+          <div style="text-align:center;padding:10px 0 16px">
+            <img src="assets/Curio/card_poker.png" alt="撲克牌製造機" style="height:200px;width:auto;border-radius:8px;border:1px solid rgba(167,139,250,.25);object-fit:cover;display:inline-block">
+          </div>
+          <div class="s-head">EXPERIENCE</div>
+          <div class="s-item">卡面・卡背分開設計</div>
+          <div class="s-item">多種花紋圖案選擇</div>
+          <div class="s-item">即時閃卡光澤渲染</div>
+          <div class="s-item">匯出 54 張完整牌組</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑬ TAROT -->
     <div class="sec-divider"><img src="assets/Dividers/Divider2.png" alt=""></div>
-    <div class="sec" id="sec-coming">
-      <div class="sec-label"><span>奇物陣列</span><span class="sec-zh">COMING SOON</span></div>
-      <div class="coming-soon-wrap">
-        <div class="cs-badge">IN DEVELOPMENT</div>
-        <div class="cs-title">奇物陣列</div>
-        <p class="cs-desc">一個由奇異物件與實驗性互動組成的神秘展示空間。尚在構築之中，靜候開張。</p>
+    <div class="sec" id="sec-tarot">
+      <div class="sec-label"><span>塔羅抽卡機</span><span class="sec-zh">A-004 · TAROT</span></div>
+      <div class="l2">
+        <div>
+          <p class="overview-text">內建完整的 78 張塔羅牌組，支援四種常見陣型選擇，每張牌有正逆位、在牌陣中的代表含義、時間狀態等詳細解說。不需要塔羅基礎，直接抽牌查閱。</p>
+          <div class="feat-grid" style="margin-top:18px">
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Concept.png" alt=""><div class="f-lbl">四種<br>牌陣選擇</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Book.png" alt=""><div class="f-lbl">正逆位<br>牌義解說</div></div>
+            <div class="feat-box"><img class="f-icon-img" src="assets/icon/Idea.png" alt=""><div class="f-lbl">時間狀態<br>牌組解讀</div></div>
+          </div>
+          <div style="margin-top:22px">
+            <a class="cta-link-btn" href="project_tarot.html">前往塔羅抽卡機占卜 <span class="arr">↗</span></a>
+          </div>
+        </div>
+        <div class="s-block">
+          <div style="text-align:center;padding:10px 0 16px">
+            <img src="assets/Curio/card_tarot.png" alt="塔羅抽卡機" style="height:200px;width:auto;border-radius:8px;border:1px solid rgba(167,139,250,.25);object-fit:cover;display:inline-block">
+          </div>
+          <div class="s-head">SPREADS</div>
+          <div class="s-item">單張占卜（今日指引）</div>
+          <div class="s-item">三牌陣（過去・現在・未來）</div>
+          <div class="s-item">凱爾特十字（深度解讀）</div>
+          <div class="s-item">馬蹄形陣（情境分析）</div>
+        </div>
       </div>
     </div>
 
@@ -864,7 +984,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 /* ── Cursor ── */
 const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
 document.addEventListener('mousemove',e=>{dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
-document.querySelectorAll('.ni,.fn-btn,.cta-box,.qnav-card,.cta-link-btn,.hotspot,.feat-box,.ptag,.page-card,.ic-card,.stat-box,.sew-btn,.ss-char,.pe-apply,.pe-reset,.cspec,.mat-frame,.cat-frame,.screenshot-frame').forEach(el=>{
+document.querySelectorAll('.ni,.fn-btn,.cta-box,.qnav-card,.cta-link-btn,.hotspot,.feat-box,.ptag,.ic-card,.stat-box,.sew-btn,.ss-char,.pe-apply,.pe-reset,.cspec,.mat-frame,.cat-frame,.screenshot-frame,.egg-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
@@ -1262,9 +1382,10 @@ document.querySelectorAll('.swatch').forEach(sw=>{
     {id:'heroSection',en:'HERO'},{id:'sec-overview',en:'OVERVIEW'},
     {id:'sec-interactive',en:'INTERACTIVE'},{id:'sec-scroll',en:'SCENE'},
     {id:'sec-curtain',en:'CURTAIN'},{id:'sec-materials',en:'ASSETS'},
-    {id:'sec-worldmap',en:'MAP'},{id:'sec-works',en:'WORKS'},
-    {id:'sec-signal',en:'SIGNAL'},{id:'sec-vtuber',en:'VTUBER'},
-    {id:'sec-coming',en:'COMING'}
+    {id:'sec-works',en:'WORKS'},{id:'sec-signal',en:'SIGNAL'},
+    {id:'sec-vtuber',en:'VTUBER'},{id:'sec-curio',en:'CURIO'},
+    {id:'sec-datasea',en:'DATA SEA'},{id:'sec-holocard',en:'HOLOCARD'},
+    {id:'sec-tarot',en:'TAROT'}
   ];
   var mainEl=document.getElementById('main');
   var nav=document.getElementById('page-nav');if(!nav||!mainEl)return;
