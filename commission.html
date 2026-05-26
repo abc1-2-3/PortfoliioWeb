@@ -66,8 +66,6 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 #sidebar:hover::before{opacity:0}
 #sidebar::after{content:'';position:absolute;left:36px;top:85px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);border-radius:2px;box-shadow:0 0 6px rgba(167,139,250,.28)}
 .sb-head{padding:20px 14px 16px 18px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid rgba(167,139,250,.15);flex-shrink:0}
-.sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(5,10,30,.6);flex-shrink:0;box-shadow:0 0 12px rgba(167,139,250,.22)}
-.sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
 .sb-info{flex:1;min-width:0}
 .sb-title{font:700 12px var(--ff-m);letter-spacing:2px;color:rgba(218,185,255,.88);text-transform:uppercase}
 .sb-sub{font:400 10px var(--ff-m);color:rgba(175,135,190,.52);letter-spacing:1px;margin-top:3px}
@@ -821,7 +819,7 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
       <p class="sec-sub">填表單或直接複製右側聯絡帳號。表單已內建反濫寄保護，安心填寫。</p>
     </div>
     <div class="send-grid reveal">
-      <form class="send-form" id="contact-form" autocomplete="off">
+      <form class="send-form" id="contact-form" autocomplete="off" action="https://formspree.io/f/xvzyvozz" method="POST">
         <div class="form-row two">
           <div>
             <label>稱呼 <span class="req">*</span></label>
@@ -1259,14 +1257,27 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
     if(Date.now()-mountedAt<3000){console.warn('[antispam] too fast');return}
     // rune check
     if(picked!==rune.target){renderRunes();return}
-    // ok — wire to real backend here
-    console.log('[contact] submit',Object.fromEntries(data));
-    showToast();
-    form.reset();
-    rune=pickRunes();
-    picked=null;
-    renderRunes();
-    startCooldown();
+    submitBtn.disabled=true;
+    fetch('https://formspree.io/f/xvzyvozz',{
+      method:'POST',
+      body:data,
+      headers:{Accept:'application/json'}
+    }).then(function(res){
+      if(res.ok){
+        showToast();
+        form.reset();
+        rune=pickRunes();
+        picked=null;
+        renderRunes();
+        startCooldown();
+      } else {
+        submitHint.textContent='✕ 送出失敗，請直接寄信或聯絡 X';
+        submitBtn.disabled=false;
+      }
+    }).catch(function(){
+      submitHint.textContent='✕ 網路錯誤，請直接寄信或聯絡 X';
+      submitBtn.disabled=false;
+    });
   });
 
   // copy-to-clipboard for aside channels

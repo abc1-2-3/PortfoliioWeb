@@ -378,6 +378,8 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 }
 #popup-box.scanning{animation:popup-flicker .32s steps(1) forwards}
 </style>
+<script>window.SIDEBAR_PAGE = 'curio';</script>
+<script src="sidebar.js" defer></script>
 </head>
 <body>
 <div id="cursor-dot"></div>
@@ -425,17 +427,7 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
 <img id="rail" src="assets/Curio/rail.webp" alt="">
 
 <!-- Sidebar -->
-<div id="sidebar">
-  <div class="sb-head">
-    <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
-    <div class="sb-info">
-      <div class="sb-title">WUYAN'S ARCHIVE</div>
-      <div class="sb-sub">v2.1.0</div>
-      <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
-    </div>
-  </div>
-  <nav id="sb-nav"></nav>
-</div>
+<div id="sidebar"></div>
 
 <!-- Shell -->
 <div id="shell">
@@ -666,27 +658,6 @@ body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);
   if(bgImg.complete&&bgImg.naturalWidth)update();
   else bgImg.addEventListener('load',update);
   window.addEventListener('resize',update);
-})();
-
-// Sidebar nav
-(function(){
-  const NAVS=[
-    {en:'HOME',       zh:'首頁',     icon:'assets/icon/Home.png',        href:'homepage_final.html'},
-    {en:'ARCHIVE',    zh:'作品集',   icon:'assets/icon/File.png',        href:'works_v3.html'},
-    {en:'COMMISSION', zh:'委託',     icon:'assets/icon/Pay.png',         href:'commission.html'},
-    {en:'SIGNAL',     zh:'訊號站',   icon:'assets/icon/Comment.png',     href:'signal.html'},
-    {en:'CURIO',      zh:'奇物陣列', icon:'assets/icon/LittleWorld.png', href:'curio.html', act:true},
-  ];
-  const nav=document.getElementById('sb-nav');
-  NAVS.forEach(n=>{
-    const a=document.createElement('a');
-    a.className='ni'+(n.act?' act':'');
-    a.href=n.href||'#';
-    a.innerHTML=`<img class="ni-icon" src="${n.icon}" alt=""><div class="ni-text"><div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div></div>`;
-    a.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-    a.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-    nav.appendChild(a);
-  });
 })();
 
 // Stars

@@ -879,6 +879,8 @@ body.hov #cursor-ring {
 .bubble-pop { animation: bubble-pop 0.32s cubic-bezier(.2,.8,.2,1) forwards; }
 
 </style>
+<script>window.SIDEBAR_PAGE = 'archive';</script>
+<script src="sidebar.js" defer></script>
 </head>
 <body>
 
@@ -910,17 +912,7 @@ body.hov #cursor-ring {
 </div>
 
 <!-- Fixed sidebar -->
-<div id="sidebar">
-  <div class="sb-head">
-    <div class="sb-cat"><img src="assets/icon/Cat.png" alt=""></div>
-    <div class="sb-info">
-      <div class="sb-title">WUYAN'S ARCHIVE</div>
-      <div class="sb-sub">v2.1.0</div>
-      <div class="sb-pulse"><div class="sb-dot"></div><span class="sb-online">ONLINE</span></div>
-    </div>
-  </div>
-  <nav id="sb-nav"></nav>
-</div>
+<div id="sidebar"></div>
 
 <!-- Main app -->
 <div class="app">
@@ -1023,19 +1015,11 @@ const WORKS = [
 const CATEGORIES = [
   { num:'00', en:'ALL',        zh:'全部作品',            count:12, icon:'assets/icon/Crown.png' },
   { num:'01', en:'VTUBER',     zh:'虛擬偶像 / Live2D',   count:3,  icon:'assets/icon/Live.png' },
-  { num:'02', en:'WEB',        zh:'網頁互動 / 前後端',    count:4,  icon:'assets/icon/Website.png' },
+  { num:'02', en:'THIS',       zh:'網頁互動',              count:4,  icon:'assets/icon/Website.png' },
   { num:'03', en:'PAYMENT',    zh:'金流串接',             count:2,  icon:'assets/icon/Pay.png' },
   { num:'04', en:'AI · BOT',   zh:'自動化 / API',         count:2,  icon:'assets/icon/Code.png' },
   { num:'05', en:'ILLUST',     zh:'插畫 / 視覺',          count:1,  icon:'assets/icon/Pen.png' },
-  { num:'06', en:'OTHERS',     zh:'其他實驗',             count:1,  icon:'assets/icon/Experiment.png' },
-];
-
-const NAVS = [
-  { en:'HOME',       zh:'首頁',     icon:'assets/icon/Home.png',        href:'homepage_final.html' },
-  { en:'ARCHIVE',    zh:'作品集',   icon:'assets/icon/File.png',        href:'works_v3.html', act:true },
-  { en:'COMMISSION', zh:'委託',     icon:'assets/icon/Pay.png',         href:'commission.html' },
-  { en:'SIGNAL',     zh:'訊號站',   icon:'assets/icon/Comment.png',     href:'signal.html' },
-  { en:'CURIO',      zh:'奇物陣列', icon:'assets/icon/LittleWorld.png', href:'#' },
+  { num:'06', en:'CURIO',      zh:'奇物陣列',             count:1,  icon:'assets/icon/LittleWorld.png' },
 ];
 
 /* ── CURSOR ─────────────────────────────────────────────────── */
@@ -1088,18 +1072,6 @@ function updateClock() {
     [n.getHours(), n.getMinutes(), n.getSeconds()].map(v => String(v).padStart(2,'0')).join(':');
 }
 updateClock(); setInterval(updateClock, 1000);
-
-/* ── SIDEBAR NAV ─────────────────────────────────────────────── */
-(function() {
-  const nav = document.getElementById('sb-nav');
-  NAVS.forEach(n => {
-    const a = document.createElement('a');
-    a.className = 'ni' + (n.act ? ' act' : '');
-    a.href = n.href || '#';
-    a.innerHTML = `<img class="ni-icon" src="${n.icon}" alt=""><div class="ni-text"><div class="ni-en">${n.en}</div><div class="ni-zh">${n.zh}</div></div>`;
-    addHov(a); nav.appendChild(a);
-  });
-})();
 
 /* ── CATEGORY RAIL ───────────────────────────────────────────── */
 (function() {
@@ -1428,10 +1400,10 @@ function miniThumb(a) {
         const t = w.tag.toUpperCase();
         if (catEn === 'VTUBER')    return t.includes('VTUBER');
         if (catEn === 'PAYMENT')   return t.includes('PAY');
-        if (catEn === 'WEB')       return t.startsWith('WEB') && !t.includes('PAY');
+        if (catEn === 'THIS')      return t.startsWith('WEB') && !t.includes('PAY');
         if (catEn === 'AI · BOT')  return t.includes('AI') || t.includes('AUTO');
         if (catEn === 'ILLUST')    return t.includes('ILLUST');
-        if (catEn === 'OTHERS')    return t.includes('OTHERS');
+        if (catEn === 'CURIO')     return t.includes('OTHERS');
         return false;
       });
       if (found < 0) return;

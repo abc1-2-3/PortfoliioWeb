@@ -34,15 +34,9 @@
 
 /* ── Head ── */
 .sb-head {
-  padding: 20px 14px 16px 18px; display: flex; align-items: flex-start;
-  gap: 10px; border-bottom: 1px solid rgba(167,139,250,.12); flex-shrink: 0;
+  padding: 20px 18px 16px 18px; display: flex; align-items: flex-start;
+  border-bottom: 1px solid rgba(167,139,250,.12); flex-shrink: 0;
 }
-.sb-cat {
-  width: 34px; height: 34px; border: 1px solid rgba(167,139,250,.42);
-  border-radius: 6px; display: flex; align-items: center; justify-content: center;
-  background: rgba(5,10,30,.6); flex-shrink: 0; box-shadow: 0 0 12px rgba(167,139,250,.22);
-}
-.sb-cat img { width: 22px; height: 22px; filter: invert(1) sepia(1) saturate(3) hue-rotate(245deg); opacity: .85; }
 .sb-info { flex: 1; min-width: 0; }
 .sb-title { font: 800 15px 'JetBrains Mono','Courier New',monospace; letter-spacing: 3.5px; color: rgba(210,196,255,.95); text-transform: uppercase; line-height: 1.4; }
 .sb-sub   { font: 400 9px 'JetBrains Mono','Courier New',monospace; color: rgba(110,90,170,.48); letter-spacing: 2.5px; margin-top: 5px; }
@@ -88,6 +82,71 @@
 .ni-zh { font: 400 10px 'JetBrains Mono','Courier New',monospace; color: rgba(155,135,200,.55); letter-spacing: 1px; margin-top: 3px; transition: color .22s; }
 .ni:hover .ni-en, .ni.act .ni-en { color: rgba(232,224,255,.97); }
 .ni:hover .ni-zh, .ni.act .ni-zh { color: rgba(210,200,240,.88); }
+
+/* ── Submenu flyout (right side) ──
+   JS moves .ni-sub to <body> to escape sidebar's backdrop-filter containment.
+   Before JS runs the panel is hidden inside sidebar's overflow:hidden. ── */
+.ni-wrap { position: relative; }
+.ni-chevron {
+  margin-left: auto; font-size: 16px; line-height: 1; flex-shrink: 0;
+  color: rgba(167,139,250,.38); transition: color .22s;
+}
+.ni-wrap:hover > .ni .ni-chevron { color: rgba(196,181,253,.82); }
+
+/* Flyout panel — position:fixed is set via JS after moving to body */
+.ni-sub {
+  width: 200px;
+  background: linear-gradient(135deg, rgba(18,8,40,.42) 0%, rgba(10,4,28,.38) 100%);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(.9);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(.9);
+  border: 1px solid rgba(167,139,250,.32);
+  border-left: 2px solid rgba(167,139,250,.55);
+  border-radius: 0 10px 10px 0;
+  padding: 8px 0;
+  opacity: 0; pointer-events: none;
+  transform: translateX(-6px);
+  transition: opacity .22s, transform .22s;
+  z-index: 200;
+  box-shadow: 8px 0 32px rgba(0,0,0,.55), inset 0 1px 0 rgba(196,181,253,.12), inset 0 -1px 0 rgba(167,139,250,.06);
+}
+.ni-sub.visible { opacity: 1; pointer-events: auto; transform: translateX(0); }
+.ni-sub-label {
+  font: 400 9px 'JetBrains Mono','Courier New',monospace;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(140,115,190,.55); padding: 5px 14px 7px;
+  border-bottom: 1px solid rgba(167,139,250,.1); margin-bottom: 4px;
+}
+.ni-sub-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 14px 8px 16px;
+  text-decoration: none; color: inherit;
+  transition: background .22s, transform .22s;
+}
+.ni-sub-dot {
+  width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(167,139,250,.32); transition: background .22s, box-shadow .22s;
+}
+.ni-sub-item:hover { background: rgba(110,55,195,.12); transform: translateX(3px); }
+.ni-sub-item:hover .ni-sub-dot { background: rgba(196,181,253,.9); box-shadow: 0 0 5px rgba(196,181,253,.6); }
+.ni-sub-text { display: flex; flex-direction: column; }
+.ni-sub-en {
+  font: 400 11px 'JetBrains Mono','Courier New',monospace;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(155,130,200,.65); transition: color .22s;
+}
+.ni-sub-zh {
+  font: 400 9px 'JetBrains Mono','Courier New',monospace;
+  color: rgba(130,110,175,.45); letter-spacing: 1px; margin-top: 2px;
+  transition: color .22s;
+}
+.ni-sub-item:hover .ni-sub-en { color: rgba(215,205,245,.95); }
+.ni-sub-item:hover .ni-sub-zh { color: rgba(185,170,220,.80); }
+
+/* Keep sidebar expanded while flyout is open */
+#sidebar.sb-locked {
+  transform: translateX(0) !important;
+  box-shadow: 4px 0 44px rgba(0,0,0,.75), 0 0 0 1px rgba(167,139,250,.1);
+}
 
 /* ── Footer ── */
 .sb-footer      { padding: 14px 18px 18px 22px; flex-shrink: 0; }

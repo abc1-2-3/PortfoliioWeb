@@ -403,6 +403,16 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .screenshot-img{width:100%;height:180px;object-fit:cover;object-position:center top}
 .screenshot-label{padding:10px 12px;font:400 11px/1.7 monospace;color:rgba(196,181,253,.72)}
 
+/* ── Curtain demo image ── */
+.curtain-demo{margin-top:28px;position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(196,181,253,.22);background:rgba(4,2,14,.6)}
+.curtain-demo img{width:100%;display:block;object-fit:cover;object-position:center top}
+.curtain-demo-caption{padding:10px 16px;font:400 10px/1.7 monospace;letter-spacing:1.5px;color:rgba(196,181,253,.6);text-transform:uppercase;text-align:center;border-top:1px solid rgba(196,181,253,.1)}
+
+/* ── Back to top button ── */
+#back-top{position:fixed;bottom:32px;right:28px;z-index:300;width:40px;height:40px;border-radius:50%;border:1px solid rgba(196,181,253,.4);background:rgba(10,5,28,.72);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .3s,transform .3s,border-color .22s,box-shadow .22s;color:rgba(196,181,253,.75);font-size:16px;text-decoration:none}
+#back-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+#back-top:hover{border-color:rgba(196,181,253,.85);box-shadow:0 0 16px rgba(167,139,250,.35);color:rgba(232,224,255,.98)}
+
 /* ── Privacy note ── */
 .privacy-note{background:rgba(165,215,255,.06);border:1px solid rgba(165,215,255,.28);border-radius:8px;padding:14px 18px;font:400 12px monospace;color:rgba(165,215,255,.88);letter-spacing:.5px;margin-bottom:18px;display:flex;align-items:flex-start;gap:10px}
 .privacy-note::before{content:'※';color:rgba(165,215,255,.75);font-size:14px;flex-shrink:0;margin-top:1px}
@@ -435,6 +445,7 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 <body>
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
+<a id="back-top" href="#" aria-label="回到頂部">↑</a>
 <div id="prog"></div>
 <div id="stars"></div>
 <nav id="page-nav"></nav>
@@ -694,6 +705,10 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
           <div class="cspec"><div class="cspec-key">迭代</div><div class="cspec-val">5 passes<br>per frame</div></div>
           <div class="cspec"><div class="cspec-key">互動</div><div class="cspec-val">斥力 + 風力<br>Mouse drag</div></div>
         </div>
+      </div>
+      <div class="curtain-demo">
+        <img src="assets/project_archive/curtain.png" alt="窗簾掀至最高示意">
+        <div class="curtain-demo-caption">↑ 向上拖曳可將珠幕掀至最高</div>
       </div>
     </div>
 
@@ -981,6 +996,14 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 </div>
 
 <script>
+/* ── Back to top ── */
+(function(){
+  const btn=document.getElementById('back-top');
+  const main=document.getElementById('main');
+  main.addEventListener('scroll',()=>btn.classList.toggle('show',main.scrollTop>400),{passive:true});
+  btn.addEventListener('click',e=>{e.preventDefault();main.scrollTo({top:0,behavior:'smooth'});});
+})();
+
 /* ── Cursor ── */
 const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
 document.addEventListener('mousemove',e=>{dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
