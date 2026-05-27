@@ -696,10 +696,12 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 
   /* POST 送計次（每個 session 只送一次；IP 頻率由 Worker 控制）*/
   if(!sessionStorage.getItem(SESSION_KEY)){
-    sessionStorage.setItem(SESSION_KEY,'1');
     fetch(WORKER_URL,{method:'POST'})
       .then(function(r){return r.json();})
-      .then(function(d){animCount(d.count||0);})
+      .then(function(d){
+        sessionStorage.setItem(SESSION_KEY,'1'); /* POST 成功才鎖，失敗可重試 */
+        animCount(d.count||0);
+      })
       .catch(function(){});
   }
 })();
