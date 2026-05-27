@@ -1,4 +1,4 @@
-/* ── Shared Sidebar Component ── sidebar.js ───────────────────────
+﻿/* ── Shared Sidebar Component ── sidebar.js ───────────────────────
    使用方式（在 </head> 前）：
      <script>window.SIDEBAR_PAGE = 'archive';</script>
      <script src="sidebar.js" defer></script>
@@ -10,7 +10,7 @@
   if (!window.SIDEBAR_PAGE) return;
 
   const NAV = [
-    { id: 'home',       en: 'HOME',       zh: '首頁',     icon: 'assets/icon/Home.png',        href: 'homepage_final.html' },
+    { id: 'home',       en: 'HOME',       zh: '首頁',     icon: 'assets/icon/Home.png',        href: 'index.html' },
     {
       id: 'archive',    en: 'ARCHIVE',    zh: '作品集',   icon: 'assets/icon/File.png',        href: 'works_v3.html',
       children: [
@@ -28,8 +28,8 @@
       id: 'curio',      en: 'CURIO',      zh: '奇物陣列', icon: 'assets/icon/LittleWorld.png', href: 'curio.html',
       children: [
         { en: 'DATA SEA',  zh: 'Data Sea',  href: 'project_datasea.html' },
-        { en: 'TAROY',     zh: 'Taroy',     href: 'taroy.html' },
-        { en: 'HOLOCARD',  zh: 'Holo Card', href: 'holocard.html' },
+        { en: 'TAROT',     zh: 'Tarot',     href: 'project_tarot.html' },
+        { en: 'HOLOCARD',  zh: 'Holo Card', href: 'project_holocard.html' },
       ]
     },
   ];
