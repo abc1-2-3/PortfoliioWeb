@@ -3,9 +3,9 @@
 	"FileReferences": {
 		"Moc": "wuyan.moc3",
 		"Textures": [
-			"吳言拆件4.4096/texture_00.png",
-			"吳言拆件4.4096/texture_01.png",
-			"吳言拆件4.4096/texture_02.png"
+			"textures/texture_00.png",
+			"textures/texture_01.png",
+			"textures/texture_02.png"
 		],
 		"Physics": "wuyan.physics3.json",
 		"DisplayInfo": "wuyan.cdi3.json",
