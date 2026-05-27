@@ -589,7 +589,7 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
     {id:'traveler',  img:'button4.png', en:'Traveler',  zh:'旅人'    },
     {id:'resonator', img:'button5.png', en:'Resonator', zh:'共鳴者'  },
   ];
-  var WORKER_URL='https://signal-visitor.wuyan.workers.dev';
+  var WORKER_URL='https://signal-visitor.a0986676271.workers.dev';
   var SEL_KEY='wuyan_signal_selected';   /* 只存一個 id 字串 */
   var storedSel=localStorage.getItem(SEL_KEY)||''; /* 記錄上次選擇，僅用於傳 prev 給後端 */
   var selected='';                        /* 每次進頁面不預選，須主動點選 */
@@ -674,7 +674,7 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
    Client: sessionStorage 防同一分頁多次送出
 ── */
 (function(){
-  var WORKER_URL='https://signal-visitor.wuyan.workers.dev';
+  var WORKER_URL='https://signal-visitor.a0986676271.workers.dev';
   var SESSION_KEY='wuyan_signal_visited';
   var el=document.getElementById('vc-num');
 
