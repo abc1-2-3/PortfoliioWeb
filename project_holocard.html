@@ -122,5 +122,19 @@ body { padding-top: 48px !important; }
 <script type="text/babel" src="holocard/holo-card.jsx"></script>
 <script type="text/babel" src="holocard/app.jsx"></script>
 
+<script>
+/* Auto-close side panel on mobile so cards are visible immediately */
+(function () {
+  if (window.innerWidth > 768) return;
+  function tryClose() {
+    var btn = document.querySelector('.panel-toggle');
+    if (!btn) { setTimeout(tryClose, 120); return; }
+    btn.click();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryClose);
+  } else { tryClose(); }
+})();
+</script>
 </body>
 </html>

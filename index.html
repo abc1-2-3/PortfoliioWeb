@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Portfolio</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Portfolio</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Noto+Serif+TC:wght@200;300&display=swap" rel="stylesheet"><style>
 @font-face{font-family:'Cubic';src:url('assets/fomts/Cubic.ttf') format('truetype');font-weight:normal;font-display:swap}
 @font-face{font-family:'Yozai';src:url('assets/fomts/Yozai-Medium.ttf') format('truetype');font-weight:normal;font-display:swap}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -114,6 +114,48 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 #ds-panel .ds-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:rgba(160,120,255,.95);box-shadow:0 0 8px rgba(140,100,255,.7);cursor:none}
 #ds-panel .ds-btn{width:100%;margin-top:6px;padding:9px;font:600 9px monospace;letter-spacing:3px;text-transform:uppercase;color:rgba(170,150,230,.75);background:rgba(30,15,60,.7);border:1px solid rgba(100,80,190,.4);border-radius:7px;transition:all .2s;cursor:none}
 #ds-panel .ds-btn:hover{background:rgba(70,45,140,.65);border-color:rgba(170,130,255,.65);color:rgba(220,205,255,.98)}
+/* ── 通用 mobile（含橫式）── */
+@media(max-width:768px){
+  #cursor-dot,#cursor-ring{display:none}
+  #ds-panel{display:none}
+  #scroll-hint{font-size:9px;letter-spacing:3px;bottom:calc(14px + env(safe-area-inset-bottom, 20px))}
+  /* sec2 文字排版 */
+  .ht-line{white-space:normal!important;text-align:center;
+    font-size:clamp(9px,2.8vw,13px)!important;letter-spacing:1px}
+  .s2-name{font-size:clamp(22px,7vw,32px)!important;letter-spacing:4px!important}
+  .s2-sub{font-size:9px}
+  .s2-links{flex-wrap:wrap;justify-content:flex-start;gap:7px}
+  .s2-bottom{flex-direction:column;gap:14px;padding:14px 18px 24px;align-items:flex-start}
+}
+/* ── 直式手機：修正圖片變形 + 文字被蓋住 ── */
+@media(max-width:768px) and (orientation:portrait){
+  /* Wrapper 填滿螢幕 */
+  #wrapper{width:100vw!important;height:100svh!important}
+
+  /* sec1：把 #scene 撐成橫版比例（1.5），水平置中後兩側被 wrapper overflow:hidden 裁掉
+     這樣所有 .layer 圖片相對 #scene 是 100%×100% → 正確比例，不變形 */
+  #scene{
+    position:absolute!important;
+    width:calc(100svh * 1.5)!important;
+    height:100%!important;
+    left:50%!important;
+    top:0!important;
+    transform:translateX(-50%)!important
+  }
+
+  /* sec2 背景與角色：object-fit:cover 維持圖片比例，center top 顯示上半（角色區） */
+  .s2-bg{object-fit:cover;object-position:center top}
+  .s2-char-layer{object-fit:cover;object-position:center top}
+  #s2-char-wakeup{object-fit:cover;object-position:center top}
+
+  /* sec2 文字：z-index 拉到角色圖層（max z-index:12）以上 */
+  .hidden-text-zone{z-index:25!important}
+  .s2-bottom{
+    z-index:25!important;
+    /* 加深漸層讓文字在任何背景下都能讀 */
+    background:linear-gradient(to top,rgba(4,4,16,.98) 55%,rgba(4,4,16,.55) 88%,transparent)!important
+  }
+}
 </style></head><body><div id="loader"><div id="term-boot"><div id="term-hdr">WUYAN_OS v2.4.1 // NEURAL INTERFACE INIT</div><div id="term-log"></div><div id="term-status"><span id="term-pct">0%</span><div id="term-bar-track"><div id="loader-bar"></div></div></div><span id="term-cur"></span></div></div><div id="wrapper"><canvas id="fxCv"></canvas><div id="sec1"><div id="scene"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_L1.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_L2.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_R1.webp" style="z-index:0"><img class="layer" src="assets/fullBGwebp/screenpic/out_screen_R2.webp" style="z-index:0"><div class="layer" style="z-index:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none"></div><img class="layer" id="bg-dark"   src="assets/fullBGwebp/bg_room_dark_webp.webp" style="z-index:1"><img class="layer" id="bg-bright" src="assets/fullBGwebp/bg_room_webp.webp" style="z-index:2"><canvas id="darkCv"></canvas><div class="sc-wrap" id="sc-main" data-cx="48.90" data-cy="52.50" data-top="41.60" data-w="27.80" data-tx="-55" data-ty="-85" data-rz="-28" data-skx="-8" data-sf="0.06" style="left:35.0%;top:41.6%;width:27.8%;height:21.8%;" onclick="enterPage('Portfolio')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:359.7%;left:-125.9%;top:-190.8%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_mid.webp"></div><img style="position:absolute;left:-2.8%;top:5%;width:105.6%;height:110.7%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-main" style="z-index:2"></div><div class="screen-lit-border" id="lit-main" style="z-index:4"></div><div class="tooltip" style="z-index:5">ARCHIVE<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">作品集總覽</div><div class="sl-line"></div><div class="sl-en">ARCHIVE</div></div></div><div class="sc-wrap" id="sc-L1" data-cx="27.95" data-cy="50.90" data-top="45.70" data-w="10.30" data-tx="58" data-ty="-82" data-rz="22" data-skx="7" data-sf="0.07" style="left:22.8%;top:45.7%;width:10.3%;height:10.4%;" onclick="enterPage('Live2D')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:970.9%;left:-221.4%;top:-439.4%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_L1.webp"></div><img style="position:absolute;left:-7.6%;top:-11.2%;width:115.2%;height:122.4%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L1" style="z-index:2"></div><div class="screen-lit-border" id="lit-L1" style="z-index:4"></div><div class="tooltip" style="z-index:5">COMMISSION<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">委託詢問</div><div class="sl-line"></div><div class="sl-en">COMMISSION</div></div></div><div class="sc-wrap" id="sc-L2" data-cx="28.05" data-cy="63.40" data-top="57.80" data-w="10.30" data-tx="-38" data-ty="-95" data-rz="-18" data-skx="-6" data-sf="0.05" style="left:22.9%;top:57.8%;width:10.3%;height:11.2%;" onclick="enterPage('AIPost')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:970.9%;left:-222.3%;top:-516.1%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_L2.webp"></div><img style="position:absolute;left:-7.6%;top:-10.4%;width:115.2%;height:120.9%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-L2" style="z-index:2"></div><div class="screen-lit-border" id="lit-L2" style="z-index:4"></div><div class="tooltip" style="z-index:5">SIGNAL<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">訊號站</div><div class="sl-line"></div><div class="sl-en">SIGNAL</div></div></div><div class="sc-wrap" id="sc-R1" data-cx="69.95" data-cy="51.85" data-top="46.10" data-w="11.70" data-tx="52" data-ty="-88" data-rz="30" data-skx="9" data-sf="0.06" style="left:64.1%;top:46.1%;width:11.7%;height:11.5%;" onclick="enterPage('Ecpay')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:854.7%;left:-547.9%;top:-400.9%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_R1.webp"></div><img style="position:absolute;left:-6.7%;top:-10.3%;width:113.3%;height:120.5%;z-index:3;pointer-events:none;object-fit:fill;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R1" style="z-index:2"></div><div class="screen-lit-border" id="lit-R1" style="z-index:4"></div><div class="tooltip" style="z-index:5">THIS ARCHIVE<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">本站介紹</div><div class="sl-line"></div><div class="sl-en">THIS ARCHIVE</div></div></div><div class="sc-wrap" id="sc-R2" data-cx="69.65" data-cy="64.00" data-top="59.00" data-w="11.10" data-tx="12" data-ty="-100" data-rz="8" data-skx="4" data-sf="0.05" style="left:64.1%;top:59.0%;width:11.1%;height:10.0%;" onclick="enterPage('Curio')"><div style="position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;"><img style="position:absolute;width:900.9%;left:-577.5%;top:-590.0%;height:auto;display:block;" src="assets/fullBGwebp/screenpic/screen_R2.webp"></div><img style="position:absolute;left:-7.0%;top:-11.8%;width:114.0%;height:123.5%;z-index:3;pointer-events:none;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="><div class="screen-glitch" id="ovl-R2" style="z-index:2"></div><div class="screen-lit-border" id="lit-R2" style="z-index:4"></div><div class="tooltip" style="z-index:5">CURIO<span class="tt-arrow"></span></div><div class="screen-label"><div class="sl-zh">奇物陣列</div><div class="sl-line"></div><div class="sl-en">CURIO</div></div></div><img class="layer" id="frame-main" src="assets/fullBGwebp/middlescreen_webp.webp" style="z-index:11"><img class="layer" id="frame-L1" src="assets/fullBGwebp/screen_side_L1_webp.webp" style="z-index:12"><img class="layer" id="frame-L2" src="assets/fullBGwebp/screen_side_L2_webp.webp" style="z-index:13"><img class="layer" id="frame-R1" src="assets/fullBGwebp/screen_side_R1_webp.webp" style="z-index:14"><img class="layer" id="frame-R2" src="assets/fullBGwebp/screen_side_R2_webp.webp" style="z-index:15"><img class="layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:30"><img class="layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:31"><img class="layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:35"><img class="layer" id="lamp-light" src="assets/fullBGwebp/light_webp.webp" style="z-index:36"><div id="lamp-click-area"></div><div id="char-click-zone"></div><div id="terminal"><span id="term-text"></span><span class="blink">_</span></div><div id="bio" style="position:absolute;left:25%;top:23%;width:50%;text-align:center;z-index:40;pointer-events:none;opacity:0;transition:opacity .9s;font:300 9.5px 'Courier New',monospace;letter-spacing:2.5px;line-height:2.4"></div><div id="scroll-hint">↓ scroll ↓</div></div></div><div id="sec2"><img class="s2-bg" src="assets/fullBGwebp/bg_room_webp.webp" alt=""><div class="s2-vignette"></div><img class="s2-char-layer" src="assets/fullBGwebp/character_webp.webp" style="z-index:5"><img class="s2-char-layer" src="assets/fullBGwebp/chair_webp.webp" style="z-index:12"><img class="s2-char-layer" src="assets/fullBGwebp/lamp_webp.webp" style="z-index:7"><img class="s2-char-layer" src="assets/fullBGwebp/light_webp.webp" style="z-index:8;mix-blend-mode:screen"><img class="s2-char-layer" id="s2-char-wakeup" src="assets/fullBGwebp/character_wakeup_webp.webp" style="z-index:10;opacity:0;transition:opacity .45s">
 <!-- ZZZ 泡泡（睡覺狀態，三個 z 大小漸增往上飄）-->
 <div id="s2-zzz"><span class="zzz-z" style="font-size:13px;left:0px;--dl:0s;--dx:-4px">z</span><span class="zzz-z" style="font-size:17px;left:12px;--dl:.85s;--dx:4px">z</span><span class="zzz-z" style="font-size:22px;left:26px;--dl:1.7s;--dx:12px">Z</span></div>
@@ -442,6 +484,17 @@ window.addEventListener('wheel',e=>{
   applyPeel(scrollAccum/PEEL_MAX);
   if(scrollAccum>=PEEL_MAX){setPeel(true);completePeel();}
 },{passive:false});
+
+// ── Touch swipe ──
+let _ty=0;
+document.addEventListener('touchstart',e=>{_ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(peeling)return;
+  const dy=_ty-e.changedTouches[0].clientY; // positive = swipe up
+  if(Math.abs(dy)<40)return;
+  if(section===1){if(dy<0)goTo(0);return;}
+  if(dy>0){setPeel(true);completePeel();}
+},{passive:true});
 
 function applyPeel(t){
   SCREENS.map(s=>s.el).forEach((el,i)=>{

@@ -604,10 +604,37 @@ body {
 }
 
 /* ===== Floating Spread Picker ===== */
+/* ===== Spread Toggle Button ===== */
+.spread-toggle-btn {
+  position: fixed;
+  top: 8px;
+  right: 20px;
+  height: 32px;
+  z-index: 200;
+  background: transparent;
+  border: 1px solid rgba(214, 176, 108, 0.38);
+  border-radius: 16px;
+  padding: 0 14px;
+  color: var(--gold);
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.22s;
+}
+.spread-toggle-btn:hover, .spread-toggle-btn.is-open {
+  background: rgba(214, 176, 108, 0.1);
+  border-color: var(--gold);
+}
+
 .spread-float {
   position: fixed;
-  top: 118px;
-  right: 32px;
+  top: 64px;
+  right: 20px;
   width: 340px;
   background: linear-gradient(180deg, rgba(11,8,32,0.92), rgba(20,16,46,0.94));
   border: 1px solid rgba(214,176,108,0.32);
@@ -970,6 +997,68 @@ body {
 
 .fade-in { animation: fadeIn 0.6s ease both; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.mob-spread-btn { display: none; }
+
+@media (max-width: 768px) {
+  body { overflow: auto !important; height: auto !important; }
+  .app-main { height: auto !important; min-height: 100svh; }
+  .app-main.has-rail-open,
+  .app-main.has-rail-collapsed { grid-template-columns: 1fr !important; }
+
+  .board-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 72px 12px 120px; }
+  .board.is-celtic { min-width: 500px; align-self: flex-start; }
+
+  /* Spread picker: position override for mobile */
+  .spread-float {
+    top: 64px !important;
+    left: auto !important;
+    right: 12px !important;
+    width: min(300px, calc(100vw - 24px)) !important;
+    transform: none !important;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  .side-rail {
+    position: fixed !important;
+    left: 0 !important; right: 0 !important; bottom: 0 !important;
+    width: 100% !important;
+    height: 48px;
+    max-height: 72vh;
+    overflow: hidden;
+    border-left: none !important;
+    border-top: 1px solid rgba(214,176,108,0.4);
+    z-index: 80;
+    transition: height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+  .side-rail.is-open {
+    height: 72vh !important;
+    overflow-y: auto !important;
+  }
+  .rail-toggle {
+    position: sticky !important;
+    top: 0 !important; left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(214,176,108,0.15) !important;
+  }
+  .rail-content {
+    width: 100% !important;
+    height: auto !important;
+    padding: 16px 20px 32px !important;
+  }
+  .rail-collapsed-label { display: none; }
+
+  .bottom-bar { margin-top: 24px; flex-wrap: wrap; justify-content: center; gap: 10px; padding-bottom: 56px; }
+  .bar-btn { padding: 10px 18px; font-size: 12px; }
+  .board-cta-btn { padding: 14px 28px; font-size: 13px; }
+  .board-cta { margin-top: 24px; }
+  .board-meta-cn { font-size: 22px; }
+  .header-subtitle { display: none; }
+}
 </style>
 </head>
 <body>
@@ -1623,6 +1712,7 @@ function App() {
   const [draws, setDraws] = useState([]);
   const [activeIdx, setActiveIdx] = useState(null);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [spreadPickerOpen, setSpreadPickerOpen] = useState(false);
 
   const spread = SPREADS[spreadId];
   const hasDraws = draws.length > 0;
@@ -1634,12 +1724,14 @@ function App() {
     setDraws([]);
     setActiveIdx(null);
     setPhase("ready");
+    setSpreadPickerOpen(false);
   }
 
   function startDraw() {
     setPhase("shuffle");
     setActiveIdx(null);
     setPanelOpen(false);
+    setSpreadPickerOpen(false);
     const deck = shuffleDeck();
     const count = SPREADS[spreadId].count;
     const picked = deck.slice(0, count).map(d => ({ ...d, flipped: false }));
@@ -1650,7 +1742,12 @@ function App() {
   }
 
   function handleCardClick(idx) {
-    setDraws(prev => prev.map((d, i) => i === idx ? { ...d, flipped: true } : d));
+    if (draws[idx] && draws[idx].flipped) {
+      setActiveIdx(idx);
+      setPanelOpen(true);
+    } else {
+      setDraws(prev => prev.map((d, i) => i === idx ? { ...d, flipped: true } : d));
+    }
   }
 
   function handleCardDoubleClick(idx) {
@@ -1670,7 +1767,8 @@ function App() {
     setPhase("ready");
   }
 
-  const cardSize = spreadId === "celtic" ? 0.78 : 1.0;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const cardSize = spreadId === "celtic" ? (isMobile ? 0.6 : 0.78) : (isMobile ? 0.8 : 1.0);
 
   return (
     <>
@@ -1801,7 +1899,7 @@ function Board({ spread, draws, phase, activeIdx, onCardClick, onCardDoubleClick
             <span>開始抽牌</span>
             <span className="cta-rune">✦</span>
           </button>
-          <div className="board-cta-hint">點一下翻牌 ・ 點兩下查看牌義</div>
+          <div className="board-cta-hint">點一下翻牌 ・ 翻開後再點查看牌義</div>
         </div>
       )}
 
@@ -2010,5 +2108,67 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<window.App />);
 </script>
 
+<script>
+/* Mobile: spread picker toggle button */
+(function () {
+  if (!window.matchMedia('(max-width: 768px)').matches) return;
+
+  var btn = null;
+  var spreadNames = { single: '一張', trinity: '三張', core: '四張', celtic: '十字' };
+
+  function getSpreadLabel() {
+    var root = document.getElementById('root');
+    if (!root) return '牌陣';
+    var floatEl = root.querySelector('.spread-float');
+    if (!floatEl) return '牌陣';
+    var sel = floatEl.querySelector('.float-pick.is-selected .float-pick-name');
+    if (sel) return sel.textContent || '牌陣';
+    return '牌陣';
+  }
+
+  function tryAttach() {
+    var floatEl = document.querySelector('.spread-float');
+    if (!floatEl) { setTimeout(tryAttach, 150); return; }
+    if (document.querySelector('.mob-spread-btn')) return;
+
+    btn = document.createElement('button');
+    btn.className = 'mob-spread-btn';
+    btn.textContent = '◈ 牌陣';
+    document.body.appendChild(btn);
+
+    btn.addEventListener('click', function () {
+      var isOpen = floatEl.classList.contains('mob-open');
+      floatEl.classList.toggle('mob-open');
+      btn.textContent = isOpen ? '◈ 牌陣' : '✕ 關閉';
+    });
+
+    /* Close picker when a spread is selected */
+    floatEl.addEventListener('click', function (e) {
+      var pick = e.target.closest('.float-pick');
+      if (!pick) return;
+      setTimeout(function () {
+        floatEl.classList.remove('mob-open');
+        var label = getSpreadLabel();
+        btn.textContent = '◈ ' + label;
+      }, 120);
+    });
+
+    /* When React removes the float (after draw starts), remove button too */
+    var obs = new MutationObserver(function () {
+      if (!document.querySelector('.spread-float')) {
+        if (btn) { btn.remove(); btn = null; }
+      } else if (!document.querySelector('.mob-spread-btn')) {
+        /* React re-rendered and added a new float — re-attach */
+        tryAttach();
+      }
+    });
+    obs.observe(document.getElementById('root'), { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryAttach);
+  } else { tryAttach(); }
+})();
+</script>
 </body>
 </html>

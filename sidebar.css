@@ -151,3 +151,41 @@
 /* ── Footer ── */
 .sb-footer      { padding: 14px 18px 18px 22px; flex-shrink: 0; }
 .sb-footer-text { font: 400 10px 'JetBrains Mono','Courier New',monospace; letter-spacing: 1px; color: rgba(120,90,150,.48); line-height: 1.6; }
+
+/* ── Touch device: tap to toggle sidebar ── */
+@media (hover: none) and (pointer: coarse) {
+  #sidebar { transition: transform .38s cubic-bezier(.25,.46,.45,.94), box-shadow .38s; }
+  #sidebar.sb-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 44px rgba(0,0,0,.75), 0 0 0 1px rgba(167,139,250,.1);
+  }
+  #sidebar::before { opacity: 1 !important; }
+  #sidebar.sb-open::before { opacity: 0 !important; }
+
+  /* Allow submenu to expand without clipping */
+  #sidebar nav { overflow-y: auto; }
+
+  /* Inline submenu (stays inside sidebar, not flyout) */
+  .ni-sub {
+    position: static !important;
+    width: auto !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-left: 2px solid rgba(167,139,250,.45) !important;
+    background: rgba(8,4,22,.55) !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    max-height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-height 0.32s cubic-bezier(.25,.46,.45,.94) !important;
+    margin: 0 0 4px 38px;
+  }
+  .ni-sub.visible {
+    max-height: 320px;
+    pointer-events: auto;
+  }
+  .ni-sub-label { padding: 6px 14px 5px; }
+  .ni-sub-item { padding: 7px 14px 7px 14px; }
+}

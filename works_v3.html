@@ -878,6 +878,52 @@ body.hov #cursor-ring {
 }
 .bubble-pop { animation: bubble-pop 0.32s cubic-bezier(.2,.8,.2,1) forwards; }
 
+/* ── Mobile responsive ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  html { overflow: auto; }
+  body { overflow-x: hidden; }
+
+  .app {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+    padding: 12px 16px 16px;
+  }
+
+  .topbar {
+    margin: -12px -16px 0;
+    padding: 12px 20px;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+  .topbar-title { display: none; }
+
+  .main {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .rail { display: none; }
+  .right-col { display: none; }
+
+  .stage { padding: 0; }
+  .carousel-wrap { height: 540px; }
+
+  .bottom-section { margin-top: 10px; }
+  .bottom { grid-template-columns: auto 1fr; }
+  .bottom > :last-child { display: none; }
+
+  .mascot { left: 20px; }
+
+  #cursor-dot, #cursor-ring { display: none; }
+}
+
+@media (max-width: 480px) {
+  .app { padding: 10px 12px 12px; }
+  .topbar { margin: -10px -12px 0; padding: 10px 14px; }
+  .carousel-wrap { height: 480px; }
+  .card { width: 300px; height: 455px; }
+}
+
 </style>
 <script>window.SIDEBAR_PAGE = 'archive';</script>
 <script src="sidebar.js" defer></script>
@@ -1217,12 +1263,22 @@ function miniThumb(a) {
 (function() {
   let activeIdx = 0;
   const total = WORKS.length;
-  const CARD_W = 370, CARD_H = 560, WRAP_H = 620;
 
   const carouselEl = document.getElementById('carousel');
   const wrapEl    = document.getElementById('carousel-wrap');
   const counter   = document.getElementById('carousel-counter');
   const focusLabel = document.getElementById('focus-label');
+
+  let _dims = { w: 370, h: 560, wrapH: 620 };
+  function refreshDims() {
+    const c = carouselEl.querySelector('.card');
+    _dims = {
+      w:     (c && c.offsetWidth)  || 370,
+      h:     (c && c.offsetHeight) || 560,
+      wrapH: wrapEl.offsetHeight   || 620,
+    };
+  }
+  window.addEventListener('resize', refreshDims);
 
   function wrapCx() { return wrapEl.getBoundingClientRect().width / 2; }
 
@@ -1230,12 +1286,13 @@ function miniThumb(a) {
     const offset = ((i - activeIdx + total) % total);
     const signed = offset > total / 2 ? offset - total : offset;
     const abs = Math.abs(signed);
+    const { w: CARD_W, h: CARD_H, wrapH: WRAP_H } = _dims;
     const cx   = wrapCx();
     const baseX = cx - CARD_W / 2;
     const baseY = WRAP_H / 2 - CARD_H / 2;
-    const S1 = Math.max(390, cx * 0.75);
-    const S2 = Math.max(700, cx * 1.34);
-    const S3 = Math.max(920, cx * 1.77);
+    const S1 = Math.max(CARD_W * 1.05, cx * 0.75);
+    const S2 = Math.max(CARD_W * 1.9,  cx * 1.34);
+    const S3 = Math.max(CARD_W * 2.5,  cx * 1.77);
     if (abs === 0) return { x: baseX,               y: baseY,      scale: 1,    opacity: 1,    z: 10 };
     if (abs === 1) return { x: baseX + signed * S1,  y: baseY + 28, scale: 0.74, opacity: 0.50, z: 5  };
     if (abs === 2) return { x: baseX + signed * S2,  y: baseY + 56, scale: 0.58, opacity: 0.20, z: 3  };
@@ -1293,6 +1350,9 @@ function miniThumb(a) {
     carouselEl.appendChild(card);
     return card;
   });
+
+  // Read card dimensions once cards are in the DOM
+  refreshDims();
 
   // Initialise states at resting positions so cards don't fly in from (0,0)
   const states = cardEls.map((_, i) => {

@@ -437,6 +437,41 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .cs-badge{display:inline-block;font:700 8px monospace;letter-spacing:4px;color:rgba(248,215,140,.72);border:1px solid rgba(248,215,140,.28);border-radius:3px;padding:3px 10px;text-transform:uppercase;margin-bottom:20px}
 .cs-title{font:200 28px 'Noto Serif TC',serif;letter-spacing:8px;background:linear-gradient(135deg,#f5d0e8,#c890d8,#a070e0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
 .cs-desc{font:400 13px/2.0 monospace;color:rgba(196,181,253,.72);max-width:480px;margin:0 auto}
+
+/* ── Mobile responsive ────────────────────────────────── */
+@media(max-width:768px){
+  html,body{overflow:auto}
+  #shell{height:auto;overflow-x:hidden}
+  #main{height:auto;overflow:visible}
+  #cursor-dot,#cursor-ring,#page-nav{display:none}
+  #topbar{padding:10px 18px;grid-template-columns:1fr auto}
+  #topbar>*:nth-child(3){display:none}
+  .tb-bc{font-size:9px;gap:3px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  /* Hero: switch to flex column so title and tags never overlap */
+  #curtainCv{display:none}
+  .hero{height:auto!important;min-height:unset!important;padding:72px 18px 28px;display:flex;flex-direction:column;gap:0}
+  .hero-bg{height:100%}
+  .hero-title-wrap{position:relative!important;top:auto!important;left:auto!important;transform:none!important;text-align:center;pointer-events:auto;margin-bottom:16px}
+  .hero-content{position:relative!important;bottom:auto!important;padding:0!important}
+  .proj-sparkle-row,.hero-scroll-hint{display:none}
+  .proj-tags{gap:5px}
+  .ptag{font-size:9px;padding:4px 10px;letter-spacing:1.5px}
+  .l2{grid-template-columns:1fr;gap:28px}
+  .l3{grid-template-columns:1fr;gap:16px}
+  .l4{grid-template-columns:1fr 1fr;gap:12px}
+  .stats-row{grid-template-columns:1fr 1fr;gap:10px}
+  .feat-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .challenge-card{grid-template-columns:1fr}
+  .scroll-scene-layout{grid-template-columns:1fr;gap:16px}
+  .qnav-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .curtain-spec-grid{grid-template-columns:1fr;gap:12px}
+  .mat-gallery{grid-template-columns:1fr;gap:12px}
+  .screenshot-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .section{padding:36px 0}
+}
+@media(max-width:480px){
+  .l4,.stats-row,.feat-grid,.qnav-grid,.screenshot-grid{grid-template-columns:1fr}
+}
 </style>
 <link rel="stylesheet" href="sidebar.css">
 <script>window.SIDEBAR_PAGE='archive';</script>

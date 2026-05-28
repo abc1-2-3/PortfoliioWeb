@@ -356,10 +356,12 @@ body.hov #cursor-ring{border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgb
 
 /* ── Responsive ── */
 @media(max-width:768px){
+  #cursor-dot,#cursor-ring{display:none}
   .topbar{padding:0 16px}
+  .topbar-title{display:none}
   .topbar-left span:not(:first-child){display:none}
   .signal-footer{padding:14px 16px 24px}
-  .mark-cards{gap:8px}
+  .mark-cards{gap:8px;flex-wrap:wrap;justify-content:center}
   .mark-card{width:98px;padding:14px 10px 10px;gap:5px}
   .card-img{width:50px;height:50px}
   .card-count{font-size:16px}

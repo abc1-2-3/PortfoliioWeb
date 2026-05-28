@@ -62,51 +62,64 @@
       `</a>`;
   }
 
-  /* Flyout logic — panels are moved to <body> to escape sidebar's
-     backdrop-filter containing block and overflow:hidden clipping. */
+  /* Flyout logic — desktop: panels move to <body> as fixed flyout.
+     Touch: panels stay inline, toggled by tap on parent item. */
   function initSubmenus() {
     const sidebar = document.getElementById('sidebar');
+    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
     document.querySelectorAll('.ni-wrap.has-sub').forEach(wrap => {
       const panel = wrap.querySelector('.ni-sub');
 
-      // Reparent to body so position:fixed is viewport-relative
-      panel.style.position = 'fixed';
-      document.body.appendChild(panel);
-
-      let hideTimer = null;
-
-      const show = () => {
-        if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-
-        // Close any other open panel
-        document.querySelectorAll('.ni-sub.visible').forEach(p => {
-          if (p !== panel) p.classList.remove('visible');
-        });
-
-        const sbRect = sidebar.getBoundingClientRect();
-        const wrapRect = wrap.getBoundingClientRect();
-        panel.style.left = (sbRect.right - 1) + 'px'; // -1px overlap removes gap
-        panel.style.top  = wrapRect.top + 'px';
-        panel.classList.add('visible');
-        sidebar.classList.add('sb-locked');
-      };
-
-      const hide = (delay = 200) => {
-        hideTimer = setTimeout(() => {
-          panel.classList.remove('visible');
-          if (!document.querySelector('.ni-sub.visible')) {
-            sidebar.classList.remove('sb-locked');
+      if (isTouch) {
+        // Mobile: inline dropdown — panel stays in sidebar, toggled by click
+        const link = wrap.querySelector('a.ni');
+        link.addEventListener('click', e => {
+          if (!panel.classList.contains('visible')) {
+            e.preventDefault();
+            // Close other open panels
+            document.querySelectorAll('.ni-sub.visible').forEach(p => {
+              if (p !== panel) p.classList.remove('visible');
+            });
+            panel.classList.add('visible');
           }
-          hideTimer = null;
-        }, delay);
-      };
+          // If already open: allow navigation (tap again = navigate to parent page)
+        });
+      } else {
+        // Desktop: reparent to body so position:fixed is viewport-relative
+        panel.style.position = 'fixed';
+        document.body.appendChild(panel);
 
-      wrap.addEventListener('mouseenter', show);
-      wrap.addEventListener('mouseleave', () => hide());
-      // Moving mouse from wrap to panel cancels the hide timer
-      panel.addEventListener('mouseenter', () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } });
-      panel.addEventListener('mouseleave', () => hide(0));
+        let hideTimer = null;
+
+        const show = () => {
+          if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+          document.querySelectorAll('.ni-sub.visible').forEach(p => {
+            if (p !== panel) p.classList.remove('visible');
+          });
+          const sbRect = sidebar.getBoundingClientRect();
+          const wrapRect = wrap.getBoundingClientRect();
+          panel.style.left = (sbRect.right - 1) + 'px';
+          panel.style.top  = wrapRect.top + 'px';
+          panel.classList.add('visible');
+          sidebar.classList.add('sb-locked');
+        };
+
+        const hide = (delay = 200) => {
+          hideTimer = setTimeout(() => {
+            panel.classList.remove('visible');
+            if (!document.querySelector('.ni-sub.visible')) {
+              sidebar.classList.remove('sb-locked');
+            }
+            hideTimer = null;
+          }, delay);
+        };
+
+        wrap.addEventListener('mouseenter', show);
+        wrap.addEventListener('mouseleave', () => hide());
+        panel.addEventListener('mouseenter', () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } });
+        panel.addEventListener('mouseleave', () => hide(0));
+      }
     });
   }
 
@@ -131,9 +144,41 @@
     initSubmenus();
   }
 
+  function initTouchToggle() {
+    const sb = document.getElementById('sidebar');
+    if (!sb) return;
+    // Only on touch-primary devices
+    if (!window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
+
+    let startX = 0, startY = 0;
+    sb.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    sb.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      // Ignore swipes — only handle taps
+      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) return;
+      // Only open when tapping the collapsed 16px strip (left screen edge)
+      // The sidebar is translateX(calc(-100%+16px)), so only ~16px is visible.
+      // Sidebar element still spans 220px in the fixed layer — restrict to first 20px.
+      if (!sb.classList.contains('sb-open') && startX <= 20) {
+        sb.classList.add('sb-open');
+      }
+      // When open: do nothing here so nav link taps navigate normally
+    }, { passive: true });
+
+    // Tap anywhere outside sidebar to close
+    document.addEventListener('touchstart', e => {
+      if (!sb.contains(e.target)) sb.classList.remove('sb-open');
+    }, { passive: true });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', render);
+    document.addEventListener('DOMContentLoaded', () => { render(); initTouchToggle(); });
   } else {
     render();
+    initTouchToggle();
   }
 })();

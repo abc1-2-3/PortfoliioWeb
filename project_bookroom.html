@@ -386,6 +386,29 @@ nav{flex:1;padding:10px 0;overflow-y:auto}
 .fn-center{font:400 8px monospace;letter-spacing:4px;color:rgba(158,122,178,.45);display:flex;align-items:center;gap:8px}
 .fn-gem{font-size:14px;color:rgba(228,148,190,.62);animation:gemglow 3s ease-in-out infinite}
 .fn-gem:nth-child(3){animation-delay:-1.5s}
+
+/* ── Mobile responsive ────────────────────────────────── */
+@media(max-width:768px){
+  html,body{overflow:auto}
+  #shell{height:auto;overflow-x:hidden}
+  #cursor-dot,#cursor-ring,#page-nav{display:none}
+  #topbar{padding:10px 18px;grid-template-columns:1fr auto}
+  #topbar>.tb-right{display:none}
+  .tb-bc{font-size:9px;gap:3px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .content{padding:0 18px}
+  .hero{height:60vw;min-height:280px}
+  .g2,.g2-eq{grid-template-columns:1fr;gap:28px}
+  .g3{grid-template-columns:1fr;gap:16px}
+  .demo-grid,.egg-grid-2{grid-template-columns:1fr;gap:16px}
+  .con-grid,.ref-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .section{padding:40px 0}
+  .footer-nav{padding:14px 18px;flex-wrap:wrap;gap:10px}
+  .fn-center{display:none}
+}
+@media(max-width:480px){
+  .con-grid,.ref-grid{grid-template-columns:1fr}
+  .topbar-title{display:none}
+}
 </style>
 <link rel="stylesheet" href="sidebar.css">
 <script>window.SIDEBAR_PAGE='archive';</script>
