@@ -607,8 +607,8 @@ body {
 /* ===== Spread Toggle Button ===== */
 .spread-toggle-btn {
   position: fixed;
-  top: 8px;
-  right: 20px;
+  top: 166px;
+  right: 60px;
   height: 32px;
   z-index: 200;
   background: transparent;
@@ -633,8 +633,8 @@ body {
 
 .spread-float {
   position: fixed;
-  top: 64px;
-  right: 20px;
+  top: 206px;
+  right: 60px;
   width: 340px;
   background: linear-gradient(180deg, rgba(11,8,32,0.92), rgba(20,16,46,0.94));
   border: 1px solid rgba(214,176,108,0.32);
@@ -1813,11 +1813,21 @@ function App() {
       </main>
 
       {phase === "ready" && !hasDraws && (
-        <SpreadPickerFloat
-          spreadId={spreadId}
-          spread={spread}
-          onPick={pickSpread}
-        />
+        <>
+          <button
+            className={"spread-toggle-btn" + (spreadPickerOpen ? " is-open" : "")}
+            onClick={() => setSpreadPickerOpen(v => !v)}
+          >
+            ◈ {spreadPickerOpen ? "關閉" : spread.name}
+          </button>
+          {spreadPickerOpen && (
+            <SpreadPickerFloat
+              spreadId={spreadId}
+              spread={spread}
+              onPick={pickSpread}
+            />
+          )}
+        </>
       )}
 
       {phase === "shuffle" && <ShuffleOverlay />}
@@ -2108,67 +2118,5 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<window.App />);
 </script>
 
-<script>
-/* Mobile: spread picker toggle button */
-(function () {
-  if (!window.matchMedia('(max-width: 768px)').matches) return;
-
-  var btn = null;
-  var spreadNames = { single: '一張', trinity: '三張', core: '四張', celtic: '十字' };
-
-  function getSpreadLabel() {
-    var root = document.getElementById('root');
-    if (!root) return '牌陣';
-    var floatEl = root.querySelector('.spread-float');
-    if (!floatEl) return '牌陣';
-    var sel = floatEl.querySelector('.float-pick.is-selected .float-pick-name');
-    if (sel) return sel.textContent || '牌陣';
-    return '牌陣';
-  }
-
-  function tryAttach() {
-    var floatEl = document.querySelector('.spread-float');
-    if (!floatEl) { setTimeout(tryAttach, 150); return; }
-    if (document.querySelector('.mob-spread-btn')) return;
-
-    btn = document.createElement('button');
-    btn.className = 'mob-spread-btn';
-    btn.textContent = '◈ 牌陣';
-    document.body.appendChild(btn);
-
-    btn.addEventListener('click', function () {
-      var isOpen = floatEl.classList.contains('mob-open');
-      floatEl.classList.toggle('mob-open');
-      btn.textContent = isOpen ? '◈ 牌陣' : '✕ 關閉';
-    });
-
-    /* Close picker when a spread is selected */
-    floatEl.addEventListener('click', function (e) {
-      var pick = e.target.closest('.float-pick');
-      if (!pick) return;
-      setTimeout(function () {
-        floatEl.classList.remove('mob-open');
-        var label = getSpreadLabel();
-        btn.textContent = '◈ ' + label;
-      }, 120);
-    });
-
-    /* When React removes the float (after draw starts), remove button too */
-    var obs = new MutationObserver(function () {
-      if (!document.querySelector('.spread-float')) {
-        if (btn) { btn.remove(); btn = null; }
-      } else if (!document.querySelector('.mob-spread-btn')) {
-        /* React re-rendered and added a new float — re-attach */
-        tryAttach();
-      }
-    });
-    obs.observe(document.getElementById('root'), { childList: true, subtree: true });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', tryAttach);
-  } else { tryAttach(); }
-})();
-</script>
 </body>
 </html>
