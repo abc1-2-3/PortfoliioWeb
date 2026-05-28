@@ -1,92 +1,80 @@
 /**
  * SIGNAL 訪客計數器 + 身份卡片投票 — Cloudflare Worker
  *
- * KV 儲存格式：
- *   total_visits      → 總訪客數（string）
- *   ip_<ip>           → 防重複 key，TTL 86400s
- *   mark_stargazer    → 仰望星空 投票數（string）
- *   mark_wanderer     → 漫遊者   投票數
- *   mark_dreamer      → 夢想家   投票數
- *   mark_traveler     → 旅人     投票數
- *   mark_resonator    → 共鳴者   投票數
+ * KV 格式：
+ *   visitor_count          → 總訪客數
+ *   visitor_ip:<ip>:<date> → 防重複，TTL 86400s
+ *   mark:stargazer         → 仰望星空 票數
+ *   mark:wanderer          → 漫遊者   票數
+ *   mark:dreamer           → 夢想家   票數
+ *   mark:traveler          → 旅人     票數
+ *   mark:resonator         → 共鳴者   票數
  *
- * 部署步驟：
- *  1. 安裝 Wrangler：npm install -g wrangler
- *  2. 登入：wrangler login
- *  3. 建立 KV namespace：wrangler kv:namespace create SIGNAL_KV
- *     → 把輸出的 id 填入 wrangler.toml
- *  4. 部署：wrangler deploy
- *  5. 把 workers.dev 網址填入 signal.html 的 WORKER_URL
+ * ★ 換票邏輯：用前端 localStorage 記錄的 ?prev= 參數
+ *    不用 KV 存 ip_mark（KV 讀取有延遲，快速點擊會讀到舊值導致累加）
  */
-
-const CORS = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
-
-const VALID_MARKS = ['stargazer', 'wanderer', 'dreamer', 'traveler', 'resonator'];
-
-async function getMarks(env) {
-  const vals = await Promise.all(VALID_MARKS.map(m => env.SIGNAL_KV.get('mark_' + m)));
-  const marks = {};
-  VALID_MARKS.forEach((m, i) => { marks[m] = parseInt(vals[i] || '0'); });
-  return marks;
-}
 
 export default {
   async fetch(request, env) {
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: CORS });
-    }
-
     const url = new URL(request.url);
-    const mark = url.searchParams.get('mark');
-    const prev = url.searchParams.get('prev');
+    const kv = env.SIGNAL_KV;
 
-    /* ── GET：回傳總計數 + 各卡片計數 ── */
-    if (request.method === 'GET') {
-      const count = parseInt(await env.SIGNAL_KV.get('total_visits') || '0');
-      const marks = await getMarks(env);
-      return new Response(JSON.stringify({ count, marks }), { headers: CORS });
+    const cors = {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    };
+
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: cors });
     }
 
-    /* ── POST ── */
-    if (request.method === 'POST') {
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    const today = new Date().toISOString().slice(0, 10);
+    const markIds = ['stargazer', 'wanderer', 'dreamer', 'traveler', 'resonator'];
 
-      /* 卡片投票：?mark=stargazer&prev=wanderer */
-      if (mark && VALID_MARKS.includes(mark)) {
-        // 換票：把前一張 -1（floor 0）
-        if (prev && VALID_MARKS.includes(prev) && prev !== mark) {
-          const prevCount = parseInt(await env.SIGNAL_KV.get('mark_' + prev) || '0');
-          await env.SIGNAL_KV.put('mark_' + prev, String(Math.max(0, prevCount - 1)));
+    /* ── 身份卡片 ── */
+    if (url.searchParams.has('marks') || url.searchParams.has('mark')) {
+      if (request.method === 'POST') {
+        const newMark = url.searchParams.get('mark');
+        const prevMark = url.searchParams.get('prev'); // 前端 localStorage 記的上次選擇
+
+        if (newMark && markIds.includes(newMark)) {
+          if (prevMark === newMark) {
+            // 同一張卡重複點 → 不做任何事（刷新後再點同一張也不會累加）
+          } else {
+            // 換票：扣前一張
+            if (prevMark && markIds.includes(prevMark)) {
+              const pv = parseInt(await kv.get('mark:' + prevMark) || '0');
+              await kv.put('mark:' + prevMark, String(Math.max(0, pv - 1)));
+            }
+            // 加新選的
+            const cv = parseInt(await kv.get('mark:' + newMark) || '0');
+            await kv.put('mark:' + newMark, String(cv + 1));
+          }
         }
-        // 新卡 +1
-        const cur = parseInt(await env.SIGNAL_KV.get('mark_' + mark) || '0');
-        await env.SIGNAL_KV.put('mark_' + mark, String(cur + 1));
-
-        const marks = await getMarks(env);
-        return new Response(JSON.stringify({ marks }), { headers: CORS });
       }
 
-      /* 訪客計次：同一 IP 24h 只算一次 */
-      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
-      const ipKey = 'ip_' + ip;
-      const already = await env.SIGNAL_KV.get(ipKey);
-      let count = parseInt(await env.SIGNAL_KV.get('total_visits') || '0');
-
-      if (!already) {
-        count += 1;
-        await Promise.all([
-          env.SIGNAL_KV.put('total_visits', String(count)),
-          env.SIGNAL_KV.put(ipKey, '1', { expirationTtl: 86400 }),
-        ]);
+      // GET 或 POST 完都回傳最新計數
+      const marks = {};
+      for (const id of markIds) {
+        marks[id] = parseInt(await kv.get('mark:' + id) || '0');
       }
-
-      return new Response(JSON.stringify({ count }), { headers: CORS });
+      return new Response(JSON.stringify({ marks }), { headers: cors });
     }
 
-    return new Response('Method not allowed', { status: 405, headers: CORS });
+    /* ── 訪客計數（同一 IP 當天只算一次）── */
+    if (request.method === 'POST') {
+      const ipKey = `visitor_ip:${ip}:${today}`;
+      const already = await kv.get(ipKey);
+      if (!already) {
+        await kv.put(ipKey, '1', { expirationTtl: 86400 });
+        const cur = parseInt(await kv.get('visitor_count') || '0');
+        await kv.put('visitor_count', String(cur + 1));
+      }
+    }
+
+    const count = parseInt(await kv.get('visitor_count') || '0');
+    return new Response(JSON.stringify({ count }), { headers: cors });
   },
 };
