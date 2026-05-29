@@ -30,6 +30,7 @@
         { en: 'DATA SEA',  zh: 'Data Sea',  href: 'project_datasea.html' },
         { en: 'TAROT',     zh: 'Tarot',     href: 'project_tarot.html' },
         { en: 'HOLOCARD',  zh: 'Holo Card', href: 'project_holocard.html' },
+        { en: 'FIELD',     zh: '數域',      href: 'project_field.html' },
       ]
     },
   ];

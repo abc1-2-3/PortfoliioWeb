@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>數域 · FIELD | WUYAN's ARCHIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06070d;
+  --ink:#e8eaf2;
+  --dim:rgba(232,234,242,.55);
+  --faint:rgba(232,234,242,.25);
+  --hue:60;
+  --tint:oklch(0.82 0.14 var(--hue));
+  --tint-glow:oklch(0.85 0.16 var(--hue) / .55);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#000;color:var(--ink);font-family:'JetBrains Mono','Courier New',monospace;overflow:hidden;cursor:none}
+*{cursor:none!important}
+body{
+  background:radial-gradient(120% 90% at 50% 55%, oklch(0.20 0.06 var(--hue) / .35) 0%, #06070d 55%, #000 100%);
+  transition:background .9s ease;
+}
+body.dragging{cursor:grabbing}
+
+/* ── Cursor ── */
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
+
+/* ── Topnav (curio-series format) ── */
+#topnav{
+  position:fixed;top:0;left:0;right:0;height:48px;
+  z-index:1000;
+  background:rgba(6,7,13,.90);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(167,139,250,.16);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;
+}
+.tnav-left{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.tnav-back{
+  display:flex;align-items:center;gap:6px;
+  color:rgba(196,181,253,.55);text-decoration:none;
+  font-size:11px;letter-spacing:.18em;
+  padding:4px 10px;border-radius:6px;border:1px solid transparent;
+  transition:all .2s;
+}
+.tnav-back:hover{color:#e8e0f8;background:rgba(167,139,250,.09);border-color:rgba(167,139,250,.2)}
+.tnav-sep{width:1px;height:22px;background:rgba(167,139,250,.16);flex-shrink:0}
+.tnav-brand{display:flex;align-items:center;gap:9px}
+.tnav-brand-mark{
+  font-size:14px;color:var(--tint);
+  filter:drop-shadow(0 0 7px var(--tint-glow));
+  line-height:1;transition:color .9s,filter .9s;
+}
+.tnav-brand-text{display:flex;flex-direction:column}
+.tnav-brand-en{font-size:12px;font-weight:500;letter-spacing:.24em;color:#ece8f8;line-height:1.2}
+.tnav-brand-zh{font-size:9px;letter-spacing:.4em;color:rgba(196,181,253,.4);line-height:1;margin-top:2px}
+.tnav-right{
+  text-align:right;pointer-events:none;
+  display:flex;flex-direction:column;align-items:flex-end;gap:2px;
+}
+#kindLine{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,234,242,.58);transition:color .9s}
+#sigmaLine{font-size:8px;letter-spacing:.14em;color:rgba(232,234,242,.32);transition:color .9s}
+
+/* ── Field: Ghost numeral ── */
+.numeral{
+  position:fixed;inset:0;display:grid;place-items:center;z-index:0;pointer-events:none;
+  font-family:'Fraunces',serif;font-weight:300;
+  color:oklch(0.95 0.12 var(--hue) / .055);
+  letter-spacing:-.04em;line-height:.85;
+  font-size:clamp(40vmin,64vmin,80vmin);
+  transition:color .9s ease;user-select:none;
+  text-shadow:0 0 80px oklch(0.85 0.16 var(--hue) / .12);
+}
+
+/* ── Field: Canvas ── */
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:1}
+
+/* ── Field: Composer (floats in topnav center, above it) ── */
+.composer{
+  position:fixed;top:8px;left:50%;transform:translateX(-50%);
+  z-index:1010;display:flex;align-items:center;gap:12px;
+  padding:7px 14px 7px 16px;
+  background:rgba(8,10,18,.62);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.08);border-radius:2px;
+}
+.composer label{font-size:10px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase}
+.composer input{
+  background:transparent;border:0;outline:0;color:var(--ink);
+  font-family:'Fraunces',serif;font-weight:300;font-size:26px;letter-spacing:-.02em;
+  width:7ch;text-align:center;caret-color:var(--tint);
+}
+.composer button{
+  background:transparent;border:1px solid rgba(255,255,255,.16);color:var(--dim);
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;padding:5px 9px;
+  text-transform:uppercase;cursor:pointer;transition:.2s;border-radius:1px;
+}
+.composer button:hover{color:var(--ink);border-color:var(--tint);box-shadow:0 0 16px oklch(0.85 0.16 var(--hue) / .25)}
+.composer .div{width:1px;height:18px;background:rgba(255,255,255,.12)}
+
+/* ── Field: Keyboard hints (horizontal, below composer) ── */
+.kbdline{
+  position:fixed;top:58px;left:50%;transform:translateX(-50%);
+  z-index:10;pointer-events:none;
+  display:flex;align-items:center;gap:14px;
+  font-size:8px;letter-spacing:.18em;color:rgba(232,234,242,.22);
+  text-transform:uppercase;white-space:nowrap;
+}
+.kbdline kbd{
+  display:inline-block;padding:1px 5px;
+  border:1px solid rgba(255,255,255,.16);border-radius:2px;
+  font-family:'JetBrains Mono',monospace;font-size:8px;
+  color:rgba(232,234,242,.42);margin-right:3px;
+}
+
+/* ── Field: Tag classifier (right, below topnav) ── */
+.classifier{
+  position:fixed;top:56px;right:20px;z-index:10;pointer-events:none;
+  display:flex;flex-direction:column;gap:5px;align-items:flex-end;
+}
+.tag{
+  font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+  padding:4px 9px;border:1px solid rgba(255,255,255,.12);color:var(--dim);
+  background:rgba(8,10,18,.4);backdrop-filter:blur(8px);border-radius:1px;
+  transition:.25s;
+}
+.tag.on{color:var(--tint);border-color:var(--tint);box-shadow:0 0 14px oklch(0.85 0.16 var(--hue) / .25),inset 0 0 14px oklch(0.85 0.16 var(--hue) / .08)}
+.tag.rare{
+  color:oklch(0.92 0.18 90);border-color:oklch(0.85 0.18 90 / .8);
+  box-shadow:0 0 18px oklch(0.88 0.18 90 / .4),inset 0 0 18px oklch(0.88 0.18 90 / .15);
+  background:oklch(0.20 0.06 90 / .25);
+}
+
+/* ── Field: Factors (bottom left) ── */
+.lex{position:fixed;left:20px;bottom:24px;z-index:10;max-width:36vw;pointer-events:none}
+.lex .head{color:rgba(255,255,255,.30);font-size:9px;letter-spacing:.4em;margin-bottom:8px;text-transform:uppercase}
+.lex .factors{display:flex;flex-wrap:wrap;gap:5px 9px;font-family:'Fraunces',serif;font-weight:300}
+.lex .factors span{font-size:19px;color:var(--ink);opacity:.85;letter-spacing:-.02em}
+.lex .factors span.prime{color:var(--tint)}
+.lex .pf{color:var(--dim);font-size:13px;margin-top:9px;letter-spacing:.04em;font-family:'Fraunces',serif}
+.lex .pf b{color:var(--tint);font-weight:400}
+.lex .partner{
+  margin-top:12px;font-family:'Fraunces',serif;font-size:13px;color:oklch(0.92 0.18 90);
+  letter-spacing:.02em;display:flex;align-items:center;gap:10px;
+}
+.lex .partner small{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.3em;text-transform:uppercase}
+.lex .partner .arrow{opacity:.7}
+
+/* ── Field: Collatz orbit (bottom right) ── */
+.collatz{position:fixed;right:20px;bottom:24px;z-index:10;max-width:36vw;text-align:right;pointer-events:none}
+.collatz .head{color:rgba(255,255,255,.30);font-size:9px;letter-spacing:.4em;margin-bottom:8px;text-transform:uppercase}
+.collatz .seq{font-family:'Fraunces',serif;color:var(--dim);font-size:13px;letter-spacing:.02em;line-height:1.5}
+.collatz .seq b{color:var(--tint);font-weight:400}
+.collatz .stats{display:flex;justify-content:flex-end;gap:16px;margin-top:7px;color:var(--dim);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.collatz .stats span b{color:var(--ink);margin-left:5px;font-family:'Fraunces',serif;font-weight:300;font-size:14px;letter-spacing:-.01em}
+
+/* ── Field: Binary (bottom center) ── */
+.binary{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+  font-size:11px;letter-spacing:.4em;color:var(--dim);z-index:10;
+  text-align:center;pointer-events:none;
+}
+.binary .bits{color:var(--ink)}
+.binary .bits b{color:var(--tint);font-weight:500}
+.binary .head{font-size:9px;letter-spacing:.4em;color:rgba(255,255,255,.30);margin-bottom:6px;text-transform:uppercase}
+
+/* ── Field: Drag hint (left side, vertical) ── */
+.hint{
+  position:fixed;left:20px;top:50%;
+  font-size:9px;letter-spacing:.32em;color:rgba(232,234,242,.20);text-transform:uppercase;z-index:10;
+  pointer-events:none;writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);
+}
+</style>
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Field: ghost numeral background -->
+<div class="numeral" id="numeral">1</div>
+
+<!-- Field: 3D canvas (z-index:1, full-screen) -->
+<canvas id="c"></canvas>
+
+<!-- Topnav (z-index:1000) -->
+<nav id="topnav">
+  <div class="tnav-left">
+    <a href="curio.html" class="tnav-back">← CURIO</a>
+    <div class="tnav-sep"></div>
+    <div class="tnav-brand">
+      <span class="tnav-brand-mark" id="brandMark">◈</span>
+      <div class="tnav-brand-text">
+        <div class="tnav-brand-en">FIELD</div>
+        <div class="tnav-brand-zh">數域</div>
+      </div>
+    </div>
+  </div>
+  <div class="tnav-right">
+    <span id="kindLine">composite · perfect · even</span>
+    <span id="sigmaLine">σ(n) = 56 · equals 2n</span>
+  </div>
+</nav>
+
+<!-- Field: composer (z-index:1010, floats in topnav center) -->
+<div class="composer">
+  <label>n =</label>
+  <input id="ninput" type="text" inputmode="numeric" value="1" autocomplete="off" />
+  <div class="div"></div>
+  <button id="btnRandom">random</button>
+  <button id="btnToday">today</button>
+  <button id="btnInc">+1</button>
+  <button id="btnDec">−1</button>
+  <button id="btnReset">reset</button>
+</div>
+
+<!-- Keyboard hints: horizontal, below composer -->
+<div class="kbdline">
+  <span><kbd>R</kbd> random</span>
+  <span><kbd>T</kbd> today</span>
+  <span><kbd>↑↓</kbd> step</span>
+  <span><kbd>0</kbd> reset view</span>
+</div>
+
+<!-- Field: property tags (right, below topnav) -->
+<div class="classifier" id="tags"></div>
+
+<!-- Field: factors panel (bottom left) -->
+<div class="lex">
+  <div class="head">factors · primes tinted</div>
+  <div class="factors" id="factors"></div>
+  <div class="pf" id="pf"></div>
+  <div class="partner" id="partner" style="display:none"></div>
+</div>
+
+<!-- Field: Collatz orbit (bottom right) -->
+<div class="collatz">
+  <div class="head">collatz orbit · 3n+1</div>
+  <div class="seq" id="collatzSeq"></div>
+  <div class="stats" id="collatzStats"></div>
+</div>
+
+<!-- Field: binary (bottom center) -->
+<div class="binary">
+  <div class="head">base · 2</div>
+  <div class="bits" id="bits">1</div>
+</div>
+
+<!-- Drag hint (left side vertical, subtle) -->
+<div class="hint">drag to rotate</div>
+
+<script>
+/* ============================================================
+   FIELD v2 — 3D integer observatory
+   ============================================================ */
+
+const TAU = Math.PI * 2;
+const lerp = (a,b,t) => a + (b - a) * t;
+const clamp = (v,lo=0,hi=1) => Math.max(lo, Math.min(hi, v));
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+/* ---------- number theory ---------- */
+function factorsOf(n){
+  const out = [];
+  for (let i = 1; i * i <= n; i++){
+    if (n % i === 0){ out.push(i); if (i !== n/i) out.push(n/i); }
+  }
+  return out.sort((a,b)=>a-b);
+}
+function aliquot(n){
+  if (n < 2) return 0;
+  let s = 1;
+  for (let i = 2; i*i <= n; i++){
+    if (n % i === 0){ s += i; if (i !== n/i) s += n/i; }
+  }
+  return s;
+}
+function isPrime(n){
+  if (n < 2) return false; if (n < 4) return true;
+  if (n % 2 === 0) return false;
+  for (let i = 3; i*i <= n; i += 2) if (n % i === 0) return false;
+  return true;
+}
+function primeFactorization(n){
+  const out = []; let m = n, p = 2;
+  while (m > 1 && p * p <= m){
+    let k = 0;
+    while (m % p === 0){ m /= p; k++; }
+    if (k > 0) out.push([p, k]);
+    p = p === 2 ? 3 : p + 2;
+  }
+  if (m > 1) out.push([m, 1]);
+  return out;
+}
+function digitSum(n){ return String(n).split('').reduce((a,b)=>a+parseInt(b||'0'),0); }
+function digitRoot(n){ return n === 0 ? 0 : ((n - 1) % 9) + 1; }
+function collatz(n){
+  const seq = [n]; let m = n, g = 0;
+  while (m !== 1 && g++ < 5000){ m = (m % 2 === 0) ? m / 2 : 3 * m + 1; seq.push(m); }
+  return seq;
+}
+function isSquare(n){ const r = Math.round(Math.sqrt(n)); return r*r === n ? r : 0; }
+function isTriangularK(n){
+  const k = (-1 + Math.sqrt(1 + 8 * n)) / 2;
+  return Math.abs(Math.round(k) - k) < 1e-9 ? Math.round(k) : 0;
+}
+function isPentagonalK(n){
+  const k = (1 + Math.sqrt(1 + 24*n)) / 6;
+  return Math.abs(Math.round(k) - k) < 1e-9 ? Math.round(k) : 0;
+}
+function isHexagonalK(n){
+  const k = (1 + Math.sqrt(1 + 8*n)) / 4;
+  return Math.abs(Math.round(k) - k) < 1e-9 ? Math.round(k) : 0;
+}
+const FIBS = (() => { const f=[1,2]; while (f[f.length-1] < 1e7) f.push(f[f.length-1]+f[f.length-2]); return f; })();
+function isFibonacci(n){ return FIBS.includes(n); }
+function amicablePartner(n){
+  if (n < 2) return 0;
+  const m = aliquot(n);
+  if (m <= 1 || m === n) return 0;
+  if (aliquot(m) === n) return m;
+  return 0;
+}
+
+function analyze(n){
+  n = Math.max(1, Math.floor(n));
+  const factors = factorsOf(n);
+  const sigma = factors.reduce((a,b)=>a+b,0);
+  const aliq = sigma - n;
+  const ds = digitSum(n);
+  const dr = digitRoot(n);
+  const pf = primeFactorization(n);
+  const seq = collatz(n);
+  const prime = isPrime(n);
+  const triK = isTriangularK(n);
+  const hexK = isHexagonalK(n);
+  const sqrtK = isSquare(n);
+  const pentK = isPentagonalK(n);
+  const partner = amicablePartner(n);
+  return {
+    n, factors, sigma, aliquot: aliq,
+    digitSum: ds, digitRoot: dr, primeFactors: pf,
+    collatz: seq, collatzLen: seq.length - 1, collatzMax: Math.max(...seq),
+    isPrime: prime, isComposite: !prime && n > 1,
+    isEven: n % 2 === 0, isOdd: n % 2 !== 0,
+    isPerfect: aliq === n && n > 1, isAbundant: aliq > n,
+    isDeficient: aliq < n && n > 1,
+    isSquare: !!sqrtK, sqrtK, isTriangular: !!triK, triK,
+    isHexagonal: !!hexK, hexK, isPentagonal: !!pentK, pentK,
+    isFibonacci: isFibonacci(n), isHarshad: n > 0 && n % ds === 0,
+    binary: n.toString(2), isPowerOfTwo: (n > 0) && ((n & (n - 1)) === 0),
+    amicable: partner,
+  };
+}
+
+/* ============================================================
+   3D Camera + projection
+   ============================================================ */
+const cam = {
+  yaw: 0, pitch: 0.42, tYaw: 0, tPitch: 0.42,
+  vYaw: 0, vPitch: 0, auto: true, autoSpeed: 0.00015, lastInteract: 0,
+};
+
+function project(x, y, z){
+  const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+  const x1 = x * cy - z * sy, z1 = x * sy + z * cy, y1 = y;
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  const y2 = y1 * cp + z1 * sp, z2 = -y1 * sp + z1 * cp;
+  const D = 800, focal = 700, dist = D + z2;
+  if (dist < 40) return {x:0,y:0,s:0,depth:dist,ok:false};
+  const s = focal / dist;
+  return {x: x1*s, y: -y2*s, s, depth:dist, ok:true};
+}
+
+/* ============================================================
+   Arrangement — 3D positions
+   ============================================================ */
+function arrangePositions(p, R){
+  const N = Math.min(p.n, 360);
+  const pts = [];
+  let mode;
+  if (p.isPrime) mode = 'ring';
+  else if (p.isPerfect && p.triK) mode = 'triangle';
+  else if (p.isFibonacci && p.n > 5) mode = 'phyllotaxis';
+  else if (p.isSquare) mode = 'square';
+  else if (p.isTriangular) mode = 'triangle';
+  else if (p.isHexagonal) mode = 'hex';
+  else if (p.primeFactors.length === 1 && p.primeFactors[0][1] >= 2) mode = 'stacked-rings';
+  else if (p.factors.length >= 6) mode = 'sphere';
+  else mode = 'shells';
+
+  if (mode === 'ring'){
+    const flat = p.n > 60;
+    for (let i = 0; i < N; i++){
+      const a = (i/N)*TAU;
+      pts.push(flat
+        ? {x:Math.cos(a)*R,y:0,z:Math.sin(a)*R,role:'unit'}
+        : {x:Math.cos(a)*R,y:Math.sin(a)*R*0.15,z:Math.sin(a)*R*0.95,role:'unit'});
+    }
+  } else if (mode === 'square'){
+    const k = p.sqrtK || Math.round(Math.sqrt(N));
+    const step = (R*1.7)/(k-1||1);
+    for (let r = 0; r < k && pts.length < N; r++)
+      for (let c = 0; c < k && pts.length < N; c++)
+        pts.push({x:(c-(k-1)/2)*step,y:0,z:(r-(k-1)/2)*step,role:'unit'});
+  } else if (mode === 'triangle'){
+    const k = p.triK || Math.round((-1+Math.sqrt(1+8*N))/2);
+    const step = (R*1.85)/k; let placed = 0;
+    for (let row = 0; row < k && placed < N; row++){
+      const zz = (row-(k-1)/2)*step*0.95;
+      for (let c = 0; c < row+1 && placed < N; c++){
+        pts.push({x:(c-row/2)*step,y:0,z:zz,role:'unit'}); placed++;
+      }
+    }
+  } else if (mode === 'hex'){
+    pts.push({x:0,y:0,z:0,role:'unit'});
+    let ring=1,placed=1; const step=R/7;
+    while(placed<N){
+      for(let i=0;i<6*ring&&placed<N;i++){
+        const a=(i/(6*ring))*TAU+ring*0.1;
+        pts.push({x:Math.cos(a)*step*ring,y:0,z:Math.sin(a)*step*ring,role:'unit'}); placed++;
+      }
+      ring++;
+    }
+  } else if (mode === 'phyllotaxis'){
+    const golden = Math.PI*(3-Math.sqrt(5));
+    for(let i=0;i<N;i++){
+      const t=i/N, r=R*0.95*Math.sqrt(t), a=i*golden;
+      pts.push({x:Math.cos(a)*r,y:0,z:Math.sin(a)*r,role:'seed'});
+    }
+  } else if (mode === 'stacked-rings'){
+    const [p0,k] = p.primeFactors[0];
+    const levels=Math.min(k,6), target=Math.min(N,p0*levels);
+    const step=R*1.4, ringR=R*0.6; let placed=0;
+    for(let lvl=0;lvl<levels&&placed<target;lvl++){
+      const yy=(lvl-(levels-1)/2)*(step/Math.max(1,levels));
+      for(let i=0;i<p0&&placed<target;i++){
+        const a=(i/p0)*TAU+lvl*0.25;
+        pts.push({x:Math.cos(a)*ringR,y:yy,z:Math.sin(a)*ringR,role:'unit'}); placed++;
+      }
+    }
+    while(pts.length<N){
+      const i=pts.length, phi=Math.acos(1-2*(i+0.5)/N), theta=Math.PI*(1+Math.sqrt(5))*i;
+      pts.push({x:R*Math.sin(phi)*Math.cos(theta),y:R*Math.cos(phi)*0.7,z:R*Math.sin(phi)*Math.sin(theta),role:'unit'});
+    }
+  } else if (mode === 'sphere'){
+    for(let i=0;i<N;i++){
+      const phi=Math.acos(1-2*(i+0.5)/N), theta=Math.PI*(1+Math.sqrt(5))*i;
+      pts.push({x:R*Math.sin(phi)*Math.cos(theta),y:R*Math.cos(phi),z:R*Math.sin(phi)*Math.sin(theta),role:'unit'});
+    }
+  } else {
+    const shells=Math.max(2,Math.min(5,p.factors.length));
+    const ringSizes=[]; let total=0;
+    for(let s=0;s<shells;s++){ringSizes.push(s*2+3);total+=ringSizes[s];}
+    const ringCounts=ringSizes.map(v=>Math.max(1,Math.round(v/total*N)));
+    ringCounts[ringCounts.length-1]+=N-ringCounts.reduce((a,b)=>a+b,0);
+    for(let s=0;s<shells;s++){
+      const cnt=ringCounts[s], r=lerp(R*0.25,R,s/Math.max(1,shells-1));
+      const tilt=(s-(shells-1)/2)*0.5, phase=(s%2)*Math.PI/cnt;
+      const ct=Math.cos(tilt),st=Math.sin(tilt);
+      for(let i=0;i<cnt;i++){
+        const a=(i/cnt)*TAU+phase, lx=Math.cos(a)*r, lz=Math.sin(a)*r;
+        pts.push({x:lx*ct,y:lx*st,z:lz,role:'unit'});
+      }
+    }
+  }
+  return {points:pts,mode};
+}
+
+/* ============================================================
+   State
+   ============================================================ */
+const cnv = document.getElementById('c');
+const ctx = cnv.getContext('2d');
+let W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+
+function resize(){
+  W=window.innerWidth;H=window.innerHeight;
+  cnv.width=W*DPR;cnv.height=H*DPR;
+  cnv.style.width=W+'px';cnv.style.height=H+'px';
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+resize();
+window.addEventListener('resize',resize);
+
+let current=null,arrangement=null,prevPoints=null,appearT=0,lastT=performance.now();
+let dust=[];
+
+function buildDust(p){
+  dust=[];
+  const count=Math.min(140,30+p.factors.length*14);
+  for(let i=0;i<count;i++)
+    dust.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.4+0.3,a:Math.random()*.5+0.1});
+}
+
+function setHue(dr){
+  const hues=[0,25,55,90,135,170,215,255,290,325];
+  document.documentElement.style.setProperty('--hue',hues[dr]);
+}
+function cssHue(){ return getComputedStyle(document.documentElement).getPropertyValue('--hue').trim()||'60'; }
+
+/* ---------- annotations ---------- */
+function renderAnnotations(p){
+  document.getElementById('numeral').textContent=p.n;
+  document.getElementById('ninput').value=p.n;
+  setHue(p.digitRoot);
+
+  const kindParts=[];
+  if(p.isPrime) kindParts.push('prime');
+  else if(p.n===1) kindParts.push('unit');
+  else kindParts.push('composite');
+  if(p.isPerfect) kindParts.push('perfect');
+  else if(p.isAbundant) kindParts.push('abundant');
+  else if(p.isDeficient) kindParts.push('deficient');
+  kindParts.push(p.isEven?'even':'odd');
+  document.getElementById('kindLine').textContent=kindParts.join(' · ');
+  document.getElementById('sigmaLine').innerHTML=
+    p.n===1?'σ(1) = 1'
+    :`σ(n) = ${p.sigma}`+(p.isPerfect?' · equals 2n':p.isAbundant?` · 2n + ${p.sigma-2*p.n}`:` · 2n − ${2*p.n-p.sigma}`);
+
+  const tags=[
+    ['prime',p.isPrime,false],['composite',p.isComposite,false],
+    ['perfect',p.isPerfect,true],['amicable',!!p.amicable,true],
+    ['abundant',p.isAbundant&&!p.isPerfect,false],['deficient',p.isDeficient,false],
+    [p.isEven?'even':'odd',true,false],
+    ['square',p.isSquare&&p.n>1,false],['triangular',p.isTriangular&&p.n>1,false],
+    ['hexagonal',p.isHexagonal&&p.n>1,false],
+    ['pentagonal',p.isPentagonal&&p.n>1&&!p.isHexagonal,false],
+    ['fibonacci',p.isFibonacci&&p.n>1,true],
+    ['harshad',p.isHarshad&&p.n>1,false],['power of 2',p.isPowerOfTwo&&p.n>1,false],
+  ];
+  document.getElementById('tags').innerHTML=tags.filter(t=>t[1]).map(t=>`<div class="tag ${t[2]?'rare':'on'}">${t[0]}</div>`).join('');
+
+  document.getElementById('factors').innerHTML=p.factors.map(f=>`<span class="${isPrime(f)?'prime':''}">${f}</span>`).join('');
+
+  const pfEl=document.getElementById('pf');
+  if(p.n===1) pfEl.innerHTML='1 · unit';
+  else if(p.isPrime) pfEl.innerHTML=`${p.n} · <b>prime</b>`;
+  else pfEl.innerHTML=p.primeFactors.map(([f,k])=>k===1?`<b>${f}</b>`:`<b>${f}</b><sup style="font-size:.7em">${k}</sup>`).join(' · ');
+
+  const partnerEl=document.getElementById('partner');
+  if(p.amicable){
+    partnerEl.style.display='flex';
+    partnerEl.innerHTML=`<small>amicable</small> ${p.n} <span class="arrow">↔</span> ${p.amicable}`;
+  } else partnerEl.style.display='none';
+
+  const seq=p.collatz;
+  const seqEl=document.getElementById('collatzSeq');
+  if(seq.length<=18) seqEl.innerHTML=seq.map((v,i)=>i===0||i===seq.length-1?`<b>${v}</b>`:v).join(' → ');
+  else {
+    const h=seq.slice(0,4),t=seq.slice(-4);
+    seqEl.innerHTML=`<b>${h[0]}</b> → ${h.slice(1).join(' → ')} → … → ${t.slice(0,-1).join(' → ')} → <b>${t[t.length-1]}</b>`;
+  }
+  document.getElementById('collatzStats').innerHTML=`<span>steps <b>${p.collatzLen}</b></span><span>peak <b>${p.collatzMax}</b></span>`;
+
+  const bits=p.binary;
+  document.getElementById('bits').innerHTML=bits.split('').map(b=>b==='1'?`<b>1</b>`:'0').join('');
+}
+
+/* ---------- setNumber ---------- */
+function setNumber(n){
+  n=Math.max(1,Math.min(9999,Math.floor(n)));
+  const p=analyze(n);
+  const oldArrangement=arrangement;
+  current=p;
+  const R=Math.min(W,H)*0.30;
+  arrangement=arrangePositions(p,R);
+  if(oldArrangement){
+    const oldPts=oldArrangement.points;
+    prevPoints=arrangement.points.map((pt,i)=>{const src=oldPts[i%oldPts.length]||{x:0,y:0,z:0};return{x:src.x,y:src.y,z:src.z};});
+  } else prevPoints=arrangement.points.map(()=>({x:0,y:0,z:0}));
+  appearT=0;
+  buildDust(p);
+  renderAnnotations(p);
+}
+
+/* ============================================================
+   Drawing
+   ============================================================ */
+function drawCollatz3D(p,now,alpha){
+  const seq=p.collatz; if(seq.length<2)return;
+  const R=Math.min(W,H)*0.34, peak=Math.max(...seq);
+  const path=[]; let ang=-Math.PI/2;
+  for(let i=0;i<seq.length;i++){
+    if(i>0){const v=seq[i],prev=seq[i-1];ang+=v<prev?-0.32:0.55;}
+    const t=i/Math.max(1,seq.length-1);
+    const r=lerp(R*1.2,R*0.08,easeOut(t));
+    const valNorm=Math.log(seq[i]+1)/Math.log(peak+1);
+    const yy=(valNorm-0.3)*R*1.1;
+    path.push({x:Math.cos(ang+now*0.00004)*r,y:yy,z:Math.sin(ang+now*0.00004)*r,t});
+  }
+  const segments=[];
+  for(let i=0;i<path.length-1;i++){
+    const a=project(path[i].x,path[i].y,path[i].z), b=project(path[i+1].x,path[i+1].y,path[i+1].z);
+    if(!a.ok||!b.ok)continue;
+    segments.push({a,b,depth:(a.depth+b.depth)/2,t:path[i].t});
+  }
+  segments.sort((u,v)=>v.depth-u.depth);
+  const hue=cssHue();
+  for(const s of segments){
+    ctx.strokeStyle=`oklch(0.78 0.12 ${hue} / ${(alpha*(0.18+s.t*0.4)).toFixed(3)})`;
+    ctx.lineWidth=lerp(0.6,1.6,s.t);ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(s.a.x,s.a.y);ctx.lineTo(s.b.x,s.b.y);ctx.stroke();
+  }
+  const nodes=path.map(pt=>({...project(pt.x,pt.y,pt.z),t:pt.t})).filter(n=>n.ok);
+  nodes.sort((u,v)=>v.depth-u.depth);
+  for(const node of nodes){
+    const r=1.4*node.s*(0.4+node.t*0.8);
+    ctx.beginPath();ctx.arc(node.x,node.y,Math.max(0.5,r),0,TAU);
+    ctx.fillStyle=`oklch(0.85 0.14 ${hue} / ${(alpha*(0.35+node.t*0.5)).toFixed(3)})`;ctx.fill();
+  }
+}
+
+function drawConnections3D(p,pts3D,time,alpha){
+  const len=pts3D.length; if(len<2)return;
+  const divisors=p.factors.filter(d=>d>1&&d<len); if(!divisors.length)return;
+  const picks=divisors.length<=4?[...divisors]:[divisors[0],divisors[1],divisors[Math.floor(divisors.length/2)],divisors[divisors.length-2]];
+  const hue=cssHue(), segments=[];
+  picks.forEach((d,i)=>{
+    const baseA=alpha*(i===0?0.4:0.16)*(1-i*0.04), lineW=i===0?0.55:0.32;
+    const phase=time*0.00006+i*0.13;
+    for(let j=0;j<len;j++){
+      const a=project(pts3D[j].x,pts3D[j].y,pts3D[j].z);
+      const b=project(pts3D[(j+d)%len].x,pts3D[(j+d)%len].y,pts3D[(j+d)%len].z);
+      if(!a.ok||!b.ok)continue;
+      const fade=(Math.sin((j/len)*TAU*2+phase*TAU)+1)/2;
+      segments.push({a,b,depth:(a.depth+b.depth)/2,lineW,aa:baseA*(0.4+fade*0.6)});
+    }
+  });
+  segments.sort((u,v)=>v.depth-u.depth);
+  for(const s of segments){
+    ctx.strokeStyle=`oklch(0.85 0.14 ${cssHue()} / ${s.aa.toFixed(3)})`;
+    ctx.lineWidth=s.lineW;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(s.a.x,s.a.y);ctx.lineTo(s.b.x,s.b.y);ctx.stroke();
+  }
+}
+
+function drawHarshadFlow(p,time){
+  if(!p.isHarshad||p.n<=1)return;
+  const hue=cssHue(), R=Math.min(W,H)*0.07, count=Math.min(p.digitSum,12);
+  for(let i=0;i<count;i++){
+    const a=(i/count)*TAU+time*0.0006;
+    const pr=project(Math.cos(a)*R,Math.sin(time*0.0007+i)*R*0.15,Math.sin(a)*R);
+    if(!pr.ok)continue;
+    ctx.beginPath();ctx.arc(pr.x,pr.y,1.4*pr.s,0,TAU);
+    ctx.fillStyle=`oklch(0.92 0.12 ${hue} / 0.6)`;
+    ctx.shadowColor=`oklch(0.85 0.18 ${hue} / 0.7)`;ctx.shadowBlur=8;ctx.fill();
+  }
+  ctx.shadowBlur=0;
+}
+
+function drawAmicableCompanion(p,now){
+  if(!p.amicable)return;
+  const R=Math.min(W,H)*0.30, offX=R*2.4, pulse=(Math.sin(now*0.0012)+1)/2;
+  const beamPhase=(now*0.0008)%1;
+  for(let i=0;i<14;i++){
+    const tt=((i/14)+beamPhase)%1;
+    const pr=project(lerp(R*0.2,offX-R*0.5,tt),Math.sin(tt*Math.PI*3+now*0.001)*8,0);
+    if(!pr.ok)continue;
+    ctx.beginPath();ctx.arc(pr.x,pr.y,2*pr.s,0,TAU);
+    ctx.fillStyle=`oklch(0.92 0.18 90 / ${(Math.sin(tt*Math.PI)*0.8).toFixed(3)})`;
+    ctx.shadowColor='oklch(0.85 0.22 90 / 0.8)';ctx.shadowBlur=10;ctx.fill();
+  }
+  ctx.shadowBlur=0;
+  const companionN=Math.min(40,p.amicable), compR=R*0.35;
+  const pts=[];
+  for(let i=0;i<companionN;i++){
+    const phi=Math.acos(1-2*(i+0.5)/companionN), theta=Math.PI*(1+Math.sqrt(5))*i+now*0.0003;
+    pts.push(project(Math.sin(phi)*Math.cos(theta)*compR+offX,Math.cos(phi)*compR,Math.sin(phi)*Math.sin(theta)*compR));
+  }
+  pts.sort((u,v)=>v.depth-u.depth);
+  for(const pr of pts){
+    if(!pr.ok)continue;
+    const r=1.6*pr.s;
+    ctx.beginPath();ctx.arc(pr.x,pr.y,r*3,0,TAU);ctx.fillStyle='oklch(0.85 0.18 90 / 0.06)';ctx.fill();
+    ctx.beginPath();ctx.arc(pr.x,pr.y,r,0,TAU);
+    ctx.fillStyle=`oklch(0.90 0.16 90 / ${(0.7+pulse*0.2).toFixed(3)})`;
+    ctx.shadowColor='oklch(0.85 0.20 90 / 0.6)';ctx.shadowBlur=6;ctx.fill();
+  }
+  ctx.shadowBlur=0;
+  const lbl=project(offX,-compR*1.4,0);
+  if(lbl.ok){
+    ctx.fillStyle='oklch(0.92 0.18 90 / 0.75)';
+    ctx.font=`${18*lbl.s}px Fraunces,serif`;ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText(p.amicable,lbl.x,lbl.y);
+  }
+}
+
+function drawPerfectHalo(p,now){
+  if(!p.isPerfect)return;
+  const hue=cssHue(), breath=(Math.sin(now*0.0008)+1)/2, R=Math.min(W,H)*0.32;
+  const center=project(0,0,0), segs=96;
+  ctx.beginPath();
+  for(let i=0;i<=segs;i++){
+    const a=(i/segs)*TAU, pr=project(Math.cos(a)*R*1.15,0,Math.sin(a)*R*1.15);
+    if(!pr.ok)continue;
+    if(i===0)ctx.moveTo(pr.x,pr.y);else ctx.lineTo(pr.x,pr.y);
+  }
+  ctx.strokeStyle=`oklch(0.90 0.16 90 / ${(0.20+breath*0.18).toFixed(3)})`;ctx.lineWidth=1.2;ctx.stroke();
+  if(center.ok){
+    const grad=ctx.createRadialGradient(center.x,center.y,0,center.x,center.y,R*1.4);
+    grad.addColorStop(0,`oklch(0.90 0.16 90 / ${(0.12+breath*0.05).toFixed(3)})`);
+    grad.addColorStop(1,'oklch(0.85 0.18 90 / 0)');
+    ctx.fillStyle=grad;ctx.beginPath();ctx.arc(center.x,center.y,R*1.4,0,TAU);ctx.fill();
+  }
+}
+
+function drawFibonacciOverlay(p,now){
+  if(!p.isFibonacci||p.n<5)return;
+  const hue=cssHue(), R=Math.min(W,H)*0.04, steps=140, segs=[];
+  for(let i=0;i<=steps;i++){
+    const tt=i/steps, a=tt*3*TAU+now*0.0001, rr=R*Math.pow(1.618,tt*4);
+    segs.push(project(Math.cos(a)*rr,0,Math.sin(a)*rr));
+  }
+  ctx.beginPath();
+  for(let i=0;i<segs.length;i++){
+    if(!segs[i].ok)continue;
+    if(i===0)ctx.moveTo(segs[i].x,segs[i].y);else ctx.lineTo(segs[i].x,segs[i].y);
+  }
+  ctx.strokeStyle=`oklch(0.88 0.14 ${hue} / 0.30)`;ctx.lineWidth=0.9;ctx.stroke();
+}
+
+function drawBinaryRing(p,now,alpha){
+  const bits=p.binary, count=bits.length, R=Math.min(W,H)*0.43, hue=cssHue();
+  for(let i=0;i<count;i++){
+    const a=(i/count)*TAU-Math.PI/2;
+    const x=Math.cos(a)*R+W/2, y=Math.sin(a)*R+H/2;
+    if(bits[i]==='1'){
+      ctx.beginPath();ctx.arc(x,y,2.4,0,TAU);
+      ctx.fillStyle=`oklch(0.88 0.16 ${hue} / ${alpha.toFixed(3)})`;
+      ctx.shadowColor=`oklch(0.85 0.16 ${hue} / 0.6)`;ctx.shadowBlur=10;ctx.fill();
+    } else {
+      ctx.beginPath();ctx.arc(x,y,1,0,TAU);
+      ctx.fillStyle=`rgba(255,255,255,${(alpha*0.18).toFixed(3)})`;ctx.shadowBlur=0;ctx.fill();
+    }
+  }
+  ctx.shadowBlur=0;
+}
+
+/* ============================================================
+   Main frame
+   ============================================================ */
+function frame(now){
+  const dt=Math.min(60,now-lastT); lastT=now;
+  if(cam.auto&&(now-cam.lastInteract)>2200) cam.tYaw+=cam.autoSpeed*dt;
+  cam.yaw+=(cam.tYaw-cam.yaw)*0.10;
+  cam.pitch+=(cam.tPitch-cam.pitch)*0.10;
+  appearT=Math.min(1,appearT+dt/900);
+  const morph=easeOut(appearT);
+
+  ctx.clearRect(0,0,W,H);
+  if(!current){requestAnimationFrame(frame);return;}
+  const p=current;
+
+  drawBinaryRing(p,now,0.75);
+
+  for(const d of dust){
+    d.x+=d.vx;d.y+=d.vy;
+    if(d.x<0)d.x=W;else if(d.x>W)d.x=0;
+    if(d.y<0)d.y=H;else if(d.y>H)d.y=0;
+    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,TAU);
+    ctx.fillStyle=`rgba(255,255,255,${(d.a*0.5).toFixed(3)})`;ctx.fill();
+  }
+
+  ctx.save();ctx.translate(W/2,H/2);
+
+  const baseFreq=p.isPerfect?0.0007:p.isEven?0.0010:0.0013;
+  const freqMod=p.isAbundant?1.25:p.isDeficient?0.75:1;
+  const breath=p.isOdd
+    ?(Math.sin(now*baseFreq*freqMod)*0.5+Math.sin(now*baseFreq*freqMod*2.3)*0.5)*0.5+0.5
+    :(Math.sin(now*baseFreq*freqMod)+1)/2;
+
+  drawPerfectHalo(p,now);
+  drawCollatz3D(p,now,0.75);
+  drawFibonacciOverlay(p,now);
+
+  const pts=arrangement.points;
+  const breathScale=1+breath*(p.isPerfect?0.025:p.isAbundant?0.04:0.018);
+
+  const projected=[];
+  for(let i=0;i<pts.length;i++){
+    const pt=pts[i], src=prevPoints[i]||{x:0,y:0,z:0};
+    const x=lerp(src.x,pt.x,morph)*breathScale;
+    const y=lerp(src.y,pt.y,morph)*breathScale;
+    const z=lerp(src.z,pt.z,morph)*breathScale;
+    projected.push({world:{x,y,z},proj:project(x,y,z),idx:i});
+  }
+
+  if(morph>0.5) drawConnections3D(p,projected.map(it=>it.world),now,(morph-0.5)/0.5);
+  drawHarshadFlow(p,now);
+
+  projected.sort((u,v)=>v.proj.depth-u.proj.depth);
+  const hue=cssHue(), baseR=p.isPrime?3.2:2.5;
+  for(const it of projected){
+    const pr=it.proj; if(!pr.ok)continue;
+    const localBreath=(Math.sin(now*baseFreq*freqMod+it.idx*0.12)+1)/2;
+    const r=(baseR+localBreath*(p.isPerfect?1.6:0.8))*pr.s;
+    const isPrimePos=isPrime(it.idx+1);
+    ctx.beginPath();ctx.arc(pr.x,pr.y,r*3.4,0,TAU);
+    ctx.fillStyle=`oklch(0.85 0.14 ${hue} / ${(0.045+localBreath*0.05).toFixed(3)})`;ctx.fill();
+    ctx.beginPath();ctx.arc(pr.x,pr.y,Math.max(0.4,r),0,TAU);
+    ctx.fillStyle=isPrimePos&&!p.isPrime?`oklch(0.95 0.16 ${hue} / 0.95)`:`oklch(0.88 0.10 ${hue} / 0.85)`;
+    ctx.shadowColor=`oklch(0.85 0.18 ${hue} / 0.7)`;ctx.shadowBlur=isPrimePos?14:6;ctx.fill();
+  }
+  ctx.shadowBlur=0;
+  drawAmicableCompanion(p,now);
+  ctx.restore();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ============================================================
+   Input wiring
+   ============================================================ */
+const inp=document.getElementById('ninput');
+inp.addEventListener('input',()=>{
+  const v=parseInt(inp.value.replace(/[^0-9]/g,''),10);
+  if(!isNaN(v)&&v>0) setNumber(v);
+});
+inp.addEventListener('keydown',e=>{if(e.key==='Enter')inp.blur();});
+document.getElementById('btnRandom').addEventListener('click',()=>setNumber(Math.floor(Math.random()*Math.random()*999)+1));
+document.getElementById('btnToday').addEventListener('click',()=>setNumber(new Date().getDate()));
+document.getElementById('btnInc').addEventListener('click',()=>setNumber(current.n+1));
+document.getElementById('btnDec').addEventListener('click',()=>setNumber(Math.max(1,current.n-1)));
+document.getElementById('btnReset').addEventListener('click',()=>{cam.tYaw=0;cam.tPitch=0.42;cam.lastInteract=0;cam.auto=true;});
+
+window.addEventListener('keydown',e=>{
+  if(document.activeElement===inp)return;
+  if(e.key==='r'||e.key==='R') document.getElementById('btnRandom').click();
+  else if(e.key==='t'||e.key==='T') document.getElementById('btnToday').click();
+  else if(e.key==='0') document.getElementById('btnReset').click();
+  else if(e.key==='ArrowUp'){setNumber(current.n+1);e.preventDefault();}
+  else if(e.key==='ArrowDown'){setNumber(Math.max(1,current.n-1));e.preventDefault();}
+});
+
+/* ---------- drag to rotate ---------- */
+let dragging=false,lastX=0,lastY=0;
+function startDrag(x,y){dragging=true;lastX=x;lastY=y;cam.lastInteract=performance.now();document.body.classList.add('dragging');}
+function moveDrag(x,y){
+  if(!dragging)return;
+  const dx=x-lastX,dy=y-lastY;lastX=x;lastY=y;
+  cam.tYaw+=dx*0.005;
+  cam.tPitch=clamp(cam.tPitch+dy*0.005,-0.5,1.3);
+  cam.lastInteract=performance.now();cam.vYaw=dx*0.005;cam.vPitch=dy*0.005;
+}
+function endDrag(){
+  dragging=false;document.body.classList.remove('dragging');
+  let mY=cam.vYaw,mP=cam.vPitch;
+  function decay(){
+    if(Math.abs(mY)<0.0005&&Math.abs(mP)<0.0005)return;
+    cam.tYaw+=mY;cam.tPitch=clamp(cam.tPitch+mP,-0.5,1.3);
+    mY*=0.93;mP*=0.93;cam.lastInteract=performance.now();requestAnimationFrame(decay);
+  }
+  decay();
+}
+cnv.addEventListener('mousedown',e=>startDrag(e.clientX,e.clientY));
+window.addEventListener('mousemove',e=>moveDrag(e.clientX,e.clientY));
+window.addEventListener('mouseup',endDrag);
+cnv.addEventListener('touchstart',e=>{if(e.touches.length===1)startDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+window.addEventListener('touchmove',e=>{if(e.touches.length===1)moveDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+window.addEventListener('touchend',endDrag);
+
+/* ============================================================
+   Cursor
+   ============================================================ */
+(function(){
+  const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+  document.querySelectorAll('a,button,input').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+  });
+})();
+
+/* ============================================================
+   Init with today's date
+   ============================================================ */
+setNumber(new Date().getDate());
+</script>
+</body>
+</html>

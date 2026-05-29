@@ -15,6 +15,43 @@ Wuyan 的個人作品集網站。**Wuyan 不寫前端程式碼，所有 HTML/CSS
 | `homepage_final.html` | 首頁（房間場景、角色動畫） | 存在，未大改 |
 | `works_v3.html` | 作品導覽頁（三個 Portal 入口） | 已更新配色 + sidebar |
 | `project_bookroom.html` | 作品詳情：緣界串接・魔法書房 | 已完成 |
+| `curio.html` | 奇物陣列：觀測庫（卡片列表） | 已完成 |
+| `project_datasea.html` | 奇物系列：數樸之海 | 已完成 |
+| `project_holocard.html` | 奇物系列：全息撲克牌 | 已完成 |
+| `project_tarot.html` | 奇物系列：塔羅抽卡機 | 已完成 |
+| `project_field.html` | 奇物系列：數域（整數3D觀測） | 已完成 |
+
+---
+
+## 雙層架構：主線作品集 vs 奇物陣列
+
+### 主線作品集頁面（有 sidebar）
+- 使用共用元件：`sidebar.css` + `sidebar.js`
+- `<link rel="stylesheet" href="sidebar.css">` + `<script>window.SIDEBAR_PAGE = 'xxx';</script><script src="sidebar.js" defer></script>`
+- SIDEBAR_PAGE 可選值：`'home' | 'archive' | 'commission' | 'signal' | 'curio'`
+- 頁面有 `#sidebar`、`#shell`（grid 1fr）、自己的 topbar
+
+### 奇物陣列系列頁面（**無 sidebar**）
+- 頁面：`project_datasea` / `project_holocard` / `project_tarot` / `project_field`
+- **不引入** sidebar.css / sidebar.js
+- 有獨立 topnav（height 48px，fixed）格式統一：
+  ```html
+  <nav id="topnav">
+    <div class="tnav-left">
+      <a href="curio.html" class="tnav-back">← CURIO</a>
+      <div class="tnav-sep"></div>
+      <div class="tnav-brand">
+        <span class="tnav-brand-mark">◆</span>
+        <div class="tnav-brand-text">
+          <div class="tnav-brand-en">PAGE NAME</div>
+          <div class="tnav-brand-zh">中文名</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  ```
+- topnav CSS 核心：`background: rgba(~dark~ .90); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(167,139,250,.16); height: 48px;`
+- 新增奇物頁面後需同步更新 `sidebar.js` 的 curio children 列表 + `curio.html` 的卡片列表（aside-rail + card-row）
 
 ---
 
