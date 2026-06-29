@@ -176,10 +176,32 @@
     }, { passive: true });
   }
 
+  const MOBILE_NAV = [
+    { id: 'home',    en: 'HOME',    icon: 'assets/icon/Home.png',        href: 'index.html' },
+    { id: 'archive', en: 'ARCHIVE', icon: 'assets/icon/File.png',        href: 'works_v3.html' },
+    { id: 'curio',   en: 'CURIO',   icon: 'assets/icon/LittleWorld.png', href: 'curio.html' },
+    { id: 'signal',  en: 'SIGNAL',  icon: 'assets/icon/Comment.png',     href: 'signal.html' },
+  ];
+
+  function renderMobileNav() {
+    if (document.getElementById('mobile-nav')) return;
+    const nav = document.createElement('nav');
+    nav.id = 'mobile-nav';
+    nav.setAttribute('aria-label', 'mobile navigation');
+    nav.innerHTML = MOBILE_NAV.map(item =>
+      `<a class="mn-item${item.id === window.SIDEBAR_PAGE ? ' mn-act' : ''}" href="${item.href}">` +
+      `<img class="mn-icon" src="${item.icon}" alt="">` +
+      `<span class="mn-label">${item.en}</span>` +
+      `</a>`
+    ).join('');
+    document.body.appendChild(nav);
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { render(); initTouchToggle(); });
+    document.addEventListener('DOMContentLoaded', () => { render(); initTouchToggle(); renderMobileNav(); });
   } else {
     render();
     initTouchToggle();
+    renderMobileNav();
   }
 })();

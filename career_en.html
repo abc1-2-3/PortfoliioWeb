@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career · Work Experience | WUYAN's ARCHIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400&family=Cinzel:wght@400&family=Instrument+Serif:ital@0;1&family=Noto+Serif+TC:wght@200;300&family=Noto+Sans+TC:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Cubic';src:url('assets/fomts/Cubic.ttf') format('truetype');font-weight:normal;font-display:swap}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none!important}
+html,body{width:100%;min-height:100vh;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+
+:root{
+  --bg:#04020e;
+  --bg-deep:rgba(2,0,10,1);
+  --bg-card:rgba(14,7,40,0.88);
+  --line:rgba(167,139,250,0.22);
+  --line-soft:rgba(167,139,250,0.12);
+  --ink:rgba(246,242,255,0.95);
+  --ink-mute:rgba(198,186,222,0.78);
+  --ink-dim:rgba(138,122,176,0.56);
+  --violet:rgba(196,181,253,0.9);
+  --violet-deep:rgba(110,68,196,0.9);
+  --powder:rgba(165,215,255,0.95);
+  --powder-deep:rgba(118,188,240,0.9);
+  --magic:rgba(240,165,205,0.95);
+  --gold:#d4a84e;
+  --r-sm:8px;--r:14px;--r-lg:22px;
+  --display:'Instrument Serif','Noto Serif TC',Georgia,serif;
+  --sans:'Noto Sans TC','Courier New',system-ui,sans-serif;
+  --body:'Courier New',monospace;
+  --mono:'JetBrains Mono','Courier New',monospace;
+}
+
+body{background:#04020e;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+
+/* ── Cursor ── */
+#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
+
+/* ── Stars ── */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes twinkle{0%,100%{opacity:var(--a,.3)}50%{opacity:1}}
+
+/* ── Page background ── */
+#page-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(55,15,115,.42) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 45% at 18% 40%, rgba(35,8,90,.20) 0%, transparent 55%),
+    radial-gradient(ellipse 48% 38% at 82% 78%, rgba(22,6,70,.15) 0%, transparent 50%)}
+#page-bg::after{content:'';position:absolute;inset:0;background:rgba(4,2,14,.28)}
+
+/* ── Sidebar ── */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;display:flex;flex-direction:column;border-right:1px solid rgba(167,139,250,.22);height:100vh;overflow:hidden;z-index:50;background:linear-gradient(to bottom,rgba(12,5,32,.80) 0%,rgba(14,6,40,.72) 48%,rgba(28,10,55,.55) 70%,rgba(28,10,55,.28) 88%,rgba(28,10,55,.06) 100%);backdrop-filter:blur(20px);transform:translateX(calc(-100% + 16px));transition:transform .38s cubic-bezier(.25,.46,.45,.94),box-shadow .38s}
+#sidebar:hover{transform:translateX(0);box-shadow:4px 0 44px rgba(0,0,0,.75),0 0 0 1px rgba(167,139,250,.1)}
+#sidebar::before{content:'';position:absolute;right:0;top:22%;bottom:22%;width:2px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.72) 40%,rgba(165,215,255,.58) 60%,transparent);border-radius:1px;transition:opacity .25s;pointer-events:none;z-index:2}
+#sidebar:hover::before{opacity:0}
+#sidebar::after{content:'';position:absolute;left:36px;top:80px;bottom:80px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.5) 20%,rgba(196,181,253,.85) 50%,rgba(167,139,250,.5) 80%,transparent);box-shadow:0 0 6px rgba(167,139,250,.28)}
+.sb-head{padding:20px 14px 16px 18px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid rgba(167,139,250,.12);flex-shrink:0}
+.sb-cat{width:34px;height:34px;border:1px solid rgba(167,139,250,.42);border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(5,10,30,.6);flex-shrink:0;box-shadow:0 0 12px rgba(167,139,250,.22)}
+.sb-cat img{width:22px;height:22px;filter:invert(1) sepia(1) saturate(3) hue-rotate(245deg);opacity:.85}
+.sb-info{flex:1;min-width:0}
+.sb-title{font:700 12px monospace;letter-spacing:3px;color:rgba(196,181,253,.88);text-transform:uppercase}
+.sb-sub{font:400 10px monospace;color:rgba(74,66,100,.85);letter-spacing:2px;margin-top:3px}
+.sb-pulse{display:flex;align-items:center;gap:5px;margin-top:8px}
+.sb-dot{width:5px;height:5px;border-radius:50%;background:rgba(80,255,120,.7);animation:sbpulse 2s ease-in-out infinite;box-shadow:0 0 5px rgba(80,255,120,.4)}
+@keyframes sbpulse{0%,100%{opacity:.6}50%{opacity:1}}
+.sb-online{font:400 10px monospace;letter-spacing:2px;color:rgba(80,255,120,.58)}
+nav{flex:1;padding:10px 0;overflow-y:auto}
+nav::-webkit-scrollbar{width:0}
+.ni{display:flex;align-items:center;gap:9px;padding:12px 14px 12px 50px;position:relative;transition:all .28s cubic-bezier(.25,.46,.45,.94);margin-bottom:4px;text-decoration:none;color:inherit}
+.ni::before{content:'';position:absolute;left:29px;top:50%;width:9px;height:9px;transform:translate(-50%,-50%) rotate(45deg);border:1px solid rgba(167,139,250,.4);background:transparent;transition:all .28s ease}
+.ni:hover::before{border-color:rgba(196,181,253,.88);box-shadow:0 0 8px rgba(196,181,253,.5)}
+.ni.act::before{background:rgba(167,139,250,.18);border-color:rgba(196,181,253,.92);box-shadow:0 0 10px rgba(196,181,253,.6)}
+.ni::after{content:'';position:absolute;left:29px;top:50%;width:4px;height:4px;transform:translate(-50%,-50%);border-radius:50%;background:transparent;transition:all .28s ease;pointer-events:none}
+.ni:hover::after{background:rgba(196,181,253,.82);box-shadow:0 0 5px rgba(196,181,253,.6)}
+.ni.act::after{background:rgba(255,255,255,.88);box-shadow:0 0 6px rgba(196,181,253,.8)}
+.ni:hover,.ni.act{background:rgba(110,55,195,.14)}
+.ni:hover{transform:translateX(4px)}
+.ni.act{border-right:2px solid rgba(167,139,250,.68)}
+.ni-icon{width:15px;height:15px;object-fit:contain;opacity:.70;filter:brightness(0) invert(1);transition:opacity .22s;flex-shrink:0}
+.ni:hover .ni-icon,.ni.act .ni-icon{opacity:.95}
+.ni-text{display:flex;flex-direction:column}
+.ni-en{font:400 12px monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(175,150,220,.78);transition:color .22s}
+.ni-zh{font:400 11px monospace;color:rgba(160,142,205,.65);letter-spacing:1px;margin-top:2px;transition:color .22s}
+.ni:hover .ni-en,.ni.act .ni-en{color:rgba(232,224,255,.97)}
+.ni:hover .ni-zh,.ni.act .ni-zh{color:rgba(210,200,240,.88)}
+.sb-footer{padding:14px 18px 18px 22px;background:transparent;flex-shrink:0}
+.sb-footer-text{font:400 10px monospace;letter-spacing:1px;color:rgba(120,90,150,.45);line-height:1.6}
+
+/* ── Page section nav ── */
+#page-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+#page-nav::before{content:'';position:absolute;right:3px;top:14px;bottom:14px;width:1px;background:linear-gradient(to bottom,transparent,rgba(167,139,250,.2) 20%,rgba(167,139,250,.2) 80%,transparent);pointer-events:none}
+.pn-item{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;text-decoration:none}
+.pn-label{font:400 11px monospace;letter-spacing:.15em;text-transform:uppercase;color:rgba(196,181,253,.15);transform:translateX(6px);transition:color .2s,transform .2s;white-space:nowrap;user-select:none}
+.pn-item:hover .pn-label{color:rgba(196,181,253,.85);transform:translateX(0)}
+.pn-item.act .pn-label{color:rgba(196,181,253,.68);transform:translateX(0)}
+.pn-node{width:7px;height:7px;transform:rotate(45deg);border:1px solid rgba(167,139,250,.28);background:transparent;transition:all .25s;flex-shrink:0}
+.pn-item:hover .pn-node{border-color:rgba(196,181,253,.82);background:rgba(167,139,250,.35);box-shadow:0 0 8px rgba(167,139,250,.45)}
+.pn-item.act .pn-node{border-color:rgba(196,181,253,.9);background:rgba(167,139,250,.72);box-shadow:0 0 10px rgba(196,181,253,.65),0 0 22px rgba(167,139,250,.3)}
+
+/* ── Topbar ── */
+#topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:14px 40px;background:linear-gradient(180deg,rgba(4,2,14,.88) 0%,rgba(4,2,14,.52) 65%,transparent 100%);backdrop-filter:blur(14px)}
+.tb-brand{font:400 14px 'Cinzel Decorative','Cinzel',serif;letter-spacing:.3em;color:rgba(240,165,205,.92)}
+.topbar-crumb{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:rgba(138,122,176,.7);text-transform:uppercase;display:flex;align-items:center;gap:0}
+.topbar-crumb a{color:rgba(198,186,222,.6);text-decoration:none;transition:color .2s}
+.topbar-crumb a:hover{color:rgba(196,181,253,.9)}
+.topbar-crumb .sep{margin:0 8px;opacity:.45}
+.topbar-crumb .here{color:rgba(196,181,253,.85)}
+.topbar-tag{font-family:var(--mono);font-size:10px;letter-spacing:.2em;padding:4px 12px;border:1px solid rgba(167,139,250,.3);border-radius:999px;color:rgba(196,181,253,.8);text-transform:uppercase;justify-self:end}
+
+/* ── Shell + Page layout ── */
+#shell{display:grid;grid-template-columns:1fr;min-height:100vh;position:relative;z-index:1}
+.page{max-width:1240px;margin:0 auto;padding:56px 40px 120px;width:100%}
+
+/* ── Typography ── */
+.h-display{font-family:var(--display);font-weight:400;font-size:clamp(48px,7vw,96px);line-height:.95;letter-spacing:-.025em;margin:0}
+.h-display em{font-style:italic;color:var(--magic);font-family:'Instrument Serif',serif}
+.h-sec{font-family:var(--sans);font-weight:600;font-size:clamp(26px,3.2vw,44px);letter-spacing:-.01em;line-height:1.05;margin:0}
+.h-sec em{font-family:var(--sans);font-style:normal;font-weight:500;color:var(--magic);font-size:.7em;letter-spacing:0}
+.lead{font-size:16px;color:var(--ink-mute);line-height:1.7}
+
+/* ── Common components ── */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--powder)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--powder);box-shadow:0 0 12px var(--powder)}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:11px;color:var(--ink-mute);background:rgba(14,7,40,0.5);backdrop-filter:blur(4px)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:80px 0}
+
+/* ── Pipeline ── */
+.pipeline{display:flex;align-items:stretch;gap:6px;margin:8px 0 40px;flex-wrap:wrap}
+.step{flex:1 1 130px;min-width:130px;padding:16px 14px;border-radius:var(--r);background:linear-gradient(180deg,rgba(22,10,58,1),rgba(14,6,40,1));border:1px solid var(--line)}
+.step-num{font-family:var(--mono);font-size:11px;color:var(--ink-dim);letter-spacing:.16em}
+.step-en{font-family:var(--sans);font-weight:600;font-size:16px;margin-top:8px;letter-spacing:-.005em}
+.step-zh{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--magic);line-height:1.2;margin:4px 0 8px}
+.step-note{font-size:12px;color:var(--ink-mute);line-height:1.4}
+.step[data-k="decide"]{border-color:rgba(240,165,205,.48);background:linear-gradient(180deg,rgba(48,14,36,.8),rgba(26,6,20,.8))}
+.step[data-k="calc"]{border-color:rgba(212,168,78,.45);background:linear-gradient(180deg,rgba(46,36,12,.7),rgba(26,20,6,.7))}
+.step[data-k="calc"] .step-zh{color:rgba(212,168,78,.9)}
+.step[data-k="ftp"],.step[data-k="share"]{border-color:rgba(165,215,255,.5);background:linear-gradient(180deg,rgba(16,28,68,1),rgba(10,18,50,1))}
+.step[data-k="share"] .step-en{color:var(--powder)}
+.step-arrow{display:flex;align-items:center;color:var(--ink-dim);flex:0 0 auto}
+
+/* ── Status strip ── */
+.status-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:36px 0 48px;padding:20px 22px;background:rgba(10,4,28,0.6);border:1px solid var(--line);border-radius:var(--r-lg);backdrop-filter:blur(8px)}
+.status-cell{position:relative}
+.status-cell+.status-cell{padding-left:20px;border-left:1px solid rgba(167,139,250,.12)}
+.status-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(196,181,253,0.75)}
+.status-value{line-height:1.1;margin:6px 0 4px;letter-spacing:-.01em}
+.status-value.mono{font-family:var(--mono);font-weight:500;font-size:20px;color:var(--powder)}
+.status-sub{font-size:11.5px;color:var(--ink-mute)}
+
+/* ── Project card ── */
+.project{background:rgba(4,2,14,.58);border-radius:28px;padding:40px 44px;border:1px solid rgba(167,139,250,.08);backdrop-filter:blur(4px)}
+
+/* ── Note as repo ── */
+.repo-link-row{margin:8px 0 28px}
+.repo-link{display:inline-flex;align-items:center;gap:14px;padding:10px 16px;background:rgba(14,6,40,0.6);border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-family:var(--mono);font-size:13px;transition:all .2s ease}
+.repo-mark{display:inline-grid;place-items:center;width:22px;height:22px;background:linear-gradient(135deg,var(--violet-deep),var(--magic));border-radius:50%;color:white;font-size:11px}
+.repo-link.as-note{background:transparent;border-style:dashed;color:var(--ink-mute);cursor:default!important}
+.repo-link.as-note:hover{background:transparent;border-color:var(--line)}
+.repo-mark.mark-note{background:transparent;border:1px dashed var(--line);color:var(--ink-dim)}
+
+/* ── Arch diagram ── */
+.arch{display:grid;grid-template-columns:1fr auto 2fr;gap:20px;align-items:stretch;margin:8px 0 40px}
+.arch-side{padding:20px;border-radius:var(--r-lg);border:1px solid var(--line);background:rgba(14,6,40,.5);display:flex;flex-direction:column}
+.arch-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:rgba(196,181,253,0.75);margin-bottom:10px}
+.arch-arrow{display:flex;align-items:center;color:var(--ink-dim)}
+.arch-monolith{background:linear-gradient(180deg,rgba(44,18,12,.55),rgba(26,8,6,.55));border:1px dashed rgba(200,100,60,.48);border-radius:var(--r);padding:16px}
+.arch-mono-head{font-family:var(--sans);font-weight:600;font-size:15px;margin-bottom:10px}
+.arch-mono-stack{display:grid;gap:5px;font-family:var(--mono);font-size:12px}
+.arch-mono-stack>div{background:rgba(80,36,20,.4);padding:7px 9px;border-radius:6px;color:var(--ink);border:1px solid rgba(200,100,60,.28)}
+.arch-mono-tag{font-family:var(--sans);font-weight:500;color:rgba(220,140,100,.9);font-size:13px;margin-top:10px}
+.arch-before-blue .arch-monolith{background:linear-gradient(180deg,rgba(12,22,52,.6),rgba(6,12,32,.6));border-color:rgba(100,140,220,.38)}
+.arch-before-blue .arch-mono-stack>div{background:rgba(20,42,90,.4);border-color:rgba(100,140,220,.28)}
+.arch-before-blue .arch-mono-tag{color:rgba(140,170,220,.9)}
+.arch-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch}
+.arch-two{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-items:stretch}
+.arch-box{padding:14px 12px;border-radius:var(--r);background:linear-gradient(180deg,rgba(22,12,58,.7),rgba(14,6,44,.7));border:1px solid var(--line);display:flex;flex-direction:column}
+.arch-box[data-k="a"]{border-color:rgba(165,215,255,.55)}
+.arch-box[data-k="b"]{border-color:rgba(240,165,205,.55)}
+.arch-box[data-k="c"]{border-color:rgba(212,168,78,.5)}
+.arch-box[data-k="d"]{border-color:rgba(196,181,253,.5)}
+.arch-box-head{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:-.005em}
+.arch-box-sub{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:rgba(196,181,253,0.65);margin:4px 0 9px;text-transform:uppercase}
+.arch-box ul{margin:0;padding:0;list-style:none;font-size:12px;color:var(--ink-mute);display:grid;gap:3px}
+.arch-box ul li::before{content:'·';margin-right:5px;color:var(--magic)}
+
+/* ── Feature grid ── */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 40px}
+.feature-card{padding:18px 20px 20px;border-radius:var(--r-lg);background:linear-gradient(180deg,rgba(22,10,58,0.7),rgba(14,6,40,0.7));border:1px solid var(--line);position:relative}
+.feature-card.feature-mine{border-color:rgba(240,165,205,.45);background:linear-gradient(180deg,rgba(42,14,32,.7),rgba(22,6,20,.7))}
+.feature-my-badge{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:9px;letter-spacing:.16em;padding:2px 8px;border-radius:99px;background:rgba(240,165,205,.12);border:1px solid rgba(240,165,205,.38);color:rgba(240,165,205,.9)}
+.feature-t{font-family:var(--sans);font-weight:600;font-size:14px;margin-bottom:7px;color:var(--ink)}
+.feature-d{font-size:12.5px;color:var(--ink-mute);line-height:1.55}
+
+/* ── Client strip ── */
+.client-strip{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 32px}
+.client-card{padding:14px 18px;border-radius:var(--r);background:rgba(14,6,40,.5);border:1px solid var(--line);min-width:140px;flex:1}
+.client-card.hl{border-color:rgba(240,165,205,.42);background:rgba(40,12,28,.5)}
+.client-type{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:rgba(196,181,253,0.75);margin-bottom:5px;text-transform:uppercase}
+.client-name{font-family:var(--sans);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:4px}
+.client-card.hl .client-name{color:var(--magic)}
+.client-note{font-size:12px;color:var(--ink-mute)}
+
+/* ── Notes ── */
+.notes-wrap{margin:44px 0 8px}
+.notes-head{margin-bottom:14px}
+.notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.notes-grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.note-card{position:relative;padding:20px 20px 22px;border-radius:var(--r-lg);background:linear-gradient(180deg,rgba(22,10,58,0.7),rgba(14,6,40,0.7));border:1px solid var(--line);overflow:hidden}
+.note-card::before{content:'';position:absolute;top:-18px;right:-18px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,var(--magic),transparent 65%);opacity:.16;pointer-events:none}
+.note-num{font-family:var(--mono);font-size:11px;color:var(--powder);letter-spacing:.18em;margin-bottom:12px}
+.note-t{font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:-.005em;margin-bottom:7px;color:var(--ink)}
+.note-d{font-size:13px;line-height:1.6;color:var(--ink-mute)}
+
+/* ── Shell code block ── */
+.sh-block{background:rgba(2,0,10,1);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0 40px}
+.sh-head{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(167,139,250,.1);background:rgba(8,3,24,.95);font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:rgba(196,181,253,.72)}
+.sh-head .sh-lang{color:var(--powder);margin-left:auto}
+.sh-body{padding:16px 18px;overflow-x:auto;line-height:2;font-family:var(--mono);font-size:12.5px;white-space:pre;color:rgba(198,186,222,.72)}
+.sh-cm{color:rgba(138,122,176,.55);font-style:italic}
+.sh-cmd{color:var(--powder)}
+.sh-flag{color:var(--magic)}
+
+/* ── Hero ── */
+.hero{display:grid;gap:28px;padding:24px 0 36px}
+.hero-mark{width:52px;height:52px;display:grid;place-items:center;background:rgba(14,7,40,0.6);border:1px solid var(--line);border-radius:14px;filter:drop-shadow(0 0 20px rgba(240,165,205,.4))}
+.hero-eyebrow{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.hero-crumbs{font-family:var(--mono);font-size:12px;color:var(--ink-dim);display:inline-flex;gap:8px;align-items:center}
+.hero-crumbs a{color:var(--ink-mute);text-decoration:none}
+.hero-crumbs a:hover{color:var(--ink)}
+.hero-crumbs .sep{opacity:.45}
+.hero-crumbs .here{color:var(--powder)}
+.h-display .hero-zh{font-family:'Cubic',var(--sans);font-weight:normal;letter-spacing:.06em;background:linear-gradient(135deg,var(--powder),var(--magic) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-lead{font-size:18px;line-height:1.65;color:var(--ink-mute);max-width:64ch;margin:4px 0 0}
+.hero-lead em{font-family:var(--display);font-style:italic;color:var(--ink);font-size:1.05em;padding:0 2px}
+.hero-lead .emp{font-style:normal;font-family:var(--sans);font-weight:500;letter-spacing:0;color:var(--powder)}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px 24px;border:1px solid var(--line);background:rgba(10,4,28,0.55);border-radius:var(--r-lg);backdrop-filter:blur(8px)}
+.hero-meta-cell+.hero-meta-cell{padding-left:20px;border-left:1px solid rgba(167,139,250,.12)}
+.meta-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(196,181,253,0.75);margin-bottom:6px}
+.meta-val{font-family:var(--sans);font-size:14px;color:var(--ink);letter-spacing:-.005em}
+.hero-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hero-nav a{display:flex;align-items:baseline;gap:14px;padding:16px 18px;background:linear-gradient(180deg,rgba(22,10,58,0.65),rgba(14,6,40,0.65));border:1px solid var(--line);border-radius:var(--r-lg);text-decoration:none;color:var(--ink);font-family:var(--sans);font-weight:500;font-size:14px;transition:all .2s ease}
+.hero-nav a:hover{border-color:rgba(165,215,255,.5);transform:translateY(-2px);box-shadow:0 12px 28px rgba(4,2,14,.4)}
+.hero-nav .num{font-family:var(--mono);font-size:12px;color:var(--powder);letter-spacing:.1em}
+
+/* ── Footer ── */
+.foot{margin-top:96px;padding:36px 0 0;border-top:1px solid rgba(167,139,250,.12);display:grid;gap:12px;justify-items:center;text-align:center}
+.foot-mark{font-family:var(--display);font-size:30px;color:var(--magic)}
+.foot-text{font-size:13.5px;color:var(--ink-mute)}
+.foot-text em{font-family:var(--display);font-style:italic;color:var(--ink)}
+.foot-nav{display:flex;gap:12px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--ink-dim)}
+.foot-nav a{color:var(--ink-mute);text-decoration:none}
+.foot-nav a:hover{color:var(--ink)}
+.foot-nav span{opacity:.45}
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,rgba(103,232,249,.4),rgba(167,139,250,.85),rgba(240,165,205,.7));z-index:9000;pointer-events:none;transition:width .1s linear}
+
+/* ── Responsive ── */
+@media(max-width:960px){
+  .arch{grid-template-columns:1fr}
+  .arch-arrow{transform:rotate(90deg);justify-content:center;margin:8px 0}
+}
+@media(max-width:820px){
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+  .notes-grid:not(.cols-2){grid-template-columns:repeat(2,1fr)}
+  .hero-nav{grid-template-columns:repeat(2,1fr);gap:8px}
+  .hero-nav a{padding:12px 14px;font-size:13px}
+}
+/* text wrapping — global */
+.note-d,.feature-d,.step-note,.lead,.hero-lead{overflow-wrap:break-word;word-break:break-word}
+
+@media(max-width:768px){
+  html,body{overflow-x:hidden;width:100%}
+  #shell{max-width:100vw;overflow-x:hidden}
+  .page{padding:36px 12px 80px;max-width:100vw;box-sizing:border-box}
+  .project{padding:20px 12px!important;overflow-x:visible}
+  .page *{min-width:0;box-sizing:border-box}
+  #cursor-dot,#cursor-ring,#page-nav{display:none}
+  #topbar{padding:10px 16px;grid-template-columns:1fr auto}
+  #topbar>*:nth-child(2){display:none}
+  .h-display{font-size:clamp(26px,7vw,46px)!important}
+  .hero-lead{max-width:100%;font-size:16px}
+  .hero-meta{grid-template-columns:repeat(2,1fr)!important;padding:14px 14px!important;gap:10px}
+  .hero-meta-cell+.hero-meta-cell{padding-left:0;border-left:none}
+  .hero-meta-cell:nth-child(even){padding-left:10px;border-left:1px solid rgba(167,139,250,.12)}
+  .status-strip{grid-template-columns:repeat(2,1fr)!important;gap:10px;padding:12px 10px!important}
+  .status-cell+.status-cell{padding-left:0;border-left:none}
+  .status-cell:nth-child(even){padding-left:14px;border-left:1px solid rgba(167,139,250,.1)}
+  .arch-three,.arch-two,.notes-grid{grid-template-columns:1fr!important}
+  .pipeline{flex-wrap:wrap;gap:8px}
+  .step{flex:1 1 calc(50% - 8px);min-width:120px}
+  .sh-body{overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:11.5px}
+  .client-strip{flex-direction:column}
+  .client-card{min-width:unset}
+  .sec-tags{flex-wrap:wrap}
+  /* scrollable diagram wrappers */
+  .diagram-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .diagram-scroll svg{min-width:340px}
+  /* OCR mockup sizing */
+  .ocr-wrap{padding:12px 10px 10px!important}
+}
+@media(max-width:480px){
+  .page{padding:24px 12px 60px}
+  .project{padding:14px 10px!important}
+  .hero-nav{grid-template-columns:1fr}
+  .hero-nav a{padding:13px 16px;font-size:14px}
+  .feature-grid,.notes-grid{grid-template-columns:1fr!important}
+  .feature-card{padding:14px 14px 16px}
+  .note-card{padding:16px 14px 18px}
+  .status-strip{grid-template-columns:1fr}
+  .status-cell:nth-child(even){padding-left:0;border-left:none}
+  .step{flex:1 1 100%;padding:12px 12px}
+  .step-en{font-size:15px}
+  .diagram-scroll svg{min-width:320px}
+  .pipeline{gap:6px}
+  .hero-meta-cell:nth-child(even){padding-left:0;border-left:none}
+  .hero-meta{grid-template-columns:repeat(2,1fr)}
+}
+/* ── Language toggle ── */
+.lang-toggle{display:flex;align-items:center;background:rgba(14,7,40,.75);border:1px solid rgba(167,139,250,.35);border-radius:999px;padding:3px;gap:2px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.lt-cur{padding:4px 13px;background:rgba(167,139,250,.22);border-radius:999px;color:rgba(232,224,255,.95);box-shadow:0 0 10px rgba(167,139,250,.2)}
+.lt-link{padding:4px 13px;color:rgba(196,181,253,.5);text-decoration:none;border-radius:999px;transition:color .18s,background .18s}
+.lt-link:hover{color:rgba(232,224,255,.9);background:rgba(167,139,250,.12)}
+
+/* ── Mobile floating section nav ── */
+#mob-nav{display:none}
+@media(max-width:768px){
+  #mob-nav{display:block;position:fixed;right:20px;bottom:28px;z-index:80}
+  #mob-nav-btn{
+    width:46px;height:46px;border-radius:50%;
+    background:rgba(14,7,40,.95);border:1px solid rgba(167,139,250,.5);
+    color:rgba(196,181,253,.9);font-size:20px;line-height:1;cursor:pointer;
+    backdrop-filter:blur(16px);
+    box-shadow:0 4px 24px rgba(0,0,0,.6),0 0 0 1px rgba(167,139,250,.08);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .22s;border:1px solid rgba(167,139,250,.5)
+  }
+  .mn-ico-x{display:none}
+  #mob-nav.open .mn-ico-bars{display:none}
+  #mob-nav.open .mn-ico-x{display:block}
+  #mob-nav.open #mob-nav-btn{border-color:rgba(240,165,205,.55);color:rgba(240,165,205,.9)}
+  #mob-nav-panel{
+    position:absolute;bottom:56px;right:0;width:232px;
+    background:rgba(10,4,28,.97);border:1px solid rgba(167,139,250,.28);
+    border-radius:14px;padding:6px 0 8px;
+    backdrop-filter:blur(24px);
+    box-shadow:0 -4px 40px rgba(0,0,0,.7),0 0 0 1px rgba(167,139,250,.06);
+    opacity:0;transform:translateY(8px) scale(.97);pointer-events:none;
+    transition:opacity .2s,transform .2s;
+    max-height:72vh;overflow-y:auto
+  }
+  #mob-nav.open #mob-nav-panel{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+  .mn-head{
+    font:400 9px 'JetBrains Mono','Courier New',monospace;
+    letter-spacing:3px;text-transform:uppercase;
+    color:rgba(140,115,190,.55);padding:8px 16px 6px;
+    border-bottom:1px solid rgba(167,139,250,.1);margin-bottom:4px
+  }
+  .mn-sep{
+    font:400 9px 'JetBrains Mono','Courier New',monospace;
+    color:rgba(120,100,160,.42);letter-spacing:1px;padding:8px 16px 4px;margin-top:2px
+  }
+  .mn-link{
+    display:flex;align-items:center;gap:10px;padding:8px 16px;
+    text-decoration:none;color:rgba(175,155,215,.75);transition:all .18s
+  }
+  .mn-link:active,.mn-link.mn-act{background:rgba(110,55,195,.12);color:rgba(225,215,250,.95)}
+  .mn-link.mn-act{box-shadow:inset 3px 0 0 rgba(196,181,253,.7)}
+  .mn-num{
+    font:400 10px 'JetBrains Mono','Courier New',monospace;
+    letter-spacing:.1em;color:rgba(165,215,255,.6);flex-shrink:0;width:20px
+  }
+  .mn-link span:last-child{font:400 12px 'JetBrains Mono','Courier New',monospace}
+  .mn-top .mn-num{color:rgba(240,165,205,.6)}
+}
+</style>
+<link rel="stylesheet" href="sidebar.css">
+<script>window.SIDEBAR_PAGE='archive';</script>
+<script src="sidebar.js" defer></script>
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="prog"></div>
+<div id="page-bg"></div>
+<div id="stars"></div>
+<div id="sidebar"></div>
+<nav id="page-nav"></nav>
+
+<div id="shell">
+  <div id="topbar">
+    <div class="topbar-crumb">
+      <a href="index.html">HOME</a>
+      <span class="sep">/</span>
+      <a href="works_v3.html">ARCHIVE</a>
+      <span class="sep">/</span>
+      <span class="here">CAREER</span>
+    </div>
+    <div class="tb-brand">✦ WUYAN · ARCHIVE</div>
+    <div style="display:flex;align-items:center;gap:10px;justify-self:end">
+      <div class="lang-toggle">
+        <a href="career.html" class="lt-link">中文</a>
+        <span class="lt-cur">EN</span>
+      </div>
+      <div class="topbar-tag">CAREER · EXP</div>
+    </div>
+  </div>
+  <div id="root"></div>
+</div>
+
+<!-- Mobile floating section nav -->
+<div id="mob-nav">
+  <button id="mob-nav-btn" aria-label="Jump to section">
+    <span class="mn-ico-bars">≡</span>
+    <span class="mn-ico-x">✕</span>
+  </button>
+  <div id="mob-nav-panel">
+    <div class="mn-head">JUMP TO</div>
+    <a href="#top" class="mn-link mn-top"><span class="mn-num">↑</span><span>OVERVIEW</span></a>
+    <div class="mn-sep">── Company A</div>
+    <a href="#p1" class="mn-link"><span class="mn-num">01</span><span>Cover Editor</span></a>
+    <a href="#p2" class="mn-link"><span class="mn-num">02</span><span>Book Restore</span></a>
+    <a href="#p3" class="mn-link"><span class="mn-num">03</span><span>T100 ERP + ESB</span></a>
+    <a href="#p4" class="mn-link"><span class="mn-num">04</span><span>Finance Reports</span></a>
+    <a href="#p5" class="mn-link"><span class="mn-num">05</span><span>Refactor + Git Flow</span></a>
+    <a href="#p6" class="mn-link"><span class="mn-num">06</span><span>Docker Setup</span></a>
+    <div class="mn-sep">── Previous Job</div>
+    <a href="#p7" class="mn-link"><span class="mn-num">07</span><span>Frontend Dev</span></a>
+    <a href="#p8" class="mn-link"><span class="mn-num">08</span><span>Login Auth</span></a>
+    <a href="#p9" class="mn-link"><span class="mn-num">09</span><span>Feature Bundle</span></a>
+  </div>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+<script type="text/babel">
+
+/* ── Shared components ── */
+
+function SectionHeader({ index, en, zh, summary, tags, role }){
+  return (
+    <header style={{ display:"grid", gap:16, marginBottom:32 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}>
+        <span className="eyebrow"><span className="dot"></span>PROJECT · {String(index).padStart(2,'0')}</span>
+        {role && <RoleBadge type={role}/>}
+      </div>
+      <h2 className="h-sec">{en} <em>· {zh}</em></h2>
+      {tags && (
+        <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+          {tags.map(t => <span key={t} className="tag">{t}</span>)}
+        </div>
+      )}
+      {summary && <p className="lead" style={{ marginTop:4 }}>{summary}</p>}
+    </header>
+  );
+}
+
+function RoleBadge({ type }){
+  const cfg = {
+    lead:   { label:'LEAD',   c:'rgba(240,165,205,1)', bg:'rgba(240,165,205,0.10)', b:'rgba(240,165,205,0.45)' },
+    contrib:{ label:'CONTRIB',c:'rgba(165,215,255,1)', bg:'rgba(165,215,255,0.08)', b:'rgba(165,215,255,0.38)' },
+    solo:   { label:'SOLO',   c:'rgba(212,168,78,1)',  bg:'rgba(212,168,78,0.10)',  b:'rgba(212,168,78,0.42)'  },
+  };
+  const { label, c, bg, b } = cfg[type] || cfg.contrib;
+  return (
+    <span style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'3px 10px',
+      border:`1px solid ${b}`, borderRadius:999, fontSize:10, fontFamily:'var(--mono)',
+      letterSpacing:'.18em', color:c, background:bg }}>
+      <span style={{ width:5, height:5, borderRadius:'50%', background:c,
+        boxShadow:`0 0 5px ${c}`, display:'inline-block', flexShrink:0 }}></span>
+      {label}
+    </span>
+  );
+}
+
+function ConfidentialNote({ text }){
+  return (
+    <div className="repo-link-row">
+      <span className="repo-link as-note">
+        <span className="repo-mark mark-note">·</span>
+        <span>{text || 'Internal company project · Code not public'}</span>
+      </span>
+    </div>
+  );
+}
+
+function Pipeline({ steps }){
+  return (
+    <div className="pipeline">
+      {steps.map((s, i) => (
+        <React.Fragment key={s.k}>
+          <div className="step" data-k={s.k}>
+            <div className="step-num">{s.n}</div>
+            <div className="step-en">{s.en}</div>
+            <div className="step-zh">{s.zh}</div>
+            <div className="step-note">{s.note}</div>
+          </div>
+          {i < steps.length - 1 && (
+            <div className="step-arrow" aria-hidden="true">
+              <svg viewBox="0 0 40 12" width="36" height="12">
+                <path d="M0 6 H34 M28 1 L34 6 L28 11" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+              </svg>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function OutcomeStrip({ cells }){
+  return (
+    <div className="status-strip">
+      {cells.map((c, i) => (
+        <div key={i} className="status-cell">
+          <div className="status-label">{c.label}</div>
+          <div className={"status-value " + (c.mono !== false ? "mono" : "")}
+            style={c.color ? { color:c.color } : {}}>
+            {c.value}
+          </div>
+          <div className="status-sub">{c.sub}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function NotesGrid({ notes, cols2 }){
+  return (
+    <div className="notes-wrap">
+      <div className="notes-head">
+        <span className="eyebrow"><span className="dot"></span>NOTES · Memorable moments</span>
+      </div>
+      <div className={"notes-grid" + (cols2 ? " cols-2" : "")}>
+        {notes.map(n => (
+          <div key={n.n} className="note-card">
+            <div className="note-num">{n.n}</div>
+            <div className="note-t">{n.t}</div>
+            <div className="note-d">{n.d}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   P1 — Cover Self-Service Editor
+   ════════════════════════════════ */
+function P1CoverEditor(){
+  const steps = [
+    { n:"01", k:"upload",  en:"Upload",    zh:"Validate",     note:"PDF format · size · bleed auto-detection" },
+    { n:"02", k:"decide",  en:"Decision",  zh:"Determine Type", note:"Binding type / layout combo / color mode" },
+    { n:"03", k:"calc",    en:"Calculate", zh:"Size Calc",    note:"Cover/spine formula · bleed auto-calculation" },
+    { n:"04", k:"compose", en:"Process",   zh:"Image Process", note:"Crop → scale → composite → text resize" },
+    { n:"05", k:"export",  en:"Finalize",  zh:"Output Spec",  note:"Add margins · crop marks (red/black) · compress" },
+    { n:"06", k:"ftp",     en:"FTP",       zh:"Auto Transfer", note:"Printer picks up directly · zero manual steps" },
+  ];
+  const outcome = [
+    { label:"Turnaround",    value:"Instant",    mono:true,  color:"var(--magic)", sub:"Previously 2–3 business days" },
+    { label:"Layout Types",  value:"Multiple",   mono:false,                        sub:"Saddle stitch / perfect bound / combos" },
+    { label:"My Role",       value:"Lead",       mono:false,                        sub:"System design · backend dev" },
+    { label:"Spec Decisions",value:"Fully auto", mono:true,                         sub:"No manual sales confirmation needed" },
+  ];
+  const dims = [
+    { title:"Binding Type",  color:"var(--powder)",         items:["Saddle stitch (no spine, different size rules)","Perfect bound (spine width formula by page count)"] },
+    { title:"Layout Combo",  color:"var(--magic)",           items:["Front cover + back cover","Front + spine + back","Cover only (single page)"] },
+    { title:"Color Mode",    color:"rgba(212,168,78,1)",     items:["Color (CMYK workflow)","B&W (grayscale · different spec)"] },
+    { title:"Crop Mark Type",color:"rgba(196,181,253,.9)",   items:["Preview → red marks (position indicator)","Production → black marks (sent for cutting)"] },
+  ];
+  const notes = [
+    { n:"01", t:"Complex Version Branching", d:"The core challenge was handling combinatorial rules — saddle stitch and perfect binding have entirely different spine calculations, and each surface (cover, spine, back) requires its own dimension formula, compositing order, and bleed handling." },
+    { n:"02", t:"Color Extension Library Integration", d:"One feature required content-aware edge fill. No usable free library existed, so the company bought a commercial one. Integration ran into apparent Linux environment dependencies that took a long time to debug on Windows." },
+    { n:"03", t:"Internal Demo Presentation", d:"After shipping, I gave an internal demo to the full team — the first time I formally presented my own system design decisions and implementation to everyone." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={1}
+        en="Cover Editor"
+        zh="Cover Self-Service Editor"
+        summary="Customers previously had to coordinate with sales reps to revise book covers, taking 2–3 working days. This system lets customers upload covers directly; it auto-calculates dimensions by binding type, layout, and color mode, crops, composites, adds crop marks, compresses, and FTPs to the printer — no sales rep involvement."
+        tags={["C#", "ASP.NET Core", "SQL Server", "FTP Automation", "Image Processing"]}
+        role="lead"
+      />
+      <ConfidentialNote/>
+      <Pipeline steps={steps}/>
+      <div style={{ marginTop:4, marginBottom:44 }}>
+        <div style={{ marginBottom:14 }}>
+          <span className="eyebrow"><span className="dot"></span>RULE DIMENSIONS · Variables the system must handle</span>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:14 }}>
+          {dims.map(d => (
+            <div key={d.title} className="note-card" style={{ margin:0 }}>
+              <div style={{ fontFamily:'var(--mono)', fontSize:10, letterSpacing:'.16em',
+                color:d.color, marginBottom:10, textTransform:'uppercase' }}>{d.title}</div>
+              <ul style={{ margin:0, padding:0, listStyle:'none', display:'grid', gap:6 }}>
+                {d.items.map(it => (
+                  <li key={it} style={{ fontSize:12.5, color:'var(--ink-mute)', display:'flex', gap:7, alignItems:'baseline' }}>
+                    <span style={{ color:d.color, flexShrink:0 }}>·</span>{it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+      <OutcomeStrip cells={outcome}/>
+      <NotesGrid notes={notes}/>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   P2 — OCR Mockup (window version)
+   ════════════════════════════════ */
+function OcrMockup(){
+  const W = 148, H = 196;
+  const WinW = 480, WinH = 318;
+  const titleH = 26, menuH = 22;
+  const leftX = 74, rightX = 258; // symmetric in 480
+  const pagesY = titleH + menuH + 22;
+  const statusH = 22;
+
+  const rows = [
+    { y:26, ws:[24,14,28,10,20,12] },
+    { y:40, ws:[30,16,10,32,14,18] },
+    { y:54, ws:[10,22,14,16,26,10,12] },
+    { y:68, ws:[26,12,28,22,16] },
+    { y:84, ws:[14,22,10,18,24,12] },
+    { y:98, ws:[34,12,22,28,10] },
+    { y:112,ws:[10,18,26,14,20,14] },
+    { y:126,ws:[22,10,20,30,12,16] },
+    { y:142,ws:[16,22,10,24,18,10] },
+    { y:156,ws:[24,14,22,16,26] },
+    { y:170,ws:[12,20,28,16,18,12] },
+    { y:184,ws:[28,14,22,18,24] },
+  ];
+  const lines = rows.map(r => {
+    let x = 10;
+    return { y:r.y, words: r.ws.map(w => { const rx=x; x+=w+4; return {x:rx,w}; }).filter(wd=>wd.x+wd.w<W-6) };
+  });
+  const noise = [[34,30],[86,43],[14,66],[132,56],[52,91],[120,107],[22,129],[93,145],[64,167],[135,177],[40,183]];
+  const guides = rows.map(r=>r.y);
+
+  const Page = ({ offsetX, processed }) => (
+    <g>
+      <rect x={offsetX+2} y={pagesY+2} width={W} height={H} rx="2" fill="rgba(0,0,0,.22)"/>
+      <svg x={offsetX} y={pagesY} width={W} height={H} overflow="hidden">
+        <rect x="0" y="0" width={W} height={H} fill="rgba(244,239,218,.93)"/>
+        <rect x="7" y="7" width={W-14} height={H-14} fill="none" stroke="rgba(180,170,140,.18)" strokeWidth=".5"/>
+        {processed && guides.map((y,i)=>(
+          <line key={`g${i}`} x1="4" y1={y-1} x2={W-4} y2={y-1}
+            stroke="rgba(72,135,215,.26)" strokeWidth=".7" strokeDasharray="4 4"/>
+        ))}
+        {processed && <line x1="10" y1="16" x2="10" y2={H-12} stroke="rgba(72,135,215,.18)" strokeWidth=".7" strokeDasharray="3 4"/>}
+        {lines.map((ln,li)=>ln.words.map((wd,wi)=>(
+          <rect key={`t${li}${wi}`} x={wd.x} y={ln.y-4} width={wd.w} height={3.8} rx="1" fill="rgba(32,22,12,.68)"/>
+        )))}
+        {!processed && noise.filter(([,cy])=>cy<H-3).map(([cx,cy],i)=>(
+          <circle key={`n${i}`} cx={cx} cy={cy} r="1.5" fill="rgba(55,44,28,.44)"/>
+        ))}
+        {processed && lines.slice(0,11).map((ln,li)=>ln.words.map((wd,wi)=>(
+          <rect key={`rb${li}${wi}`} x={wd.x-1.5} y={ln.y-6} width={wd.w+3} height={7.5}
+            rx="1" fill="none" stroke="rgba(215,50,50,.70)" strokeWidth=".85"/>
+        )))}
+        {processed && guides.slice(0,11).map((y,i)=>(
+          <line key={`rt${i}`} x1="2" y1={y-1} x2="8" y2={y-1} stroke="rgba(72,135,215,.64)" strokeWidth="1.1"/>
+        ))}
+        <text x={W-5} y={H-4} textAnchor="end" fill="rgba(38,28,16,.33)" fontSize="6.5" fontFamily="monospace">— {processed?'2':'1'} —</text>
+      </svg>
+    </g>
+  );
+
+  const arrowMidY = pagesY + H/2;
+
+  return (
+    <div className="ocr-wrap" style={{ margin:'8px 0 40px', borderRadius:18, padding:'20px 16px 16px', border:'1px solid rgba(167,139,250,.15)', background:'rgba(4,2,14,.5)' }}>
+      <div style={{ marginBottom:12 }}>
+        <span className="eyebrow" style={{ fontSize:11 }}><span className="dot"></span>SYSTEM OVERVIEW · Processing effect demo</span>
+      </div>
+      <div className="diagram-scroll">
+      <svg viewBox={`0 0 ${WinW} ${WinH}`} width="100%" style={{ display:'block', minWidth:340, maxWidth:680, margin:'0 auto' }}>
+        <defs>
+          <clipPath id="ocr-win-clip">
+            <rect x="0" y="0" width={WinW} height={WinH} rx="10"/>
+          </clipPath>
+        </defs>
+        <g clipPath="url(#ocr-win-clip)">
+          {/* Window background */}
+          <rect x="0" y="0" width={WinW} height={WinH} fill="rgba(24,12,48,.96)"/>
+          {/* Title bar */}
+          <rect x="0" y="0" width={WinW} height={titleH} fill="rgba(34,18,68,.98)"/>
+          <line x1="0" y1={titleH} x2={WinW} y2={titleH} stroke="rgba(167,139,250,.18)" strokeWidth="1"/>
+          {[18,34,50].map((cx,i)=>(
+            <circle key={i} cx={cx} cy={titleH/2} r="5"
+              fill={["rgba(238,76,76,.74)","rgba(238,176,56,.74)","rgba(56,196,86,.74)"][i]}/>
+          ))}
+          <text x={WinW/2} y={titleH/2+4.5} textAnchor="middle" fill="rgba(218,210,252,.86)" fontSize="11.5" fontFamily="monospace" letterSpacing=".5">Book Restore · Page Alignment</text>
+          {/* Menu bar */}
+          <rect x="0" y={titleH} width={WinW} height={menuH} fill="rgba(20,10,42,.95)"/>
+          <line x1="0" y1={titleH+menuH} x2={WinW} y2={titleH+menuH} stroke="rgba(167,139,250,.13)" strokeWidth="1"/>
+          {['File','Edit','Toolbar','View'].map((item,i)=>(
+            <text key={item} x={14+i*52} y={titleH+menuH-6} fill="rgba(196,184,228,.68)" fontSize="10.5" fontFamily="monospace">{item}</text>
+          ))}
+          <rect x={WinW-82} y={titleH+4} width={70} height={menuH-8} rx="3" fill="rgba(36,22,64,.8)" stroke="rgba(167,139,250,.22)" strokeWidth=".8"/>
+          <text x={WinW-47} y={titleH+menuH-6} textAnchor="middle" fill="rgba(196,184,228,.68)" fontSize="10" fontFamily="monospace">Zoom 100%</text>
+          {/* Content area */}
+          <rect x="0" y={titleH+menuH} width={WinW} height={WinH-titleH-menuH-statusH} fill="rgba(40,24,72,.4)"/>
+          {/* Page labels */}
+          <text x={leftX+W/2} y={titleH+menuH+16} textAnchor="middle" fill="rgba(200,188,232,.70)" fontSize="10" letterSpacing="1.5" fontFamily="monospace">Raw Scan</text>
+          <text x={rightX+W/2} y={titleH+menuH+16} textAnchor="middle" fill="rgba(200,188,232,.70)" fontSize="10" letterSpacing="1.5" fontFamily="monospace">After OCR</text>
+          <Page offsetX={leftX} processed={false}/>
+          {/* Arrow */}
+          <path d={`M ${leftX+W+4} ${arrowMidY} H ${rightX-4} M ${rightX-11} ${arrowMidY-7} L ${rightX-4} ${arrowMidY} L ${rightX-11} ${arrowMidY+7}`}
+            stroke="rgba(165,215,255,.36)" strokeWidth="1.5" fill="none"/>
+          <Page offsetX={rightX} processed={true}/>
+          {/* Legend */}
+          <g transform={`translate(${leftX},${pagesY+H+13})`}>
+            <rect x="0" y="-3" width="13" height="7" rx="1" fill="none" stroke="rgba(215,50,50,.74)" strokeWidth=".85"/>
+            <text x="17" y="2" fill="rgba(208,198,240,.74)" fontSize="9" letterSpacing=".8" fontFamily="monospace">OCR box</text>
+            <line x1="94" y1="0" x2="108" y2="0" stroke="rgba(72,135,215,.64)" strokeWidth=".9" strokeDasharray="4 3"/>
+            <text x="112" y="2" fill="rgba(208,198,240,.74)" fontSize="9" letterSpacing=".8" fontFamily="monospace">Guide</text>
+            <circle cx="192" cy="0" r="2" fill="rgba(55,44,28,.48)"/>
+            <text x="198" y="2" fill="rgba(208,198,240,.74)" fontSize="9" letterSpacing=".8" fontFamily="monospace">Noise</text>
+          </g>
+          {/* Status bar */}
+          <rect x="0" y={WinH-statusH} width={WinW} height={statusH} fill="rgba(16,6,36,.96)"/>
+          <line x1="0" y1={WinH-statusH} x2={WinW} y2={WinH-statusH} stroke="rgba(167,139,250,.12)" strokeWidth="1"/>
+          <text x="12" y={WinH-7} fill="rgba(160,182,216,.50)" fontSize="9" fontFamily="monospace">Page 1 / 45　　Noise detection: done　　Alignment: normal　　OCR accuracy: 98.4%</text>
+        </g>
+        {/* Window border */}
+        <rect x="0" y="0" width={WinW} height={WinH} rx="10" fill="none" stroke="rgba(167,139,250,.22)" strokeWidth="1"/>
+      </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   P2 — Vintage Book Reconstruction System
+   ════════════════════════════════ */
+function P2BookRestore(){
+  const features = [
+    { t:"Auto Noise Detection",      d:"Automatically marks and removes scan noise, reducing manual retouching burden",                                       mine:false },
+    { t:"Page Alignment Correction", d:"Auto-detects and corrects scanning-induced skew and offset",                                                           mine:false },
+    { t:"Visual Review Interface",   d:"Side-by-side original vs. processed view for staff to verify results",                                                 mine:false },
+    { t:"Ruler & Guide Alignment",   d:"Pull custom guide lines from the ruler area, move freely, manage via right-click context menu — similar to Photoshop guides", mine:true },
+    { t:"Page Overlay Comparison",   d:"Full-book overlay view to compare text alignment and corners across all pages at once, with per-page adjustments in the overlay", mine:true },
+    { t:"OCR + Classification Model",d:"Two models distinguish noise from valid text/punctuation; I participated in requirement discussions and test validation", mine:false },
+  ];
+  const notes = [
+    { n:"01", t:"Deep Architecture", d:"The widget layer had deep nesting (many parent–child components). I had to understand the full system architecture before correctly wiring in my modules — took significant time to trace through." },
+    { n:"02", t:"Text vs. Punctuation Classifier", d:"Two models distinguish noise from valid characters and punctuation. I joined requirement sessions and handled test validation; a colleague trained the models." },
+    { n:"03", t:"Ruler + Guide UX Design", d:"Designed as a Photoshop-style guide system: drag guides out from the ruler, move them freely, manage via right-click context menu." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={2}
+        en="Book Restore"
+        zh="Vintage Book Reconstruction System"
+        summary="Design staff had to manually remove noise and correct page skew from scanned vintage books — slow and error-prone. This Python + PyQt app automates noise removal and alignment, then shows results in a visual interface for confirmation. I led two feature modules: ruler alignment and page comparison."
+        tags={["Python", "PyQt", "OCR", "Image Processing", "Classification Model"]}
+        role="contrib"
+      />
+      <ConfidentialNote/>
+      <OcrMockup/>
+      <div className="feature-grid">
+        {features.map(f => (
+          <div key={f.t} className={"feature-card" + (f.mine ? " feature-mine" : "")}>
+            {f.mine && <div className="feature-my-badge">My Module</div>}
+            <div className="feature-t">{f.t}</div>
+            <div className="feature-d">{f.d}</div>
+          </div>
+        ))}
+      </div>
+      <NotesGrid notes={notes}/>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   P3 — T100 ERP + ESB
+   ════════════════════════════════ */
+function P3ErpEsb(){
+  const notes = [
+    { n:"01", t:"Taking Over Mid-Integration", d:"Due to team handoff issues, I absorbed part of the ESB integration work originally owned by a colleague. Had to rapidly understand their design before continuing the remaining connections." },
+    { n:"02", t:"Coordination Was the Real Challenge", d:"Long hours including weekends throughout this project. The technical complexity was manageable — the harder part was cross-team coordination and handoff communication." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={3}
+        en="ERP Integration"
+        zh="T100 ERP Migration & ESB Integration"
+        summary="Company-wide migration to T100 ERP. I handled ESB service integration for one internal subsystem — decomposing existing functional modules and wiring them through the ESB to ensure correct data flow into T100. The overall ESB service design was owned by a colleague."
+        tags={["C#", "ASP.NET Core", "ESB", "T100 ERP"]}
+        role="contrib"
+      />
+      <ConfidentialNote/>
+      <div className="arch">
+        <div className="arch-side arch-before arch-before-blue">
+          <div className="arch-label">Existing Subsystem</div>
+          <div className="arch-monolith">
+            <div className="arch-mono-head">Legacy Functional Modules</div>
+            <div className="arch-mono-stack">
+              <div>Module A</div>
+              <div>Module B</div>
+              <div>Data flow (legacy format)</div>
+            </div>
+            <div className="arch-mono-tag">I owned the ESB integration side</div>
+          </div>
+        </div>
+        <div className="arch-arrow" aria-hidden="true">
+          <svg viewBox="0 0 60 16" width="56" height="16">
+            <path d="M0 8 H52 M46 2 L52 8 L46 14" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div className="arch-side">
+          <div className="arch-label">Target Architecture</div>
+          <div className="arch-two">
+            <div className="arch-box" data-k="a">
+              <div className="arch-box-head">ESB Service Layer</div>
+              <div className="arch-box-sub">Message Broker</div>
+              <ul><li>Format conversion</li><li>Routing</li><li>Error handling</li></ul>
+            </div>
+            <div className="arch-box" data-k="b">
+              <div className="arch-box-head">T100 ERP</div>
+              <div className="arch-box-sub">Target System</div>
+              <ul><li>Data ingestion</li><li>Business process integration</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <NotesGrid notes={notes} cols2={true}/>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   P4 — Financial Data Reconciliation & Report Module
+   ════════════════════════════════ */
+function P4FinanceReport(){
+  const workTypes = [
+    { type:"Banking",   note:"Multiple daily reports and statements; each client had unique field rules and calculation logic" },
+    { type:"Insurance", note:"Primarily monthly reports; some clients required simultaneous handling of multiple report formats" },
+  ];
+  const outcome = [
+    { label:"Clients Served", value:"5+",       mono:true,  sub:"Banking + Insurance" },
+    { label:"Most Formats",   value:"7 types",  mono:true,  sub:"Excel formats for one client" },
+    { label:"Report Types",   value:"3 types",  mono:true,  sub:"Daily / Statement / Monthly" },
+    { label:"Maintenance",    value:"Ongoing",  mono:false, sub:"Post-launch rule changes handled" },
+  ];
+  const notes = [
+    { n:"01", t:"Multi-Format Cross-Sheet Reconciliation", d:"One client had up to 7 different Excel formats simultaneously, requiring cross-sheet field matching via a mapping table — the most structurally complex case in this batch." },
+    { n:"02", t:"Rules Change with Client Habits", d:"Some clients updated reconciliation rules ~10 months post-launch due to internal workflow changes. I handled re-adjusting the matching logic and output format." },
+    { n:"03", t:"Flexibility Is the Core Requirement", d:"The biggest challenge here: reconciliation rules are never final. The design had to stay flexible enough that future changes wouldn't require restructuring the whole codebase." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={4}
+        en="Finance Reports"
+        zh="Financial Data Reconciliation & Report Module"
+        summary="Built data reconciliation and report integration modules for multiple banking and insurance clients. Each client had different data formats; I wrote field-matching and calculation logic based on their Excel templates, producing daily reports, statements, and monthly multi-sheet Excel exports."
+        tags={["C#", "ASP.NET Core", "SQL Server", "Excel Processing", "Multi-Format Reconciliation"]}
+        role="contrib"
+      />
+      <ConfidentialNote/>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:14, margin:'8px 0 32px' }}>
+        {workTypes.map(w => (
+          <div key={w.type} className="note-card" style={{ margin:0 }}>
+            <div className="client-type" style={{ marginBottom:6 }}>Client Type</div>
+            <div className="note-t" style={{ fontSize:16 }}>{w.type}</div>
+            <div className="note-d" style={{ marginTop:5 }}>{w.note}</div>
+          </div>
+        ))}
+      </div>
+      <OutcomeStrip cells={outcome}/>
+      <NotesGrid notes={notes}/>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   P5 — System Refactor + Version Control
+   ════════════════════════════════ */
+function P5Refactor(){
+  const notes = [
+    { n:"01", t:".NET 3 → .NET 6 Upgrade", d:"Contributed to the full system refactor. Framework upgrade from .NET 3 to .NET 6; also redesigned the logging pipeline to make error tracing more structured and efficient." },
+    { n:"02", t:"Led Git Flow Adoption", d:"The team was committing directly to shared dev/test branches, causing frequent overwrites. After introducing Git Flow with feature/hotfix branches, collaboration conflicts dropped significantly." },
+    { n:"03", t:"Process Change Is Harder Than Code Change", d:"The hardest part of introducing Git Flow wasn't the branch setup — it was getting everyone to build a new habit. First time I learned how difficult soft-pushing a process change can be." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={5}
+        en="Refactor"
+        zh="System Refactor & Version Control"
+        summary="Participated in a system architecture refactor and framework upgrade (.NET 3 → .NET 6), redesigned the logging flow. Also led adoption of Git Flow within the team, resolving conflicts caused by everyone committing directly to shared branches."
+        tags={["C#", "ASP.NET Core", ".NET 6 Upgrade", "Git Flow", "Logging Design"]}
+        role="lead"
+      />
+      <ConfidentialNote/>
+      <div className="arch">
+        <div className="arch-side arch-before arch-before-blue">
+          <div className="arch-label">BEFORE</div>
+          <div className="arch-monolith">
+            <div className="arch-mono-head">Old Environment</div>
+            <div className="arch-mono-stack">
+              <div>.NET 3 framework</div>
+              <div>No branch rules</div>
+              <div>Chaotic logging</div>
+            </div>
+            <div className="arch-mono-tag">Everyone committing to shared branches</div>
+          </div>
+        </div>
+        <div className="arch-arrow" aria-hidden="true">
+          <svg viewBox="0 0 60 16" width="56" height="16">
+            <path d="M0 8 H52 M46 2 L52 8 L46 14" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div className="arch-side">
+          <div className="arch-label">AFTER</div>
+          <div className="arch-three">
+            <div className="arch-box" data-k="a">
+              <div className="arch-box-head">.NET 6</div>
+              <div className="arch-box-sub">Framework Upgrade</div>
+              <ul><li>Architecture refactor</li><li>Dependency cleanup</li></ul>
+            </div>
+            <div className="arch-box" data-k="b">
+              <div className="arch-box-head">Git Flow</div>
+              <div className="arch-box-sub">Branch Convention</div>
+              <ul><li>Feature branches</li><li>Hotfix workflow</li></ul>
+            </div>
+            <div className="arch-box" data-k="c">
+              <div className="arch-box-head">Structured Logging</div>
+              <div className="arch-box-sub">Error Tracking</div>
+              <ul><li>Layered recording</li><li>Fast root cause</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <NotesGrid notes={notes}/>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   P6 — Docker Deployment Setup
+   ════════════════════════════════ */
+const DOCKER_CHEAT = `<span class="sh-cm"># ── Build & Run ────────────────────────────────────────</span>
+<span class="sh-cm"># Build image</span>
+<span class="sh-cmd">docker build</span> <span class="sh-flag">-t</span> image-name .
+
+<span class="sh-cm"># Start container (-d background, -p port mapping)</span>
+<span class="sh-cmd">docker run</span> <span class="sh-flag">-d -p</span> HOST_PORT:CONTAINER_PORT image-name
+<span class="sh-cmd">docker run</span> <span class="sh-flag">-p</span> 8080:80 your_img
+
+<span class="sh-cm"># ── Inspect ─────────────────────────────────────────────</span>
+<span class="sh-cm"># List running containers</span>
+<span class="sh-cmd">docker ps</span>
+
+<span class="sh-cm"># Get container IP</span>
+<span class="sh-cmd">docker inspect</span> <span class="sh-flag">-f</span> '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' containerID
+
+<span class="sh-cm"># ── Debug ───────────────────────────────────────────────</span>
+<span class="sh-cm"># Open shell inside container</span>
+<span class="sh-cmd">docker exec</span> <span class="sh-flag">-it</span> containerID sh
+
+<span class="sh-cm"># List files inside container</span>
+<span class="sh-cmd">docker exec</span> containerID ls /app
+
+<span class="sh-cm"># ── Common container environment setup ──────────────────</span>
+<span class="sh-cm"># Install curl (not included in base image by default)</span>
+<span class="sh-cmd">apt-get</span> <span class="sh-flag">-y update</span> &amp;&amp; <span class="sh-cmd">apt-get</span> <span class="sh-flag">-y install</span> curl
+
+<span class="sh-cm"># Test API inside container (requires IP from inspect)</span>
+<span class="sh-cmd">curl</span> <span class="sh-flag">-X POST</span> http://172.17.0.2/WeatherForecast/api/test
+
+<span class="sh-cm"># ── Font issue (when Linux cannot find fonts) ────────────</span>
+<span class="sh-cmd">apt-get</span> install <span class="sh-flag">-y</span> fontconfig
+<span class="sh-cmd">fc-cache</span> <span class="sh-flag">-vf</span>`;
+
+function P6Docker(){
+  const steps = [
+    { n:"01", k:"eval",     en:"Evaluate",   zh:"Requirements", note:"Assess containerization feasibility for system revision" },
+    { n:"02", k:"research", en:"Research",   zh:"Self-Study",   note:"No internal resources · learned Docker from scratch" },
+    { n:"03", k:"write",    en:"Dockerfile", zh:"Write Config",  note:"Set up local Docker test environment" },
+    { n:"04", k:"validate", en:"Validate",   zh:"Verify",       note:"Confirm revised system works inside container" },
+    { n:"05", k:"share",    en:"Share",      zh:"Knowledge",    note:"Help teammates resolve environment connection issues" },
+  ];
+  const notes = [
+    { n:"01", t:"Starting from Zero", d:"Nobody on the team had Docker experience, and there were no internal docs or mentors. I relied entirely on official docs and community resources, learning by trial and error." },
+    { n:"02", t:"Debugging Notes Became Team Assets", d:"Compiled my debugging notes into a reference doc for teammates, helping them resolve similar environment connection issues. One of the few times I became the team's go-to resource on a topic." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={6}
+        en="Docker"
+        zh="Deployment Environment Setup & Testing"
+        summary="During a major system revision, the team evaluated Docker for deployment testing, but nobody had Docker experience. With no internal resources or mentors, I self-studied, wrote the Dockerfile, set up a local Docker test environment, and verified the revised system ran correctly inside a container."
+        tags={["Docker", "Dockerfile", "Deployment", "Containerization"]}
+        role="solo"
+      />
+      <ConfidentialNote/>
+      <Pipeline steps={steps}/>
+      <div style={{ marginTop:4 }}>
+        <div style={{ marginBottom:14 }}>
+          <span className="eyebrow"><span className="dot"></span>CHEATSHEET · Command reference compiled at the time</span>
+        </div>
+        <div className="sh-block">
+          <div className="sh-head">
+            <span>docker-notes.sh</span>
+            <span className="sh-lang">shell</span>
+          </div>
+          <pre className="sh-body" dangerouslySetInnerHTML={{ __html: DOCKER_CHEAT }}/>
+        </div>
+      </div>
+      <NotesGrid notes={notes} cols2={true}/>
+    </section>
+  );
+}
+
+/* ── Group Divider ── */
+function GroupDivider({ label }){
+  return (
+    <div style={{ display:'flex', alignItems:'center', gap:20, margin:'16px 0 56px', padding:'0 4px' }}>
+      <div style={{ flex:1, height:1, background:'linear-gradient(to right,transparent,rgba(167,139,250,.26))' }}/>
+      <span style={{ fontFamily:'var(--mono)', fontSize:10, letterSpacing:'.2em', color:'rgba(196,181,253,.50)', textTransform:'uppercase', whiteSpace:'nowrap' }}>{label}</span>
+      <div style={{ flex:1, height:1, background:'linear-gradient(to left,transparent,rgba(167,139,250,.26))' }}/>
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   P7 — Frontend Development & Performance
+   ════════════════════════════════ */
+function P7Frontend(){
+  const outcome = [
+    { label:"Lag Time",    value:"20 sec → instant", mono:false, color:"var(--magic)", sub:"Time to add 1000+ records" },
+    { label:"Root Cause",  value:"DOM Render",        mono:false,                       sub:"Too many nodes built at once" },
+    { label:"Solution",    value:"On-Demand",         mono:false,                       sub:"Build on focus · split loading" },
+    { label:"Side Fix",    value:"Tooltip",           mono:true,                        sub:"Fixed once render timing was corrected" },
+  ];
+  const notes = [
+    { n:"01", t:"First Time Writing Frontend JS", d:"Background was C# backend. This was my first time touching JavaScript. Learned on the job using docs and referencing teammates' code to understand frontend patterns in an MVC split." },
+    { n:"02", t:"DOM Render Timing Was the Key", d:"Adding 1000+ records triggered immediate DOM construction for every node, causing 20+ second freezes. Switching to 'render only on focus' resolved it, and scroll lag disappeared." },
+    { n:"03", t:"Tooltip Was a Side Effect", d:"Tooltip display issues traced back to the same root cause — nodes hadn't been built yet when Tooltip tried to position itself. Fixing render timing fixed it too." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={7}
+        en="Frontend Dev"
+        zh="Frontend Development & Performance"
+        summary="My first time writing frontend JavaScript, taking over frontend tasks in an ASP.NET MVC system. Hit a 20+ second freeze when adding 1000+ records, traced it to a DOM rendering explosion, rewrote the approach, and resolved the freeze and broken Tooltip display together."
+        tags={["JavaScript", "ASP.NET MVC", "DOM Performance", "Frontend"]}
+        role="contrib"
+      />
+      <ConfidentialNote/>
+      <div className="arch">
+        <div className="arch-side arch-before arch-before-blue">
+          <div className="arch-label">BEFORE</div>
+          <div className="arch-monolith">
+            <div className="arch-mono-head">Original Render Strategy</div>
+            <div className="arch-mono-stack">
+              <div>Load 1000+ records at once</div>
+              <div>Build all DOM nodes immediately</div>
+              <div>20+ second initial freeze</div>
+            </div>
+            <div className="arch-mono-tag">Scroll lag · Tooltip broken</div>
+          </div>
+        </div>
+        <div className="arch-arrow" aria-hidden="true">
+          <svg viewBox="0 0 60 16" width="56" height="16">
+            <path d="M0 8 H52 M46 2 L52 8 L46 14" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div className="arch-side">
+          <div className="arch-label">AFTER</div>
+          <div className="arch-two">
+            <div className="arch-box" data-k="a">
+              <div className="arch-box-head">Split Loading</div>
+              <div className="arch-box-sub">Load Strategy</div>
+              <ul><li>Process in batches</li><li>Don't build all at once</li></ul>
+            </div>
+            <div className="arch-box" data-k="b">
+              <div className="arch-box-head">On-Demand Render</div>
+              <div className="arch-box-sub">DOM creation timing</div>
+              <ul><li>Build DOM only on focus</li><li>Tooltip works correctly</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <OutcomeStrip cells={outcome}/>
+      <NotesGrid notes={notes}/>
+    </section>
+  );
+}
+
+/* ── Login flow diagram (sanitized) ── */
+function LoginFlowDiagram(){
+  const S = {
+    ink: "rgba(218,208,252,.84)",
+    dim: "rgba(165,150,208,.55)",
+    border: "rgba(167,139,250,.32)",
+    pink: "rgba(240,165,205,.40)",
+    blue: "rgba(165,215,255,.38)",
+    gold: "rgba(212,168,78,.40)",
+  };
+  return (
+    <div style={{margin:'8px 0 36px',background:'rgba(4,2,14,.5)',border:'1px solid rgba(167,139,250,.15)',borderRadius:14,padding:'20px 16px 16px',overflow:'hidden'}}>
+      <div style={{marginBottom:12}}>
+        <span className="eyebrow" style={{fontSize:11}}><span className="dot"></span>LOGIN FLOW · Account routing (sanitized)</span>
+      </div>
+      <div className="diagram-scroll">
+        <svg viewBox="0 0 600 212" width="100%" style={{display:'block',maxWidth:720,margin:'0 auto'}} aria-hidden="true">
+          <defs>
+            <marker id="lf-ah" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+              <polygon points="0 0 7 3 0 6" fill="rgba(167,139,250,.42)"/>
+            </marker>
+          </defs>
+
+          {/* Entry */}
+          <circle cx="36" cy="105" r="22" fill="rgba(28,14,60,.95)" stroke={S.pink} strokeWidth="1.1"/>
+          <text x="36" y="109" textAnchor="middle" fill={S.ink} fontSize="11" fontFamily="monospace">Login</text>
+
+          {/* → diamond */}
+          <path d="M 58,105 H 88" stroke={S.border} strokeWidth="1.1" fill="none" markerEnd="url(#lf-ah)"/>
+
+          {/* Decision diamond */}
+          <polygon points="114,87 138,105 114,123 90,105" fill="rgba(22,10,56,.96)" stroke={S.border} strokeWidth="1"/>
+          <text x="114" y="102" textAnchor="middle" fill={S.ink} fontSize="10" fontFamily="monospace">Account</text>
+          <text x="114" y="114" textAnchor="middle" fill={S.ink} fontSize="10" fontFamily="monospace">Type</text>
+
+          {/* Three arrows from diamond */}
+          <path d="M 114,87 V 50 H 158" stroke={S.border} strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <text x="132" y="44" textAnchor="middle" fill={S.dim} fontSize="8.5" fontFamily="monospace">BC/RC only</text>
+          <path d="M 138,105 H 158" stroke={S.border} strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <text x="149" y="100" textAnchor="middle" fill={S.dim} fontSize="8" fontFamily="monospace">BC+AD</text>
+          <path d="M 114,123 V 160 H 158" stroke={S.border} strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <text x="132" y="174" textAnchor="middle" fill={S.dim} fontSize="8.5" fontFamily="monospace">AD only</text>
+
+          {/* Account type boxes */}
+          <rect x="158" y="37" width="106" height="26" rx="5" fill="rgba(48,14,36,.90)" stroke={S.pink} strokeWidth=".9"/>
+          <text x="211" y="54" textAnchor="middle" fill={S.ink} fontSize="10.5" fontFamily="monospace">BC / RC Account</text>
+
+          <rect x="158" y="92" width="106" height="26" rx="5" fill="rgba(28,14,56,.90)" stroke={S.border} strokeWidth=".9"/>
+          <text x="211" y="103" textAnchor="middle" fill={S.ink} fontSize="10.5" fontFamily="monospace">BC + AD Account</text>
+          <text x="211" y="114" textAnchor="middle" fill={S.dim} fontSize="9" fontFamily="monospace">(choose one)</text>
+
+          <rect x="158" y="147" width="106" height="26" rx="5" fill="rgba(14,22,52,.90)" stroke={S.blue} strokeWidth=".9"/>
+          <text x="211" y="164" textAnchor="middle" fill={S.ink} fontSize="10.5" fontFamily="monospace">AD Account only</text>
+
+          {/* 2选1 merge arrows */}
+          <path d="M 264,98 H 274 V 50 H 286" stroke="rgba(167,139,250,.24)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <path d="M 264,112 H 274 V 160 H 286" stroke="rgba(167,139,250,.24)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <path d="M 264,50 H 286" stroke="rgba(240,165,205,.28)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <path d="M 264,160 H 286" stroke="rgba(165,215,255,.28)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+
+          {/* Process boxes */}
+          <rect x="286" y="37" width="106" height="26" rx="5" fill="rgba(48,14,36,.90)" stroke={S.pink} strokeWidth=".9"/>
+          <text x="339" y="54" textAnchor="middle" fill={S.ink} fontSize="10.5" fontFamily="monospace">BC/RC Login</text>
+
+          <rect x="286" y="147" width="106" height="26" rx="5" fill="rgba(14,22,52,.90)" stroke={S.blue} strokeWidth=".9"/>
+          <text x="339" y="158" textAnchor="middle" fill={S.ink} fontSize="10.5" fontFamily="monospace">AD Auth</text>
+          <text x="339" y="169" textAnchor="middle" fill="rgba(165,200,240,.65)" fontSize="9.5" fontFamily="monospace">+ Set Cookie</text>
+
+          {/* BC/RC outcome */}
+          <path d="M 392,50 H 418" stroke="rgba(240,165,205,.28)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <text x="422" y="47" fill="rgba(210,200,245,.70)" fontSize="10" fontFamily="monospace">Respective systems</text>
+
+          {/* AD → outcome diamond */}
+          <path d="M 392,160 H 424" stroke="rgba(165,215,255,.28)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <polygon points="444,146 460,160 444,174 428,160" fill="rgba(22,10,56,.96)" stroke={S.gold} strokeWidth=".9"/>
+          <text x="444" y="157" textAnchor="middle" fill={S.ink} fontSize="9" fontFamily="monospace">Subscr-</text>
+          <text x="444" y="167" textAnchor="middle" fill={S.ink} fontSize="9" fontFamily="monospace">ibed?</text>
+
+          {/* Outcomes */}
+          <path d="M 444,146 V 108 H 464" stroke="rgba(212,168,78,.28)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <rect x="464" y="95" width="124" height="26" rx="5" fill="rgba(40,30,10,.90)" stroke={S.gold} strokeWidth=".9"/>
+          <text x="526" y="106" textAnchor="middle" fill={S.ink} fontSize="10.5" fontFamily="monospace">Active</text>
+          <text x="526" y="117" textAnchor="middle" fill="rgba(212,168,78,.72)" fontSize="9.5" fontFamily="monospace">→ Dashboard</text>
+
+          <path d="M 444,174 V 192 H 464" stroke="rgba(167,139,250,.26)" strokeWidth="1" fill="none" markerEnd="url(#lf-ah)"/>
+          <rect x="464" y="179" width="124" height="26" rx="5" fill="rgba(22,10,56,.90)" stroke={S.border} strokeWidth=".9"/>
+          <text x="526" y="190" textAnchor="middle" fill={S.ink} fontSize="10.5" fontFamily="monospace">New user</text>
+          <text x="526" y="201" textAnchor="middle" fill={S.dim} fontSize="9.5" fontFamily="monospace">→ Onboarding</text>
+
+          <text x="8" y="210" fill="rgba(130,115,170,.38)" fontSize="8" fontFamily="monospace">* Internal identifiers removed · routing logic only</text>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   P8 — Login Authentication Integration
+   ════════════════════════════════ */
+function P8AuthLogin(){
+  const steps = [
+    { n:"01", k:"upload",  en:"Credential",    zh:"Receive Creds",  note:"Legacy BC/RC or AD account · route by type" },
+    { n:"02", k:"decide",  en:"Account Type",  zh:"Classify",       note:"Route to matching auth flow" },
+    { n:"03", k:"calc",    en:"Validate",      zh:"Validate+Fetch",  note:"Immediately fetch user data on success" },
+    { n:"04", k:"compose", en:"Set Cookie",    zh:"Write Cookie",   note:"Pass user data to frontend · replacing Session" },
+    { n:"05", k:"ftp",     en:"Redirect",      zh:"Redirect",       note:"Preserve returnUrl · redirect back after login" },
+  ];
+  const notes = [
+    { n:"01", t:"The Session Refresh Bug", d:"Initially tried using Session for login state. Hit a bug where you had to log in twice for it to take effect — Session wasn't refreshed on the first request, so state wasn't readable immediately." },
+    { n:"02", t:"Switched to Cookie Injection", d:"On successful auth, immediately fetch user data and write to Cookie for the frontend. Eliminated the refresh issue and made data sync clearer. Also implemented password change, forgot password, and support-issued temp password." },
+    { n:"03", t:"Redirect URL Preservation", d:"The 'not logged in → redirect to login → return to original page' flow: pass returnUrl as a query param, redirect after successful login. Co-designed the UX for various entry paths with the frontend." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={8}
+        en="Login · Auth"
+        zh="Login Authentication Integration"
+        summary="Integrated authentication for multiple account types (legacy BC/RC and AD accounts). Handled Cookie vs. Session decisions (Session had a refresh bug), implemented password reset / forgot password / support temp password, and collaborated with frontend on the redirect URL preservation flow."
+        tags={["C#", "ASP.NET Core", "JWT", "Cookie Auth", "Multi-Account Integration"]}
+        role="lead"
+      />
+      <ConfidentialNote/>
+      <LoginFlowDiagram/>
+      <Pipeline steps={steps}/>
+      <NotesGrid notes={notes}/>
+    </section>
+  );
+}
+
+/* ════════════════════════════════
+   P9 — Various Feature Development
+   ════════════════════════════════ */
+function P9Features(){
+  const features = [
+    { t:"AWS S3 Image Upload",   d:"Integrated AWS SDK for S3 image upload, including extension validation and returning the URL to the frontend" },
+    { t:"Stored Procedure",      d:"Switched from Entity Framework to Dapper + SP, wrote business logic SPs, and established a team convention of leaving change notes on every SP modification" },
+    { t:"Coupon System",         d:"Designed coupon usage spec and data schema, documented with example JSON for future maintenance reference" },
+    { t:"Email System",          d:"Email sending + template variable substitution, applying the right template per scenario (registration, notifications, password reset, etc.)" },
+    { t:"i18n Localization",     d:"Integrated i18n library, centralizing all zh/en string resources for the system" },
+    { t:"Team Reference Materials", d:"Compiled 3 demo projects on MVC frontend/backend split, a JWT usage guide, and supplementary diagrams for teammates" },
+  ];
+  const notes = [
+    { n:"01", t:"EF to Dapper/SP", d:"Previous company used Dapper + Stored Procedure instead of Entity Framework — had to re-adapt to writing raw SQL logic. Also established the team habit of leaving change notes on every SP edit for maintenance traceability." },
+    { n:"02", t:"Coupon Spec Doc", d:"Beyond the implementation, I documented the coupon spec with example JSON — became the team's reference cheat sheet. Started here the habit of delivering spec docs alongside code." },
+    { n:"03", t:"Building Team Knowledge", d:"A colleague worked mainly in JS and wasn't familiar with MVC's frontend/backend split. I prepared 3 demo projects for comparison and a JWT flow diagram. Got into the habit of producing reference materials alongside development to lower the onboarding and maintenance bar." },
+  ];
+  return (
+    <section className="project">
+      <SectionHeader index={9}
+        en="Feature Bundle"
+        zh="Various Feature Development"
+        summary="Various standalone features at my previous company: AWS S3 image upload, Stored Procedure usage with Dapper, Coupon system schema design, email templating, i18n integration, plus reference materials on MVC frontend/backend split and JWT for teammates."
+        tags={["AWS S3", "Dapper", "Stored Procedure", "i18n", "Email Templates"]}
+        role="contrib"
+      />
+      <ConfidentialNote/>
+      <div className="feature-grid">
+        {features.map(f => (
+          <div key={f.t} className="feature-card">
+            <div className="feature-t">{f.t}</div>
+            <div className="feature-d">{f.d}</div>
+          </div>
+        ))}
+      </div>
+      <CouponSchema/>
+      <NotesGrid notes={notes}/>
+    </section>
+  );
+}
+
+/* ── Coupon schema code block ── */
+function CouponSchema(){
+  const code = [
+    ['cm','# ── Three CouponTypes (discount methods) ──────────────────'],
+    ['kw','M'],['','  ─ Free Period'],
+    ['code','{"discount":{"type":"FREE_PERIOD","count":1,"unit":"MONTH"}}'],
+    [''],
+    ['kw','$(A)'],['','  ─ Fixed Amount Discount'],
+    ['code','{"discount":{"type":"AMOUNT","amount":100}}'],
+    [''],
+    ['kw','%(P)'],['','  ─ Percentage Discount (most common)'],
+    ['code','{\n  "discount":{\n    "type":"PERCENT", "percent":10,\n    "maxDiscount":200, "recurringMonths":2,\n    "rounding":{"scale":2}\n  }\n}'],
+    [''],
+    ['cm','# ── constraints (usage conditions) ────────────────────────'],
+    ['code','"constraints":{\n  "billingCycle":  ["Monthly"],\n  "productStatus": ["Active"],\n  "minSubtotal":   100,'],
+    ['code','  "planIds":      [10007]  '],['cm','← maps to Bundle plan ID'],
+    ['code','}'],
+  ];
+  return (
+    <div className="sh-block" style={{margin:'12px 0 36px'}}>
+      <div className="sh-head">
+        <span>COUPON SCHEMA</span>
+        <span style={{marginLeft:'auto', color:'rgba(165,215,255,.72)'}}>JSON</span>
+      </div>
+      <div className="sh-body">
+        {code.map((row,i) => {
+          if(!row[0] && !row[1]) return <br key={i}/>;
+          const [type, text] = row;
+          if(type==='cm')   return <span key={i} className="sh-cm">{text}{'\n'}</span>;
+          if(type==='kw')   return <span key={i} className="sh-cmd">{text}</span>;
+          if(type==='code') return <span key={i} style={{color:'rgba(196,186,228,.80)'}}>{text}{'\n'}</span>;
+          return <span key={i} style={{color:'rgba(160,150,200,.58)'}}>{text}</span>;
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── Hero ── */
+function Hero(){
+  return (
+    <header className="hero" id="top">
+      <div className="hero-mark">
+        <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 L14 9 L21 12 L14 15 L12 22 L10 15 L3 12 L10 9 Z" fill="url(#hg)"/>
+          <defs>
+            <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="rgba(165,215,255,0.9)"/>
+              <stop offset="100%" stopColor="rgba(240,165,205,0.9)"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div className="hero-eyebrow">
+        <span className="eyebrow"><span className="dot"></span>CAREER · Work Experience</span>
+        <span className="hero-crumbs">
+          <a href="index.html">portfolio</a>
+          <span className="sep">/</span>
+          <a href="works_v3.html">works</a>
+          <span className="sep">/</span>
+          <span className="here">career</span>
+        </span>
+      </div>
+      <h1 className="h-display">
+        Systems I shipped <em>·</em><br/>
+        <span className="hero-zh">Past Work Experience</span>
+      </h1>
+      <p className="hero-lead">
+        Nine systems built in professional settings, from two jobs.<br/>
+        No public repos — so I'm leading with <span className="emp">process, role, and technical decisions</span>.
+      </p>
+      <div className="hero-meta">
+        <div className="hero-meta-cell">
+          <div className="meta-label">Stack</div>
+          <div className="meta-val">C# · JS · ASP.NET · SQL</div>
+        </div>
+        <div className="hero-meta-cell">
+          <div className="meta-label">System Types</div>
+          <div className="meta-val">Backend · Frontend · Tools · Integration</div>
+        </div>
+        <div className="hero-meta-cell">
+          <div className="meta-label">Projects</div>
+          <div className="meta-val">9 cases</div>
+        </div>
+        <div className="hero-meta-cell">
+          <div className="meta-label">Note</div>
+          <div className="meta-val">Company projects · No public repo</div>
+        </div>
+      </div>
+      <nav className="hero-nav">
+        <a href="#p1"><span className="num">01</span><span>Cover Self-Service Editor</span></a>
+        <a href="#p2"><span className="num">02</span><span>Book Restoration System</span></a>
+        <a href="#p3"><span className="num">03</span><span>T100 ERP + ESB Integration</span></a>
+        <a href="#p4"><span className="num">04</span><span>Finance Reconciliation Reports</span></a>
+        <a href="#p5"><span className="num">05</span><span>System Refactor + Git Flow</span></a>
+        <a href="#p6"><span className="num">06</span><span>Docker Deployment Setup</span></a>
+        <a href="#p7"><span className="num">07</span><span>Frontend Dev & Performance</span></a>
+        <a href="#p8"><span className="num">08</span><span>Login Auth Integration</span></a>
+        <a href="#p9"><span className="num">09</span><span>Feature Bundle</span></a>
+      </nav>
+    </header>
+  );
+}
+
+/* ── Footer ── */
+function Foot(){
+  return (
+    <footer className="foot">
+      <div className="foot-mark">✦</div>
+      <div className="foot-text"><em>End of career · </em>Thanks for reading through these cases.</div>
+      <div className="foot-nav">
+        <a href="#top">↑ back to top</a>
+        <span>·</span>
+        <a href="works_v3.html">← all works</a>
+      </div>
+    </footer>
+  );
+}
+
+/* ── App ── */
+function App(){
+  return (
+    <main className="page">
+      <Hero/>
+      <div className="divider" id="p1"></div>
+      <P1CoverEditor/>
+      <div className="divider" id="p2"></div>
+      <P2BookRestore/>
+      <div className="divider" id="p3"></div>
+      <P3ErpEsb/>
+      <div className="divider" id="p4"></div>
+      <P4FinanceReport/>
+      <div className="divider" id="p5"></div>
+      <P5Refactor/>
+      <div className="divider" id="p6"></div>
+      <P6Docker/>
+      <GroupDivider label="Previous Job ── Cases from Another Company"/>
+      <div className="divider" id="p7"></div>
+      <P7Frontend/>
+      <div className="divider" id="p8"></div>
+      <P8AuthLogin/>
+      <div className="divider" id="p9"></div>
+      <P9Features/>
+      <Foot/>
+    </main>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+<!-- ── Cursor + Stars ── -->
+<script>
+(function(){
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    dot.style.left  = e.clientX + 'px';
+    dot.style.top   = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top  = e.clientY + 'px';
+  });
+  document.addEventListener('mouseover', e => {
+    if(e.target.closest('a,button')) document.body.classList.add('hov');
+  });
+  document.addEventListener('mouseout', e => {
+    if(e.target.closest('a,button')) document.body.classList.remove('hov');
+  });
+  const container = document.getElementById('stars');
+  const colors = ['#ffffff','rgba(255,185,215,1)','rgba(165,215,255,1)','rgba(255,220,140,1)'];
+  for(let i = 0; i < 130; i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() < 0.75 ? 1 : 1.5;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*4)]};--d:${2+Math.random()*4}s;--dl:${Math.random()*5}s;--a:${.2+Math.random()*.55}`;
+    container.appendChild(s);
+  }
+})();
+</script>
+
+<!-- ── Page section dot nav + progress ── -->
+<script>
+(function(){
+  var secs = [
+    { id:'top', en:'OVERVIEW'   },
+    { id:'p1',  en:'COVER'      },
+    { id:'p2',  en:'BOOK'       },
+    { id:'p3',  en:'ERP · ESB'  },
+    { id:'p4',  en:'FINANCE'    },
+    { id:'p5',  en:'REFACTOR'   },
+    { id:'p6',  en:'DOCKER'     },
+    { id:'p7',  en:'FRONTEND'   },
+    { id:'p8',  en:'LOGIN'      },
+    { id:'p9',  en:'FEATURES'   },
+  ];
+  setTimeout(function(){
+    var nav = document.getElementById('page-nav');
+    if(!nav) return;
+    var items = [];
+    secs.forEach(function(s){
+      var el = document.getElementById(s.id);
+      if(!el) return;
+      var a = document.createElement('a');
+      a.className = 'pn-item';
+      a.href = '#' + s.id;
+      a.innerHTML = '<span class="pn-label">' + s.en + '</span><div class="pn-node"></div>';
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        el.scrollIntoView({ behavior:'smooth' });
+      });
+      nav.appendChild(a);
+      items.push({ el:el, a:a });
+    });
+    if(!items.length) return;
+    var cur = null;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        var it = items.find(function(i){ return i.el === e.target; });
+        if(!it || !e.isIntersecting) return;
+        if(cur) cur.classList.remove('act');
+        cur = it.a;
+        cur.classList.add('act');
+      });
+    }, { rootMargin:'-5% 0px -60% 0px' });
+    items.forEach(function(i){ io.observe(i.el); });
+  }, 250);
+})();
+(function(){
+  var mn = document.getElementById('mob-nav');
+  var btn = document.getElementById('mob-nav-btn');
+  var panel = document.getElementById('mob-nav-panel');
+  if(!mn) return;
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    mn.classList.toggle('open');
+  });
+  panel.querySelectorAll('.mn-link').forEach(function(a){
+    a.addEventListener('click', function(){ mn.classList.remove('open'); });
+  });
+  document.addEventListener('click', function(e){
+    if(!mn.contains(e.target)) mn.classList.remove('open');
+  });
+  // highlight active section
+  var secIds = ['top','p1','p2','p3','p4','p5','p6','p7','p8','p9'];
+  var links = {};
+  secIds.forEach(function(id){
+    var a = panel.querySelector('a[href="#'+id+'"]');
+    if(a) links[id] = a;
+  });
+  function updateAct(){
+    var cur = 'top';
+    secIds.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el && el.getBoundingClientRect().top <= 100) cur = id;
+    });
+    Object.keys(links).forEach(function(id){
+      links[id].classList.toggle('mn-act', id === cur);
+    });
+  }
+  window.addEventListener('scroll', updateAct, {passive:true});
+  updateAct();
+})();
+
+(function(){
+  var prog = document.getElementById('prog');
+  if(!prog) return;
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (h > 0 ? Math.round(window.scrollY / h * 100) : 0) + '%';
+  }, { passive:true });
+})();
+</script>
+</body>
+</html>

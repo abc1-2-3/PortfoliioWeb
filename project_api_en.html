@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API · SDK — 後端小作品 | WUYAN's ARCHIVE</title>
+<title>API · SDK — Backend Mini Projects | WUYAN's ARCHIVE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400&family=Cinzel:wght@400&family=Instrument+Serif:ital@0;1&family=Noto+Serif+TC:wght@200;300&family=Noto+Sans+TC:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -391,56 +391,35 @@ nav::-webkit-scrollbar{width:0}
 .lt-link{padding:4px 13px;color:rgba(196,181,253,.5);text-decoration:none;border-radius:999px;transition:color .18s,background .18s}
 .lt-link:hover{color:rgba(232,224,255,.9);background:rgba(167,139,250,.12)}
 
-/* ── Mobile responsive ────────────────────────────────── */
+/* ── Mobile responsive ── */
 @media(max-width:768px){
-  /* ① 截斷邊界鏈（每一層都夾住，overflow-x:hidden 相容 iOS 14+）*/
   html{overflow-x:hidden}
   body{overflow-x:hidden;width:100%}
   #shell,#root{width:100%;max-width:100vw;overflow-x:hidden}
   .page{padding:40px 14px 80px;width:100%;max-width:100%;overflow-x:hidden}
   .project{overflow-x:hidden!important;padding:20px 14px!important}
-
-  /* ② 隱藏桌機專用元件 */
   #cursor-dot,#cursor-ring,#page-nav{display:none}
-
-  /* ③ Topbar */
   #topbar{padding:10px 18px;grid-template-columns:1fr auto}
   #topbar>*:nth-child(2){display:none}
-
-  /* ④ 所有 Grid 強制單欄 */
   .hero-meta,.hero-nav,
   .status-strip,
   .post-wall,
   .notes-grid,
   .arch,.arch-three,
   .sdk-grid,.mvc-grid{grid-template-columns:1fr!important}
-
-  /* ⑤ 清除橫向間距 / 邊框 */
   .hero-meta-cell+.hero-meta-cell,
   .status-cell+.status-cell{padding-left:0;border-left:none}
   .status-strip{gap:10px;padding:14px 12px}
-
-  /* ⑥ 讓所有 flex/grid 子元素可縮小 */
   .page *{min-width:0;box-sizing:border-box}
-
-  /* ⑦ Section / 浮動定位元件 */
   .sdk-list,.mvc-steps{position:static}
-
-  /* ⑧ 文字尺寸 */
   .h-display{font-size:clamp(28px,7vw,48px)!important}
   .hero-lead,.h-sec{max-width:100%}
-
-  /* ⑨ Repo 連結 */
   .repo-link{max-width:100%;flex-wrap:wrap}
   .repo-path{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
   .repo-meta{display:none}
-
-  /* ⑩ Code block（父層改 overflow-x:auto，讓程式碼可左右滑）*/
   .code{overflow-x:auto!important}
   .code-wrap,.px-code-wrap{max-width:100%;overflow-x:auto}
   .code-body{white-space:pre;overflow-x:auto!important}
-
-  /* ⑪ Post 圖片 */
   .post-image{max-height:120px!important}
 }
 </style>
@@ -475,8 +454,8 @@ nav::-webkit-scrollbar{width:0}
     <div class="tb-brand">✦ WUYAN · ARCHIVE</div>
     <div style="display:flex;align-items:center;gap:10px;justify-self:end">
       <div class="lang-toggle">
-        <span class="lt-cur">中文</span>
-        <a href="project_api_en.html" class="lt-link">EN</a>
+        <a href="project_api.html" class="lt-link">中文</a>
+        <span class="lt-cur">EN</span>
       </div>
       <div class="topbar-tag">WORKS · 03</div>
     </div>
@@ -595,12 +574,12 @@ function fmtTs(d){
 
 function Pipeline(){
   const steps = [
-    { n:"01", k:"prompt",   en:"Prompt",         zh:"主題種子",  note:"從編號 txt 抽選詠唱咒語" },
-    { n:"02", k:"text",     en:"Gemini · Text",  zh:"生成文案",  note:"模型寫出 1–2 句推文" },
-    { n:"03", k:"image",    en:"Gemini · Image", zh:"生成圖片",  note:"用文案作為 prompt 產圖" },
-    { n:"04", k:"compose",  en:"Compose",        zh:"組裝推文",  note:"圖 + 文 + tag 打包" },
-    { n:"05", k:"schedule", en:"Schedule",       zh:"排程",      note:"每 6 小時跑一次" },
-    { n:"06", k:"post",     en:"Post → X",       zh:"自動發佈",  note:"X API v2 · OAuth1" },
+    { n:"01", k:"prompt",   en:"Prompt",         zh:"Seed",        note:"Pick an incantation from numbered txt files" },
+    { n:"02", k:"text",     en:"Gemini · Text",  zh:"Gen Text",    note:"Model writes 1–2 lines of copy" },
+    { n:"03", k:"image",    en:"Gemini · Image", zh:"Gen Image",   note:"Feed that copy as the image prompt" },
+    { n:"04", k:"compose",  en:"Compose",        zh:"Pack",        note:"Bundle image + copy + tags" },
+    { n:"05", k:"schedule", en:"Schedule",       zh:"Schedule",    note:"Runs every 6 hours" },
+    { n:"06", k:"post",     en:"Post → X",       zh:"Auto Post",   note:"X API v2 · OAuth1" },
   ];
   return (
     <div className="pipeline">
@@ -700,17 +679,17 @@ function StatusStrip(){
       <div className="status-cell">
         <div className="status-label">schedule</div>
         <div className="status-value mono">every 6h</div>
-        <div className="status-sub">一日 4 推 · schedule lib</div>
+        <div className="status-sub">4 posts/day · schedule lib</div>
       </div>
       <div className="status-cell">
         <div className="status-label">prompts</div>
-        <div className="status-value mono">txt · 編號</div>
-        <div className="status-sub">詠唱咒語 · 可疊加</div>
+        <div className="status-value mono">txt · numbered</div>
+        <div className="status-sub">stackable incantations</div>
       </div>
       <div className="status-cell">
         <div className="status-label">cost</div>
         <div className="status-value mono">free tier</div>
-        <div className="status-sub">壓在免費額度內運作</div>
+        <div className="status-sub">stays within free quota</div>
       </div>
       <div className="status-cell">
         <div className="status-label">stack</div>
@@ -729,9 +708,9 @@ from poster    import post_to_x
 with open("config.json", "r") as f:
     cfg = json.load(f)
 
-# ✦ 每六小時跑一次:抽詠唱咒語 → Gemini 生文 → Gemini 生圖 → 發推
+# ✦ runs every 6h: pick incantation → Gemini text → Gemini image → post to X
 def run_once():
-    spell = pick_spell()                       # 從編號 txt 抽選 prompt
+    spell = pick_spell()                       # pick prompt from numbered txt files
     text  = generate_text(spell, cfg)          # Gemini text
     image = generate_image(text, cfg)          # Gemini image
     post_to_x(text=text, image=image, cfg=cfg) # X API v2
@@ -744,42 +723,42 @@ while True:
 
 const POSTS = [
   { id:"1986010692282183939", url:"https://x.com/wuyan4411/status/1986010692282183939",
-    text:"自由的代價是選擇,而選擇的代價是遺憾。",
+    text:"The price of freedom is choice, and the price of choice is regret.",
     img:"https://pbs.twimg.com/media/G4-6MIhbAAAV5F8?format=jpg&name=small",
     views:18, likes:0, accent:"rgba(240,135,195,0.95)" },
   { id:"1985648330110878127", url:"https://x.com/wuyan4411/status/1985648330110878127",
-    text:"真理是一面鏡子,每個人只能看到自己想要的倒影。",
+    text:"Truth is a mirror in which everyone sees only the reflection they desire.",
     img:"https://pbs.twimg.com/media/G45wnvFbQAAvSNh?format=jpg&name=small",
     views:26, likes:0, accent:"rgba(165,215,255,0.95)" },
   { id:"1949409541176938801", url:"https://x.com/wuyan4411/status/1949409541176938801",
-    text:"知識的擴散速度,趕不上愚蠢的自我複製。",
+    text:"Knowledge spreads more slowly than stupidity replicates itself.",
     img:"https://pbs.twimg.com/media/Gw2xoaWbkAEINex?format=jpg&name=small",
     views:37, likes:2, accent:"rgba(196,181,253,0.95)" },
   { id:"1949318920961450022", url:"https://x.com/wuyan4411/status/1949318920961450022",
-    text:"當愛意擴散成習慣,厭倦便開始萌芽。",
+    text:"When love dilutes into habit, boredom begins to take root.",
     img:"https://pbs.twimg.com/media/Gw1fN6ZbcAA2yL_?format=jpg&name=small",
     views:38, likes:1, accent:"rgba(212,168,78,0.95)" },
   { id:"1948594177123778608", url:"https://x.com/wuyan4411/status/1948594177123778608",
-    text:"宇宙在膨脹,我的絕望也在等比級數地擴散。",
+    text:"The universe is expanding, and my despair grows at the same geometric rate.",
     img:"https://pbs.twimg.com/media/GwrMENEaoAAO-Mf?format=jpg&name=small",
     views:27, likes:0, accent:"rgba(130,210,255,0.95)" },
   { id:"1940712208708915373", url:"https://x.com/wuyan4411/status/1940712208708915373",
-    text:"世界末日那天,我終於可以不用回覆那些沒完沒了的群組訊息了。",
+    text:"On the day the world ends, I'll finally be excused from those never-ending group chats.",
     img:"https://pbs.twimg.com/media/Gu7LdTQXkAAOjLO?format=jpg&name=small",
     views:32, likes:2, accent:"rgba(240,165,205,0.95)" },
 ];
 
 const NOTES = [
-  { n:"01", t:"壓在免費額度內", d:"頻率設 6 小時 + 模型選 gemini-2.0-flash,單月 API 成本 = 0。" },
-  { n:"02", t:"詠唱咒語編號化", d:"prompt 切成編號 txt,可以自由疊加組合,內容不會重複又能維持風格。" },
-  { n:"03", t:"圖文一致性",     d:"先生文,再把同一段文字餵給生圖模型 — 比兩邊各自亂跑穩很多。" },
+  { n:"01", t:"Staying within the free tier", d:"Running every 6 hours with gemini-2.0-flash keeps the monthly API cost at exactly $0." },
+  { n:"02", t:"Numbered incantations",        d:"Splitting prompts into numbered txt files lets you freely stack and combine them — no repetition while maintaining consistent style." },
+  { n:"03", t:"Image-text consistency",       d:"Generate the copy first, then feed that same text to the image model — far more coherent than running both independently." },
 ];
 
 function ProjectX(){
   return (
     <section className="project project-x">
-      <SectionHeader index={1} en="Auto-Muse · X Tweet Bot" zh="自動推文機器人"
-        summary="一支 Python 小程式串接 Gemini 的文字 / 圖片 API:先讓 Gemini 寫出一句文案,再把同一段文字餵給生圖模型,組成圖文後透過 X API v2 自動發送,並用 schedule 每 6 小時跑一次。所有 prompt 都用編號 txt 切割,寫成「詠唱咒語」可以自由疊加。"
+      <SectionHeader index={1} en="Auto-Muse · X Tweet Bot" zh="Automated tweet bot"
+        summary="A small Python script wired up to Gemini's text and image APIs: Gemini first writes one or two lines of copy, then that same text is fed into the image model. The resulting image + copy pair is posted automatically via X API v2, scheduled to run every 6 hours. All prompts are split into numbered txt files — 'incantations' that can be freely stacked."
         tags={["Python", "Gemini API", "X API v2", "schedule", "OAuth1", "config.json"]}
       />
       <div className="repo-link-row">
@@ -792,15 +771,15 @@ function ProjectX(){
       <Pipeline/>
       <StatusStrip/>
       <div className="post-wall-head">
-        <h3 className="px-h3">Selected Runs <span className="px-h3-em">· 6 則自動推文 · ❄ via gemini-2.0-flash</span></h3>
-        <span className="px-hint">點 view on X ↗ 看原推文</span>
+        <h3 className="px-h3">Selected Runs <span className="px-h3-em">· 6 automated tweets · ❄ via gemini-2.0-flash</span></h3>
+        <span className="px-hint">click "view on X ↗" to open the original post</span>
       </div>
       <div className="post-wall">
         {POSTS.map(p => <PostCard key={p.id} post={p}/>)}
       </div>
       <div className="notes-wrap">
         <div className="notes-head">
-          <span className="eyebrow"><span className="dot"></span>NOTES · 三件學到的事</span>
+          <span className="eyebrow"><span className="dot"></span>NOTES · Three things I learned</span>
         </div>
         <div className="notes-grid">
           {NOTES.map(n => (
@@ -815,7 +794,7 @@ function ProjectX(){
       <div className="px-code-wrap">
         <div className="px-code-head">
           <span className="eyebrow"><span className="dot"></span>ORCHESTRATION</span>
-          <span className="px-code-sub">把整條 pipeline 串起來的入口</span>
+          <span className="px-code-sub">Entry point that wires the whole pipeline together</span>
         </div>
         <CodeBlock code={X_CODE} lang="python" file="main.py" showLineNumbers={true}/>
       </div>
@@ -839,7 +818,7 @@ function ArchDiagram(){
             <div>Controllers</div>
             <div>Models · DbContext</div>
           </div>
-          <div className="arch-mono-tag">一份專案 · 全部混在一起</div>
+          <div className="arch-mono-tag">One project · everything bundled together</div>
         </div>
       </div>
       <div className="arch-arrow">
@@ -848,22 +827,22 @@ function ArchDiagram(){
         </svg>
       </div>
       <div className="arch-side arch-after">
-        <div className="arch-label">AFTER · 拆成 3 個專案</div>
+        <div className="arch-label">AFTER · Split into 3 projects</div>
         <div className="arch-three">
           <div className="arch-box" data-k="web">
-            <div className="arch-box-head">Web · 前端</div>
+            <div className="arch-box-head">Web · Frontend</div>
             <div className="arch-box-sub">Razor Pages / SPA</div>
-            <ul><li>畫面與表單</li><li>呼叫 API</li></ul>
+            <ul><li>Views &amp; forms</li><li>Calls API</li></ul>
           </div>
           <div className="arch-box" data-k="api">
-            <div className="arch-box-head">API · 後端</div>
+            <div className="arch-box-head">API · Backend</div>
             <div className="arch-box-sub">Web API · Controllers</div>
-            <ul><li>路由 + DTO</li><li>Service / Repository</li></ul>
+            <ul><li>Routes + DTOs</li><li>Service / Repository</li></ul>
           </div>
           <div className="arch-box" data-k="test">
-            <div className="arch-box-head">Tests · 測試</div>
+            <div className="arch-box-head">Tests</div>
             <div className="arch-box-sub">xUnit · Moq</div>
-            <ul><li>Service 單元測試</li><li>Controller 整合測試</li></ul>
+            <ul><li>Service unit tests</li><li>Controller integration tests</li></ul>
           </div>
         </div>
       </div>
@@ -872,9 +851,9 @@ function ArchDiagram(){
 }
 
 const MVC_SAMPLES = [
-  { key:"controller", label:"01 · Controller", zh:"瘦身後的 Controller",
+  { key:"controller", label:"01 · Controller", zh:"Slimmed-down Controller",
     file:"OrderApi/Controllers/OrdersController.cs", lang:"csharp",
-    note:"原本塞滿了驗證 + DbContext 操作 + view model 組裝。拆完之後 Controller 只剩路由 + 呼叫 Service,真正能被測試的邏輯都搬走了。",
+    note:"Originally packed with validation, DbContext operations, and view-model assembly. After the split, the Controller only handles routing and Service calls — all the actually-testable logic has been moved out.",
     code:`
 [ApiController]
 [Route("api/[controller]")]
@@ -901,9 +880,9 @@ public class OrdersController : ControllerBase
     }
 }
     `},
-  { key:"service", label:"02 · Service", zh:"商業邏輯抽出來",
+  { key:"service", label:"02 · Service", zh:"Business logic extracted",
     file:"OrderApi/Services/OrderService.cs", lang:"csharp",
-    note:"這層只接介面、不直接綁 DbContext;測試時可以用 Mock 把 IOrderRepository 換掉。",
+    note:"This layer depends only on interfaces, not DbContext directly — which means tests can swap in a Mock for IOrderRepository.",
     code:`
 public class OrderService : IOrderService
 {
@@ -918,14 +897,14 @@ public class OrderService : IOrderService
 
     public async Task<OrderDto> CreateAsync(CreateOrderRequest req, int userId)
     {
-        // 1. 驗證商業規則
+        // 1. validate business rules
         if (req.Items.Count == 0)
-            throw new DomainException("訂單至少要有一個品項");
+            throw new DomainException("order must have at least one item");
 
-        // 2. 組成領域物件
+        // 2. build domain object
         var order = Order.NewFromRequest(req, userId);
 
-        // 3. 持久化 + 交易
+        // 3. persist + commit
         await _repo.AddAsync(order);
         await _uow.SaveChangesAsync();
 
@@ -933,9 +912,9 @@ public class OrderService : IOrderService
     }
 }
     `},
-  { key:"interface", label:"03 · Interface", zh:"用介面切開耦合",
+  { key:"interface", label:"03 · Interface", zh:"Decoupled via interfaces",
     file:"OrderApi/Abstractions/IOrderRepository.cs", lang:"csharp",
-    note:"專案之間只認介面。Web 不依賴 API 的實作、API 也不直接依賴 EF Core 的細節。",
+    note:"Projects talk only to interfaces. Web doesn't depend on the API implementation; the API doesn't depend on EF Core internals.",
     code:`
 public interface IOrderRepository
 {
@@ -950,9 +929,9 @@ public interface IOrderService
     Task<OrderDto>  CreateAsync(CreateOrderRequest req, int userId);
 }
     `},
-  { key:"test", label:"04 · Tests", zh:"終於能寫單元測試了",
+  { key:"test", label:"04 · Tests", zh:"Finally: unit tests",
     file:"OrderApi.Tests/OrderServiceTests.cs", lang:"csharp",
-    note:"拆完最大的收穫 — Service 可以脫離 DbContext 跑得飛快,Controller 也能用 WebApplicationFactory 做整合測試。",
+    note:"The biggest payoff of the split — Services run blazing fast without DbContext, and Controllers get real integration tests via WebApplicationFactory.",
     code:`
 public class OrderServiceTests
 {
@@ -973,17 +952,17 @@ public class OrderServiceTests
     public async Task CreateAsync_Valid_PersistsAndReturnsDto()
     {
         // arrange ... act ... assert
-        // 完整測試見 repo
+        // full test in repo
     }
 }
     `},
 ];
 
 const STEPS = [
-  { k:"a", t:"抽出介面",  d:"先把 Repository / Service / UnitOfWork 介面寫好,讓 Controller 只依賴 abstraction。" },
-  { k:"b", t:"搬出邏輯",  d:"把 Controller 裡的驗證 + 商業規則整段搬到 Service;EF 操作落到 Repository。" },
-  { k:"c", t:"切出專案",  d:"在 solution 裡新增 Web / Api / Tests 三個 csproj,設定專案參照關係。" },
-  { k:"d", t:"補上測試",  d:"用 xUnit + Moq 蓋住 Service;Controller 用 WebApplicationFactory 做端到端測試。" },
+  { k:"a", t:"Extract interfaces",  d:"Define Repository, Service, and UnitOfWork interfaces first — so Controllers depend only on abstractions." },
+  { k:"b", t:"Move the logic",      d:"Move validation and business rules out of Controllers into Services; EF operations go into Repositories." },
+  { k:"c", t:"Split the projects",  d:"Add Web, Api, and Tests csproj files to the solution and set up project references." },
+  { k:"d", t:"Add tests",           d:"Cover Services with xUnit + Moq; use WebApplicationFactory for Controller end-to-end tests." },
 ];
 
 function ProjectMvc(){
@@ -991,15 +970,15 @@ function ProjectMvc(){
   const current = MVC_SAMPLES.find(s => s.key === tab);
   return (
     <section className="project project-mvc">
-      <SectionHeader index={2} en="MVC · Split & Test" zh="把 MVC 架構拆成前後端 + 測試三個專案"
-        summary="一份示範性的教學 demo — 從一坨混在一起的 ASP.NET MVC 開始,拆出 Web、API、Tests 三個 csproj,並引入介面 + 依賴注入,讓商業邏輯真的能被單元測試蓋到。重點不在功能,而是「怎麼拆」。"
+      <SectionHeader index={2} en="MVC · Split & Test" zh="Split ASP.NET MVC into frontend, backend + tests"
+        summary="A demonstrative teaching demo — starting from a single tangled ASP.NET MVC app and splitting it into Web, API, and Tests csproj projects with interfaces and dependency injection, so the business logic can actually be unit tested. The focus isn't on features; it's on how to split."
         tags={["C#", "ASP.NET Core", ".NET 8", "xUnit", "Moq", "Clean Architecture"]}
       />
       <div className="repo-link-row">
         <span className="repo-link as-note">
           <span className="repo-mark mark-note">·</span>
-          <span className="repo-path">local-only demo · 沒推上 GitHub</span>
-          <span className="repo-meta">概念示範 · 沒有功能性</span>
+          <span className="repo-path">local-only demo · not on GitHub</span>
+          <span className="repo-meta">concept demo · not functional</span>
         </span>
       </div>
       <ArchDiagram/>
@@ -1007,7 +986,7 @@ function ProjectMvc(){
         <aside className="mvc-steps">
           <div className="mvc-steps-head">
             <span className="eyebrow"><span className="dot"></span>4 STEPS</span>
-            <div className="mvc-steps-title">重構順序</div>
+            <div className="mvc-steps-title">Refactor Order</div>
           </div>
           <ol className="mvc-step-list">
             {STEPS.map((s, i) => (
@@ -1039,33 +1018,33 @@ function ProjectMvc(){
    ════════════════════════════════ */
 
 const ENDPOINTS = [
-  { id:"login",  method:"POST", path:"/api/auth/login",  group:"Auth",  title:"登入取得 JWT",
-    zh:"用帳號密碼換 access token + refresh token", auth:false,
+  { id:"login",  method:"POST", path:"/api/auth/login",  group:"Auth",  title:"Login to get JWT",
+    zh:"Exchange credentials for access token + refresh token", auth:false,
     req:`{\n  "username": "alice",\n  "password": "p@ssw0rd!"\n}`,
     res:`{\n  "access_token": "eyJhbGciOiJI...gQfL",\n  "refresh_token": "rt_8f3a...",\n  "expires_in": 3600,\n  "token_type": "Bearer"\n}`,
     curl:`curl -X POST https://api.example.com/api/auth/login \\\n  -H "Content-Type: application/json" \\\n  -d '{"username":"alice","password":"p@ssw0rd!"}'`},
-  { id:"me",     method:"GET",  path:"/api/auth/me",     group:"Auth",  title:"驗證 token + 取得使用者",
-    zh:"middleware 解 JWT,失敗回 401", auth:true,
-    req:`(無 body) — Header:\nAuthorization: Bearer <access_token>`,
+  { id:"me",     method:"GET",  path:"/api/auth/me",     group:"Auth",  title:"Validate token + get current user",
+    zh:"Middleware parses JWT; returns 401 on failure", auth:true,
+    req:`(no body) — Header:\nAuthorization: Bearer <access_token>`,
     res:`{\n  "user_id": 42,\n  "username": "alice",\n  "role": "member",\n  "issued_at": 1737000000\n}`,
     curl:`curl https://api.example.com/api/auth/me \\\n  -H "Authorization: Bearer $TOKEN"`},
-  { id:"upload", method:"POST", path:"/api/files",       group:"Files", title:"上傳檔案到公共空間",
-    zh:"multipart/form-data;回傳可直接取用的 url", auth:true,
+  { id:"upload", method:"POST", path:"/api/files",       group:"Files", title:"Upload file to public storage",
+    zh:"multipart/form-data; returns a directly accessible URL", auth:true,
     req:`Content-Type: multipart/form-data\n\nfield "file":   (binary)\nfield "folder": "menu-photos"`,
     res:`{\n  "file_id": "f_29a1b3",\n  "url": "https://cdn.example.com/menu-photos/29a1b3.jpg",\n  "size": 184320,\n  "mime": "image/jpeg"\n}`,
     curl:`curl -X POST https://api.example.com/api/files \\\n  -H "Authorization: Bearer $TOKEN" \\\n  -F "folder=menu-photos" \\\n  -F "file=@./latte.jpg"`},
-  { id:"menu",   method:"GET",  path:"/api/menu",        group:"Menu",  title:"取得菜單 · 多種排序",
-    zh:"支援 sort=price | popularity | newest", auth:false,
+  { id:"menu",   method:"GET",  path:"/api/menu",        group:"Menu",  title:"Get menu · multiple sort options",
+    zh:"Supports sort=price | popularity | newest", auth:false,
     req:`Query:\n  ?sort=popularity\n  &category=drink\n  &page=1\n  &size=20`,
-    res:`{\n  "items": [\n    { "id": "m_01", "name": "玫瑰拿鐵", "price": 160, "popularity": 412 },\n    { "id": "m_02", "name": "雲朵奶茶", "price": 140, "popularity": 388 }\n  ],\n  "page": 1,\n  "total": 56\n}`,
+    res:`{\n  "items": [\n    { "id": "m_01", "name": "Rose Latte", "price": 160, "popularity": 412 },\n    { "id": "m_02", "name": "Cloud Milk Tea", "price": 140, "popularity": 388 }\n  ],\n  "page": 1,\n  "total": 56\n}`,
     curl:`curl "https://api.example.com/api/menu?sort=popularity&category=drink"`},
-  { id:"create-order", method:"POST", path:"/api/orders", group:"Order", title:"建立新訂單",
-    zh:"驗證 JWT;檢查庫存後落單,回傳訂單編號", auth:true,
-    req:`{\n  "items": [\n    { "menu_id": "m_01", "qty": 2, "notes": "少冰" },\n    { "menu_id": "m_05", "qty": 1 }\n  ],\n  "pickup_at": "2025-11-20T15:30:00+08:00"\n}`,
+  { id:"create-order", method:"POST", path:"/api/orders", group:"Order", title:"Create new order",
+    zh:"Validates JWT; checks inventory then creates order, returns order ID", auth:true,
+    req:`{\n  "items": [\n    { "menu_id": "m_01", "qty": 2, "notes": "less ice" },\n    { "menu_id": "m_05", "qty": 1 }\n  ],\n  "pickup_at": "2025-11-20T15:30:00+08:00"\n}`,
     res:`{\n  "order_id": "o_7c2a91",\n  "status": "pending",\n  "total": 460,\n  "created_at": "2025-11-20T11:02:18+08:00"\n}`,
     curl:`curl -X POST https://api.example.com/api/orders \\\n  -H "Authorization: Bearer $TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d @order.json`},
-  { id:"list-orders",  method:"GET",  path:"/api/orders", group:"Order", title:"查詢自己的訂單",
-    zh:"依登入者 user_id 篩選;支援狀態過濾", auth:true,
+  { id:"list-orders",  method:"GET",  path:"/api/orders", group:"Order", title:"Query your own orders",
+    zh:"Filters by logged-in user_id; supports status filtering", auth:true,
     req:`Query:\n  ?status=pending\n  &sort=created_desc`,
     res:`{\n  "orders": [\n    { "order_id": "o_7c2a91", "status": "pending", "total": 460 },\n    { "order_id": "o_7b88e0", "status": "done",    "total": 220 }\n  ]\n}`,
     curl:`curl "https://api.example.com/api/orders?status=pending" \\\n  -H "Authorization: Bearer $TOKEN"`},
@@ -1077,11 +1056,11 @@ function MethodBadge({ method }){
 
 function JwtFlow(){
   const nodes = [
-    { k:"client", t:"Client",        d:"前端 / SDK" },
-    { k:"login",  t:"POST /login",   d:"傳帳密" },
-    { k:"server", t:"Auth Service",  d:"驗證 + 簽發 token" },
+    { k:"client", t:"Client",        d:"Frontend / SDK" },
+    { k:"login",  t:"POST /login",   d:"Send credentials" },
+    { k:"server", t:"Auth Service",  d:"Verify + issue token" },
     { k:"token",  t:"JWT",           d:"access + refresh" },
-    { k:"api",    t:"Protected API", d:"middleware 驗 token" },
+    { k:"api",    t:"Protected API", d:"Middleware validates token" },
   ];
   return (
     <div className="jwt-flow">
@@ -1110,8 +1089,8 @@ function ProjectSdk(){
   const sel = ENDPOINTS.find(e => e.id === selId);
   return (
     <section className="project project-sdk">
-      <SectionHeader index={3} en="Ordering · SDK Playground" zh="點餐系統練習 SDK"
-        summary="練習一支完整的點餐後端 SDK:帳號密碼登入 → 換發 JWT,帶 token 操作上傳、菜單查詢、訂單建立等保護端點;點下方任一 endpoint 看 request / response / cURL 範例。"
+      <SectionHeader index={3} en="Ordering · SDK Playground" zh="Ordering system backend SDK"
+        summary="A practice run at building a complete ordering-system backend SDK: login with credentials → receive JWT, then use the token to hit protected endpoints for file upload, menu queries, and order creation. Click any endpoint below to see request / response / cURL examples."
         tags={[".NET", "Web API", "JWT", "Swagger", "multipart upload", "Refresh Token"]}
       />
       <div className="repo-link-row">
@@ -1135,7 +1114,7 @@ function ProjectSdk(){
                   onClick={() => { setSelId(e.id); setTab("req"); }}>
                   <MethodBadge method={e.method}/>
                   <span className="sdk-path">{e.path}</span>
-                  {e.auth && <span className="sdk-lock" title="需要 JWT">🔒</span>}
+                  {e.auth && <span className="sdk-lock" title="JWT required">🔒</span>}
                 </button>
               ))}
             </div>
@@ -1192,10 +1171,10 @@ function Hero(){
       </div>
       <h1 className="h-display">
         Things without a face <em>·</em><br/>
-        <span className="hero-zh">沒有畫面 的作品 們</span>
+        <span className="hero-zh">works with no UI to show</span>
       </h1>
       <p className="hero-lead">
-        三個跟後端 · <em>API / SDK</em> 有關的小作品。<br/>沒有漂亮的介面可以截圖，所以我把<span className="emp">流程、結構、程式碼</span>當作主角拿出來展示。
+        Three backend mini projects about <em>API &amp; SDK</em> design.<br/>No pretty UI to screenshot — so <span className="emp">process, architecture, and code</span> are the main characters here.
       </p>
       <div className="hero-meta">
         <div className="hero-meta-cell">
@@ -1212,7 +1191,7 @@ function Hero(){
         </div>
         <div className="hero-meta-cell">
           <div className="meta-label">code</div>
-          <div className="meta-val">github · 私有 repo</div>
+          <div className="meta-val">github · private repo</div>
         </div>
       </div>
       <nav className="hero-nav">

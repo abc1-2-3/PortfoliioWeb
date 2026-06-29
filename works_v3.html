@@ -230,14 +230,14 @@ body.hov #cursor-ring {
 .nav-item:hover .cat-icon { opacity: .75; }
 .nav-item.active .cat-icon { opacity: .9; filter: brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(230deg); }
 .nav-item .num {
-  font-family: var(--font-mono); font-size: 9px; color: var(--ink-3); letter-spacing: .15em;
+  font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); letter-spacing: .15em;
 }
 .nav-item.active .num, .nav-item:hover .num { color: var(--violet); }
 .nav-item .label { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
 .nav-item .label .en {
-  font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-family: var(--font-mono); white-space: nowrap;
+  font-size: 14px; letter-spacing: .12em; text-transform: uppercase; font-family: var(--font-mono); white-space: nowrap;
 }
-.nav-item .label .zh { font-size: 11px; color: var(--ink-2); margin-top: 2px; letter-spacing: .08em; }
+.nav-item .label .zh { font-size: 12px; color: var(--ink-2); margin-top: 2px; letter-spacing: .08em; }
 .nav-item.active .label .zh, .nav-item:hover .label .zh { color: var(--ink-1); }
 .rail-footer {
   margin-top: 24px; padding-left: 4px;
@@ -316,14 +316,14 @@ body.hov #cursor-ring {
 /* UI labels: always above PNG frames */
 .card-tag {
   position: absolute; top: 8px; left: 8px; z-index: 8;
-  font-family: var(--font-mono); font-size: 8px; letter-spacing: .18em;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em;
   color: var(--violet-bright); background: rgba(13,8,32,.85);
   border: 1px solid var(--line-strong); padding: 3px 7px; border-radius: 3px;
   text-transform: uppercase;
 }
 .card-num {
   position: absolute; top: 8px; right: 8px; z-index: 8;
-  font-family: var(--font-mono); font-size: 9px; color: var(--ink-2);
+  font-family: var(--font-mono); font-size: 10px; color: var(--ink-2);
   background: rgba(13,8,32,.85); border: 1px solid var(--line);
   padding: 3px 7px; border-radius: 3px;
 }
@@ -335,8 +335,8 @@ body.hov #cursor-ring {
 }
 .card-thumb-art { width: 100%; height: 100%; position: absolute; inset: 0; }
 .card-thumb-art svg { width: 100%; height: 100%; }
-.card-title { font-family: var(--font-display); font-size: 13px; letter-spacing: .18em; color: var(--ink-0); margin-bottom: 4px; text-shadow: 0 1px 10px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,.9); }
-.card-subtitle { font-family: var(--font-ui); font-size: 10px; letter-spacing: .08em; color: var(--ink-1); text-shadow: 0 1px 8px rgba(0,0,0,1); }
+.card-title { font-family: var(--font-display); font-size: 16px; letter-spacing: .18em; color: var(--ink-0); margin-bottom: 4px; text-shadow: 0 1px 10px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,.9); }
+.card-subtitle { font-family: var(--font-ui); font-size: 12px; letter-spacing: .08em; color: var(--ink-1); text-shadow: 0 1px 8px rgba(0,0,0,1); }
 /* ── Vtuber card layer system ── */
 .vtuber-normal {
   position: absolute; inset: 0; width: 100%; height: 100%;
@@ -643,6 +643,18 @@ body.hov #cursor-ring {
 .card:hover .illust-pal-chip { opacity: 0.88; }
 .card:hover .illust-pal-chip:nth-child(odd)  { transform: scaleY(1.5) translateY(-1px); }
 .card:hover .illust-pal-chip:nth-child(even) { transform: scaleY(1.8) translateY(-2px); }
+/* Occasional CA glitch on active card (not permanent) */
+.card-ca-glitch {
+  animation: ca-burst 8s step-end infinite;
+}
+@keyframes ca-burst {
+  0%, 86%, 100% { filter: none; }
+  87%  { filter: url(#ca-filter); }
+  88%  { filter: none; }
+  89%  { filter: url(#ca-filter); }
+  90%  { filter: none; }
+}
+
 /* Card enter indicator */
 .card-enter {
   margin-top: 7px;
@@ -736,14 +748,14 @@ body.hov #cursor-ring {
 }
 .panel-stellar::before { content: '+ · + · +'; }
 .panel-title {
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: .25em;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .25em;
   color: var(--violet-bright); text-transform: uppercase; margin-bottom: 8px;
   display: flex; align-items: center; gap: 7px;
 }
 .panel-title::before { content: ''; width: 5px; height: 5px; background: var(--violet); border-radius: 50%; box-shadow: var(--glow-violet); }
 .kv {
   display: flex; justify-content: space-between;
-  font-family: var(--font-mono); font-size: 11px; padding: 3px 0;
+  font-family: var(--font-mono); font-size: 12px; padding: 3px 0;
   border-bottom: 1px dashed rgba(167,139,250,.12);
 }
 .kv:last-child { border-bottom: none; }
@@ -751,11 +763,11 @@ body.hov #cursor-ring {
 .kv .v { color: var(--ink-0); }
 .kv .v.accent { color: var(--violet-bright); }
 .kv .v.cyan { color: var(--cyan-soft); }
-.tip { font-family: var(--font-ui); font-size: 11px; color: var(--ink-1); line-height: 1.6; letter-spacing: .04em; }
+.tip { font-family: var(--font-ui); font-size: 13px; color: var(--ink-1); line-height: 1.6; letter-spacing: .04em; }
 .np-row { display: flex; align-items: center; gap: 8px; }
 .np-info { flex: 1; min-width: 0; }
-.np-title { font-size: 12px; color: var(--ink-0); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.np-by { font-family: var(--font-mono); font-size: 10px; color: var(--ink-2); letter-spacing: .08em; }
+.np-title { font-size: 13px; color: var(--ink-0); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.np-by { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); letter-spacing: .08em; }
 .np-bars { display: flex; align-items: end; gap: 2px; height: 15px; margin-top: 5px; }
 .np-bars span { width: 2px; background: var(--violet); animation: bars 1.2s ease-in-out infinite; }
 @keyframes bars { 0%,100% { height: 30%; } 50% { height: 100%; } }
@@ -1362,7 +1374,7 @@ function miniThumb(a) {
 
   function updateActiveStyle() {
     cardEls.forEach((card, i) => {
-      card.style.filter = i === activeIdx ? 'url(#ca-filter)' : '';
+      card.classList.toggle('card-ca-glitch', i === activeIdx);
     });
     counter.textContent = `${String(activeIdx+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
     focusLabel.textContent = WORKS[activeIdx].title;
