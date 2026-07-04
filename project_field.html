@@ -28,8 +28,8 @@ body{
 body.dragging{cursor:grabbing}
 
 /* ── Cursor ── */
-#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
-#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+#cursor-dot{position:fixed;left:0;top:0;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);will-change:transform;box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;left:0;top:0;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);will-change:transform;transition:width .2s,height .2s,border-color .2s}
 body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
 
 /* ── Topnav (curio-series format) ── */
@@ -873,8 +873,8 @@ window.addEventListener('touchend',endDrag);
 (function(){
   const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
   let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-  (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;dot.style.transform=`translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;ring.style.transform=`translate3d(${rx}px,${ry}px,0) translate(-50%,-50%)`;requestAnimationFrame(animRing);})();
   document.querySelectorAll('a,button,input').forEach(el=>{
     el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
     el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));

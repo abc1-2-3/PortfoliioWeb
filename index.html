@@ -30,7 +30,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;display:flex;al
 #lamp-light{mix-blend-mode:screen}
 #lamp-click-area{position:absolute;left:44%;top:0;width:12%;height:22%;z-index:50}
 #darkCv{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;transition:opacity .8s}
-#cursor-dot{position:fixed;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 6px rgba(200,180,255,.8);transition:opacity .15s}
+#cursor-dot{position:fixed;left:0;top:0;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);will-change:transform;box-shadow:0 0 6px rgba(200,180,255,.8);transition:opacity .15s}
 .sc-wrap{position:absolute;overflow:visible;transform-origin:center top;z-index:10;will-change:transform}
 .sc-wrap img{display:block}
 .screen-glitch{position:absolute;inset:0;pointer-events:none;z-index:2;transition:opacity .3s;background:rgba(0,0,0,.42);animation:glitch-idle 7s steps(1) infinite}
@@ -204,28 +204,49 @@ function setPeel(v){
   if(v) setTimeout(()=>{peeling=false;},3000); // safety unlock
 }
 
+let sceneRect={left:0,top:0};
+let hwEls=[],hwCenters=[];
+function cacheHwRects(){
+  hwEls=Array.from(document.querySelectorAll('.hw'));
+  hwCenters=hwEls.map(s=>{const r=s.getBoundingClientRect();return{cx:r.left+r.width/2,cy:r.top+r.height/2};});
+}
 function resize(){
-  const r=scene.getBoundingClientRect();sceneW=r.width||800;sceneH=r.height||533;
+  const r=scene.getBoundingClientRect();sceneW=r.width||800;sceneH=r.height||533;sceneRect=r;
   darkCv.width=sceneW;darkCv.height=sceneH;
+  cacheHwRects();
 }
 resize();new ResizeObserver(resize).observe(scene);window.addEventListener('resize',resize);
 
+/* 游標與 sec2 文字光暈：mousemove 只記座標，實際 DOM 寫入交給 rAF 每畫面最多跑一次，
+   並且用快取的 rect 取代每次事件都呼叫 getBoundingClientRect（避免強制同步 reflow）。 */
 const dot=document.getElementById('cursor-dot');
-document.addEventListener('mousemove',e=>{
-  clientX=e.clientX;clientY=e.clientY;
-  dot.style.left=clientX+'px';dot.style.top=clientY+'px';
-  const r=scene.getBoundingClientRect();mx=clientX-r.left;my=clientY-r.top;
+let cursorTicking=false;
+function updateCursor(){
+  cursorTicking=false;
+  dot.style.transform=`translate3d(${clientX}px,${clientY}px,0) translate(-50%,-50%)`;
+  mx=clientX-sceneRect.left;my=clientY-sceneRect.top;
   dot.style.opacity=(mx>=0&&my>=0&&mx<=sceneW&&my<=sceneH)?'1':'0';
   charLit=Math.hypot(mx-sceneW*CHAR.cx/100,my-sceneH*CHAR.cy/100)<sceneW*0.10;
+}
+document.addEventListener('mousemove',e=>{
+  clientX=e.clientX;clientY=e.clientY;
+  if(!cursorTicking){cursorTicking=true;requestAnimationFrame(updateCursor);}
 });
+
+let hwTicking=false;
+function updateHwGlow(x,y){
+  hwTicking=false;
+  for(let i=0;i<hwEls.length;i++){
+    const c=hwCenters[i];
+    const op=Math.max(0,1-Math.hypot(x-c.cx,y-c.cy)/130);
+    hwEls[i].style.opacity=op;hwEls[i].style.filter=`blur(${(1-op)*2.5}px)`;
+  }
+}
 sec2.addEventListener('mousemove',e=>{
-  document.querySelectorAll('.hw').forEach(s=>{
-    const r=s.getBoundingClientRect();
-    const op=Math.max(0,1-Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))/130);
-    s.style.opacity=op;s.style.filter=`blur(${(1-op)*2.5}px)`;
-  });
+  const x=e.clientX,y=e.clientY;
+  if(!hwTicking){hwTicking=true;requestAnimationFrame(()=>updateHwGlow(x,y));}
 });
-sec2.addEventListener('mouseleave',()=>{document.querySelectorAll('.hw').forEach(s=>{s.style.opacity='0';s.style.filter='blur(3px)';});});
+sec2.addEventListener('mouseleave',()=>{hwEls.forEach(s=>{s.style.opacity='0';s.style.filter='blur(3px)';});});
 
 // Lamp
 document.getElementById('lamp-click-area').addEventListener('click',()=>{

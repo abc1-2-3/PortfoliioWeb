@@ -35,8 +35,8 @@ a{color:inherit;text-decoration:none}
 /* ═══════════════════════════════════════════
    CURSOR
 ═══════════════════════════════════════════ */
-#cursor-dot{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,180,220,.9)}
-#cursor-ring{position:fixed;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,box-shadow .15s}
+#cursor-dot{position:fixed;left:0;top:0;width:6px;height:6px;border-radius:50%;background:#fff;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);will-change:transform;box-shadow:0 0 8px rgba(255,180,220,.9)}
+#cursor-ring{position:fixed;left:0;top:0;width:24px;height:24px;border-radius:50%;border:1px solid rgba(240,160,200,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);will-change:transform;transition:width .15s,height .15s,border-color .15s,box-shadow .15s}
 body.hov #cursor-ring{width:40px;height:40px;border-color:rgba(240,160,205,.75);box-shadow:0 0 12px rgba(220,120,175,.22)}
 
 /* ═══════════════════════════════════════════
@@ -928,9 +928,15 @@ footer .sig{font:500 10px var(--ff-d);letter-spacing:.35em;color:var(--ink-mid);
 ═══════════════════════════════════════ */
 (function(){
   var dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+  var curX=0,curY=0,curTicking=false;
+  function updCursor(){
+    curTicking=false;
+    var t='translate3d('+curX+'px,'+curY+'px,0) translate(-50%,-50%)';
+    dot.style.transform=t;ring.style.transform=t;
+  }
   document.addEventListener('mousemove',function(e){
-    dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
-    ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
+    curX=e.clientX;curY=e.clientY;
+    if(!curTicking){curTicking=true;requestAnimationFrame(updCursor);}
   });
   document.querySelectorAll('a,button,.chapter,.skill-row,.price-card,.flow-step,.ch-item,.rune-btn').forEach(function(el){
     el.addEventListener('mouseenter',function(){document.body.classList.add('hov')});

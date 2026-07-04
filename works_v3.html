@@ -51,15 +51,15 @@ body {
 
 /* ── Cursor ── */
 #cursor-dot {
-  position: fixed; width: 6px; height: 6px; border-radius: 50%;
+  position: fixed; left: 0; top: 0; width: 6px; height: 6px; border-radius: 50%;
   background: #fff; pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%); will-change: transform;
   box-shadow: 0 0 8px rgba(255,180,220,.9);
 }
 #cursor-ring {
-  position: fixed; width: 24px; height: 24px; border-radius: 50%;
+  position: fixed; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%;
   border: 1px solid rgba(240,160,200,.4); pointer-events: none; z-index: 9998;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%); will-change: transform;
   transition: width .2s, height .2s, border-color .2s;
 }
 body.hov #cursor-ring {
@@ -1083,9 +1083,15 @@ const CATEGORIES = [
 /* ── CURSOR ─────────────────────────────────────────────────── */
 const dot = document.getElementById('cursor-dot');
 const ring = document.getElementById('cursor-ring');
+let curX = 0, curY = 0, curTicking = false;
+function updCursor() {
+  curTicking = false;
+  const t = `translate3d(${curX}px,${curY}px,0) translate(-50%,-50%)`;
+  dot.style.transform = t; ring.style.transform = t;
+}
 document.addEventListener('mousemove', e => {
-  dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
-  ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+  curX = e.clientX; curY = e.clientY;
+  if (!curTicking) { curTicking = true; requestAnimationFrame(updCursor); }
 });
 function addHov(el) {
   el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
